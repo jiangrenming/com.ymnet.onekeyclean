@@ -1,0 +1,16 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.yment.killbackground">
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <application android:allowBackup="true"
+        android:supportsRtl="true">
+        <activity android:name="com.yment.killbackground.CleanActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
