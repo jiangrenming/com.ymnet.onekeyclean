@@ -2,19 +2,12 @@ package com.yment.killbackground;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.content.ComponentName;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
-import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
@@ -29,11 +22,12 @@ import android.widget.Toast;
 
 import com.wenming.library.processutil.AndroidProcess;
 import com.wenming.library.processutil.ProcessManager;
+import com.yment.killbackground.download.PushManager;
+import com.ymnet.update.DownLoadFactory;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.List;
 
 public class CleanActivity extends Activity {
@@ -81,6 +75,7 @@ public class CleanActivity extends Activity {
                 mMemoryInfo.setVisibility(View.INVISIBLE);
                 finish();
                 startStaticApp(getApplicationContext());
+                DownLoadFactory.getInstance().getInsideInterface().updateApp(CleanActivity.this);
             }
 
             @Override
@@ -100,6 +95,8 @@ public class CleanActivity extends Activity {
         mTotaleMemory = getTotalMemorySize(CleanActivity.this);
         mBeforeAvailMemory = getAvailMemory(CleanActivity.this);
         mBeforeUsedMemoryRate = getUsedMemoryRate();
+        DownLoadFactory.getInstance().init(this);
+        PushManager.getInstance().init(getApplicationContext());
     }
 
     private Runnable mShowMemoInfo = new Runnable() {
