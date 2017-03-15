@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.umeng.analytics.MobclickAgent;
 import com.wenming.library.processutil.AndroidProcess;
 import com.wenming.library.processutil.ProcessManager;
 import com.yment.killbackground.download.PushManager;
@@ -53,11 +54,13 @@ public class CleanActivity extends Activity {
         mMemoryInfo.setVisibility(View.INVISIBLE);
         init();
         QihooSystemUtil.openAllPermission(getApplicationContext(),"com.ymnet.apphelper");
+        MobclickAgent.setScenarioType(getApplicationContext(), MobclickAgent.EScenarioType.E_UM_NORMAL);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
         mIncreaseDate = 5;
         animation= AnimationUtils.loadAnimation(CleanActivity.this, R.anim.clean_anim);//加载动画
         animation.setInterpolator(new AccelerateInterpolator());
@@ -90,6 +93,11 @@ public class CleanActivity extends Activity {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 
     private void init() {
         mTotaleMemory = getTotalMemorySize(CleanActivity.this);

@@ -33,4 +33,5 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile name:'app_process', ext:'aar'
     compile(name:'appupdate', ext:'aar')
+    compile files('libs/umeng-analytics-v6.0.9.jar')
 }

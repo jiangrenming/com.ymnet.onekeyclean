@@ -5,6 +5,11 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
     <application android:allowBackup="true"
         android:supportsRtl="true">
         <activity android:name="com.yment.killbackground.CleanActivity"
@@ -26,6 +31,12 @@
             </intent-filter>
         </receiver>
 
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="58b7914f717c19164e002161" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="sc-general" />
 
     </application>
 

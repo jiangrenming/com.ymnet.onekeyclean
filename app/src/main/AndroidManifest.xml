@@ -30,6 +30,8 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
+        <!--umeng key : 58b7914f717c19164e002161-->
     </application>
 
 </manifest>
