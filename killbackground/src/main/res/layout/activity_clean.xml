@@ -1,0 +1,159 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.yment.killbackground.CleanActivity">
+
+    <!--  <ImageView
+          android:id="@+id/imageView_rotate"
+          android:layout_width="80dp"
+          android:layout_height="80dp"
+          android:layout_centerInParent="true"
+          android:scaleType="centerInside"
+          android:src="@drawable/icon_anim"
+          />-->
+    <!--<GridView
+        android:visibility="invisible"
+        android:id="@+id/iv_box"
+        android:layout_width="300dp"
+        android:layout_height="130dp"
+        android:layout_centerInParent="true"
+        android:background="#999999"
+        android:horizontalSpacing="2dp"
+        android:verticalSpacing="2dp"
+        android:numColumns="2"
+        />-->
+
+    <RelativeLayout
+        android:id="@+id/rl_anim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/imageView_cylindrical"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_centerInParent="true"
+            android:scaleType="centerInside"
+            android:src="@mipmap/cylindrical"
+
+            />
+
+        <ImageView
+            android:id="@+id/imageView_within"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:scaleType="centerInside"
+            android:src="@mipmap/within"
+            />
+
+        <ImageView
+            android:id="@+id/imageView_within1"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerInParent="true"
+            android:scaleType="centerInside"
+            android:src="@mipmap/within_1"
+            />
+
+        <TextView
+            android:id="@+id/memory_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+
+        <ImageView
+            android:id="@+id/imageView_determine"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/determine"
+            android:visibility="invisible"/>
+
+        <!--清理软件自定义布局-->
+        <com.yment.killbackground.view.Wheel
+            android:visibility="invisible"
+            android:id="@+id/wheel_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            >
+
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/iv_clean1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/robot"/>
+
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/iv_clean2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/robot"/>
+
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/iv_clean3"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/robot"/>
+
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/iv_clean4"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/robot"/>
+
+
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/iv_clean5"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/robot"/>
+
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/iv_clean6"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/robot"/>
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/iv_clean7"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/robot"/>
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/iv_clean8"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/robot"/>
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/iv_clean9"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/robot"/>
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/iv_clean10"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/robot"/>
+        </com.yment.killbackground.view.Wheel>
+    </RelativeLayout>
+
+    <com.yment.killbackground.view.BoomView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

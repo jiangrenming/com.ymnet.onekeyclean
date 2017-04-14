@@ -1,0 +1,5 @@
+<resources>
+    <string name="toast_bean_best">已清理至最佳状态</string>
+    <string name="toast_clean_result">释放%1$s内存 \n性能提升%2$d%%</string>
+    <string name="device_admin_label">一键清理</string>
+</resources>
