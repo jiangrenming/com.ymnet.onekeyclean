@@ -1,4 +1,4 @@
-package com.yment.killbackground.view;
+package com.yment.killbackground.view.customwidget;
 
 import android.content.Context;
 import android.graphics.PointF;

@@ -1,4 +1,4 @@
-package com.yment.killbackground.anim;
+package com.yment.killbackground.customlistener;
 
 import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.view.View;
