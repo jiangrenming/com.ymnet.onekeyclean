@@ -146,12 +146,12 @@ public class CleanActivity extends Activity {
                                 @Override
                                 public void onAnimationEnd(View view) {
                                     super.onAnimationEnd(view);
+                                    mHandler.sendEmptyMessageDelayed(0, 900);
                                 }
                             }).start();
                         }
                     }, 300);
 
-                    mHandler.sendEmptyMessageDelayed(0, 900);
 
                     /*//显示框动画
                     mBox.setScaleY(0);
@@ -444,6 +444,7 @@ public class CleanActivity extends Activity {
                     public void onAnimationEnd(View view) {
                         super.onAnimationEnd(view);
                         v.setVisibility(View.GONE);
+
                     }
 
                 }).start();
