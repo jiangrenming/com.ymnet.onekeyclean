@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -101,6 +104,47 @@ public class ScreenUtil {
         view.destroyDrawingCache();
         return bp;
 
+    }
+
+    /**
+     * 根据设备是否具备permanentMenu键来确定是否有软导航栏
+     * @param windowManager
+     * @return
+     */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public static boolean hasSoftKeys(WindowManager windowManager) {
+
+        Display d = windowManager.getDefaultDisplay();
+        DisplayMetrics realDisplayMetrics = new DisplayMetrics();
+        d.getRealMetrics(realDisplayMetrics);
+
+        int realHeight = realDisplayMetrics.heightPixels;
+        int realWidth = realDisplayMetrics.widthPixels;
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        d.getMetrics(displayMetrics);
+
+        int displayHeight = displayMetrics.heightPixels;
+        int displayWidth = displayMetrics.widthPixels;
+
+        return (realWidth - displayWidth) > 0 || (realHeight - displayHeight) > 0;
+    }
+
+    /**
+     * 获取导航栏的高度
+     * @param context
+     * @return
+     */
+    public static int getNavigationHeight(Context context) {
+        int result = 0;
+        int resourceId = 0;
+        int rid = context.getResources().getIdentifier("config_showNavigationBar", "bool", "android");
+        if (rid != 0) {
+            resourceId = context.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+
+            return context.getResources().getDimensionPixelSize(resourceId);
+        } else
+            return 0;
     }
 
 }

@@ -25,6 +25,7 @@
         />-->
 
     <Button
+        android:text="@string/onkeycleandefaultcontent"
         android:paddingLeft="18dp"
         android:textColor="#DD2A52D2"
         android:textSize="14sp"
@@ -97,68 +98,68 @@
             <ImageView
                 android:visibility="invisible"
                 android:id="@+id/iv_clean1"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@mipmap/robot"/>
 
             <ImageView
                 android:visibility="invisible"
                 android:id="@+id/iv_clean2"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@mipmap/robot"/>
 
             <ImageView
                 android:visibility="invisible"
                 android:id="@+id/iv_clean3"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@mipmap/robot"/>
 
             <ImageView
                 android:visibility="invisible"
                 android:id="@+id/iv_clean4"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@mipmap/robot"/>
 
 
             <ImageView
                 android:visibility="invisible"
                 android:id="@+id/iv_clean5"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@mipmap/robot"/>
 
             <ImageView
                 android:visibility="invisible"
                 android:id="@+id/iv_clean6"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@mipmap/robot"/>
             <ImageView
                 android:visibility="invisible"
                 android:id="@+id/iv_clean7"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@mipmap/robot"/>
             <ImageView
                 android:visibility="invisible"
                 android:id="@+id/iv_clean8"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@mipmap/robot"/>
             <ImageView
                 android:visibility="invisible"
                 android:id="@+id/iv_clean9"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@mipmap/robot"/>
             <ImageView
                 android:visibility="invisible"
                 android:id="@+id/iv_clean10"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@mipmap/robot"/>
         </com.yment.killbackground.view.customwidget.Wheel>
     </RelativeLayout>

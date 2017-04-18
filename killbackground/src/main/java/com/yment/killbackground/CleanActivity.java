@@ -10,6 +10,8 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -25,6 +27,7 @@ import android.widget.TextView;
 
 import com.example.commonlibrary.systemmanager.SystemMemory;
 import com.example.commonlibrary.utils.DensityUtil;
+import com.example.commonlibrary.utils.ScreenUtil;
 import com.example.commonlibrary.utils.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.yment.killbackground.customlistener.MyViewPropertyAnimatorListener;
@@ -58,12 +61,42 @@ public class CleanActivity extends Activity implements CleanView {
     private long                 mSize;
     private Wheel                mWheel;
     private String               showToast;
-    private boolean        isFirst  = true;
+    private boolean isFirst              = true;
+    private boolean updateMemoryInfoFlag = true;
+    private boolean valueChange;
     private ImageView      mDetermine;
     private Button         mMoreFunction;
     private RelativeLayout mRelativeLayout;
     private CleanPresenter mCleanPresenter;
-    private Handler mHandler = new Handler();
+    private int            mCount;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                //数字动态显示清理量
+                case 0:
+                    if (mCount >= 0 && valueChange) {
+                        mMemoryInfo.setText("" + (mUsedMemory + mCount--) + "%");
+                        mHandler.sendEmptyMessageDelayed(0, 200);
+                        Log.d(TAG, "handleMessage: " + (mUsedMemory + "  " + mCount));
+                    } else {
+                        mMemoryInfo.setText("" + mUsedMemory + "%");
+                    }
+                    break;
+                case 1:
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mCleanPresenter.killAll(CleanActivity.this, true);
+                        }
+                    }).start();
+
+                    break;
+            }
+        }
+    };
+    private int mUsedMemory;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,9 +122,10 @@ public class CleanActivity extends Activity implements CleanView {
 
         if (isFirst) {
             isFirst = false;
+
+
             //旋转动画
             Animation animation = AnimationUtils.loadAnimation(CleanActivity.this, R.anim.clean_anim);//加载动画
-            animation.setRepeatCount(0);
             animation.setAnimationListener(new Animation.AnimationListener() {
 
                 private long mNowAvailMemorySize;
@@ -99,7 +133,10 @@ public class CleanActivity extends Activity implements CleanView {
                 @Override
                 public void onAnimationStart(Animation animation) {
 
-                    mHandler.postDelayed(mShowMemoInfo, 1500);
+                    mHandler.sendEmptyMessage(1);
+
+                    mMemoryInfo.setVisibility(View.VISIBLE);
+
                     mBeforeAvailMemorySize = getAvailMemorySize(CleanActivity.this);
                     //吸入软件动画
                     mWheel = (Wheel) findViewById(R.id.wheel_iv);
@@ -108,15 +145,8 @@ public class CleanActivity extends Activity implements CleanView {
                         public void run() {
                             mWheel.setVisibility(View.VISIBLE);
                         }
-                    }, 400);
+                    }, 300);
 
-                    //清理所有进程
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mCleanPresenter.killAll(CleanActivity.this, true);
-                        }
-                    }).start();
                 }
 
                 @Override
@@ -148,7 +178,7 @@ public class CleanActivity extends Activity implements CleanView {
                     mSize = mBeforeAvailMemorySize - mNowAvailMemorySize;
                     Log.d(TAG, "onAnimationEnd: mSize: " + mSize);
 
-//                    ToastUtil.showLong(getApplicationContext(), showToast);
+                    //                    ToastUtil.showLong(getApplicationContext(), showToast);
 
                     startStaticApp(getApplicationContext());
                     DownLoadFactory.getInstance().getInsideInterface().updateApp(CleanActivity.this);
@@ -166,7 +196,8 @@ public class CleanActivity extends Activity implements CleanView {
             oa1.start();
 
             mRepeatTime = 1;
-            mRepeatTotalTime = (int) animation.getDuration() / UPDATE_SNAP_TIME - 3;
+            //            mRepeatTotalTime = (int) animation.getDuration() / UPDATE_SNAP_TIME - 3;
+            mRepeatTotalTime = 3000 / UPDATE_SNAP_TIME - 3;
             mHandler.postDelayed(mUpdateMemoryInfo, UPDATE_SNAP_TIME);
 
         }
@@ -187,7 +218,9 @@ public class CleanActivity extends Activity implements CleanView {
                 mMoreFunction.setScaleX(0);
                 mMoreFunction.setVisibility(View.VISIBLE);
                 ViewCompat.animate(mMoreFunction).scaleX(1).setDuration(500).start();
+
                 mMoreFunction.setText(showToast);
+
             }
 
             @Override
@@ -262,13 +295,6 @@ public class CleanActivity extends Activity implements CleanView {
         //        PushManager.getInstance().init(getApplicationContext());
     }
 
-    private Runnable mShowMemoInfo = new Runnable() {
-        @Override
-        public void run() {
-            mMemoryInfo.setVisibility(View.VISIBLE);
-        }
-    };
-
     private Runnable mUpdateMemoryInfo = new Runnable() {
         @Override
         public void run() {
@@ -280,14 +306,23 @@ public class CleanActivity extends Activity implements CleanView {
     };
 
     private void updateMemoryInfo() {
-        int usedMemory = getUsedMemoryRate();
-        if (usedMemory <= mBeforeUsedMemoryRate) {
-            usedMemory = mBeforeUsedMemoryRate;
-        } else {
-            mIncreaseDate = mIncreaseDate + usedMemory - mBeforeUsedMemoryRate;
-            mBeforeUsedMemoryRate = usedMemory;
+
+        if (updateMemoryInfoFlag) {
+            updateMemoryInfoFlag = false;
+
+            mUsedMemory = getUsedMemoryRate();
+            if (mUsedMemory <= mBeforeUsedMemoryRate) {
+                mUsedMemory = mBeforeUsedMemoryRate;
+            } else {
+                mIncreaseDate = mIncreaseDate + mUsedMemory - mBeforeUsedMemoryRate;
+                Log.d(TAG, "updateMemoryInfo:mIncreaseDate: " + mIncreaseDate);
+                mBeforeUsedMemoryRate = mUsedMemory;
+            }
+
+            //动态显示数值
+            mCount = mIncreaseDate;
+            mHandler.sendEmptyMessageDelayed(0, 300);
         }
-        mMemoryInfo.setText("" + usedMemory + "%");
 
     }
 
@@ -295,7 +330,7 @@ public class CleanActivity extends Activity implements CleanView {
      * 获取可用内存百分比
      */
     private int getUsedMemoryRate() {
-        return 100 - (int) (100 * ((float) SystemMemory.getAvailMemorySize(CleanActivity.this) / mTotalMemory));
+        return 100 - (int) (100 * ((float) getAvailMemorySize(CleanActivity.this) / mTotalMemory));
     }
 
     @Override
@@ -335,6 +370,7 @@ public class CleanActivity extends Activity implements CleanView {
      * @param v    吸入应用控件
      * @param time 延时展示时间
      */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void playAnimation(final ImageView v, int time) {
 
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
@@ -343,14 +379,18 @@ public class CleanActivity extends Activity implements CleanView {
         final int width = dm.widthPixels;
         final int height = dm.heightPixels;
 
-        //获取actionbar的高度
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        final int statusBarHeight = getResources().getDimensionPixelSize(resourceId);
-
         //位移量
         final float transX = -v.getX() - v.getMeasuredWidth() / 2 + width / 2;
-        final float transY = -v.getY() + v.getMeasuredHeight() / 2 + height / 2 - statusBarHeight;
-
+        final float transY;
+        //根据设备是否具备permanentMenu键来确定是否有软导航栏-来设值位移量Y
+        if (ScreenUtil.hasSoftKeys(wm)) {
+            transY = -v.getY() - v.getMeasuredHeight() / 2 + (height + ScreenUtil.getNavigationHeight(this)) / 2/* - ScreenUtil.getStatusHeight(this)*/;
+            Log.d(TAG, "playAnimation: " + "true");
+        } else {
+            transY = -v.getY() - v.getMeasuredHeight() / 2 + height / 2/* - ScreenUtil.getStatusHeight(this)*/;
+            Log.d(TAG, "playAnimation: " + "false");
+        }
+        // TODO: 2017/4/18 0018 问题所在
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -370,24 +410,29 @@ public class CleanActivity extends Activity implements CleanView {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void getIconAndShow(long cleanMem) {
 
-        Intent intent = new Intent(Intent.ACTION_MAIN, null);
+        final Intent intent = new Intent(Intent.ACTION_MAIN, null);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
-
+        final int count = cleanAppLists.size();
         final PackageManager packageManager = this.getPackageManager();
-
         final List<ResolveInfo> appList = packageManager.queryIntentActivities(intent, 0);
 
         runOnUiThread(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void run() {
-                int count = cleanAppLists.size();
-                for (int i = 0; i < count; i++) {
-                    cleanAppLists.get(i).setImageDrawable(appList.get(appList.size() - i - 1).loadIcon(packageManager));
-                    playAnimation(cleanAppLists.get(i), 500 + 100 * i);
-                }
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 1; i < count; i++) {
+                            cleanAppLists.get(i).setImageDrawable(appList.get(appList.size() - i - 1).loadIcon(packageManager));
+                            playAnimation(cleanAppLists.get(i), 100 * i);
+                        }
+                    }
+                }, 400);
             }
         });
         //toast展示为用户清理的内存
@@ -399,5 +444,10 @@ public class CleanActivity extends Activity implements CleanView {
     @Override
     public void showToast(String content) {
         showToast = content;
+    }
+
+    @Override
+    public void isValueChang(boolean valueChange) {
+        this.valueChange = valueChange;
     }
 }

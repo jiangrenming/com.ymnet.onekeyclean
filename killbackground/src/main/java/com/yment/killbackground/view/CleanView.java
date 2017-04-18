@@ -18,4 +18,6 @@ public interface CleanView {
      * @param content 内容
      */
     void showToast(String content);
+
+    void isValueChang(boolean valueChange);
 }

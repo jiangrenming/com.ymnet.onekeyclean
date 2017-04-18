@@ -3,14 +3,15 @@ package com.yment.killbackground.presenter;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import com.example.commonlibrary.systemmanager.SystemMemory;
 import com.example.commonlibrary.utils.ShareDataUtils;
 import com.wenming.library.processutil.AndroidProcess;
 import com.wenming.library.processutil.ProcessManager;
-import com.yment.killbackground.CleanActivity;
 import com.yment.killbackground.R;
+import com.yment.killbackground.view.CleanView;
 
 import java.util.List;
 
@@ -25,13 +26,14 @@ import static com.ymnet.update.utils.NetworkUtils.TAG;
 public class CleanPresenterImpl implements CleanPresenter {
 
 
-    private CleanActivity cleanActivity;
+    private CleanView cleanView;
     public String content;
 
-    public CleanPresenterImpl(CleanActivity cleanActivity) {
-        this.cleanActivity = cleanActivity;
+    public CleanPresenterImpl(CleanView cleanView) {
+        this.cleanView = cleanView;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public int killAll(Context context, boolean visible) {
 
@@ -86,17 +88,21 @@ public class CleanPresenterImpl implements CleanPresenter {
         long afterMem = SystemMemory.getAvailMemorySize(context);//清理后的内存占用
 
         long cleanMem = Math.abs(afterMem - beforeMem);
-
+        boolean valueChange = true;
         if (visible) {
 
             if ((count < 2 && afterMem - beforeMem < 5) || !canClean) {
+                valueChange = false;
                 //toast展示内存已达最佳
                 content = context.getResources().getString(R.string.toast_bean_best);
-                cleanActivity.showToast(content);
+                cleanView.showToast(content);
             } else {
+                valueChange = true;
                 //获取最近十个应用图标,展示吸入动画
-                cleanActivity.getIconAndShow(cleanMem);
+                cleanView.getIconAndShow(cleanMem);
             }
+
+            cleanView.isValueChang(valueChange);
 
         }
         Log.d(TAG, "killAll: count:" + count);

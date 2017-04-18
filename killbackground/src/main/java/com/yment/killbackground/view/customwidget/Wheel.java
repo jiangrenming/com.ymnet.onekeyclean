@@ -48,6 +48,24 @@ public class Wheel extends RelativeLayout {
         }
         isFirst = false;
     }
+//    private Paint mPaint = new Paint();
+
+   /* @Override
+    protected void onDraw(Canvas canvas) {
+        mPaint.setColor(Color.parseColor("#00f"));
+        mPaint.setAntiAlias(true);
+        mPaint.setStrokeWidth(3);
+        mPaint.setTextAlign(Paint.Align.CENTER);
+        mPaint.setTextSize(24);
+        //计算文字垂直居中的baseline
+//        Paint.FontMetricsInt fontMetrics = mPaint.getFontMetricsInt();
+//        float baseline = circleBounds.top + (circleBounds.bottom - circleBounds.top - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
+//        canvas.drawText(percentTxt, circleProgressWidth/2, baseline, mPaint);
+        canvas.drawText("123", mCenter.x, mCenter.y, mPaint);
+        Log.d(TAG, "onDraw: ");
+        canvas.restore();
+
+    }*/
 
     private void compare() {
         //圆心
