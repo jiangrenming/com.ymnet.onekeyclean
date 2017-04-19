@@ -127,7 +127,6 @@ public class CleanActivity extends Activity implements CleanView {
         if (isFirst) {
             isFirst = false;
 
-
             //旋转动画
             Animation animation = AnimationUtils.loadAnimation(CleanActivity.this, R.anim.clean_anim);//加载动画
             animation.setAnimationListener(new Animation.AnimationListener() {
