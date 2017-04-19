@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.yment.killbackground.CleanActivity;
+import com.yment.killbackground.view.CleanActivity;
 
 /**
  * Created by Administrator on 2016/12/23.

@@ -1,4 +1,4 @@
-package com.yment.killbackground;
+package com.yment.killbackground.view;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
@@ -30,10 +30,12 @@ import com.example.commonlibrary.utils.DensityUtil;
 import com.example.commonlibrary.utils.ScreenUtil;
 import com.example.commonlibrary.utils.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
+import com.yment.killbackground.QihooSystemUtil;
+import com.yment.killbackground.R;
+import com.yment.killbackground.Utilities;
 import com.yment.killbackground.customlistener.MyViewPropertyAnimatorListener;
 import com.yment.killbackground.presenter.CleanPresenter;
 import com.yment.killbackground.presenter.CleanPresenterImpl;
-import com.yment.killbackground.view.CleanView;
 import com.yment.killbackground.view.customwidget.Wheel;
 import com.ymnet.update.DownLoadFactory;
 
