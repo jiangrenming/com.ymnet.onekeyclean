@@ -1,4 +1,4 @@
-package com.yment.killbackground;
+package com.example.commonlibrary.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,7 +6,8 @@ import android.content.SharedPreferences;
 import java.util.Map;
 
 /**
- * Created by Administrator on 2016/8/11.
+ * Created by MajinBuu on 2017/4/7.
+ * @override SharedPreferences的存入与获取
  */
 public class ShareDataUtils {
     public static String getSharePrefData(Context context, String name, String key) {
@@ -28,13 +29,7 @@ public class ShareDataUtils {
 
     }
 
-    /**
-     *
-     * @param context
-     * @param name perference name
-     * @param key key name
-     * @return
-     */
+
 
     public static long getSharePrefLongData(Context context, String name, String key) {
         if (context == null) return 0;

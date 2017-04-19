@@ -3,7 +3,7 @@ package com.yment.killbackground.download;
 import android.content.Context;
 import android.net.Uri;
 
-import com.yment.killbackground.ShareDataUtils;
+import com.example.commonlibrary.utils.ShareDataUtils;
 import com.yment.killbackground.utils.FileUtilsSdk;
 import com.yment.killbackground.utils.PackageUtils;
 
@@ -15,6 +15,7 @@ import java.util.Map;
 /**
  * Created by Administrator on 2016/9/19.
  */
+@Deprecated
 public class DownloadInstallRecord {
     private static String DOWNLOAD_RECORD = "download";
     private static String INSTALL_RECORD = "install";

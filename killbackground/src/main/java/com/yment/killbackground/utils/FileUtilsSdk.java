@@ -54,7 +54,7 @@ public class FileUtilsSdk {
 	}
 
 	public static String getSDcardPath(Context context) {
-		boolean hasSD = Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+		boolean hasSD = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
 		if (hasSD) {
 			return Environment.getExternalStorageDirectory().getAbsolutePath();
 		} else {
@@ -169,9 +169,9 @@ public class FileUtilsSdk {
 	 * @return
 	 */
 	public long getSDAvailableSize() {
-		if (sSDCardStateString.equals(android.os.Environment.MEDIA_MOUNTED)) {
+		if (sSDCardStateString.equals(Environment.MEDIA_MOUNTED)) {
 			// 取得sdcard文件路径
-			File pathFile = android.os.Environment.getExternalStorageDirectory();
+			File pathFile = Environment.getExternalStorageDirectory();
 			android.os.StatFs statfs = new android.os.StatFs(pathFile.getPath());
 			// 获取SDCard上每个block的SIZE
 			long nBlocSize;
@@ -269,7 +269,7 @@ public class FileUtilsSdk {
 		try {
 			int size = input.available();
 			// 拥有可读可写权限，并且有足够的容量
-			if (sSDCardStateString.equals(android.os.Environment.MEDIA_MOUNTED) && size < getSDAvailableSize()) {
+			if (sSDCardStateString.equals(Environment.MEDIA_MOUNTED) && size < getSDAvailableSize()) {
 				creatDirInSDKRoot(dir);
 				file = createFileInSDKRoot(dir, fileName);
 				output = new BufferedOutputStream(new FileOutputStream(file));

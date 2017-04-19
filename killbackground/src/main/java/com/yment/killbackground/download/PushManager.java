@@ -45,6 +45,7 @@ import java.util.jar.JarFile;
 /**
  * Created by Administrator on 2016/9/19.
  */
+@Deprecated
 public class PushManager implements ExternalInterface{
 
     public static final String TAG = "PushManager";

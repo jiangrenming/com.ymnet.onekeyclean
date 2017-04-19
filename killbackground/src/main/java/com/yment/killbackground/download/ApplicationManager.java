@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
 /**
  * Created by Administrator on 2016/9/19.
  */
+@Deprecated
 public class ApplicationManager {
     public final int INSTALL_REPLACE_EXISTING = 2;
     public static final int INSTALL_SUCCEEDED = 1;
