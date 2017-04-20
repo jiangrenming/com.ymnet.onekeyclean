@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class AndroidOSUtils {
-	 private static final String TAG = "AndroidOSUtils";
+	private static final String TAG = "AndroidOSUtils";
 	private static int sOsWidth = -1;
 	private static int sOsHeight = -1;
 	public static final int DEFAULT_OS_WIDTH = 720;
