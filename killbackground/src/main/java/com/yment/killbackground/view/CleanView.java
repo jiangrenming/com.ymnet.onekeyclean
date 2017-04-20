@@ -13,6 +13,7 @@ public interface CleanView {
      * @param cleanMem 清理的内存量
      */
     void getIconAndShow(long cleanMem);
+
     /**
      * 显示toast内容
      * @param content 内容
