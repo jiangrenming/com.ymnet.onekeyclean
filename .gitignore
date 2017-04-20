@@ -6,5 +6,4 @@ gradle/
 local.properties
 *.iml
 
-/.gitignore
 a.txt/
