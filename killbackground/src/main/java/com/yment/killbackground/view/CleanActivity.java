@@ -363,7 +363,7 @@ public class CleanActivity extends Activity implements CleanView {
                 context.startActivity(intent);
             }
         } catch (Exception ex) {
-            // TODO: 2017/4/11 0011 统一异常处理
+            MobclickAgent.reportError(context,ex.fillInStackTrace());
         }
     }
 
