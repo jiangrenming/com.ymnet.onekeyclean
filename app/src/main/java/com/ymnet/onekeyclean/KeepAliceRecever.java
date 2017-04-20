@@ -15,10 +15,8 @@ public class KeepAliceRecever extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        Log.i("yyj","KeepAliceRecever received action = " + action);
         if(Intent.ACTION_BOOT_COMPLETED.equals(action)){
             CleanActivity.startStaticApp(context);
-            Log.i("yyj","KeepAliceRecever boot start");
         }
         CleanActivity.startStaticApp(context);
     }
