@@ -3,7 +3,6 @@ package com.yment.killbackground.presenter;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import com.example.commonlibrary.systemmanager.SystemMemory;
@@ -33,7 +32,7 @@ public class CleanPresenterImpl implements CleanPresenter {
         this.cleanView = cleanView;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+//    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public int killAll(Context context, boolean visible) {
 
@@ -91,7 +90,8 @@ public class CleanPresenterImpl implements CleanPresenter {
         boolean valueChange = true;
         if (visible) {
 
-            if ((count < 2 && afterMem - beforeMem < 5) || !canClean) {
+//            if ((count < 2 && afterMem - beforeMem < 5) || !canClean) {
+            if (afterMem - beforeMem < 5 && !canClean) {
                 valueChange = false;
                 //toast展示内存已达最佳
                 content = context.getResources().getString(R.string.toast_bean_best);

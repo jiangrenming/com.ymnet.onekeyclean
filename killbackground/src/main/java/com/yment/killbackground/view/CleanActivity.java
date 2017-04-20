@@ -373,7 +373,6 @@ public class CleanActivity extends Activity implements CleanView {
      * @param v    吸入应用控件
      * @param time 延时展示时间
      */
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void playAnimation(final ImageView v, int time) {
 
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
@@ -384,16 +383,23 @@ public class CleanActivity extends Activity implements CleanView {
 
         //位移量
         final float transX = -v.getX() - v.getMeasuredWidth() / 2 + width / 2;
-        final float transY;
+        float transY;
         //根据设备是否具备permanentMenu键来确定是否有软导航栏-来设值位移量Y
-        if (ScreenUtil.hasSoftKeys(wm)) {
-            transY = -v.getY() - v.getMeasuredHeight() / 2 + (height + ScreenUtil.getNavigationHeight(this)) / 2/* - ScreenUtil.getStatusHeight(this)*/;
-            Log.d(TAG, "playAnimation: " + "true");
-        } else {
-            transY = -v.getY() - v.getMeasuredHeight() / 2 + height / 2/* - ScreenUtil.getStatusHeight(this)*/;
-            Log.d(TAG, "playAnimation: " + "false");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            if (ScreenUtil.hasSoftKeys(wm)) {
+                transY = -v.getY() - v.getMeasuredHeight() / 2 + (height + ScreenUtil.getNavigationHeight(this)) / 2/* - ScreenUtil.getStatusHeight(this)*/;
+                Log.d(TAG, "playAnimation: " + "true");
+                showAnimation(v, time, transX, transY);
+            } else {
+                transY = -v.getY() - v.getMeasuredHeight() / 2 + height / 2/* - ScreenUtil.getStatusHeight(this)*/;
+                Log.d(TAG, "playAnimation: " + "false");
+                showAnimation(v, time, transX, transY);
+            }
         }
-        // TODO: 2017/4/18 0018 问题所在
+
+    }
+
+    private void showAnimation(final ImageView v, int time, final float transX, final float transY) {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -410,12 +416,11 @@ public class CleanActivity extends Activity implements CleanView {
 
             }
         }, time);
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
-    public void getIconAndShow(long cleanMem) {
+    public void getIconAndShow(final long cleanMem) {
 
         final Intent intent = new Intent(Intent.ACTION_MAIN, null);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -433,15 +438,16 @@ public class CleanActivity extends Activity implements CleanView {
                         for (int i = 1; i < count; i++) {
                             cleanAppLists.get(i).setImageDrawable(appList.get(appList.size() - i - 1).loadIcon(packageManager));
                             playAnimation(cleanAppLists.get(i), 100 * i);
+                            //toast展示为用户清理的内存
+                            String sAgeFormat = CleanActivity.this.getResources().getString(R.string.toast_clean_result);
+                            String content = String.format(sAgeFormat, formatFileSize(CleanActivity.this, cleanMem), mIncreaseDate);
+                            showToast(content);
                         }
                     }
                 }, 400);
             }
         });
-        //toast展示为用户清理的内存
-        String sAgeFormat = this.getResources().getString(R.string.toast_clean_result);
-        String content = String.format(sAgeFormat, formatFileSize(this, cleanMem), mIncreaseDate);
-        showToast(content);
+
     }
 
     @Override
