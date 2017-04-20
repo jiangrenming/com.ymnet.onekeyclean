@@ -32,7 +32,6 @@ public class CleanPresenterImpl implements CleanPresenter {
         this.cleanView = cleanView;
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public int killAll(Context context, boolean visible) {
 
@@ -86,7 +85,6 @@ public class CleanPresenterImpl implements CleanPresenter {
         boolean valueChange = true;
         if (visible) {
 
-//            if ((count < 2 && afterMem - beforeMem < 5) || !canClean) {
             if (cleanMem < 5 || !canClean) {
                 valueChange = false;
                 //toast展示内存已达最佳

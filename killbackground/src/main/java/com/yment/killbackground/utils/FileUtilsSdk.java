@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.os.Environment;
-
 import com.umeng.analytics.MobclickAgent;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -39,8 +37,9 @@ public class FileUtilsSdk {
 	public static final String WRITE_FILE_TEMP_SUFFIX = ".temp";
     public static String APPINFO_PATH = "META-INF/appinfo";
 	private Context mContext;
+
 	public FileUtilsSdk(Context context) {
-		this.mContext = context;
+		mContext = context;
 		checkCommonSDK1Dir(context);
 	}
 

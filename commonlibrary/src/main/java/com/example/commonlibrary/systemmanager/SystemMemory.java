@@ -5,9 +5,7 @@ import android.app.ActivityManager.MemoryInfo;
 import android.content.Context;
 import android.os.Build;
 import android.text.format.Formatter;
-
 import com.umeng.analytics.MobclickAgent;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
