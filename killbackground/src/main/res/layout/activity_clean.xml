@@ -4,26 +4,6 @@
                 android:layout_height="match_parent"
                 tools:context="com.yment.killbackground.view.CleanActivity">
 
-    <!--  <ImageView
-          android:id="@+id/imageView_rotate"
-          android:layout_width="80dp"
-          android:layout_height="80dp"
-          android:layout_centerInParent="true"
-          android:scaleType="centerInside"
-          android:src="@drawable/icon_anim"
-          />-->
-    <!--<GridView
-        android:visibility="invisible"
-        android:id="@+id/iv_box"
-        android:layout_width="300dp"
-        android:layout_height="130dp"
-        android:layout_centerInParent="true"
-        android:background="#999999"
-        android:horizontalSpacing="2dp"
-        android:verticalSpacing="2dp"
-        android:numColumns="2"
-        />-->
-
     <Button
         android:text="@string/onkeycleandefaultcontent"
         android:paddingLeft="18dp"

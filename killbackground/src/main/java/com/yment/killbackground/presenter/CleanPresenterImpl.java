@@ -91,7 +91,7 @@ public class CleanPresenterImpl implements CleanPresenter {
         if (visible) {
 
 //            if ((count < 2 && afterMem - beforeMem < 5) || !canClean) {
-            if (afterMem - beforeMem < 5 && !canClean) {
+            if (beforeMem- afterMem < 5 || !canClean) {
                 valueChange = false;
                 //toast展示内存已达最佳
                 content = context.getResources().getString(R.string.toast_bean_best);
