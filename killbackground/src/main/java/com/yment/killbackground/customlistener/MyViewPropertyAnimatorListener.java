@@ -6,14 +6,13 @@ import android.view.View;
 /**
  * Created by MajinBuu on 2017/4/11 0011.
  *
- * @overView ${todo}.
+ * @overView viewCompat动画监听
  */
 
 public class MyViewPropertyAnimatorListener implements ViewPropertyAnimatorListener {
 
     @Override
     public void onAnimationStart(View view) {
-
     }
 
     @Override

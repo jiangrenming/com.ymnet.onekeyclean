@@ -5,6 +5,8 @@ import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.os.Environment;
 
+import com.umeng.analytics.MobclickAgent;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -36,8 +38,9 @@ public class FileUtilsSdk {
 	public static final String COMMONSDK_TEMP_FILE_SUFFIX = ".commonSDKtemp";
 	public static final String WRITE_FILE_TEMP_SUFFIX = ".temp";
     public static String APPINFO_PATH = "META-INF/appinfo";
-
+	private Context mContext;
 	public FileUtilsSdk(Context context) {
+		this.mContext = context;
 		checkCommonSDK1Dir(context);
 	}
 
@@ -209,8 +212,7 @@ public class FileUtilsSdk {
 			output.flush();
 			return true;
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			MobclickAgent.reportError(mContext,e1.fillInStackTrace());
 		} finally {
 			try {
 				if (output != null) {
@@ -242,19 +244,16 @@ public class FileUtilsSdk {
 			inputStream.read(data);
 			return data;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			MobclickAgent.reportError(mContext,e.fillInStackTrace());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			MobclickAgent.reportError(mContext,e.fillInStackTrace());
 		} finally {
 			try {
 				if (inputStream != null) {
 					inputStream.close();
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				MobclickAgent.reportError(mContext,e.fillInStackTrace());
 			}
 		}
 		return null;
@@ -281,8 +280,7 @@ public class FileUtilsSdk {
 				output.flush();
 			}
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			MobclickAgent.reportError(mContext,e1.fillInStackTrace());
 		} finally {
 			try {
 				if (output != null) {

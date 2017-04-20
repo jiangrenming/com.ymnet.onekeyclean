@@ -6,6 +6,8 @@ import android.content.Context;
 import android.os.Build;
 import android.text.format.Formatter;
 
+import com.umeng.analytics.MobclickAgent;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -40,13 +42,11 @@ public class SystemMemory {
                 readLine = readLine.replace("kB", "").trim();
                 totalMem = Integer.valueOf(readLine)*1024;
             } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                MobclickAgent.reportError(context,e.fillInStackTrace());
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                MobclickAgent.reportError(context,e.fillInStackTrace());
             }
-            totalMem = 0;//TODO
+            totalMem = 0;
         }
 
         return totalMem;
