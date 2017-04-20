@@ -51,7 +51,7 @@ public class CleanPresenterImpl implements CleanPresenter {
             for (ActivityManager.RunningAppProcessInfo appProcessInfo : appProcessInfos) {
                 nameList = "";
                 if (appProcessInfo.processName.contains("com.android.system")
-                        || appProcessInfo.pid == android.os.Process.myPid() || appProcessInfo.processName.contains("com.ymnet.apphelper"))//跳过系统 及当前进程
+                        || appProcessInfo.pid == android.os.Process.myPid() || appProcessInfo.processName.contains("com.ymnet.apphelper") || appProcessInfo.processName.contains("com.qjkj.nnb"))//跳过系统 及当前进程
                     continue;
                 String[] pkNameList = appProcessInfo.pkgList;//进程下的所有包名
                 for (int i = 0; i < pkNameList.length; i++) {
@@ -60,7 +60,6 @@ public class CleanPresenterImpl implements CleanPresenter {
                     count++;//杀死进程的计数+1
                     nameList += "  " + pkName;
                 }
-                Log.i(TAG, nameList + "---------------------");
             }
         } else {
             List<AndroidProcess> runAppInfos = ProcessManager.getRunningProcesses();
@@ -74,9 +73,6 @@ public class CleanPresenterImpl implements CleanPresenter {
                 activityManager.killBackgroundProcesses(pkName);//杀死该进程
                 count++;//杀死进程的计数+1
                 nameList += "  " + pkName;
-
-
-                Log.i(TAG, nameList + "---------------------");
             }
         }
 

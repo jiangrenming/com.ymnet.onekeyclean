@@ -361,9 +361,14 @@ public class CleanActivity extends Activity implements CleanView {
                 intent.setClassName("com.ymnet.apphelper", "com.ymnet.apphelper.AppHelperActivityText");
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
+            }else if(Utilities.isAppInstalled(context, "com.android.ramcleaner")){
+                Intent intent = new Intent();
+                intent.setClassName("com.android.ramcleaner", "com.ymnet.apphelper.AppHelperActivityText");
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         } catch (Exception ex) {
-            // TODO: 2017/4/11 0011 统一异常处理
+            ex.printStackTrace();
         }
     }
 
