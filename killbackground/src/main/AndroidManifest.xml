@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application android:allowBackup="true"
+        android:name=".application.MyApplication"
         android:supportsRtl="true">
         <activity android:name="com.yment.killbackground.view.CleanActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"

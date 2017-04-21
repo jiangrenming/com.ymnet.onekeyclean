@@ -25,7 +25,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.commonlibrary.retrofit2_callback.BaseCallModel;
+import com.example.commonlibrary.retrofit2_callback.MyCallBack;
 import com.example.commonlibrary.systemmanager.SystemMemory;
+import com.example.commonlibrary.utils.ConvertParamsUtils;
 import com.example.commonlibrary.utils.DensityUtil;
 import com.example.commonlibrary.utils.ScreenUtil;
 import com.example.commonlibrary.utils.ToastUtil;
@@ -36,11 +39,15 @@ import com.yment.killbackground.Utilities;
 import com.yment.killbackground.customlistener.MyViewPropertyAnimatorListener;
 import com.yment.killbackground.presenter.CleanPresenter;
 import com.yment.killbackground.presenter.CleanPresenterImpl;
+import com.yment.killbackground.retrofitservice.RetrofitService;
+import com.yment.killbackground.retrofitservice.bean.FolderLodingInfo;
 import com.yment.killbackground.view.customwidget.Wheel;
 import com.ymnet.update.DownLoadFactory;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import retrofit2.Response;
 
 import static android.text.format.Formatter.formatFileSize;
 import static com.example.commonlibrary.systemmanager.SystemMemory.getAvailMemorySize;
@@ -106,13 +113,37 @@ public class CleanActivity extends Activity implements CleanView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clean);
-
         mCleanPresenter = new CleanPresenterImpl(this);
         initView();
         initData();
         QihooSystemUtil.openAllPermission(getApplicationContext(), "com.ymnet.apphelper");
         MobclickAgent.setScenarioType(getApplicationContext(), MobclickAgent.EScenarioType.E_UM_NORMAL);
+        //参数的转变
+       /* Map<String, String> params = ConvertParamsUtils.getInstatnce().getParamsThree("floderId",String.valueOf(1)
+                ,"pageSize",String.valueOf(1),"pageNumber",String.valueOf(32));*/
+        //getData(params);
+    }
 
+    private void getData(final Map<String, String> params) {
+        RetrofitService.getInstance().githubApi.createFolderMapTwo(params).enqueue(new MyCallBack<BaseCallModel<List<FolderLodingInfo>>>() {
+
+            @Override
+            protected void ertryConnection() {
+                //递归的回调接口，再次连接接口请求
+                getData(params);
+            }
+
+            @Override
+            public void onSucess(Response<BaseCallModel<List<FolderLodingInfo>>> response) {
+                //得到数据的处理
+            }
+
+            @Override
+            public void onFailure(String message) {
+                //处理失败的界面操作
+            }
+
+        });
     }
 
     @Override
