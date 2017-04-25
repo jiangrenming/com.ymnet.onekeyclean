@@ -3,8 +3,7 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 25
     buildToolsVersion "24.0.1"
-    useLibrary 'org.apache.http.legacy'
-    
+
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 19
@@ -31,8 +30,9 @@ repositories {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile name: 'app_process', ext: 'aar'
-    compile(name: 'appupdate', ext: 'aar')
-    compile 'com.umeng.analytics:analytics:latest.integration'
     compile project(':commonlibrary')
+//    compile name: 'statisticalsdk-debug', ext: 'aar'
+    compile name: 'app_process', ext: 'aar'
+    compile name: 'appupdate', ext: 'aar'
+
 }

@@ -1,7 +1,5 @@
 package okhttp;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.IOException;
@@ -16,7 +14,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okio.Buffer;
-import utils.CacheUtil;
 
 /**
  * Created by jrm on 2017-3-29.
@@ -73,7 +70,6 @@ public enum  OkHttp {
         }
     };
 
-    @NonNull
     private static String _parseParams(RequestBody body, Buffer requestBuffer) throws UnsupportedEncodingException {
         if (body.contentType() != null && !body.contentType().toString().contains("multipart")) {
             return URLDecoder.decode(requestBuffer.readUtf8(), "UTF-8");
