@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewCompat;
 import android.util.DisplayMetrics;
@@ -20,6 +21,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -28,7 +30,6 @@ import android.widget.TextView;
 import com.example.commonlibrary.retrofit2_callback.BaseCallModel;
 import com.example.commonlibrary.retrofit2_callback.MyCallBack;
 import com.example.commonlibrary.systemmanager.SystemMemory;
-import com.example.commonlibrary.utils.ConvertParamsUtils;
 import com.example.commonlibrary.utils.DensityUtil;
 import com.example.commonlibrary.utils.ScreenUtil;
 import com.example.commonlibrary.utils.ToastUtil;
@@ -43,6 +44,7 @@ import com.yment.killbackground.retrofitservice.RetrofitService;
 import com.yment.killbackground.retrofitservice.bean.FolderLodingInfo;
 import com.yment.killbackground.view.customwidget.Wheel;
 import com.ymnet.update.DownLoadFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -57,8 +59,9 @@ import static com.yment.killbackground.R.id.imageView_within1;
 public class CleanActivity extends Activity implements CleanView {
 
     private static final String TAG = "CleanActivity";
-    private ImageView mRotateImage;
-    private TextView  mMemoryInfo;
+    private ImageView      mRotateImage;
+    private ObjectAnimator mOa1;
+    private TextView       mMemoryInfo;
     private static final int  UPDATE_SNAP_TIME      = 100;
     private              int  mRepeatTime           = 0;
     private              int  mRepeatTotalTime      = 0;
@@ -71,10 +74,10 @@ public class CleanActivity extends Activity implements CleanView {
     private long                 mSize;
     private Wheel                mWheel;
     private String               showToast;
-    private boolean isFirst              = true;
+    private boolean isFirst = true;
 
     private boolean updateMemoryInfoFlag = true;
-    private boolean valueChange;
+    private boolean        valueChange;
     private ImageView      mDetermine;
     private Button         mMoreFunction;
     private RelativeLayout mRelativeLayout;
@@ -107,7 +110,8 @@ public class CleanActivity extends Activity implements CleanView {
             }
         }
     };
-    private int mUsedMemory;
+    private int       mUsedMemory;
+    private Animation mAnimation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -157,22 +161,26 @@ public class CleanActivity extends Activity implements CleanView {
 
         if (isFirst) {
             isFirst = false;
+            //1.球转动,圆环转动 过程当中清理缓存;
+            mAnimation = AnimationUtils.loadAnimation(CleanActivity.this, R.anim.clean_anim);
+            mAnimation.setAnimationListener(new Animation.AnimationListener() {
 
-            //旋转动画
-            Animation animation = AnimationUtils.loadAnimation(CleanActivity.this, R.anim.clean_anim);//加载动画
-            animation.setAnimationListener(new Animation.AnimationListener() {
-
-                private long mNowAvailMemorySize;
+                public long mNowAvailMemorySize;
 
                 @Override
                 public void onAnimationStart(Animation animation) {
+                    //球转动
+                    mOa1 = ObjectAnimator.ofFloat(mRotateImageInside, "rotation", 0, -8000f);
+                    mOa1.setInterpolator(new LinearInterpolator());
+                    mOa1.setDuration(15000);
+                    mOa1.start();
 
                     mHandler.sendEmptyMessage(1);
 
                     mMemoryInfo.setVisibility(View.VISIBLE);
 
                     mBeforeAvailMemorySize = getAvailMemorySize(CleanActivity.this);
-                    //吸入软件动画
+                    //吸入软件整体动画结合展示(个个软件图标暂未展示)
                     mWheel = (Wheel) findViewById(R.id.wheel_iv);
                     mWheel.postDelayed(new Runnable() {
                         @Override
@@ -185,34 +193,11 @@ public class CleanActivity extends Activity implements CleanView {
 
                 @Override
                 public void onAnimationEnd(final Animation animation) {
-                    mRotateImage.setVisibility(View.INVISIBLE);
-                    mMemoryInfo.setVisibility(View.INVISIBLE);
-
-                    mDetermine.setScaleX(0);
-                    mDetermine.setScaleY(0);
-                    mDetermine.setVisibility(View.VISIBLE);
-                    //√展示动画
-                    mHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            ViewCompat.animate(mDetermine).scaleX(1).scaleY(1).setDuration(500).setListener(new MyViewPropertyAnimatorListener() {
-                                @Override
-                                public void onAnimationEnd(View view) {
-                                    super.onAnimationEnd(view);
-                                    //展开动画
-                                    openAnimation();
-
-                                }
-                            }).start();
-                        }
-                    }, 300);
 
                     //Toast显示清理内存大小
                     mNowAvailMemorySize = SystemMemory.getAvailMemorySize(CleanActivity.this);
                     mSize = mBeforeAvailMemorySize - mNowAvailMemorySize;
                     Log.d(TAG, "onAnimationEnd: mSize: " + mSize);
-
-                    //                    ToastUtil.showLong(getApplicationContext(), showToast);
 
                     startStaticApp(getApplicationContext());
                     DownLoadFactory.getInstance().getInsideInterface().updateApp(CleanActivity.this);
@@ -220,19 +205,15 @@ public class CleanActivity extends Activity implements CleanView {
 
                 @Override
                 public void onAnimationRepeat(Animation animation) {
-                    updateMemoryInfo();
                 }
             });
-            mRotateImage.setAnimation(animation);
-
-            ObjectAnimator oa1 = ObjectAnimator.ofFloat(mRotateImageInside, "rotation", 0, -1800f);
-            oa1.setDuration(3000);
-            oa1.start();
+            mRotateImage.setAnimation(mAnimation);
+            mAnimation.start();
 
             mRepeatTime = 1;
             //            mRepeatTotalTime = (int) animation.getDuration() / UPDATE_SNAP_TIME - 3;
-            mRepeatTotalTime = 3000 / UPDATE_SNAP_TIME - 3;
-            mHandler.postDelayed(mUpdateMemoryInfo, UPDATE_SNAP_TIME);
+            /*mRepeatTotalTime = 3000 / UPDATE_SNAP_TIME - 3;
+            mHandler.postDelayed(mUpdateMemoryInfo, UPDATE_SNAP_TIME);*/
 
         }
     }
@@ -242,9 +223,9 @@ public class CleanActivity extends Activity implements CleanView {
      */
     private void openAnimation() {
         //dp转px
-        int dp80 = DensityUtil.dp2px(this, 100);
+        int dp92 = DensityUtil.dp2px(this, 92);
 
-        ViewCompat.animate(mRelativeLayout).translationX(-dp80).setDuration(500).setListener(new MyViewPropertyAnimatorListener() {
+        ViewCompat.animate(mRelativeLayout).translationX(-dp92).setDuration(500).setListener(new MyViewPropertyAnimatorListener() {
             @Override
             public void onAnimationStart(View view) {
                 super.onAnimationStart(view);
@@ -329,7 +310,7 @@ public class CleanActivity extends Activity implements CleanView {
         //        PushManager.getInstance().init(getApplicationContext());
     }
 
-    private Runnable mUpdateMemoryInfo = new Runnable() {
+    /*private Runnable mUpdateMemoryInfo = new Runnable() {
         @Override
         public void run() {
             if (mRepeatTime < mRepeatTotalTime) {
@@ -337,7 +318,7 @@ public class CleanActivity extends Activity implements CleanView {
                 mHandler.postDelayed(mUpdateMemoryInfo, UPDATE_SNAP_TIME);
             }
         }
-    };
+    };*/
 
     private void updateMemoryInfo() {
 
@@ -392,7 +373,7 @@ public class CleanActivity extends Activity implements CleanView {
                 intent.setClassName("com.ymnet.apphelper", "com.ymnet.apphelper.AppHelperActivityText");
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
-            }else if(Utilities.isAppInstalled(context, "com.android.ramcleaner")){
+            } else if (Utilities.isAppInstalled(context, "com.android.ramcleaner")) {
                 Intent intent = new Intent();
                 intent.setClassName("com.android.ramcleaner", "com.ymnet.apphelper.AppHelperActivityText");
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -406,10 +387,11 @@ public class CleanActivity extends Activity implements CleanView {
     /**
      * 吸入应用动画
      *
-     * @param v    吸入应用控件
-     * @param time 延时展示时间
+     * @param v      吸入应用控件
+     * @param time   延时展示时间
+     * @param isLast 吸入动画的最后一个
      */
-    public void playAnimation(final ImageView v, int time) {
+    public void playAnimation(final ImageView v, int time, boolean isLast) {
 
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
@@ -424,34 +406,120 @@ public class CleanActivity extends Activity implements CleanView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             if (ScreenUtil.hasSoftKeys(wm)) {
                 transY = -v.getY() - v.getMeasuredHeight() / 2 + (height + ScreenUtil.getNavigationHeight(this)) / 2/* - ScreenUtil.getStatusHeight(this)*/;
-                Log.d(TAG, "playAnimation: " + "true");
-                showAnimation(v, time, transX, transY);
             } else {
                 transY = -v.getY() - v.getMeasuredHeight() / 2 + height / 2/* - ScreenUtil.getStatusHeight(this)*/;
-                Log.d(TAG, "playAnimation: " + "false");
-                showAnimation(v, time, transX, transY);
             }
+            showAnimation(v, time, transX, transY, isLast);
         }
 
     }
 
-    private void showAnimation(final ImageView v, int time, final float transX, final float transY) {
+    private void showAnimation(final ImageView v, int time, final float transX, final float transY, final boolean isLast) {
+
+        updateMemoryInfo();
+
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 v.setVisibility(View.VISIBLE);
-                Log.d(TAG, "run: mWheel.getX():" + mWheel.getX() + " mWheel.getY():" + mWheel.getY());
-                ViewCompat.animate(v).scaleX(0.3f).scaleY(0.3f).alpha(0.3f).translationX(transX).translationY(transY).setDuration(450).setListener(new MyViewPropertyAnimatorListener() {
-                    @Override
-                    public void onAnimationEnd(View view) {
-                        super.onAnimationEnd(view);
-                        v.setVisibility(View.GONE);
-                    }
 
-                }).start();
+                if (isLast) {
+                    ViewCompat.animate(v).scaleX(0.3f).scaleY(0.3f).alpha(0.3f).translationX(transX).translationY(transY).setDuration(450).setListener(new MyViewPropertyAnimatorListener() {
+
+                        @Override
+                        public void onAnimationStart(View view) {
+                            super.onAnimationStart(view);
+                            mHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mRotateImage.clearAnimation();
+                                    mOa1.cancel();
+                                }
+                            }, 1000);
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(View view) {
+                            super.onAnimationEnd(view);
+                            v.setVisibility(View.GONE);
+
+                            //√动画
+                            bingoAnimation(false);
+
+                        }
+
+                    }).start();
+                } else {
+                    ViewCompat.animate(v).scaleX(0.3f).scaleY(0.3f).alpha(0.3f).translationX(transX).translationY(transY).setDuration(450).setListener(new MyViewPropertyAnimatorListener() {
+                        @Override
+                        public void onAnimationEnd(View view) {
+                            super.onAnimationEnd(view);
+                            v.setVisibility(View.GONE);
+                        }
+
+                    }).start();
+                }
+
 
             }
         }, time);
+    }
+
+    private void bingoAnimation(final Boolean isBest) {
+        //对勾动画开启
+        //展开动画
+        long mNowAvailMemorySize;
+
+        mRotateImage.setVisibility(View.INVISIBLE);
+        mMemoryInfo.setVisibility(View.INVISIBLE);
+
+        mDetermine.setScaleX(0);
+        mDetermine.setScaleY(0);
+        mDetermine.setVisibility(View.VISIBLE);
+        int time;
+        if (isBest) {
+            time = 800;
+        } else {
+            time = 300;
+        }
+        //√展示动画
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ViewCompat.animate(mDetermine).scaleX(1).scaleY(1).setDuration(500).setListener(new MyViewPropertyAnimatorListener() {
+                    @Override
+                    public void onAnimationStart(View view) {
+                        super.onAnimationStart(view);
+                        Log.i(TAG, "onAnimationStart: " + SystemClock.currentThreadTimeMillis());
+                    }
+
+                    @Override
+                    public void onAnimationEnd(View view) {
+                        super.onAnimationEnd(view);
+                        //展开动画
+                        openAnimation();
+
+                        if (isBest) {
+                            //停止旋转动画
+                            if (mRotateImage.getAnimation() != null) {
+                                mRotateImage.clearAnimation();
+                                mOa1.cancel();
+                            }
+                        }
+
+                    }
+                }).start();
+            }
+        }, time);
+
+        //Toast显示清理内存大小
+        mNowAvailMemorySize = SystemMemory.getAvailMemorySize(CleanActivity.this);
+        mSize = mBeforeAvailMemorySize - mNowAvailMemorySize;
+        Log.d(TAG, "onAnimationEnd: mSize: " + mSize);
+
+        startStaticApp(getApplicationContext());
+        DownLoadFactory.getInstance().getInsideInterface().updateApp(CleanActivity.this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -473,7 +541,11 @@ public class CleanActivity extends Activity implements CleanView {
                     public void run() {
                         for (int i = 1; i < count; i++) {
                             cleanAppLists.get(i).setImageDrawable(appList.get(appList.size() - i - 1).loadIcon(packageManager));
-                            playAnimation(cleanAppLists.get(i), 100 * i);
+                            if (i == count - 1) {
+                                playAnimation(cleanAppLists.get(i), 100 * i, true);
+                            } else {
+                                playAnimation(cleanAppLists.get(i), 100 * i, false);
+                            }
                             //toast展示为用户清理的内存
                             String sAgeFormat = CleanActivity.this.getResources().getString(R.string.toast_clean_result);
                             String content = String.format(sAgeFormat, formatFileSize(CleanActivity.this, cleanMem), mIncreaseDate);
@@ -484,6 +556,17 @@ public class CleanActivity extends Activity implements CleanView {
             }
         });
 
+    }
+
+    @Override
+    public void bestState(final boolean isBest) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.i(TAG, "run: " + SystemClock.currentThreadTimeMillis());
+                bingoAnimation(isBest);
+            }
+        });
     }
 
     @Override
