@@ -1,22 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.commonlibrary">
+    package="com.example.commonlibrary">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-    <application android:allowBackup="true"
-                 android:label="@string/app_name"
-                 android:supportsRtl="true"
-    >
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="58b7914f717c19164e002161" />
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="sc-general" />
-
-    </application>
+    <application></application>
 
 </manifest>
