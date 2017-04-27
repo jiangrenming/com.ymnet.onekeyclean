@@ -5,8 +5,8 @@ android {
     buildToolsVersion "24.0.1"
     defaultConfig {
         applicationId "com.ymnet.onekeyclean"
-        minSdkVersion 14
-        targetSdkVersion 21
+        minSdkVersion 16
+        targetSdkVersion 19
         versionCode 111
         versionName "1.11"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
