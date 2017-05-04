@@ -3,7 +3,6 @@
     package="com.yment.killbackground">
 
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
 
@@ -11,7 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-
+    <!--tools:replace="android;name"-->
     <application android:allowBackup="true"
         android:supportsRtl="true">
         <activity android:name="com.yment.killbackground.view.CleanActivity"
