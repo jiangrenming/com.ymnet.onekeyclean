@@ -14,6 +14,8 @@ public interface CleanView {
      */
     void getIconAndShow(long cleanMem);
 
+    void bestState(boolean isBest);
+
     /**
      * 显示toast内容
      * @param content 内容

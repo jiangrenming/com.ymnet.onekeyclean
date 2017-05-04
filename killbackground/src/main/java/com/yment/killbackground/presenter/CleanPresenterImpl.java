@@ -3,6 +3,7 @@ package com.yment.killbackground.presenter;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Build;
+import android.os.SystemClock;
 import android.util.Log;
 
 import com.example.commonlibrary.systemmanager.SystemMemory;
@@ -84,16 +85,21 @@ public class CleanPresenterImpl implements CleanPresenter {
         long cleanMem = Math.abs(afterMem - beforeMem);
         boolean valueChange = true;
         if (visible) {
-
+            //2.清理缓存扫描结果:
+            //1>不需要清理:
             if (cleanMem < 5 || !canClean) {
                 valueChange = false;
                 //toast展示内存已达最佳
                 content = context.getResources().getString(R.string.toast_bean_best);
                 cleanView.showToast(content);
+                cleanView.bestState(true);
+                Log.i(TAG, "killAll: "+ SystemClock.currentThreadTimeMillis());
             } else {
+                //2>需要清理:
                 valueChange = true;
                 //获取最近十个应用图标,展示吸入动画
                 cleanView.getIconAndShow(cleanMem);
+                Log.i(TAG, "killAll: "+ SystemClock.currentThreadTimeMillis());
             }
 
             cleanView.isValueChang(valueChange);
