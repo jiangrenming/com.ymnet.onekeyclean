@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fl_num_layout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/main_blue_new1">
+    <RelativeLayout
+        android:id="@+id/ll_number"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:paddingBottom="25dp"
+        android:gravity="center">
+
+        <com.ymnet.onekeyclean.cleanmore.widget.SGTextView
+            android:id="@+id/tv_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="60dp"
+            android:textColor="@color/white"
+            android:paddingBottom="15dp"
+            android:text="@string/sgtextview_show" />
+
+        <com.ymnet.onekeyclean.cleanmore.widget.SGTextView
+            android:id="@+id/tv_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_size"
+            android:layout_alignTop="@+id/tv_size"
+            android:paddingTop="15dp"
+            android:paddingBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:textSize="17dp"
+            android:text="@string/sgtextview_kb"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/tv_proposal_clean"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_size"
+            android:layout_alignBottom="@+id/tv_size"
+            android:paddingBottom="30dp"
+            android:layout_marginLeft="5dp"
+            android:textSize="11dp"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:text="@string/suggestion_clean" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_scan_progress"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:background="@drawable/main_mid_bg"
+        android:lines="1"
+        android:singleLine="true"
+        android:ellipsize="middle"
+        android:paddingLeft="5dp"
+        android:text="@string/mobile_clear_scanning"
+        android:textColor="@android:color/white"
+        android:textSize="13sp" />
+</FrameLayout>

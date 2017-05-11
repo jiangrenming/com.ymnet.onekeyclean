@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="horizontal">
+
+    <FrameLayout
+        android:id="@+id/fl0"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/sdv0"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"/>
+
+        <TextView
+            android:id="@+id/tv_time0"
+            style="@style/wechat_child_text_time_style"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_size0"
+            style="@style/wechat_child_text_size_style"/>
+
+        <ImageView
+            android:id="@+id/iv_video_play0"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:scaleType="center"
+            android:src="@drawable/file_management_video_play_selector"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/cb_status0"
+            style="@style/wechat_checkbox_style"
+            android:src="@drawable/checkbox_bg"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fl1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/sdv1"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"/>
+
+        <ImageView
+            android:id="@+id/iv_video_play1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:scaleType="center"
+            android:src="@drawable/file_management_video_play_selector"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_time1"
+            style="@style/wechat_child_text_time_style"
+
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/cb_status1"
+            style="@style/wechat_checkbox_style"
+            android:src="@drawable/checkbox_bg"/>
+
+        <TextView
+            android:id="@+id/tv_size1"
+            style="@style/wechat_child_text_size_style"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fl2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="3dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/sdv2"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"/>
+        <ImageView
+            android:id="@+id/iv_video_play2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:scaleType="center"
+            android:src="@drawable/file_management_video_play_selector"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_time2"
+            style="@style/wechat_child_text_time_style"
+
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/cb_status2"
+            style="@style/wechat_checkbox_style"
+            android:src="@drawable/checkbox_bg"/>
+
+        <TextView
+            android:id="@+id/tv_size2"
+            style="@style/wechat_child_text_size_style"/>
+    </FrameLayout>
+</LinearLayout>

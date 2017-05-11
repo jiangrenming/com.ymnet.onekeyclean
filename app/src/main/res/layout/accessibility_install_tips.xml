@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#b3000000"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/tips_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="35dp"
+        android:paddingTop="46dp">
+
+        <LinearLayout
+            android:id="@+id/gear_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="34dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/left_gear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@drawable/accessibility_gear_big" />
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/right_gear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:scaleType="fitXY"
+                android:src="@drawable/accessibility_gear_small" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/accessibility_install_tips"
+            android:textColor="@color/main_text_color"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/click_time_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="6dp"
+            android:text="test"
+            android:textColor="@color/hinttextcolor"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</RelativeLayout>

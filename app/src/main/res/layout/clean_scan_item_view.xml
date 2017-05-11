@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/ll_junk_sort_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffededed"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/junk_sort_item_ram"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="15.0dip"
+            android:paddingTop="15.0dip">
+
+            <ImageView
+                android:id="@+id/junk_sort_item_ram_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10.0dip"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_header_ram" />
+
+            <TextView
+                android:id="@+id/junk_sort_item_ram_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10.0dip"
+                android:layout_toRightOf="@+id/junk_sort_item_ram_icon"
+                android:text="@string/header_ram"
+                android:textColor="@color/black"
+                android:textSize="16.0sp" />
+
+            <com.ymnet.onekeyclean.cleanmore.widget.AnimImageView
+                android:id="@+id/junk_sort_item_ram_progress"
+                android:layout_width="20.0dip"
+                android:layout_height="20.0dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18.0dip"
+                android:background="@drawable/progress_white_anim" />
+
+            <ImageView
+                android:id="@+id/junk_sort_item_ram_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18.0dip"
+                android:src="@drawable/junk_scan_status_finish"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/main_divide_color" />
+
+        <RelativeLayout
+            android:id="@+id/junk_sort_item_cache"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="15.0dip"
+            android:paddingTop="15.0dip">
+
+            <ImageView
+                android:id="@+id/junk_sort_item_cache_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10.0dip"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_header_cache" />
+
+            <TextView
+                android:id="@+id/junk_sort_item_cache_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10.0dip"
+                android:layout_toRightOf="@+id/junk_sort_item_cache_icon"
+                android:text="@string/header_cache"
+                android:textColor="@color/black"
+                android:textSize="16.0sp" />
+
+            <com.ymnet.onekeyclean.cleanmore.widget.AnimImageView
+                android:id="@+id/junk_sort_item_cache_progress"
+                android:layout_width="20.0dip"
+                android:layout_height="20.0dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18.0dip"
+                android:background="@drawable/progress_white_anim" />
+
+            <ImageView
+                android:id="@+id/junk_sort_item_cache_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18.0dip"
+                android:src="@drawable/junk_scan_status_finish"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/main_divide_color" />
+
+
+        <RelativeLayout
+            android:id="@+id/junk_sort_item_residual"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="15.0dip"
+            android:paddingTop="15.0dip">
+
+            <ImageView
+                android:id="@+id/junk_sort_item_residual_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10.0dip"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_header_residual" />
+
+            <TextView
+                android:id="@+id/junk_sort_item_residual_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10.0dip"
+                android:layout_toRightOf="@+id/junk_sort_item_residual_icon"
+                android:text="@string/header_residual"
+                android:textColor="@color/black"
+                android:textSize="16.0sp" />
+
+            <com.ymnet.onekeyclean.cleanmore.widget.AnimImageView
+                android:id="@+id/junk_sort_item_residual_progress"
+                android:layout_width="20.0dip"
+                android:layout_height="20.0dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18.0dip"
+                android:background="@drawable/progress_white_anim" />
+
+            <ImageView
+                android:id="@+id/junk_sort_item_residual_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18.0dip"
+                android:src="@drawable/junk_scan_status_finish"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/main_divide_color" />
+
+
+        <RelativeLayout
+            android:id="@+id/junk_sort_item_apk"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="15.0dip"
+            android:paddingTop="15.0dip">
+
+            <ImageView
+                android:id="@+id/junk_sort_item_apk_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10.0dip"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_header_apk" />
+
+            <TextView
+                android:id="@+id/junk_sort_item_apk_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10.0dip"
+                android:layout_toRightOf="@+id/junk_sort_item_apk_icon"
+                android:text="@string/header_apk"
+                android:textColor="@color/black"
+                android:textSize="16.0sp" />
+
+            <com.ymnet.onekeyclean.cleanmore.widget.AnimImageView
+                android:id="@+id/junk_sort_item_apk_progress"
+                android:layout_width="20.0dip"
+                android:layout_height="20.0dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18.0dip"
+                android:background="@drawable/progress_white_anim" />
+
+            <ImageView
+                android:id="@+id/junk_sort_item_apk_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18.0dip"
+                android:src="@drawable/junk_scan_status_finish"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>

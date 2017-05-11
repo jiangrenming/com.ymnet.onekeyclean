@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/loading_bg_optimize">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="28dp"
+        android:paddingRight="28dp">
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="center"
+            android:indeterminateDrawable="@drawable/my_progress_style_optimize"
+            android:indeterminateOnly="true" />
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_10dp"
+            android:text="@string/download_deleting"
+            android:textColor="@color/setting_loading"
+            android:textSize="14dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

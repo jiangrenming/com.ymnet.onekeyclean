@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_blank" >
+
+    <include
+        android:id="@+id/top_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/file_management_base_top_menu" />
+
+    <include
+        android:id="@+id/file_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_menu"
+        layout="@layout/file_management_base_type" />
+
+    <include
+        android:id="@+id/bottom_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/file_management_base_bottom"
+        android:visibility="gone" />
+
+    <GridView
+        android:id="@+id/gv_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_delete"
+        android:layout_below="@id/file_type"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:horizontalSpacing="3dp"
+        android:listSelector="@null"
+        android:numColumns="3"
+        android:verticalSpacing="3dp"
+        android:visibility="visible" />
+
+    <include
+        android:id="@+id/no_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        layout="@layout/file_management_base_no_data"
+        android:visibility="gone" />
+
+</RelativeLayout>

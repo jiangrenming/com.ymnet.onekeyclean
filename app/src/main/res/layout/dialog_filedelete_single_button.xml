@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:minWidth="250dp" >
+    <include layout="@layout/dialog_title_text"/>
+
+    <RelativeLayout
+        android:id="@+id/checkinfo_linearlayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:visibility="visible" >
+
+        <TextView
+            android:textColor="@color/dialog_content_text_color"
+            android:id="@+id/dialog_message"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center|left"
+            android:lineSpacingMultiplier="1.2"
+            android:text="@string/dialog_filedelete_content"
+            android:textSize="@dimen/dialog_content_text_size" />
+    </RelativeLayout>
+
+    <include layout="@layout/dialog_buttom_single_btn"/>
+</LinearLayout>

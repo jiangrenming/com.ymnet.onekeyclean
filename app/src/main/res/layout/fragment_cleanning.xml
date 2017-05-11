@@ -1,0 +1,15 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_background_color"
+    android:orientation="vertical"
+    tools:mContext="com.market2345.dumpclean.main.CleaningFragment">
+
+    <include
+        android:id="@+id/fl_head"
+        layout="@layout/expandlistview_head" />
+    <ListView
+        android:id="@+id/lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_file_management_base_top_menu"
+    android:layout_width="fill_parent"
+    android:layout_height="48dp"
+    android:background="@color/main_blue_new"
+    android:fadingEdge="none" >
+
+    <ImageView
+        android:id="@+id/iv_top_back"
+        style="@style/style_wrap_fill"
+        android:background="@drawable/menu_back_selector"
+        android:clickable="true"
+        android:contentDescription="@null"
+        android:paddingLeft="4dp" />
+
+    <TextView
+        android:id="@+id/tv_base_title"
+        style="@style/page_title_style"
+        android:layout_toRightOf="@id/iv_top_back"
+        android:layout_toLeftOf="@+id/iv_top_delete"
+        android:layout_marginRight="60dp"
+        android:text="@string/file_manager"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        android:textSize="@dimen/title_text_size" />
+
+    <ImageView
+        android:id="@+id/iv_top_delete"
+        style="@style/style_wrap_fill"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/file_management_top_right_delete_selector"
+        android:clickable="true"
+        android:contentDescription="@null"
+         android:visibility="gone"/>
+
+    <CheckBox
+        android:id="@+id/cb_top_select_all"
+        style="@style/style_wrap_fill"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/edit_x"
+        android:button="@null"
+        android:gravity="center"
+        android:text="@string/select_all"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/title_text_size"
+        android:visibility="gone" />
+
+</RelativeLayout>

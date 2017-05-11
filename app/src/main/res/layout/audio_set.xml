@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/dialog_title_text" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/set_ring"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:drawableTop="@drawable/set_ring"
+            android:paddingTop="20dp"
+            android:background="@drawable/gridview_bg_selector"
+            android:text="@string/ring_audio"
+            android:gravity="center"
+            android:textColor="@color/dialog_content_text_color"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/set_sms"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:paddingTop="20dp"
+            android:drawableTop="@drawable/set_sms"
+            android:text="@string/notification_audio"
+            android:background="@drawable/gridview_bg_selector"
+            android:gravity="center"
+            android:textColor="@color/dialog_content_text_color"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/set_alarm"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:paddingTop="20dp"
+            android:drawableTop="@drawable/set_alarm"
+            android:background="@drawable/gridview_bg_selector"
+            android:text="@string/alarm_audio"
+            android:gravity="center"
+            android:textColor="@color/dialog_content_text_color"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+</LinearLayout>

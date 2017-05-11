@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+    <include
+        android:id="@+id/ll_title"
+        layout="@layout/dialog_title_text"/>
+
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center_horizontal|left">
+
+        <TextView
+            android:id="@+id/tv_current"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center|left"
+            android:text="正在导出:"
+            android:textColor="@color/gray20"
+            android:textSize="@dimen/dialog_content_text_size"/>
+
+        <TextView
+            android:id="@+id/tv_percentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/tv_current"
+            android:gravity="center|left"
+            android:text="0%"
+            android:textColor="@color/gray20"
+            android:textSize="@dimen/dialog_content_text_size"/>
+
+        <TextView
+            android:id="@+id/tv_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:textColor="@color/dialog_content_text_color"
+            android:textSize="@dimen/dialog_content_text_size"/>
+
+        <ProgressBar
+            android:id="@+id/pb"
+            style="?android:progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_below="@+id/tv_current"
+            android:layout_marginTop="10dp"
+            android:indeterminate="false"
+            android:progress="0"
+            android:progressDrawable="@drawable/horizontal_progress"/>
+    </RelativeLayout>
+</LinearLayout>
