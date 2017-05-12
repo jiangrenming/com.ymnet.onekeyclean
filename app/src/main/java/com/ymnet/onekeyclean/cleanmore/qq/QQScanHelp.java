@@ -95,29 +95,23 @@ public class QQScanHelp {
             // TODO: 2017/5/3 0003 QQ扫描路径要修改
             QQFileType tempFile = new QQFileDefault(getString(R.string.temp_file), 0, R.drawable.wechat_temp, getString(R.string.temp_file_info), getString(R.string.temp_file_effect));
             tempFile.setType(QQConstants.QQ_TYPE_DEFALUT);
-            //            tempFile.setsE(StatisticEventContants.cleanwechat_rubbish);
             content.add(tempFile);
 
             QQFileType picFile = new QQPicMode(getString(R.string.chat_pic), 0, R.drawable.wechat_pic, getString(R.string.chat_pic_info), "");
             picFile.setType(QQConstants.QQ_TYPE_PIC);
-            //            picFile.setsE(StatisticEventContants.cleanwechat_photo);
             content.add(picFile);
 
             QQFileType voiceFile = new QQPicMode(getString(R.string.chat_voice), 0, R.drawable.wechat_voice, getString(R.string.chat_voice_info), "");
             voiceFile.setType(QQConstants.QQ_TYPE_VOICE);
-            //            voiceFile.setsE(StatisticEventContants.cleanwechat_voice);
             content.add(voiceFile);
 
             QQFileType video = new QQPicMode(getString(R.string.chat_video), 0, R.drawable.wechat_video, getString(R.string.chat_video_info), "");
             video.setType(QQConstants.QQ_TYPE_PIC);
-            //            video.setsE(StatisticEventContants.cleanwechat_video);
             content.add(video);
             //todo 微信QQ不同之处:接收的文件
-            //            QQFileType cacheFile = new QQFileDefault(getString(R.string.receive_file), 0, R.drawable.receive_icon, getString(R.string.receive_file_info), getString(R.string.receive_file_effect));
             QQFileType receiveFile = new QQReceiveMode(getString(R.string.receive_file), 0, R.drawable.receive_icon, getString(R.string.receive_file_info), getString(R.string.receive_file_effect));
 
             receiveFile.setType(QQConstants.QQ_TYPE_RECEIVE);
-            //            receiveFile.setsE(StatisticEventContants.cleanwechat_snscache);
             content.add(receiveFile);
 
             startScanFile(content);

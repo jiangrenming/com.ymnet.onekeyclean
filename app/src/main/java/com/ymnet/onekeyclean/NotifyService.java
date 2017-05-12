@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
@@ -30,7 +31,7 @@ public class NotifyService extends Service {
     private static final int REQUEST_CODE02 = 2;
     private static final int REQUEST_CODE03 = 3;
     private NotificationCompat.Builder mBuilder;
-    private NotificationManager mNotificationManager;
+    private NotificationManager        mNotificationManager;
 
     public NotifyService() {
     }
@@ -54,30 +55,36 @@ public class NotifyService extends Service {
 
         //获取手机机型
         /**
-         * ONEPLUS A3010_28_170208
-         * MMB29M.C5000ZCU1AQA1      三星SM-C5000
-         * MMB29M                    红米note4x
-         * V061                      奇酷 8681-A10
+         * ONEPLUS A3010
+         * SM-C5000    三星SM-C5000
+         * 8681-A01   奇酷 8681-A10
          */
-        String version = PhoneModel.getAndroidDisplayVersion(this);
-        System.out.println("---------------version:"+version);
+//        String version = PhoneModel.getAndroidDisplayVersion();
+        String androidModel = PhoneModel.getAndroidModel();
+
+        System.out.println("---------------androidModel:" + androidModel);
 
         //展示常驻通知栏
-        showPermanentNotification(version);
+        showPermanentNotification(androidModel);
     }
 
-    private void showPermanentNotification(String version) {
-
-        RemoteViews remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view);
+    private void showPermanentNotification(String androidModel) {
+        RemoteViews remoteViews = null;
+        if (androidModel.contains("Redmi")) {
+            remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view);
+            System.out.println("---------------androidModel:我是红米");
+        } else {
+            remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view_withoutbg);
+        }
         //奇酷手机更换图标为白色
-        if (version.equals("V061")) {
-            System.out.println("---------------version:奇酷手机");
+        if (androidModel.contains("8681")) {
+            System.out.println("---------------androidModel:奇酷手机");
             remoteViews.setImageViewResource(R.id.iv_head, R.mipmap.onekeyclean_white);
             remoteViews.setImageViewResource(R.id.iv_wechat, R.mipmap.wechat_white);
             remoteViews.setImageViewResource(R.id.iv_qq, R.mipmap.qq_white);
             remoteViews.setImageViewResource(R.id.iv_deep, R.mipmap.brush_white);
+            remoteViews.setImageViewResource(R.id.iv_setting, R.mipmap.setting_white);
         }
-        System.out.println("---------------version:其它机型手机");
 
         //一键加速
         Intent intent2 = new Intent(C.get(), CleanActivity.class);
@@ -103,6 +110,12 @@ public class NotifyService extends Service {
         PendingIntent pendingIntent5 = PendingIntent.getActivity(C.get(), REQUEST_CODE03, intent5, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_deep, pendingIntent5);
 
+        //系统设置
+        Intent intent6 = new Intent(Settings.ACTION_SETTINGS);
+        //                intent6.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent6 = PendingIntent.getActivity(C.get(), REQUEST_CODE03, intent6, PendingIntent.FLAG_UPDATE_CURRENT);
+        remoteViews.setOnClickPendingIntent(R.id.ll_setting, pendingIntent6);
+
         mBuilder = new NotificationCompat.Builder(C.get());
         Notification mNotification = mBuilder.setSmallIcon(R.mipmap.brush)
                 .setTicker("一键清理为您服务")/*.setContentTitle("常驻测试2").setContentText("常驻通知:去不掉我的3")*/
@@ -122,19 +135,18 @@ public class NotifyService extends Service {
 
     /**
      * @获取默认的pendingIntent,为了防止2.3及以下版本报错
-     * @flags属性:
-     * 在顶部常驻:Notification.FLAG_ONGOING_EVENT
+     * @flags属性: 在顶部常驻:Notification.FLAG_ONGOING_EVENT
      * 点击去除： Notification.FLAG_AUTO_CANCEL
      */
-    public PendingIntent getDefalutIntent(int flags){
-        PendingIntent pendingIntent= PendingIntent.getActivity(C.get(), 1, new Intent(), flags);
+    public PendingIntent getDefalutIntent(int flags) {
+        PendingIntent pendingIntent = PendingIntent.getActivity(C.get(), 1, new Intent(), flags);
         return pendingIntent;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Intent service = new Intent(C.get(),NotifyService.class);
+        Intent service = new Intent(C.get(), NotifyService.class);
         startService(service);
         System.out.println("服务又活了");
     }

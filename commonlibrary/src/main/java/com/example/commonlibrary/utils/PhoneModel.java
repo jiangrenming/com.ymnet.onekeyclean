@@ -1,6 +1,6 @@
 package com.example.commonlibrary.utils;
 
-import android.content.Context;
+import android.os.Build;
 
 /**
  * Created by MajinBuu on 2017/5/12 0012.
@@ -11,11 +11,17 @@ import android.content.Context;
 public class PhoneModel {
 
     /**
-     * 获取手机型号
+     * 获取手机版本号
      */
-    public static String getAndroidDisplayVersion(Context context) {
+    public static String getAndroidDisplayVersion() {
         String androidDisplay = null;
         androidDisplay = android.os.Build.DISPLAY;
         return androidDisplay;
+    }
+    /**
+     * 获取手机型号
+     */
+    public static String getAndroidModel() {
+        return Build.MODEL;
     }
 }
