@@ -9,6 +9,7 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
+import com.example.commonlibrary.utils.PhoneModel;
 import com.ymnet.killbackground.view.CleanActivity;
 import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
 import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
@@ -50,37 +51,57 @@ public class NotifyService extends Service {
     private void initNotification() {
         //初始化服务
         initService();
+
+        //获取手机机型
+        /**
+         * ONEPLUS A3010_28_170208
+         * MMB29M.C5000ZCU1AQA1      三星SM-C5000
+         * MMB29M                    红米note4x
+         * V061                      奇酷 8681-A10
+         */
+        String version = PhoneModel.getAndroidDisplayVersion(this);
+        System.out.println("---------------version:"+version);
+
         //展示常驻通知栏
-        showPermanentNotification();
+        showPermanentNotification(version);
     }
 
-    private void showPermanentNotification() {
+    private void showPermanentNotification(String version) {
 
         RemoteViews remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view);
+        //奇酷手机更换图标为白色
+        if (version.equals("V061")) {
+            System.out.println("---------------version:奇酷手机");
+            remoteViews.setImageViewResource(R.id.iv_head, R.mipmap.onekeyclean_white);
+            remoteViews.setImageViewResource(R.id.iv_wechat, R.mipmap.wechat_white);
+            remoteViews.setImageViewResource(R.id.iv_qq, R.mipmap.qq_white);
+            remoteViews.setImageViewResource(R.id.iv_deep, R.mipmap.brush_white);
+        }
+        System.out.println("---------------version:其它机型手机");
 
         //一键加速
         Intent intent2 = new Intent(C.get(), CleanActivity.class);
         intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(C.get(), REQUEST_CODE1, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
-        remoteViews.setOnClickPendingIntent(R.id.iv_head, pendingIntent);
+        remoteViews.setOnClickPendingIntent(R.id.ll_head, pendingIntent);
 
         //微信清理
         Intent intent3 = new Intent(C.get(), WeChatActivity.class);
         intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent1 = PendingIntent.getActivity(C.get(), REQUEST_CODE01, intent3, PendingIntent.FLAG_UPDATE_CURRENT);
-        remoteViews.setOnClickPendingIntent(R.id.tv_wechat, pendingIntent1);
+        remoteViews.setOnClickPendingIntent(R.id.ll_wechat, pendingIntent1);
 
         //QQ清理
         Intent intent4 = new Intent(C.get(), QQActivity.class);
         intent4.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent4 = PendingIntent.getActivity(C.get(), REQUEST_CODE02, intent4, PendingIntent.FLAG_UPDATE_CURRENT);
-        remoteViews.setOnClickPendingIntent(R.id.tv_qq, pendingIntent4);
+        remoteViews.setOnClickPendingIntent(R.id.ll_qq, pendingIntent4);
 
         //深度清理
         Intent intent5 = new Intent(C.get(), SilverActivity.class);
         intent5.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent5 = PendingIntent.getActivity(C.get(), REQUEST_CODE03, intent5, PendingIntent.FLAG_UPDATE_CURRENT);
-        remoteViews.setOnClickPendingIntent(R.id.tv_deep, pendingIntent5);
+        remoteViews.setOnClickPendingIntent(R.id.ll_deep, pendingIntent5);
 
         mBuilder = new NotificationCompat.Builder(C.get());
         Notification mNotification = mBuilder.setSmallIcon(R.mipmap.brush)

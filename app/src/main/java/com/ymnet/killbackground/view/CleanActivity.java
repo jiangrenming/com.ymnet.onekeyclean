@@ -136,7 +136,7 @@ public class CleanActivity extends Activity implements CleanView {
     private void startNotification() {
         Intent service = new Intent(this, NotifyService.class);
         startService(service);
-        ToastUtil.showShort(this, "广播:服务已启动");
+//        ToastUtil.showShort(this, "广播:服务已启动");
     }
 
     private void getData(final Map<String, String> params) {
