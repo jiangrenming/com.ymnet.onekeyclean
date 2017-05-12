@@ -59,20 +59,28 @@ public class NotifyService extends Service {
          * SM-C5000    三星SM-C5000
          * 8681-A01   奇酷 8681-A10
          */
-//        String version = PhoneModel.getAndroidDisplayVersion();
+        //        String version = PhoneModel.getAndroidDisplayVersion();
         String androidModel = PhoneModel.getAndroidModel();
 
         System.out.println("---------------androidModel:" + androidModel);
 
         //展示常驻通知栏
         showPermanentNotification(androidModel);
+        //常驻通知栏被删时再次开启
+        deleteNotification();
+    }
+
+    private void deleteNotification() {
+        Intent intent = new Intent(this,NotifyService.class);
+
+        PendingIntent pendingIntent =PendingIntent.getService(this,2, intent,PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private void showPermanentNotification(String androidModel) {
         RemoteViews remoteViews = null;
-        if (androidModel.contains("Redmi")) {
+        if (androidModel.contains("Redmi") || androidModel.contains("MI")) {
             remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view);
-            System.out.println("---------------androidModel:我是红米");
+            System.out.println("---------------androidModel:我是小米系列");
         } else {
             remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view_withoutbg);
         }
@@ -117,10 +125,16 @@ public class NotifyService extends Service {
         remoteViews.setOnClickPendingIntent(R.id.ll_setting, pendingIntent6);
 
         mBuilder = new NotificationCompat.Builder(C.get());
+
+        Intent intent7 = new Intent(this,NotifyService.class);
+        PendingIntent intent8 = PendingIntent.getService(this, 2, intent7, PendingIntent.FLAG_UPDATE_CURRENT);
+
         Notification mNotification = mBuilder.setSmallIcon(R.mipmap.brush)
                 .setTicker("一键清理为您服务")/*.setContentTitle("常驻测试2").setContentText("常驻通知:去不掉我的3")*/
                 .setContent(remoteViews)
                 .setContentIntent(getDefalutIntent(0))
+                .setPriority(Notification.PRIORITY_MAX)
+                .setDeleteIntent(intent8)
                 //                .setContentIntent(pendingIntent5)
                 .build();
         mNotification.flags = Notification.FLAG_ONGOING_EVENT;
