@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="一键加速"
-            android:textColor="#000"
+            android:textColor="#545352"
             android:textSize="14sp"/>
     </LinearLayout>
 
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="微信清理"
-            android:textColor="#000"
+            android:textColor="#545352"
             android:textSize="14sp"/>
     </LinearLayout>
 
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="QQ清理"
-            android:textColor="#000"
+            android:textColor="#545352"
             android:textSize="14sp"/>
     </LinearLayout>
 
@@ -100,7 +100,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="深度清理"
-            android:textColor="#000"
+            android:textColor="#545352"
             android:textSize="14sp"/>
     </LinearLayout>
 
