@@ -70,6 +70,10 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
         initializeHeadView();
         QQContent content = mPresenter.initData();
         content.filterDelete();
+        //扫描手机中应用,是否有微信.如果手机中未安装微信该应用,就展示未发现文件界面
+        if (!mPresenter.isInstallAPP()) {
+            content.clear();
+        }
         adapter = new QQRecyclerViewAdapter(mPresenter, content);
         adapter.addHeaderView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
             @Override

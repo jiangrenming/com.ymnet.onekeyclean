@@ -140,4 +140,9 @@ public class QQPresenterImpl implements QQPresenter{
     public boolean isEnd() {
         return scanHelp.isScanFinish();
     }
+
+    @Override
+    public boolean isInstallAPP() {
+        return scanHelp.isInstalled();
+    }
 }

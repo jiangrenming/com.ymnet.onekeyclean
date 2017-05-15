@@ -35,36 +35,20 @@ public class MarketApplication extends BaseApplication {
 
     private ApplicationComponent applicationComponent;
 
-    //    public static final int versioncode = BuildConfig.VERSION_CODE;
-    //    public static final String versionname = BuildConfig.VERSION_NAME;
-    //    public static final String packegename = BuildConfig.APPLICATION_ID;
-
     private static final String BIDDINGOS_CLIENT_ID = "90001";
     private static final String BIDDINGOS_SECRET    = "0aa498b313271973f3a310b47b555d22";
 
     public static int sHotfixVersion = -1;
     private static MarketApplication application;
-    //    private static String channel;
 
     private Map<String, String> mUnionAppMaps;
 
     private ConcurrentHashMap<Integer, Activity> mRunningActivities;
     private WifiConnectionStatus                 mWifiConnectionStatus;
 
-  /*  private WifiConnectionStatus mWifiConnectionStatus;
-
-    private DaemonClient mDaemonClient;*/
-
     public static MarketApplication getInstance() {
         return application;
     }
-
-  /*  public static RefWatcher getRefWatcher(Context context) {
-        MarketApplication application = (MarketApplication) context.getApplicationContext();
-        return application.refWatcher;
-    }
-
-    private RefWatcher refWatcher;*/
 
     private boolean mMainProcess;
 
@@ -78,15 +62,12 @@ public class MarketApplication extends BaseApplication {
         return this.applicationComponent;
     }
 
-
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         versionname = BuildConfig.VERSION_NAME;
         packegename = BuildConfig.APPLICATION_ID;
         versioncode = BuildConfig.VERSION_CODE;
-
-//        MultiDex.install(this);
 
         C.setContext(base);
     }
@@ -96,7 +77,6 @@ public class MarketApplication extends BaseApplication {
     public void onCreate() {
         C.setContext(getApplicationContext());
 
-        //        if (BuildConfig.DEV_DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
         if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectAll()
@@ -127,7 +107,6 @@ public class MarketApplication extends BaseApplication {
 
         application = this;
 
-
         // 不要删，这个是给设备设置别名，推送前测试会用到
         //        JPushInterface.setAlias(this, "zt", new TagAliasCallback() {
         //
@@ -138,9 +117,6 @@ public class MarketApplication extends BaseApplication {
         //			}
         //		});
 
-        /*if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WebView.setWebContentsDebuggingEnabled(true);
-        }*/
         try {
             startService(new Intent(this, ProcessService.class).putExtra(ProcessService.KEY_PID, Process.myPid()));
         } catch (SecurityException ignored) {
@@ -148,51 +124,7 @@ public class MarketApplication extends BaseApplication {
                 throw ignored;
             }
         }
-//        Pipeline.init(C.get());//bitmap load libs to usge Pipeline
-        //daemon
-//        initDaemonProcess();
-       /* if ("com.market2345".equals(ApplicationUtils.getProcessNameByPID(this, Process.myPid()))) {
-            StatisticSpec.sendEvent(StatisticEventContants.mainservice);
-        } else if ("com.market2345:PushService".equals(ApplicationUtils.getProcessNameByPID(this, Process.myPid()))) {
-            StatisticSpec.sendEvent(StatisticEventContants.pushservice);
-        }*/
-
     }
-
-   /* private void initDaemonProcess() {
-        Observable.just("")
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String str) {
-                        boolean totalSwitch = C.getPreference(DaemonConstant.DAEMON_IS_OPEN, true);
-                        boolean daemonSwitch = SPUtil.getDaemonStatus(C.get());
-                        if (!totalSwitch || !daemonSwitch) {
-                            return;
-                        }
-
-                        String processName = DaemonUtil.getCurProcessName(C.get());
-                        DaemonUtil.preventRepeat(processName);
-
-                        boolean flag = C.getPreference(DaemonConstant.DAEMON_IS_PROCESS_CRASH, false);
-                        if (!flag) {
-                            doDaemon(processName);
-                        } else {
-                            long historyTime = C.getPreference(DaemonConstant.DAEMON_FIRST_CRASH_TIME, 0L);
-                            long intervalTime = System.currentTimeMillis() - historyTime;
-                            if (intervalTime > DaemonConstant.DAEMON_THREE_DAYS_TIME) {
-                                C.setPreference(DaemonConstant.DAEMON_REPEAT_OPEN, true);
-                                DaemonUtil.preventRepeat(processName);
-                                if (intervalTime > DaemonConstant.DAEMON_FOUR_DAYS_TIME) {
-                                    DaemonUtil.daemonReset();
-                                }
-                                doDaemon(processName);
-                            }
-                        }
-                    }
-                });
-    }*/
-
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private void registerActivityLifecycleCallbacks() {
@@ -276,32 +208,6 @@ public class MarketApplication extends BaseApplication {
 
                     MarketApplication.getInstance().setMainProcess(true);
 
-                    //tip:方法调用顺序不要随便改变
-
-                    //                initImageLoader();
-                  /*  if ("jf1".equals(Utils.getChannel())) {
-                        UsbhelperSdk.setDebug(BuildConfig.DEV_DEBUG);
-                        UsbhelperSdk.init(MarketApplication.getInstance());
-                    }*/
-
-
-                  /*  DataCenterObserver session = DataCenterObserver.get(getApplicationContext());
-                    session.getInstalledApps();
-
-                    WifiConnectionStatus wifiStatus = new WifiConnectionStatus();
-                    wifiStatus.init(session.getMarketHandler(), getApplicationContext());
-
-                    MarketApplication.getInstance().setWifiConnectionStatus(wifiStatus);
-
-                    DownloadManager.getInstance(getApplicationContext());//don't delete this code,for init
-
-                    Intent initIntent = new Intent(MarketApplication.getInstance(), CoreService.class);
-                    startService(initIntent);
-                    if (getSharedPreferences(SPUtils.LM_INSTALL_LIST, Context.MODE_PRIVATE).getInt(SPUtils.LM_STATISTICS_RELEASED_KEY, 0) == SPUtils.LM_STATISTICS_RELEASING) {
-                        getSharedPreferences(SPUtils.LM_INSTALL_LIST, Context.MODE_PRIVATE).edit().remove(SPUtils.LM_STATISTICS_RELEASED_KEY).commit();
-                    }
-*/
-
                     File dir = new File(android.os.Environment.getExternalStorageDirectory(), getString(R.string.app_name));
                     if (!dir.exists()) {
                         dir.mkdir();
@@ -315,25 +221,7 @@ public class MarketApplication extends BaseApplication {
             }
         }
 
-
     }
-
-
-   /* public void startMemoryMonitor() {
-        Pipeline.scheduleNextStatsClockTick();
-    }
-
-    public void endMemoryMonitor() {
-        Pipeline.cancelNextStatsClockTick();
-    }
-*/
-    //    public static String getChannel() {
-    //        return channel;
-    //    }
-    //
-    //    public static void setChannel(String channel) {
-    //        MarketApplication.channel = channel;
-    //    }
 
     public void setmUnionAppMaps(Map<String, String> unionAppMaps) {
         this.mUnionAppMaps = unionAppMaps;

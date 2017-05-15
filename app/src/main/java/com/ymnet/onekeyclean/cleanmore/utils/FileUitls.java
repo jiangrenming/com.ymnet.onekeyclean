@@ -21,7 +21,7 @@ public class FileUitls {
     public static String getPath() {
         String path = null;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "2345手机助手" + File.separator + DAEMON_INFO + File.separator;
+            path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "一键清理" + File.separator + DAEMON_INFO + File.separator;
         } else {
             path = C.get().getFilesDir().getAbsolutePath() + File.separator + DAEMON_INFO + File.separator;
         }

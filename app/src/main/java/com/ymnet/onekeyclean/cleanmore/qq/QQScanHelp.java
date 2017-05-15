@@ -1,5 +1,6 @@
 package com.ymnet.onekeyclean.cleanmore.qq;
 
+import android.content.pm.ApplicationInfo;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -676,5 +677,16 @@ int count;
 
     private boolean checkThread() {
         return threadStop;
+    }
+
+    public boolean isInstalled() {
+        List<ApplicationInfo> installedApplications =  C.get().getPackageManager().getInstalledApplications(0);
+        for (int i = 0; i < installedApplications.size(); i++) {
+            System.out.println("已安装应用进程名:"+installedApplications.get(i).processName);
+            if (installedApplications.get(i).processName.equals("com.tencent.mobileqq")) {
+                return true;
+            }
+        }
+        return false;
     }
 }

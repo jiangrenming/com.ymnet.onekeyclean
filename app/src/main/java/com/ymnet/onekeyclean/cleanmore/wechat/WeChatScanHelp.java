@@ -567,9 +567,13 @@ public class WeChatScanHelp {
     //是否安装该应用
     public boolean isInstalled() {
         List<ApplicationInfo> installedApplications =  C.get().getPackageManager().getInstalledApplications(0);
-
-
-        return mInstalled;
+        for (int i = 0; i < installedApplications.size(); i++) {
+            System.out.println("已安装应用进程名:"+installedApplications.get(i).processName);
+            if (installedApplications.get(i).processName.equals("com.tencent.mm")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void setInstalled(boolean installed) {

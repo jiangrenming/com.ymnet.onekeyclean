@@ -33,4 +33,6 @@ public interface QQPresenter extends IPresenter {
     QQFileType get(int position);
 
     boolean isEnd();
+
+    boolean isInstallAPP();
 }

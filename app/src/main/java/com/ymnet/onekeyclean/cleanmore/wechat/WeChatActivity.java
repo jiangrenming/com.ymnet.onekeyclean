@@ -86,7 +86,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
     private void initTitleBar() {
         ll_title = findViewById(R.id.ll_title);
         TextView left_btn = (TextView) findViewById(R.id.junk_title_txt);
-//        findViewById(R.id.iv_clean_setting).setVisibility(View.GONE);
+        //        findViewById(R.id.iv_clean_setting).setVisibility(View.GONE);
         left_btn.setText(R.string.managementfragment_wechat_clean);
         left_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,12 +130,10 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
         initializeHeadView();
         WeChatContent content = mPresenter.initData();
         content.filterDelete();
-        // TODO: 2017/5/12 0012 如果手机中未安装微信该应用,就展示未发现文件界面
-        //扫描手机中应用,是否有微信
-        mPresenter.isInstallAPP();
-
-
-        content.clear();
+        //扫描手机中应用,是否有微信.如果手机中未安装微信该应用,就展示未发现文件界面
+        if (!mPresenter.isInstallAPP()) {
+            content.clear();
+        }
 
         adapter = new WeChatRecyclerViewAdapter(mPresenter, content);
         adapter.addHeaderView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
@@ -161,7 +159,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                StartCleanActUtil.startCleanActivity(WeChatActivity.this);
+                //                StartCleanActUtil.startCleanActivity(WeChatActivity.this);
                 WeChatActivity.this.finish();
                 Intent intent = new Intent(WeChatActivity.this, SilverActivity.class);
                 startActivity(intent);
@@ -175,7 +173,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
     private View view_head;
 
     private void initializeHeadView() {
-        view_head =  getLayoutInflater().inflate(R.layout.wechat_head, rv, false);
+        view_head = getLayoutInflater().inflate(R.layout.wechat_head, rv, false);
         tv_size = (SGTextView) view_head.findViewById(R.id.tv_size);
         tv_unit = (SGTextView) view_head.findViewById(R.id.tv_unit);
         ViewTreeObserver observer = view_head.getViewTreeObserver();
@@ -222,7 +220,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
         if (mPresenter != null) {
             WeChatFileType type = mPresenter.get(position);
             if (type != null) {
-//                StatisticSpec.sendEvent(type.getsE());
+                //                StatisticSpec.sendEvent(type.getsE());
                 if (WeChatFileType.DELETE_DEFAULT == type.getDeleteStatus()) {
                     if (type.getType() == WeChatConstants.WECHAT_TYPE_DEFALUT) {
                         mPresenter.remove(position);
