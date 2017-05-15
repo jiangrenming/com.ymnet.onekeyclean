@@ -4,7 +4,6 @@
     android:background="@color/activity_background_color"
     tools:mContext="com.market2345.dumpclean.main.ScanFinishFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <com.ymnet.onekeyclean.cleanmore.widget.FloatingGroupExpandableListView
         android:id="@+id/elv_scan_result"
         android:layout_width="match_parent"

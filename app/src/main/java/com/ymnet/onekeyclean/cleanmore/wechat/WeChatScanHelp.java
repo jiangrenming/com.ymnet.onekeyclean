@@ -1,5 +1,6 @@
 package com.ymnet.onekeyclean.cleanmore.wechat;
 
+import android.content.pm.ApplicationInfo;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -39,6 +40,7 @@ public class WeChatScanHelp {
     private        WeChatContent  content;
     private        long           exitTime;
     private        boolean        scanFinish;
+    private        boolean        mInstalled;
 
     private WeChatScanHelp() {
         scanFinish = false;
@@ -51,11 +53,13 @@ public class WeChatScanHelp {
     public WeChatFileType get(int position) {
         return content != null ? content.get(position) : null;
     }
-    public void sizeDecreasing(long value){
-        if(content!=null){
+
+    public void sizeDecreasing(long value) {
+        if (content != null) {
             content.sizeDecreasing(value);
         }
     }
+
     public static WeChatScanHelp getInstance() {
         if (instance == null) {
             synchronized (WeChatScanHelp.class) {
@@ -91,28 +95,29 @@ public class WeChatScanHelp {
             }
             WeChatFileType tempFile = new WeChatFileDefault(getString(R.string.temp_file), 0, R.drawable.wechat_temp, getString(R.string.temp_file_info), getString(R.string.temp_file_effect));
             tempFile.setType(WeChatConstants.WECHAT_TYPE_DEFALUT);
-//            tempFile.setsE(StatisticEventContants.cleanwechat_rubbish);
+            //            tempFile.setsE(StatisticEventContants.cleanwechat_rubbish);
             content.add(tempFile);
 
             WeChatFileType cacheFile = new WeChatFileDefault(getString(R.string.cache_file), 0, R.drawable.wechat_cache, getString(R.string.cache_file_info), getString(R.string.cache_file_effect));
             cacheFile.setType(WeChatConstants.WECHAT_TYPE_DEFALUT);
-//            cacheFile.setsE(StatisticEventContants.cleanwechat_snscache);
+            //            cacheFile.setsE(StatisticEventContants.cleanwechat_snscache);
             content.add(cacheFile);
 
             WeChatFileType picFile = new WeChatPicMode(getString(R.string.chat_pic), 0, R.drawable.wechat_pic, getString(R.string.chat_pic_info), "");
             picFile.setType(WeChatConstants.WECAHT_TYPE_PIC);
-//            picFile.setsE(StatisticEventContants.cleanwechat_photo);
+            //            picFile.setsE(StatisticEventContants.cleanwechat_photo);
             content.add(picFile);
 
             WeChatFileType voiceFile = new WeChatPicMode(getString(R.string.chat_voice), 0, R.drawable.wechat_voice, getString(R.string.chat_voice_info), "");
             voiceFile.setType(WeChatConstants.WECHAT_TYPE_VOICE);
-//            voiceFile.setsE(StatisticEventContants.cleanwechat_voice);
+            //            voiceFile.setsE(StatisticEventContants.cleanwechat_voice);
             content.add(voiceFile);
 
             WeChatFileType video = new WeChatPicMode(getString(R.string.chat_video), 0, R.drawable.wechat_video, getString(R.string.chat_video_info), "");
             video.setType(WeChatConstants.WECAHT_TYPE_PIC);
-//            video.setsE(StatisticEventContants.cleanwechat_video);
+            //            video.setsE(StatisticEventContants.cleanwechat_video);
             content.add(video);
+
             startScanFile(content);
         }
         return content;
@@ -130,7 +135,8 @@ public class WeChatScanHelp {
     }
 
     private void convert(List<WareFileInfo> temp, WeChatFileType pics) {
-        if (temp == null || temp.size() == 0) return;
+        if (temp == null || temp.size() == 0)
+            return;
         if (pics != null && pics instanceof WeChatPicMode) {
             sort(temp);
             for (WareFileInfo info : temp) {
@@ -190,12 +196,15 @@ public class WeChatScanHelp {
     }
 
     private void sort(List<WareFileInfo> temp) {
-        if (temp == null || temp.size() == 0) return;
+        if (temp == null || temp.size() == 0)
+            return;
         Collections.sort(temp, new Comparator<WareFileInfo>() {
             @Override
             public int compare(WareFileInfo lhs, WareFileInfo rhs) {
-                if (lhs.time > rhs.time) return -1;
-                else if (lhs.time < rhs.time) return 1;
+                if (lhs.time > rhs.time)
+                    return -1;
+                else if (lhs.time < rhs.time)
+                    return 1;
                 return 0;
             }
         });
@@ -203,7 +212,7 @@ public class WeChatScanHelp {
 
 
     public long getWeChatTrustSize() {
-        return content==null?0:content.getSize();
+        return content == null ? 0 : content.getSize();
     }
 
     private DataUpdateListener listener;
@@ -280,17 +289,20 @@ public class WeChatScanHelp {
                             sleepLittle(start);
                         }
                         type.setInEndAnim(true);
-                        if (listener != null) listener.update();
+                        if (listener != null)
+                            listener.update();
                     }
                     scanFinish = true;
-                    if (listener != null) listener.updateEnd();
+                    if (listener != null)
+                        listener.updateEnd();
                 }
 
 
             });
         } else {
             scanFinish = true;
-            if (listener != null) listener.updateEnd();
+            if (listener != null)
+                listener.updateEnd();
         }
 
     }
@@ -535,8 +547,10 @@ public class WeChatScanHelp {
 
 
     private boolean checkName(String name, String[] suffixs) {
-        if (TextUtils.isEmpty(name)) return false;
-        if (suffixs == null || suffixs.length == 0) return true;
+        if (TextUtils.isEmpty(name))
+            return false;
+        if (suffixs == null || suffixs.length == 0)
+            return true;
         for (String suffix : suffixs) {
             if (name.endsWith(suffix)) {
                 return true;
@@ -548,5 +562,17 @@ public class WeChatScanHelp {
 
     private boolean checkThread() {
         return threadStop;
+    }
+
+    //是否安装该应用
+    public boolean isInstalled() {
+        List<ApplicationInfo> installedApplications =  C.get().getPackageManager().getInstalledApplications(0);
+
+
+        return mInstalled;
+    }
+
+    public void setInstalled(boolean installed) {
+        mInstalled = installed;
     }
 }

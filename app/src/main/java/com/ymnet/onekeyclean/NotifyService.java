@@ -17,6 +17,8 @@ import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.wechat.WeChatActivity;
 
+import static android.R.attr.id;
+
 /**
  * Created by MajinBuu on 2017/5/11.
  *
@@ -32,6 +34,7 @@ public class NotifyService extends Service {
     private static final int REQUEST_CODE03 = 3;
     private NotificationCompat.Builder mBuilder;
     private NotificationManager        mNotificationManager;
+    private String mAndroidModel;
 
     public NotifyService() {
     }
@@ -60,20 +63,23 @@ public class NotifyService extends Service {
          * 8681-A01   奇酷 8681-A10
          */
         //        String version = PhoneModel.getAndroidDisplayVersion();
-        String androidModel = PhoneModel.getAndroidModel();
+        mAndroidModel = PhoneModel.getAndroidModel();
 
-        System.out.println("---------------androidModel:" + androidModel);
+        System.out.println("---------------androidModel:" + mAndroidModel);
 
         //展示常驻通知栏
-        showPermanentNotification(androidModel);
+        showPermanentNotification(mAndroidModel);
         //常驻通知栏被删时再次开启
-        deleteNotification();
+//        deleteNotification();
     }
-
+    //勿删!预留常驻通知栏唤醒功能
     private void deleteNotification() {
-        Intent intent = new Intent(this,NotifyService.class);
-
-        PendingIntent pendingIntent =PendingIntent.getService(this,2, intent,PendingIntent.FLAG_UPDATE_CURRENT);
+       /* AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent11 = new Intent(this, CoreService.class);
+        intent.setAction(ACTION_WAKE_USBHELPER);
+        PendingIntent pendingIntent11 = PendingIntent.getService(this, 0, intent11, PendingIntent.FLAG_UPDATE_CURRENT);
+        // TODO: 2017/5/12 0012 常驻通知栏唤醒
+        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 60 * 60 * 1000L, pendingIntent11);*/
     }
 
     private void showPermanentNotification(String androidModel) {
@@ -126,7 +132,7 @@ public class NotifyService extends Service {
 
         mBuilder = new NotificationCompat.Builder(C.get());
 
-        Intent intent7 = new Intent(this,NotifyService.class);
+        Intent intent7 = new Intent(this, NotifyService.class);
         PendingIntent intent8 = PendingIntent.getService(this, 2, intent7, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification mNotification = mBuilder.setSmallIcon(R.mipmap.brush)
@@ -140,7 +146,13 @@ public class NotifyService extends Service {
         mNotification.flags = Notification.FLAG_ONGOING_EVENT;
         mNotification.defaults = 8;//没有声音震动三色光
         //        mNotification.when = System.currentTimeMillis();
-        mNotificationManager.notify(ID, mNotification);
+//           mNotificationManager.notify(ID, mNotification);
+        /**
+         *  后台运行的服务被强行kill掉，是系统回收内存的一种机制，
+         *  要想避免这种情况可以通过startForeground让服务前台运行，
+         *  当stopservice的时候通过stopForeground去掉。
+         */
+        startForeground(id, mNotification);
     }
 
     private void initService() {
@@ -148,8 +160,8 @@ public class NotifyService extends Service {
     }
 
     /**
-     * @获取默认的pendingIntent,为了防止2.3及以下版本报错
-     * @flags属性: 在顶部常驻:Notification.FLAG_ONGOING_EVENT
+     * 获取默认的pendingIntent,为了防止2.3及以下版本报错
+     * flags属性: 在顶部常驻:Notification.FLAG_ONGOING_EVENT
      * 点击去除： Notification.FLAG_AUTO_CANCEL
      */
     public PendingIntent getDefalutIntent(int flags) {
@@ -157,11 +169,4 @@ public class NotifyService extends Service {
         return pendingIntent;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Intent service = new Intent(C.get(), NotifyService.class);
-        startService(service);
-        System.out.println("服务又活了");
-    }
 }

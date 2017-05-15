@@ -29,4 +29,6 @@ public interface WeChatPresenter extends IPresenter {
      WeChatFileType get(int position);
 
      boolean isEnd();
+
+     boolean isInstallAPP();
 }

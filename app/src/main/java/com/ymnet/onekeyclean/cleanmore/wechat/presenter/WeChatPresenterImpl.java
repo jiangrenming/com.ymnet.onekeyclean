@@ -116,6 +116,12 @@ public class WeChatPresenterImpl implements WeChatPresenter {
         return scanHelp.isScanFinish();
     }
 
+    @Override
+    public boolean isInstallAPP() {
+
+        return scanHelp.isInstalled();
+    }
+
     private void deletePaths(int position) {
         final WeChatFileType fileType = scanHelp.get(position);
         if(fileType==null||fileType.isEmpty()||!(fileType instanceof WeChatFileDefault)){

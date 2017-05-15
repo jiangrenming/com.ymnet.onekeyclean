@@ -5,7 +5,6 @@
     android:background="@color/activity_background_color"
     android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
     <include
         android:id="@+id/fl_head"
         layout="@layout/expandlistview_head" />

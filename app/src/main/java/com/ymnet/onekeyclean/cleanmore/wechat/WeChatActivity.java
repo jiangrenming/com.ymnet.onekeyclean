@@ -116,6 +116,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
 
     private void initializeRecyclerView() {
         rv = (RecyclerViewPlus) findViewById(R.id.rv_content);
+        //todo 2017.5.12 没有任何东西的界面
         View emptyView = findViewById(R.id.v_empty);
         initEmptyView(emptyView);
         rv.setEmptyView(emptyView);
@@ -129,6 +130,13 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
         initializeHeadView();
         WeChatContent content = mPresenter.initData();
         content.filterDelete();
+        // TODO: 2017/5/12 0012 如果手机中未安装微信该应用,就展示未发现文件界面
+        //扫描手机中应用,是否有微信
+        mPresenter.isInstallAPP();
+
+
+        content.clear();
+
         adapter = new WeChatRecyclerViewAdapter(mPresenter, content);
         adapter.addHeaderView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
             @Override

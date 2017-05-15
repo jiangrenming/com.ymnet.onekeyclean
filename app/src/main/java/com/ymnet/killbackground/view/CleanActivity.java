@@ -118,9 +118,6 @@ public class CleanActivity extends Activity implements CleanView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clean);
 
-        //启动常驻通知栏
-        startNotification();
-
         mCleanPresenter = new CleanPresenterImpl(this);
         initView();
         initData();
@@ -132,6 +129,20 @@ public class CleanActivity extends Activity implements CleanView {
                 ,"pageSize",String.valueOf(1),"pageNumber",String.valueOf(32));*/
         //getData(params);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //启动常驻通知栏
+        startNotification();
+    }
+
+    /*@Override
+    protected void onRestart() {
+        super.onRestart();
+        //启动常驻通知栏
+        startNotification();
+    }*/
 
     private void startNotification() {
         Intent service = new Intent(this, NotifyService.class);
