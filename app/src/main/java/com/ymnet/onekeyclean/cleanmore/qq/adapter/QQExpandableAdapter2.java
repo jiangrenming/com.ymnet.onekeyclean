@@ -134,6 +134,9 @@ public class QQExpandableAdapter2 extends BaseExpandableListAdapter implements V
 
         switch (group.getContent().get(childPosition).getFileType()) {
 
+            case EXE:
+                ch.fileIcon.setImageResource(R.drawable.exe);
+                break;
             case GIF:
                 ch.fileIcon.setImageResource(R.drawable.gif);
                 break;
@@ -218,7 +221,7 @@ public class QQExpandableAdapter2 extends BaseExpandableListAdapter implements V
     }
 
     public enum FileIconType {
-        UNKNOWN, GIF, RARs, PICTURE, DOC, EXCEL, PDF, PPT, TXT, RADIO, VIDEO,
+        UNKNOWN, GIF, RARs, PICTURE, DOC, EXCEL, PDF, PPT, TXT, RADIO, VIDEO,EXE
     }
 
     static class ChildHolder {

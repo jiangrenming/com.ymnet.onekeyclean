@@ -32,7 +32,6 @@ import bolts.Task;
 /**
  * Created by wangdh on 6/14/16.
  * gmail:wangduheng26@gamil.com
- * 2345:wangdh@2345.com
  */
 public class QQDetailPresImpl implements QQDetailPresenter<QQPicMode> {
     private QQDetailMvpView mvpView;
@@ -40,6 +39,7 @@ public class QQDetailPresImpl implements QQDetailPresenter<QQPicMode> {
     private QQFileType      data;
     private QQSelectDatas   selectData;
     private QQFileType      mQQFileType;
+    private final String TAG = "QQDetailPresImpl";
 
     public QQDetailPresImpl(QQDetailMvpView mvpView, int extra, QQFileType qqFileType) {
         this.mvpView = mvpView;
@@ -101,7 +101,11 @@ public class QQDetailPresImpl implements QQDetailPresenter<QQPicMode> {
             public void run() {
                 List<WareFileInfo> list = selectData.getListDatas();
                 for (WareFileInfo info : list) {
-                    FileTreeUtils.simpleDeleteFile(info.path);
+                    if (info.fileName == null) {
+                        FileTreeUtils.simpleDeleteFile(info.path);
+                    } else {
+                        FileTreeUtils.simpleDeleteFile(info.path+File.separator+info.fileName);
+                    }
                     info.hasDelete = true;
                 }
                 selectData.clean();

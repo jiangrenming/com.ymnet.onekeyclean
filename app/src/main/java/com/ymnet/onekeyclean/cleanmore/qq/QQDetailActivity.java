@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.ImmersiveActivity;
 import com.ymnet.onekeyclean.cleanmore.constants.QQConstants;
@@ -309,6 +310,7 @@ public class QQDetailActivity extends ImmersiveActivity implements QQDetailMvpVi
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+                    MobclickAgent.reportError(C.get(),"com.ymnet.onekeyclean.cleanmore.qq.QQDetailActivity:"+e.toString());
                 }
             }
         });

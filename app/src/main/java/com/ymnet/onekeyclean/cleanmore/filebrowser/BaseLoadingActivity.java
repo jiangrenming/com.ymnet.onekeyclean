@@ -2,7 +2,9 @@ package com.ymnet.onekeyclean.cleanmore.filebrowser;
 
 import android.view.View;
 
+import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.cleanmore.ImmersiveActivity;
+import com.ymnet.onekeyclean.cleanmore.utils.C;
 
 
 /**
@@ -16,7 +18,8 @@ public class BaseLoadingActivity extends ImmersiveActivity {
         try {
             checkLoadingView();
         } catch (Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
+            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.filebrowser.BaseLoadingActivity:" + e.toString());
             return;
         }
         fl_loading.setVisibility(View.VISIBLE);
@@ -27,7 +30,8 @@ public class BaseLoadingActivity extends ImmersiveActivity {
         try {
             checkLoadingView();
         } catch (Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
+            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.filebrowser.BaseLoadingActivity:" + e.toString());
             return;
         }
         fl_loading.setVisibility(View.GONE);

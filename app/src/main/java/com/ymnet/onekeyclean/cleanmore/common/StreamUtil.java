@@ -8,7 +8,6 @@ import java.io.Writer;
 /**
  * @author Janan
  * @data 11/19/15 12:07.
- * @email jian@2345.com
  * @since version  3.4
  */
 public class StreamUtil {

@@ -7,7 +7,6 @@ import com.ymnet.onekeyclean.cleanmore.wechat.mode.ExportMode;
 /**
  * Created by wangdh on 5/3/16.
  * gmail:wangduheng26@gamil.com
- * 2345:wangdh@2345.com
  */
 public interface WeChatDetailMvpView extends MVPView {
      void setText(String str);

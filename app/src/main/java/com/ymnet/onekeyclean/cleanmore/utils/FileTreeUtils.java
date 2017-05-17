@@ -1,6 +1,10 @@
 package com.ymnet.onekeyclean.cleanmore.utils;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,9 +18,9 @@ import bolts.Task;
 
 /**
  * Created by wangduheng26 on 1/4/16.
- * android market2345 wangdh@2345.com
  */
 public class FileTreeUtils {
+    private static final String TAG = "FileTreeUtils";
 
     public static void syncDeleteContents(final File directory) {
         Task.call(new Callable<Void>() {
@@ -103,7 +107,6 @@ public class FileTreeUtils {
         if (file.isDirectory()) {
             deleteAll(file);
         }
-        // if I can delete directory then I know everything was deleted
         return file.delete();
     }
 
@@ -133,17 +136,34 @@ public class FileTreeUtils {
     }
 
     public static boolean simpleDeleteFile(String path) {
-        if (TextUtils.isEmpty(path))
+        Log.d(TAG, "simpleDeleteFile: "+path);
+        if (TextUtils.isEmpty(path)) {
+            Log.d(TAG, "simpleDeleteFile: false,路径不存在");
             return false;
-        File file = new File(path);
-        if (file.isFile()) {
-            //            return true;
-            return file.delete();
         }
+        File file = new File(path);
+        if (file.exists()){
+            if (file.isFile()) {
+                Log.d(TAG, "simpleDeleteFile: "+file.delete()+"删除");
+                boolean delete = file.delete();
+//                scanFileAsync(C.get(),path);
+                return delete;
+            }else {
+                Log.i(TAG,"不是文件");
+            }
+        }else {
+            Log.i(TAG,"文件不存在");
+        }
+
+        Log.d(TAG, "simpleDeleteFile: false,路径存在,但不是文件,没有删除");
         return false;
     }
 
-
+    public static  void scanFileAsync(Context ctx, String filePath) {
+        Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        scanIntent.setData(Uri.fromFile(new File(filePath)));
+        ctx.sendBroadcast(scanIntent);
+    }
     public static boolean copy(File source, File target) {
         InputStream in = null;
         OutputStream out = null;

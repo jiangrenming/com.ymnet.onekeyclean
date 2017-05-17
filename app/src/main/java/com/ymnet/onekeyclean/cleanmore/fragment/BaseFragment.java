@@ -7,8 +7,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
+import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.customview.CircularProgress;
+import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.wechat.component.HasComponent;
 
 
@@ -20,9 +22,8 @@ import com.ymnet.onekeyclean.cleanmore.wechat.component.HasComponent;
  * @date 2014-8-21 上午10:30:03
  * @description 根fragment，程序中所有fragment的父类
  */
-public abstract class BaseFragment extends Fragment
-{
-    protected String pb_tag=getClass().getSimpleName();
+public abstract class BaseFragment extends Fragment {
+    protected           String pb_tag         = getClass().getSimpleName();
     public final static String TYPE_RECOMMEND = "type_recommend";
 
     public final static String TYPE_SOFT = "type_soft";
@@ -31,32 +32,27 @@ public abstract class BaseFragment extends Fragment
 
     /**
      * 设置fragment的tag
-     * */
+     */
     public abstract void setSupportTag(String tag);
 
     /**
      * 获取fragment的tag
-     * */
+     */
     public abstract String getSupportTag();
 
     /**
      * fragment显示
-     * */
+     */
     public abstract void showSelf();
 
 
     @Override
-    public void onResume()
-    {
-//        Statistics.onResume(getActivity());
+    public void onResume() {
         super.onResume();
-
     }
 
     @Override
-    public void onPause()
-    {
-//        Statistics.onPause(getActivity());
+    public void onPause() {
         super.onPause();
     }
 
@@ -83,8 +79,8 @@ public abstract class BaseFragment extends Fragment
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        RefWatcher refWatcher = MarketApplication.getRefWatcher(getActivity());
-//        refWatcher.watch(this);
+        //        RefWatcher refWatcher = MarketApplication.getRefWatcher(getActivity());
+        //        refWatcher.watch(this);
     }
 
     public boolean isActivityNull() {
@@ -108,7 +104,7 @@ public abstract class BaseFragment extends Fragment
         if (view != null) {
             fl_loading = view.findViewById(R.id.fl_loading);
             pb_loading = view.findViewById(R.id.pb_loading);
-            if(pb_loading instanceof CircularProgress){
+            if (pb_loading instanceof CircularProgress) {
                 ((CircularProgress) pb_loading).setName(pb_tag);
             }
             ll_loaded_fail = view.findViewById(R.id.ll_loaded_fail);
@@ -121,6 +117,7 @@ public abstract class BaseFragment extends Fragment
         try {
             checkView();
         } catch (Exception e) {
+            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.fragment.BaseFragment:" + e.toString());
             Log.e(pb_tag, "checkView is exception");
             return;
         }
@@ -135,7 +132,7 @@ public abstract class BaseFragment extends Fragment
             checkView();
         } catch (Exception e) {
             Log.e(pb_tag, "checkView is exception");
-
+            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.fragment.BaseFragment:" + e.toString());
             return;
         }
         fl_loading.setVisibility(View.VISIBLE);
@@ -149,6 +146,7 @@ public abstract class BaseFragment extends Fragment
             checkView();
         } catch (Exception e) {
             Log.e(pb_tag, "checkView is exception");
+            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.fragment.BaseFragment:" + e.toString());
             return;
         }
         fl_loading.setVisibility(View.GONE);
@@ -167,7 +165,8 @@ public abstract class BaseFragment extends Fragment
         try {
             checkView();
         } catch (Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
+            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.fragment.BaseFragment:" + e.toString());
             return;
         }
         btn_retry.setOnClickListener(li);

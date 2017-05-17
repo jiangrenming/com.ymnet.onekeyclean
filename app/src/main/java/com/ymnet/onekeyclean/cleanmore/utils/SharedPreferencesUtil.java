@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 /**
  * @author Janan
  * @data 1/3/16 12:32.
- * @email jian@2345.com
  * @since version  3.5
  */
 public class SharedPreferencesUtil {

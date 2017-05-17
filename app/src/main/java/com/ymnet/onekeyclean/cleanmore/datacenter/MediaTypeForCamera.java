@@ -89,7 +89,7 @@ public class MediaTypeForCamera
         WALLPAPER.put("Wallpaper", "");
         WALLPAPER.put("WallPaper", "");
         WALLPAPER.put("wallpaper", "");
-        WALLPAPER.put("2345手机助手/wallpaper", "");
+        WALLPAPER.put("ymnet/wallpaper", "");
     }
     static
     {
@@ -113,7 +113,7 @@ public class MediaTypeForCamera
         PICTURE.put("我的相机", "");
         PICTURE.put("相机/照片", "");
         PICTURE.put("照相机/camera", "");
-        PICTURE.put("2345手机助手/photo", "");
+        PICTURE.put("ymnet/photo", "");
         PICTURE.put("相机","");
     }
     static

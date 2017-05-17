@@ -2,6 +2,8 @@ package com.ymnet.onekeyclean.cleanmore.utils;
 
 import android.content.Context;
 
+import com.umeng.analytics.MobclickAgent;
+
 /**
  * Created with IntelliJ IDEA.
  * User: yangning.roy
@@ -17,6 +19,7 @@ public class SecurityAppInfo {
             System.loadLibrary("appinfo");
         } catch (Exception e) {
             e.printStackTrace();
+            MobclickAgent.reportError(C.get(),"com.ymnet.onekeyclean.cleanmore.utils.SecurityAppInfo:"+e.toString());
         }
     }
 

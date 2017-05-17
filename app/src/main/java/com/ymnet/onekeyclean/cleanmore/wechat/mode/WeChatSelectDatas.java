@@ -6,7 +6,6 @@ import java.util.List;
 /**
  * Created by wangdh on 6/3/16.
  * gmail:wangduheng26@gamil.com
- * 2345:wangdh@2345.com
  * 详情页中选中的集合
  */
 public class WeChatSelectDatas {

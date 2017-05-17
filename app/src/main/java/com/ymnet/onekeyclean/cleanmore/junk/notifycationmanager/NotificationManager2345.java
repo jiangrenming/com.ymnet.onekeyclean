@@ -521,10 +521,10 @@ public class NotificationManager2345 {
     }*/
 
     /**
-     * @return a new {@link PendingIntent} that used to jump to {@link com.market2345.download.activity.DownloadActivity}.
+     * @return a new {@link PendingIntent} that used to jump to {@link com.ymnet.download.activity.DownloadActivity}.
      */
     public PendingIntent getJumpDownloadIntent(String pushevent) {
-        Intent touchIntent = new Intent(NotificationHandleReceiver.ACTION_DOWNLOAD_2345);
+        Intent touchIntent = new Intent(NotificationHandleReceiver.ACTION_DOWNLOAD_ymnet);
         touchIntent.setClass(C.get(), NotificationHandleReceiver.class);
         if (!TextUtils.isEmpty(pushevent)) {
             touchIntent.putExtra("pushevent", pushevent);
@@ -534,7 +534,7 @@ public class NotificationManager2345 {
     }
 
     private PendingIntent getPausedIntent(String clickPushEvent) {
-        Intent touchIntent = new Intent(NotificationHandleReceiver.ACTION_DOWNLOAD_2345);
+        Intent touchIntent = new Intent(NotificationHandleReceiver.ACTION_DOWNLOAD_ymnet);
         touchIntent.setClass(C.get(), NotificationHandleReceiver.class);
         touchIntent.putExtra("pushevent", clickPushEvent);
         return PendingIntent.getBroadcast(C.get(), 0, touchIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -549,10 +549,10 @@ public class NotificationManager2345 {
 
         remoteViews.setTextViewText(R.id.tv_clean_size, Html.fromHtml(mContext.getString(R.string.clean_find_size, strSize)));
         // 整体notification的点击事件
-        Intent touchIntent = new Intent(NotificationHandleReceiver.ACTION_CLEAN_2345);
+        Intent touchIntent = new Intent(NotificationHandleReceiver.ACTION_CLEAN_ymnet);
         touchIntent.setClass(mContext, NotificationHandleReceiver.class);
 
-        Intent buttonIntent = new Intent(NotificationHandleReceiver.ACTION_CLEAN_2345);
+        Intent buttonIntent = new Intent(NotificationHandleReceiver.ACTION_CLEAN_ymnet);
         buttonIntent.setClass(mContext, NotificationHandleReceiver.class);
         ClickButton button = new ClickButton(R.id.iv_clean, touchIntent);
         ArrayList<ClickButton> buttons = new ArrayList<ClickButton>();

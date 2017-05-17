@@ -5,6 +5,7 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.constants.Constants;
 import com.ymnet.onekeyclean.cleanmore.constants.TimeConstants;
@@ -315,6 +316,7 @@ public class WeChatScanHelp {
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
+            MobclickAgent.reportError(C.get(),"com.ymnet.onekeyclean.cleanmore.wechat.WeChatScanHelp:"+e.toString());
         }
     }
 

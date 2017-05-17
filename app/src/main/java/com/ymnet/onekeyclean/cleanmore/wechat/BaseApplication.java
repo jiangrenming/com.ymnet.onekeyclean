@@ -6,6 +6,9 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
+import com.umeng.analytics.MobclickAgent;
+import com.ymnet.onekeyclean.cleanmore.utils.C;
+
 /**
  * Created with IntelliJ IDEA.
  * Date: 4/7/16
@@ -43,6 +46,7 @@ public class BaseApplication extends Application {
                         sChannel = appInfo.metaData.getString("UMENG_CHANNEL");
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
+                        MobclickAgent.reportError(C.get(),"com.ymnet.onekeyclean.cleanmore.wechat.BaseApplication:"+e.toString());
                     }
                 }
             }

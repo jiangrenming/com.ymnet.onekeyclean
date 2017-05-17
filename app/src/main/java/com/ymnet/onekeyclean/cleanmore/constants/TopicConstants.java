@@ -3,7 +3,6 @@ package com.ymnet.onekeyclean.cleanmore.constants;
 /**
  * @author Janan
  * @data 16/6/17 15:59.
- * @email jian@2345.com
  * @since version  4.0
  */
 public class TopicConstants {

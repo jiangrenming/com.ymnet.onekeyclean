@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Environment;
 
 import com.umeng.analytics.MobclickAgent;
+import com.ymnet.onekeyclean.cleanmore.utils.C;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -83,6 +84,7 @@ public class FileUtilsSdk {
 				file.createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
+				MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.utils.FileUtilsSdk:"+e.toString());
 			}
 		}
 		return file;
@@ -221,6 +223,7 @@ public class FileUtilsSdk {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+				MobclickAgent.reportError(mContext,e.toString());
 			}
 		}
 		return false;
@@ -289,6 +292,7 @@ public class FileUtilsSdk {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+				MobclickAgent.reportError(mContext,"com.ymnet.killbackground.utils.FileUtilsSdk"+e.toString());
 			}
 		}
 		return file;
@@ -363,6 +367,7 @@ public class FileUtilsSdk {
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.utils.FileUtilsSdk:"+ex.toString());
 			return -1;
 		}
 	}
@@ -416,6 +421,7 @@ public class FileUtilsSdk {
 			}
 		} catch (IOException e) {
 			result = false;
+			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.utils.FileUtilsSdk:"+e.toString());
 		}
 		return result;
 	}
@@ -437,6 +443,7 @@ public class FileUtilsSdk {
 			}
 			return true;
 		} catch (IOException e) {
+			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.utils.FileUtilsSdk:"+e.toString());
 			return false;
 		}
 	}
@@ -459,6 +466,7 @@ public class FileUtilsSdk {
             }
         } catch (Exception e) {
             e.printStackTrace();
+			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.utils.FileUtilsSdk:"+e.toString());
         }
         return fileContent;
 
@@ -473,6 +481,7 @@ public class FileUtilsSdk {
             appinfo = context.getApplicationInfo();
         } catch (Exception e) {
             e.printStackTrace();
+			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.utils.FileUtilsSdk:"+e.toString());
             return jsonData;
         }
         String sourceDir = appinfo.sourceDir;
@@ -500,12 +509,14 @@ public class FileUtilsSdk {
             }
         } catch (IOException e) {
             e.printStackTrace();
+			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.utils.FileUtilsSdk:"+e.toString());
         } finally {
             if (zipfile != null) {
                 try {
                     zipfile.close();
                 } catch (IOException e) {
                     e.printStackTrace();
+					MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.utils.FileUtilsSdk:"+e.toString());
                 }
             }
         }
@@ -566,6 +577,7 @@ public class FileUtilsSdk {
 			return readTextFile(input, max, ellipsis);
 		} catch (Exception e) {
 			e.printStackTrace();
+			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.utils.FileUtilsSdk:"+e.toString());
 			return null;
 		}
 	}
@@ -605,6 +617,7 @@ public class FileUtilsSdk {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.utils.FileUtilsSdk:"+e.toString());
 		}
 	}
 

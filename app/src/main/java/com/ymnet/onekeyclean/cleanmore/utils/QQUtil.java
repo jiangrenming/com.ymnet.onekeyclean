@@ -34,13 +34,11 @@ public class QQUtil {
     }
 
     public static String[] createCacheAccountPaths() {
-//        return replace(QQConstants.CACHE_ACCOUNT_PATH);
-        return new String[]{"/Tencent/QQfile_recv"};
+        return QQConstants.RECEIVE_FILE_ACCOUNT;
     }
 
     public static String[] createPicAccountPaths() {
-        //        return replace(QQConstants.PIC_ACCOUNT_PATH);
-        return new String[]{"/Tencent/QQ_Images"};
+        return QQConstants.PIC_ACCOUNT_PATH;
     }
 
     public static String[] createVoiceAccountPaths() {

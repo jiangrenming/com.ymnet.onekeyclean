@@ -23,7 +23,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by wangduheng26 on 8/5/15.
- * android market2345 wangdh@2345.com
  */
 public abstract class AsyncTaskwdh <Params, Progress, Result>{
     private static final String LOG_TAG = "AsyncTask";

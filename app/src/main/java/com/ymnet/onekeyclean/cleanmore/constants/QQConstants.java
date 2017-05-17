@@ -7,14 +7,7 @@ package com.ymnet.onekeyclean.cleanmore.constants;
 public interface QQConstants {
     String BASE_PATH = "/Tencent/MobileQQ/";
 
-    String CHAT_COMMON_PATH = BASE_PATH /*+ "weixin"*/;
-
-
-    String FIREND_CACHE_PATH = BASE_PATH + "***/sns";
-    String CHAT_PIC          = BASE_PATH + "***/image2";
-    String CHAT_VOICE        = BASE_PATH + "***/voice2";
-    String CHAT_VIDEO        = BASE_PATH + "***/video";
-
+    String CHAT_COMMON_PATH = BASE_PATH;
 
     int QQ_TYPE_DEFALUT = 0;
 
@@ -32,12 +25,7 @@ public interface QQConstants {
     // TODO: 2017/5/3 0003 QQ缓存清理目录
     //TEMP 路径
     String[] TEMP_PATH = {
-            /*BASE_PATH + "cache",
-            BASE_PATH + "wvtemp",
-            BASE_PATH + "WebviewCache",
-            BASE_PATH + "vusericon"*/
             BASE_PATH + "diskcache"
-
     };
 
     String[] TEMP_ACCOUNT_PATH = {
@@ -69,7 +57,6 @@ public interface QQConstants {
      * [0] 公共路径下的后缀
      * [1] 账户下的后缀
      */
-//    String[] VOICE_SUFFIX = new String[]{".amr"};
     String[] VOICE_SUFFIX = new String[]{".slk"};
 
     //语音路径
@@ -79,15 +66,12 @@ public interface QQConstants {
             BASE_PATH + "***/ptt"
     };
 
-
     /**
      * 主意对应的顺序
      * [0] 公共路径下的后缀
      * [1] 账户下的后缀
      */
     String[] VIDEO_SUFFIX = new String[]{".mp4"};
-    //无用
-    String[] VIDEO_SUFFIX_ACCOUNT = new String[]{".mp4"};
 
     //视频路径
     String[] VIDEO_PATH         = {
@@ -98,13 +82,13 @@ public interface QQConstants {
             BASE_PATH + "shortvideo"
     };
     //导出目录
-//    String QQ_EXPORT_PATH = "/DCIM/qqexport";
     String   QQ_EXPORT_PATH     = "/storage/QQfile_export";
 
-    //接收的文件
     String[] RECEIVE_FILE={
             CHAT_COMMON_PATH
     };
+
+    //接收的文件
     String[] RECEIVE_FILE_ACCOUNT={
       "/Tencent/QQfile_recv"
     };

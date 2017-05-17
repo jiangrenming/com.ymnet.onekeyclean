@@ -22,6 +22,9 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.telephony.TelephonyManager;
 
+import com.umeng.analytics.MobclickAgent;
+import com.ymnet.onekeyclean.cleanmore.utils.C;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -42,10 +45,12 @@ public final class Utilities {
 				pm.getPackageInfo(pkgName, PackageManager.GET_ACTIVITIES);
 				installed = true;
 			} catch (PackageManager.NameNotFoundException e) {
+				MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.Utilities:"+e.toString());
 				installed = false;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.Utilities:"+e.toString());
 		}
 		return installed;
 	}
@@ -60,9 +65,11 @@ public final class Utilities {
 				installed = true;
 			} catch (PackageManager.NameNotFoundException e) {
 				installed = false;
+				MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.Utilities:"+e.toString());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.Utilities:"+e.toString());
 		}
 		return installed;
 	}
@@ -87,6 +94,7 @@ public final class Utilities {
 				hasSimaCard = true;
 			}
 		}catch (Exception ex){
+			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.Utilities:"+ex.toString());
 		}
 		return hasSimaCard;
 	}
@@ -107,6 +115,7 @@ public final class Utilities {
 			return channel;
 		} catch (PackageManager.NameNotFoundException e) {
 			e.printStackTrace();
+			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.Utilities:"+e.toString());
 			return null;
 		}
 	}

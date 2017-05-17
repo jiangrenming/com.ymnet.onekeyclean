@@ -4,10 +4,16 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.example.commonlibrary.utils.PhoneModel;
@@ -17,7 +23,7 @@ import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.wechat.WeChatActivity;
 
-import static android.R.attr.id;
+import java.io.Serializable;
 
 /**
  * Created by MajinBuu on 2017/5/11.
@@ -25,18 +31,26 @@ import static android.R.attr.id;
  * @overView 服务启动常驻通知栏.
  */
 
-public class NotifyService extends Service {
-
-    private static final int REQUEST_CODE1  = 4;
-    private static final int ID             = 102;
-    private static final int REQUEST_CODE01 = 1;
-    private static final int REQUEST_CODE02 = 2;
-    private static final int REQUEST_CODE03 = 3;
+public class NotifyService extends Service implements Serializable {
+    private static final String TAG = "NotifyService";
+    private static final int    REQUEST_CODE1   = 4;
+    private static final int    ID              = 102;
+    private static final int    REQUEST_CODE01  = 1;
+    private static final int    REQUEST_CODE02  = 2;
+    private static final int    REQUEST_CODE03  = 3;
+    private static final int    REQUEST_CODE04  = 4;
+    private static final int    REQUEST_CODE05  = 5;
+    private static final int    REQUEST_CODE06  = 6;
+    private static final String OPEN_FLASHLIGHT = "openflashlight";
     private NotificationCompat.Builder mBuilder;
     private NotificationManager        mNotificationManager;
-    private String mAndroidModel;
-
+    private String                     mAndroidModel;
+    private static boolean status = false;
+    private RemoteViews remoteViews;
+    private NotifyStatusBroadCastReceiver mReceiver;
+    private Notification mNotification;
     public NotifyService() {
+
     }
 
     @Override
@@ -47,112 +61,166 @@ public class NotifyService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        System.out.println("");
+
+        registerBroadCastReceiver();
         //启动通知栏
         initNotification();
+    }
+    private void registerBroadCastReceiver() {
+        if (mReceiver == null) {
+            IntentFilter filter = new IntentFilter();
+            filter.addAction("flashlight_status");
+            mReceiver = new NotifyService.NotifyStatusBroadCastReceiver();
+            this.registerReceiver(mReceiver, filter);
+        }
     }
 
     private void initNotification() {
         //初始化服务
         initService();
 
-        //获取手机机型
-        /**
-         * ONEPLUS A3010
-         * SM-C5000    三星SM-C5000
-         * 8681-A01   奇酷 8681-A10
-         */
-        //        String version = PhoneModel.getAndroidDisplayVersion();
-        mAndroidModel = PhoneModel.getAndroidModel();
-
-        System.out.println("---------------androidModel:" + mAndroidModel);
-
         //展示常驻通知栏
-        showPermanentNotification(mAndroidModel);
-        //常驻通知栏被删时再次开启
-//        deleteNotification();
-    }
-    //勿删!预留常驻通知栏唤醒功能
-    private void deleteNotification() {
-       /* AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent11 = new Intent(this, CoreService.class);
-        intent.setAction(ACTION_WAKE_USBHELPER);
-        PendingIntent pendingIntent11 = PendingIntent.getService(this, 0, intent11, PendingIntent.FLAG_UPDATE_CURRENT);
-        // TODO: 2017/5/12 0012 常驻通知栏唤醒
-        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 60 * 60 * 1000L, pendingIntent11);*/
+        showPermanentNotification();
     }
 
-    private void showPermanentNotification(String androidModel) {
+    private void showPermanentNotification() {
         RemoteViews remoteViews = null;
-        if (androidModel.contains("Redmi") || androidModel.contains("MI")) {
-            remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view);
-            System.out.println("---------------androidModel:我是小米系列");
-        } else {
-            remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view_withoutbg);
-        }
+        remoteViews = getRemoteViews();
         //奇酷手机更换图标为白色
-        if (androidModel.contains("8681")) {
-            System.out.println("---------------androidModel:奇酷手机");
+        if (matchModel("8681", "SM-","OPPO")) {
+            System.out.println("---------------androidModel:奇酷,一加,OPPO");
             remoteViews.setImageViewResource(R.id.iv_head, R.mipmap.onekeyclean_white);
             remoteViews.setImageViewResource(R.id.iv_wechat, R.mipmap.wechat_white);
             remoteViews.setImageViewResource(R.id.iv_qq, R.mipmap.qq_white);
             remoteViews.setImageViewResource(R.id.iv_deep, R.mipmap.brush_white);
+            remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_white);
             remoteViews.setImageViewResource(R.id.iv_setting, R.mipmap.setting_white);
         }
 
         //一键加速
         Intent intent2 = new Intent(C.get(), CleanActivity.class);
         intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(C.get(), REQUEST_CODE1, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(C.get(), REQUEST_CODE01, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_head, pendingIntent);
 
         //微信清理
         Intent intent3 = new Intent(C.get(), WeChatActivity.class);
         intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent1 = PendingIntent.getActivity(C.get(), REQUEST_CODE01, intent3, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent1 = PendingIntent.getActivity(C.get(), REQUEST_CODE02, intent3, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_wechat, pendingIntent1);
 
         //QQ清理
         Intent intent4 = new Intent(C.get(), QQActivity.class);
         intent4.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent4 = PendingIntent.getActivity(C.get(), REQUEST_CODE02, intent4, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent4 = PendingIntent.getActivity(C.get(), REQUEST_CODE03, intent4, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_qq, pendingIntent4);
 
-        //深度清理
+        //垃圾清理
         Intent intent5 = new Intent(C.get(), SilverActivity.class);
         intent5.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent5 = PendingIntent.getActivity(C.get(), REQUEST_CODE03, intent5, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent5 = PendingIntent.getActivity(C.get(), REQUEST_CODE04, intent5, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_deep, pendingIntent5);
+
+        //手电筒
+        Intent intent7 = new Intent(this, FlashlightService.class);
+        intent7.putExtra(OPEN_FLASHLIGHT, status);
+        status = !status;
+
+
+     /*   boolean b = FlashlightService.isFlashlightOn();
+        Log.d(TAG, "showPermanentNotification: " + b);*/
+
+        PendingIntent pendingIntent7 = PendingIntent.getService(C.get(), REQUEST_CODE05, intent7, PendingIntent.FLAG_UPDATE_CURRENT);
+        remoteViews.setOnClickPendingIntent(R.id.ll_flashlight, pendingIntent7);
 
         //系统设置
         Intent intent6 = new Intent(Settings.ACTION_SETTINGS);
-        //                intent6.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent6 = PendingIntent.getActivity(C.get(), REQUEST_CODE03, intent6, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent6 = PendingIntent.getActivity(C.get(), REQUEST_CODE06, intent6, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_setting, pendingIntent6);
 
         mBuilder = new NotificationCompat.Builder(C.get());
 
-        Intent intent7 = new Intent(this, NotifyService.class);
-        PendingIntent intent8 = PendingIntent.getService(this, 2, intent7, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Notification mNotification = mBuilder.setSmallIcon(R.mipmap.brush)
-                .setTicker("一键清理为您服务")/*.setContentTitle("常驻测试2").setContentText("常驻通知:去不掉我的3")*/
-                .setContent(remoteViews)
-                .setContentIntent(getDefalutIntent(0))
-                .setPriority(Notification.PRIORITY_MAX)
-                .setDeleteIntent(intent8)
-                //                .setContentIntent(pendingIntent5)
-                .build();
+        mNotification = getNotification(mBuilder, remoteViews);
         mNotification.flags = Notification.FLAG_ONGOING_EVENT;
         mNotification.defaults = 8;//没有声音震动三色光
         //        mNotification.when = System.currentTimeMillis();
-//           mNotificationManager.notify(ID, mNotification);
+        //           mNotificationManager.notify(ID, mNotification);
         /**
          *  后台运行的服务被强行kill掉，是系统回收内存的一种机制，
          *  要想避免这种情况可以通过startForeground让服务前台运行，
          *  当stopservice的时候通过stopForeground去掉。
          */
-        startForeground(id, mNotification);
+        startForeground(ID, mNotification);
+    }
+
+    /**
+     * 手机型号匹配
+     * @param s
+     * @return  只要手机型号满足条件返回true.
+     */
+    private boolean matchModel(String... s) {
+        for (int i = 0; i < s.length; i++) {
+            if (mAndroidModel.contains(s[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public class NotifyStatusBroadCastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            boolean status = intent.getBooleanExtra("status", false);
+            Log.d(TAG, "onReceive: "+status);
+
+            changeFlashLightColor(status);
+
+        }
+
+
+    }
+    private void changeFlashLightColor(boolean status) {
+        if (status) {
+            remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_open);
+        } else if (matchModel("8681", "SM-","OPPO")) {
+            remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_white);
+        } else {
+            remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight);
+        }
+        mNotificationManager.notify(ID, mNotification);
+
+    }
+
+    public Notification getNotification(NotificationCompat.Builder mBuilder, RemoteViews remoteViews) {
+
+        return mBuilder.setSmallIcon(R.mipmap.onekeyclean)
+                .setTicker("一键清理为您服务")/*.setContentTitle("常驻测试2").setContentText("常驻通知:去不掉我的3")*/
+                .setContent(remoteViews)
+                .setContentIntent(getDefalutIntent(0))
+                .setPriority(Notification.PRIORITY_MAX)
+                .build();
+    }
+
+    @NonNull
+    public RemoteViews getRemoteViews() {
+        //获取手机机型
+        mAndroidModel = PhoneModel.getAndroidModel();
+        System.out.println("---------------androidModel:" + mAndroidModel);
+
+        if (matchModel("Redmi", "MI")) {
+            remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view);
+            System.out.println("---------------androidModel:我是小米系列");
+        } else if (matchModel("SM-")) {
+            remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view_black_oneplus);
+        } else if (matchModel("OPPO")){
+            remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view_black);
+        }else {
+            remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view_withoutbg);
+        }
+        return remoteViews;
     }
 
     private void initService() {
@@ -169,4 +237,12 @@ public class NotifyService extends Service {
         return pendingIntent;
     }
 
+    @Override
+    public void unbindService(ServiceConnection conn) {
+        super.unbindService(conn);
+        if (mReceiver != null) {
+            this.unregisterReceiver(mReceiver);
+            Log.d(TAG, "unbindService: 服务解绑了");
+        }
+    }
 }

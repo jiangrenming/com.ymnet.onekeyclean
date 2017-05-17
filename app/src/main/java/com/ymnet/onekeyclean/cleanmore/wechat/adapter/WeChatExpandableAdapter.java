@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.constants.WeChatConstants;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
@@ -71,6 +72,7 @@ public class WeChatExpandableAdapter extends BaseExpandableListAdapter implement
             List<WareFileInfo> list = modes.get(groupPosition).getContent();
             return list == null ? 0 : (int) Math.ceil((list.size() / 3.0));
         } catch (Exception e) {
+            MobclickAgent.reportError(C.get(),"com.ymnet.onekeyclean.cleanmore.wechat.adapter.WeChatExpandableAdapter:"+e.toString());
             return 0;
         }
 
@@ -166,6 +168,7 @@ public class WeChatExpandableAdapter extends BaseExpandableListAdapter implement
             itemDatas[1] = content.get(childPosition + 1);
             itemDatas[2] = content.get(childPosition + 2);
         } catch (IndexOutOfBoundsException iobe) {
+            MobclickAgent.reportError(C.get(),"com.ymnet.onekeyclean.cleanmore.wechat.adapter.WeChatExpandableAdapter:"+iobe.toString());
         }
 
 

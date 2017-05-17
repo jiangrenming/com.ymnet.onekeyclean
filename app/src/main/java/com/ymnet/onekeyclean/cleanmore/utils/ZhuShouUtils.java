@@ -75,7 +75,7 @@ public class ZhuShouUtils {
         for (PackageInfo packageInfo : packages) {
             ApplicationInfo applicationInfo = packageInfo.applicationInfo;
             if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0
-                    && !applicationInfo.packageName.equals("com.market2345")) {
+                    && !applicationInfo.packageName.equals("com.ymnet")) {
                 number++;
             }
         }

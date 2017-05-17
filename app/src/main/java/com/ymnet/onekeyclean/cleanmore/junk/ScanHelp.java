@@ -18,6 +18,7 @@ import android.os.RemoteException;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.cleanmore.constants.ByteConstants;
 import com.ymnet.onekeyclean.cleanmore.constants.ScanState;
 import com.ymnet.onekeyclean.cleanmore.datacenter.DataCenterObserver;
@@ -72,8 +73,8 @@ public class ScanHelp {
     public static final String UNINSTALL_REMAIN = "卸载残留";
     public static final String APK_FIAL         = "无用安装包";
 
-    private static final String filterDir1 = "/2345手机助手/";
-    private static final String filterDir2 = "/2345ZSDownload/";
+    private static final String filterDir1 = "/一键清理/";
+    private static final String filterDir2 = "/onekeyclean/";
 
     private static final String selectSql          = "select a.encrypted_file_path,a.encrypted_file_desp,a.encrypted_file_tip,a.proposal," +
             "b.encrypted_pck_name,b.encrypted_app_name,b.encrypted_tip " +
@@ -526,7 +527,6 @@ public class ScanHelp {
     /**
      * 扫描app缓存
      */
-    // TODO: 2017/5/10 0010  应用扫描扫不完
     private void getAppCache(boolean onlySize) {
         List<String> mm_path_matchs = WeChatUtil.MMPaths;
         if (db != null && db.isOpen()) {
@@ -535,9 +535,10 @@ public class ScanHelp {
             for (InstalledApp app : userApps) {
                 if (isRun == false)
                     return;
-                //合作方的默认不勾选
+
                 if (checkTrust(app.packageName))  /*检查白名单的包名*/
                     continue;
+
                 List<JunkChildCacheOfChild> result = new ArrayList<JunkChildCacheOfChild>();
                 callCleanActivity(app.packageName);
                 Log.d(TAG, "ScanHelp#getAppCache");
@@ -654,6 +655,7 @@ public class ScanHelp {
                             cache.icon = icon;
                         } catch (PackageManager.NameNotFoundException e) {
                             e.printStackTrace();
+                            MobclickAgent.reportError(C.get(), e.toString());
                         }
                         cacheDatas.add(cache);
                     }
@@ -692,9 +694,9 @@ public class ScanHelp {
                 }
                 String packageName = ClearManager.decrptString(cursor.getString(cursor.getColumnIndex("encrypted_pck_name")));
                 String tip = ClearManager.decrptString(cursor.getString(cursor.getColumnIndex("encrypted_tip")));
-                /*if (checkTrust(packageName)) {
+                if (checkTrust(packageName)) {
                     continue;
-                }*/
+                }
                 callCleanActivity(appName);
                 int _id = cursor.getInt(cursor.getColumnIndex("_id"));
                 if (!db.isOpen()) {
@@ -780,9 +782,9 @@ public class ScanHelp {
                     //手机上存在该包名 则是 不是残留
                     continue;
                 }
-                /*if (checkTrust(packageName)) {
+                if (checkTrust(packageName)) {
                     continue;
-                }*/
+                }
                 callCleanActivity(packageName);
                 int _id = cursor.getInt(cursor.getColumnIndex("_id"));
                 if (!db.isOpen()) {
@@ -1048,15 +1050,15 @@ public class ScanHelp {
 
         if (file.exists() && file.canWrite()) {
             callCleanActivity(file.getAbsolutePath());
-            /*if (checkTrust(file.getAbsolutePath())) {
+            if (checkTrust(file.getAbsolutePath())) {
                 return;
-            }*/
+            }
             if (file.isFile()) {
                 String name_s = file.getName();
                 String path = file.getAbsolutePath();
                 System.out.println("path:"+path);
                 try{
-                    if (name_s.toLowerCase(Locale.getDefault()).endsWith(".apk") && check2345Filer(path)) {
+                    if (name_s.toLowerCase(Locale.getDefault()).endsWith(".apk") && checkOneKeyCleanFiler(path)) {
                         long size = file.length();
                         apkSize = apkSize + size;
                         if (onlySize == false) {
@@ -1109,7 +1111,7 @@ public class ScanHelp {
     /**
      * 检查自己的目录下apk TRUE 为正常显示 FALSE 过滤掉 不显示
      */
-    private boolean check2345Filer(String path) {
+    private boolean checkOneKeyCleanFiler(String path) {
         if (TextUtils.isEmpty(path)) {
             return false;
         }

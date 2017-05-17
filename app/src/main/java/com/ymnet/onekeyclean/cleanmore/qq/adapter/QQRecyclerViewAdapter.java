@@ -76,7 +76,7 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
 
     @Override
     public int getContentItemViewType(int position) {
-        Log.i("Tagv", content.getType(position) + "");
+        Log.i(TAG, content.getType(position) + "");
         return content.getType(position);
     }
 
@@ -84,15 +84,13 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
     public void onBindContentViewHolder(ContentViewHolder h, int position) {
         if (h != null && h instanceof InnerViewHolder) {
             InnerViewHolder holder = (InnerViewHolder) h;
-            //?
+
             QQFileType chatFile = content.get(position);
             Log.d(TAG, "onBindContentViewHolder: " + chatFile);
             if (chatFile == null)
                 return;
             holder.position = position;
-            Log.i("Tagv", "/" + presenter.isEnd() + "/");
             if (presenter.isEnd()) {
-                Log.i("Tagvv", "/" + presenter.isEnd() + "/");
                 //扫描完成
                 holder.ll_scanning.setVisibility(View.GONE);
                 holder.ll_main_content.setVisibility(View.VISIBLE);
@@ -158,7 +156,6 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
                  * 不用处理holder的状态 这里不可能复用
                  */
                 if (paths.size() > 2) {
-//                    holder.sdv1.setImageURI(UriUtil.parseUriOrNull("file://" + paths.get(0).path));
                     Glide.with(C.get())
                             .load("file://" + paths.get(0).path)
                             .placeholder(R.drawable.image_item_griw_default)
@@ -166,7 +163,6 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
                             .centerCrop()
                             .into(holder.sdv1);
                     checkSuffix(paths.get(0).path, holder.iv_video_play1);
-//                    holder.sdv2.setImageURI(UriUtil.parseUriOrNull("file://" + paths.get(1).path));
                     Glide.with(C.get())
                             .load("file://" + paths.get(1).path)
                             .placeholder(R.drawable.image_item_griw_default)
@@ -174,7 +170,6 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
                             .centerCrop()
                             .into(holder.sdv2);
                     checkSuffix(paths.get(1).path, holder.iv_video_play2);
-//                    holder.sdv3.setImageURI(UriUtil.parseUriOrNull("file://" + paths.get(2).path));
                     Glide.with(C.get())
                             .load("file://" + paths.get(2).path)
                             .placeholder(R.drawable.image_item_griw_default)
@@ -184,7 +179,6 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
                     checkSuffix(paths.get(2).path, holder.iv_video_play3);
 
                 } else if (paths.size() > 1) {
-//                    holder.sdv1.setImageURI(UriUtil.parseUriOrNull("file://" + paths.get(0).path));
                     Glide.with(C.get())
                             .load("file://" + paths.get(0).path)
                             .placeholder(R.drawable.image_item_griw_default)
@@ -192,7 +186,6 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
                             .centerCrop()
                             .into(holder.sdv1);
                     checkSuffix(paths.get(0).path, holder.iv_video_play1);
-//                    holder.sdv2.setImageURI(UriUtil.parseUriOrNull("file://" + paths.get(1).path));
                     Glide.with(C.get())
                             .load("file://" + paths.get(1).path)
                             .placeholder(R.drawable.image_item_griw_default)
@@ -203,7 +196,6 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
                     holder.fl3.setVisibility(View.INVISIBLE);
 
                 } else if (paths.size() > 0) {
-//                    holder.sdv1.setImageURI(UriUtil.parseUriOrNull("file://" + paths.get(0).path));
                     Glide.with(C.get())
                             .load("file://" + paths.get(0).path)
                             .placeholder(R.drawable.image_item_griw_default)
@@ -482,7 +474,6 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
             iv_video_play1 = itemView.findViewById(R.id.iv_video_play0);
             iv_video_play2 = itemView.findViewById(R.id.iv_video_play1);
             iv_video_play3 = itemView.findViewById(R.id.iv_video_play2);
-
 
         }
     }

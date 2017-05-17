@@ -15,7 +15,6 @@ import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
 /**
  * Created by wangdh on 6/2/16.
  * gmail:wangduheng26@gamil.com
- * 2345:wangdh@2345.com
  */
 public class ExportDialog extends Dialog {
     public static final int STYLE_SPINNER = 0;

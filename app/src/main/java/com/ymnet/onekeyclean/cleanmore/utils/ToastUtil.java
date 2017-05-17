@@ -6,7 +6,6 @@ import android.widget.Toast;
 /**
  * @author Janan
  * @data 1/4/16 14:53.
- * @email jian@2345.com
  * @since version  3.5
  *
  * util for toast

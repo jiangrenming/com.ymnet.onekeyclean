@@ -4,7 +4,6 @@ import android.view.MotionEvent;
 
 /**
  * Created by wangduheng26 on 12/11/15.
- * android market2345 wangdh@2345.com
  */
 public class MultiPointerGestureDetector {
 

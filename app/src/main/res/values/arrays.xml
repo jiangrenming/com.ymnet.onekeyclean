@@ -15,34 +15,34 @@
     </string-array>
 
     <string-array name="filter_packnames">
-        <item>com.market2345</item>
+        <item>com.ymnet</item>
         <item>com.market.chenxiang</item>
         <item>com.androidmarket.dingzhi</item>
         <!--手机桌面-->
-        <item>com.android.lockscreen2345</item>
-        <item>com.android.wnsp2345</item>
+        <item>com.android.lockscreenymnet</item>
+        <item>com.android.wnspymnet</item>
         <item>com.android.beautylockscreen</item>
-        <item>com.android.launcher2345</item>
-        <item>com.zhuomian.launcher2345</item>
-        <item>com.kubi.launcher2345</item>
+        <item>com.android.launcherymnet</item>
+        <item>com.zhuomian.launcherymnet</item>
+        <item>com.kubi.launcherymnet</item>
         <item>com.circle.beauty</item>
         <!--导航APP-->
-        <item>com.daohang2345</item>
+        <item>com.daohangymnet</item>
         <item>com.ruichuang</item>
         <item>com.daohangforxiuzhuo</item>
         <!--阅读王-->
-        <item>com.book2345.reader</item>
+        <item>com.bookymnet.reader</item>
         <!--彩票-->
-        <item>com.caipiao2345</item>
+        <item>com.caipiaoymnet</item>
         <!--手机联盟统计模块-->
         <item>com.service.usbhelper</item>
         <!--天气王-->
-        <item>com.tianqi2345</item>
+        <item>com.tianqiymnet</item>
         <!--手机浏览器-->
-        <item>com.browser2345</item>
+        <item>com.browserymnet</item>
         <item>com.browser_llqhz</item>
-        <item>com.browser2345_oemios</item>
-        <item>com.browser2345_oem</item>
+        <item>com.browserymnet_oemios</item>
+        <item>com.browserymnet_oem</item>
         <!--360超级root-->
         <item>com.qihoo.permmgr</item>
         <!--<222-->

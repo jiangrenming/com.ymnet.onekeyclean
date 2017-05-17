@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.ImmersiveActivity;
 import com.ymnet.onekeyclean.cleanmore.constants.WeChatConstants;
@@ -282,6 +283,7 @@ public class WeChatDetailActivity extends ImmersiveActivity implements WeChatDet
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+                    MobclickAgent.reportError(WeChatDetailActivity.this,e.toString());
                 }
             }
         });

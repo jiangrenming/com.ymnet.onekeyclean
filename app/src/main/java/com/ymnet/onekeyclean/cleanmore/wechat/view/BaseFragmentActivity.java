@@ -15,7 +15,6 @@ import javax.inject.Inject;
 /**
  * Created by wangdh on 5/25/16.
  * gmail:wangduheng26@gamil.com
- * 2345:wangdh@2345.com
  */
 public class BaseFragmentActivity extends FragmentActivity {
     protected boolean afterSaveInstance = false;

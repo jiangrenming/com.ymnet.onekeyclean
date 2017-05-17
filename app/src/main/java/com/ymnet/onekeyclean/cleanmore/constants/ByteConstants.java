@@ -2,7 +2,6 @@ package com.ymnet.onekeyclean.cleanmore.constants;
 
 /**
  * Created by wangduheng26 on 11/23/15.
- * android market2345 wangdh@2345.com
  */
 public class ByteConstants {
     public static final int KB = 1024;

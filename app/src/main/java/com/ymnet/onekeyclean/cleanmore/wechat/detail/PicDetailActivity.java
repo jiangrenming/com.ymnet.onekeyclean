@@ -67,39 +67,5 @@ public class PicDetailActivity extends BaseFragmentActivity {
             }
         }).into(photoView);
 
-       /* ImageRequest request = ImageRequestBuilder.newBuilderWithSource(UriUtil.parseUriOrNull("file://" + path))
-                .setResizeOptions(new ResizeOptions(outRect.width(), outRect.height()))
-                .build();
-        AbstractDraweeController controller = Fresco.newDraweeControllerBuilder()
-                .setImageRequest(request)
-                .setOldController(photoView.getController())
-                .setControllerListener(new BaseControllerListener<ImageInfo>() {
-                    @Override
-                    public void onFailure(String id, Throwable throwable) {
-                        super.onFailure(id, throwable);
-                        progressBar.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onFinalImageSet(String id, @Nullable ImageInfo imageInfo, @Nullable Animatable animatable) {
-                        super.onFinalImageSet(id, imageInfo, animatable);
-                        progressBar.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onSubmit(String id, Object callerContext) {
-                        super.onSubmit(id, callerContext);
-                        progressBar.setVisibility(View.VISIBLE);
-
-                    }
-                })
-                .build();
-        GenericDraweeHierarchy hierarchy = new GenericDraweeHierarchyBuilder(resources)
-                .setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER)
-                .setFailureImage(resources.getDrawable(R.drawable.break_bg), ScalingUtils.ScaleType.FIT_CENTER)
-                .setRetryImage(resources.getDrawable(R.drawable.break_bg), ScalingUtils.ScaleType.FIT_CENTER)
-                .build();
-        photoView.setHierarchy(hierarchy);
-        photoView.setController(controller);*/
     }
 }

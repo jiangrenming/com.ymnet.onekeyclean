@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.CleanSetSharedPreferences;
 import com.ymnet.onekeyclean.cleanmore.utils.MD5;
@@ -51,6 +52,7 @@ public class ClearManager implements ClearDbDownloader.ClearDbDownloadListener {
             inputStream = mContext.getAssets().open(DB_FILE_PATH);
         } catch (IOException e) {
             e.printStackTrace();
+            MobclickAgent.reportError(C.get(),"com.ymnet.onekeyclean.cleanmore.junk.clearstrategy.ClearManager:"+e.toString());
         }
 
         if (!file.exists()){
@@ -73,6 +75,7 @@ public class ClearManager implements ClearDbDownloader.ClearDbDownloadListener {
             sqLiteDatabase = SQLiteDatabase.openDatabase(getLatestClearDbPath(), null, SQLiteDatabase.OPEN_READONLY);
         }catch (Exception e){
             e.printStackTrace();
+            MobclickAgent.reportError(C.get(),"com.ymnet.onekeyclean.cleanmore.junk.clearstrategy.ClearManager:"+e.toString());
         }
         return sqLiteDatabase;
     }
@@ -81,6 +84,7 @@ public class ClearManager implements ClearDbDownloader.ClearDbDownloadListener {
             try {
                 sqLiteDatabase.close();
             }catch (Exception e){
+                MobclickAgent.reportError(C.get(),"com.ymnet.onekeyclean.cleanmore.junk.clearstrategy.ClearManager:"+e.toString());
             }
         }
     }
@@ -89,6 +93,7 @@ public class ClearManager implements ClearDbDownloader.ClearDbDownloadListener {
             try {
                 db.close();
             }catch (Exception e){
+                MobclickAgent.reportError(C.get(),"com.ymnet.onekeyclean.cleanmore.junk.clearstrategy.ClearManager:"+e.toString());
             }
         }
     }
@@ -130,6 +135,7 @@ public class ClearManager implements ClearDbDownloader.ClearDbDownloadListener {
         try{
             return Utils.decryptCode(encryptedVal,getDecrytedKey());
         }catch (NullPointerException e){
+            MobclickAgent.reportError(C.get(),"com.ymnet.onekeyclean.cleanmore.junk.clearstrategy.ClearManager:"+e.toString());
             return "";
         }
 
@@ -202,6 +208,7 @@ public class ClearManager implements ClearDbDownloader.ClearDbDownloadListener {
             copy(getDefaultDbFile(), getDefaultDbBackupFile());
         } catch (Exception e) {
             e.printStackTrace();
+            MobclickAgent.reportError(C.get(),"com.ymnet.onekeyclean.cleanmore.junk.clearstrategy.ClearManager:"+e.toString());
             return false;
         }
         return true;

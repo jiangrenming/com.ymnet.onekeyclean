@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 import static com.ymnet.onekeyclean.cleanmore.qq.adapter.QQExpandableAdapter2.FileIconType.DOC;
 import static com.ymnet.onekeyclean.cleanmore.qq.adapter.QQExpandableAdapter2.FileIconType.EXCEL;
+import static com.ymnet.onekeyclean.cleanmore.qq.adapter.QQExpandableAdapter2.FileIconType.EXE;
 import static com.ymnet.onekeyclean.cleanmore.qq.adapter.QQExpandableAdapter2.FileIconType.GIF;
 import static com.ymnet.onekeyclean.cleanmore.qq.adapter.QQExpandableAdapter2.FileIconType.PDF;
 import static com.ymnet.onekeyclean.cleanmore.qq.adapter.QQExpandableAdapter2.FileIconType.PICTURE;
@@ -66,34 +67,37 @@ public class WareFileInfo implements Serializable{
     }
 
     public QQExpandableAdapter2.FileIconType getFileType() {
-        if (fileName.endsWith(".gif")) {
+        if (fileName.toLowerCase().endsWith(".exe")) {
+            return EXE;
+        }
+        if (fileName.toLowerCase().endsWith(".gif")) {
             return GIF;
         }
-        if (fileName.endsWith(".rar")||fileName.endsWith(".zip")) {
+        if (fileName.toLowerCase().endsWith(".rar")||fileName.toLowerCase().endsWith(".zip")) {
             return RARs;
         }
-        if (fileName.endsWith(".png")||fileName.endsWith(".jpg")||fileName.endsWith(".jpeg")) {
+        if (fileName.toLowerCase().endsWith(".png")||fileName.toLowerCase().endsWith(".jpg")||fileName.toLowerCase().endsWith(".jpeg")) {
             return PICTURE;
         }
-        if (fileName.endsWith(".doc")||fileName.endsWith(".docx")) {
+        if (fileName.toLowerCase().endsWith(".doc")||fileName.toLowerCase().endsWith(".docx")) {
             return DOC;
         }
-        if (fileName.endsWith(".excel")) {
+        if (fileName.toLowerCase().endsWith(".excel")) {
             return EXCEL;
         }
-        if (fileName.endsWith(".pdf")) {
+        if (fileName.toLowerCase().endsWith(".pdf")) {
             return PDF;
         }
-        if (fileName.endsWith(".ppt")) {
+        if (fileName.toLowerCase().endsWith(".ppt")) {
             return PPT;
         }
-        if (fileName.endsWith(".txt")) {
+        if (fileName.toLowerCase().endsWith(".txt")) {
             return TXT;
         }
-        if (fileName.endsWith(".mp4")||fileName.endsWith(".3gp")) {
+        if (fileName.toLowerCase().endsWith(".mp4")||fileName.toLowerCase().endsWith(".3gp")) {
             return RADIO;
         }
-        if (fileName.endsWith(".mp3")) {
+        if (fileName.toLowerCase().endsWith(".mp3")) {
             return VIDEO;
         }
         return UNKNOWN;

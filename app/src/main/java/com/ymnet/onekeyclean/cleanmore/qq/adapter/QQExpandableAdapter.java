@@ -223,7 +223,6 @@ public class QQExpandableAdapter extends BaseExpandableListAdapter implements Vi
                 setExportAttributes(ch.tv_time0, itemDatas[0]);
                 ch.fl0.setTag(R.id.item_index, itemDatas[0]);
                 ch.fl0.setOnClickListener(getItemOnClickListener());
-//                setController(ch.sdv0, UriUtil.parseUriOrNull("file://" + itemDatas[0].path));
                 Glide.with(mActivty)
                         .load("file://" + itemDatas[0].path)
                         .placeholder(R.drawable.image_item_griw_default)
@@ -243,26 +242,21 @@ public class QQExpandableAdapter extends BaseExpandableListAdapter implements Vi
         }
         if (itemDatas[1] != null) {
             ch.fl1.setVisibility(View.VISIBLE);
-
             ch.tv_size1.setText(FormatUtils.formatFileSize(itemDatas[1].size));
-
             ch.cb_status1.setTag(R.id.item_index, itemDatas[1]);
             ch.cb_status1.setOnClickListener(this);
             if (itemDatas[1].status) {
                 ch.cb_status1.setSelected(true);
             } else {
                 ch.cb_status1.setSelected(false);
-
             }
             if (showVoice) {
                 ch.tv_time1.setVisibility(View.VISIBLE);
                 ch.tv_time1.setText(DateUtils.long2DateSimple(itemDatas[1].time));
             } else {
                 setExportAttributes(ch.tv_time1, itemDatas[1]);
-
                 ch.fl1.setTag(R.id.item_index, itemDatas[1]);
                 ch.fl1.setOnClickListener(getItemOnClickListener());
-//                setController(ch.sdv1, UriUtil.parseUriOrNull("file://" + itemDatas[1].path));
                 Glide.with(mActivty)
                         .load("file://" + itemDatas[1].path)
                         .placeholder(R.drawable.image_item_griw_default)
@@ -277,7 +271,6 @@ public class QQExpandableAdapter extends BaseExpandableListAdapter implements Vi
             }
         } else {
             ch.fl1.setVisibility(View.INVISIBLE);
-
         }
         if (itemDatas[2] != null) {
             ch.fl2.setVisibility(View.VISIBLE);

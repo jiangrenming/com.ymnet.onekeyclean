@@ -1,8 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/activity_background_color"
-    tools:mContext="com.market2345.dumpclean.main.ScanFinishFragment">
+    >
 
     <com.ymnet.onekeyclean.cleanmore.widget.FloatingGroupExpandableListView
         android:id="@+id/elv_scan_result"

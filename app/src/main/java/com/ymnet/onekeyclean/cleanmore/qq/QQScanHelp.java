@@ -312,12 +312,7 @@ int count;
                 @Override
                 public void run() {
                     sleepLittle(System.currentTimeMillis());
-                    /**
-                     * /tencent/MicroMsg/cache
-                     * /tencent/MicroMsg/wvtemp
-                     * /tencent/MicroMsg/WebviewCache
-                     * /tencent/MicroMsg/vusericon
-                     */
+
                     String[] tempAccountPaths = QQUtil.createTempAccountPaths();
                     // /tencent/MicroMsg/***/music
                     String[] cacheAccountPaths = QQUtil.createCacheAccountPaths();

@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.os.RemoteException;
 import android.os.StatFs;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.datacenter.DataCenterObserver;
@@ -39,11 +40,11 @@ import java.util.List;
  * helper methods.
  */
 public class BackgroundDoSomethingService extends IntentService {
-    // TODO: Rename actions, choose action names that describe tasks that this
-    // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
+
+    private static final String TAG = "BackgroundDo";
+
     private static final String ACTION_FOO = "com.market2345.dumpclean.action.FOO";
     private static final String ACTION_BAZ = "com.market2345.dumpclean.action.BAZ";
-    // TODO: Rename parameters
     private static final String EXTRA_PARAM1 = "com.market2345.dumpclean.extra.PARAM1";
     private static final String EXTRA_PARAM2 = "com.market2345.dumpclean.extra.PARAM2";
 
@@ -68,7 +69,6 @@ public class BackgroundDoSomethingService extends IntentService {
      *
      * @see IntentService
      */
-    // TODO: Customize helper method
     public static void startActionBaz(Context context, String param1, String param2) {
         Intent intent = new Intent(context, BackgroundDoSomethingService.class);
         intent.setAction(ACTION_BAZ);
@@ -119,9 +119,8 @@ public class BackgroundDoSomethingService extends IntentService {
      * Handle action Foo in the provided background thread with the provided
      * parameters.
      */
+    // TODO: 2017/5/16 0016 垃圾junk清除
     private void handleActionFoo() {
-        // TODO: Handle action Foo
-//        throw new UnsupportedOperationException("Not yet implemented");
         if (data != null) {
             if (checkDefaultSelect(data)) {
                 CleanSetSharedPreferences.setLastSet(this, CleanSetSharedPreferences.CLEAN_RESULT_CACHE, false);
@@ -223,6 +222,7 @@ public class BackgroundDoSomethingService extends IntentService {
                 String path = childOfChild.path;
                 if (childOfChild.getSelect() != 0 && !TextUtils.isEmpty(path)) {
 //                    Util.deleteNotContainFolder(new File(path));
+                    Log.i(TAG, "Cache: "+path);
                     FileTreeUtils.deleteContents(new File(path));
                 }
             }

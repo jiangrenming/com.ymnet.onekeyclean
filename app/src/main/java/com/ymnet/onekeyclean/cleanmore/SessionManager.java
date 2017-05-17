@@ -17,7 +17,7 @@ package com.ymnet.onekeyclean.cleanmore;
 
 
 /**
- * SeesionManager for 2345appstore
+ * SeesionManager for appstore
  */
 public class SessionManager {
 

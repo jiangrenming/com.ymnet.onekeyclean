@@ -120,9 +120,9 @@ public class Constants {
     public static final String STORAGE_ROOT_ID = "downloads";
 
 
-    public static final String DOWNLOAD_DIRTYP = "2345手机助手" + File.separator + "apk";
+    public static final String DOWNLOAD_DIRTYP = "ymnet" + File.separator + "apk";
 
-    public static final String DOWNLOAD_FILE_DIR = "2345手机助手" + File.separator + "files";
+    public static final String DOWNLOAD_FILE_DIR = "ymnet" + File.separator + "files";
 
     public static final String INNER_DOWNLOAD_DIRTYP = "apk";
 
