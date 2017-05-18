@@ -10,9 +10,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Process;
 import android.os.StrictMode;
+import android.util.Log;
 
 import com.ymnet.onekeyclean.cleanmore.constants.Constants;
 import com.ymnet.onekeyclean.cleanmore.datacenter.WifiConnectionStatus;
+import com.ymnet.onekeyclean.cleanmore.notification.HomeTabActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.wechat.BaseApplication;
 import com.ymnet.onekeyclean.cleanmore.wechat.component.ApplicationComponent;
@@ -35,10 +37,7 @@ public class MarketApplication extends BaseApplication {
 
     private ApplicationComponent applicationComponent;
 
-    private static final String BIDDINGOS_CLIENT_ID = "90001";
-    private static final String BIDDINGOS_SECRET    = "0aa498b313271973f3a310b47b555d22";
 
-    public static int sHotfixVersion = -1;
     private static MarketApplication application;
 
     private Map<String, String> mUnionAppMaps;
@@ -124,6 +123,12 @@ public class MarketApplication extends BaseApplication {
                 throw ignored;
             }
         }
+
+        Log.d(TAG, "onCreate: MarketApplication");
+        //账户同步
+        Intent intent = new Intent(this, HomeTabActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)

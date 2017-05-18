@@ -1,0 +1,5 @@
+<account-authenticator xmlns:android="http://schemas.android.com/apk/res/android"
+	android:accountType="com.ymnet.onekeyclean"
+	android:icon="@mipmap/icon_launcher"
+	android:label="@string/app_name"
+	android:smallIcon="@mipmap/icon_launcher" />

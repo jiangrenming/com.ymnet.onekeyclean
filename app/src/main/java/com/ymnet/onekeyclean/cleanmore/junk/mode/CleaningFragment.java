@@ -203,11 +203,12 @@ public class CleaningFragment extends BaseFragment {
         if (view == null) {
             endListener.onCleanEndCallBack();
         } else {
-            if (count == 5) {
+           /* if (count == 5) {
                 cleanALlAnimation();
             } else {
                 view.startAnimation(ani);
-            }
+            }*/
+            view.startAnimation(ani);
         }
 
 

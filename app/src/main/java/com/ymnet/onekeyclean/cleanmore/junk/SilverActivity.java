@@ -69,6 +69,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_silver);
+
         resources = getResources();
         initDrawable();
         initView();

@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24.0.1"
     defaultConfig {
 
-        ndk{
+        ndk {
             moduleName "libappinfo,libgnustl_shared" //设置库(so)文件名称
             abiFilters "armeabi"
         }
@@ -67,8 +67,13 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:support-v4:24.2.0'
-    testCompile 'junit:junit:4.12'
+    compile files('libs/nineoldandroids-2.4.0.jar')
+
+    compile project(':commonlibrary')
+    compile name: 'statisticalsdk-debug', ext: 'aar'
+    compile name: 'app_process', ext: 'aar'
+    compile name: 'appupdate', ext: 'aar'
+    compile 'com.android.support:support-v4:24.2.1'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.parse.bolts:bolts-android:1.2.0'
     compile 'com.android.support:recyclerview-v7:24.2.1'
@@ -77,10 +82,6 @@ dependencies {
     compile 'com.google.dagger:dagger:2.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'in.srain.cube:ultra-ptr:1.0.11'
-    compile files('libs/nineoldandroids-2.4.0.jar')
-
-    compile project(':commonlibrary')
-    compile name: 'statisticalsdk-debug', ext: 'aar'
-    compile name: 'app_process', ext: 'aar'
-    compile name: 'appupdate', ext: 'aar'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    testCompile 'junit:junit:4.12'
 }

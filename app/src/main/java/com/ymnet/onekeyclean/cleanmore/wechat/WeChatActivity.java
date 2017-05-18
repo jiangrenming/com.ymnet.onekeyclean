@@ -41,6 +41,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_we_chat);
+
         C.setContext(getApplication());
         mPresenter = new WeChatPresenterImpl(this);
         initTitleBar();

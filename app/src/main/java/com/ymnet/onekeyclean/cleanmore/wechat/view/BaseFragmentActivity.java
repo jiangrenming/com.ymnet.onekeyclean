@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 
 import com.ymnet.onekeyclean.MarketApplication;
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.notification.HomeTabActivity;
 import com.ymnet.onekeyclean.cleanmore.wechat.Navigator;
 import com.ymnet.onekeyclean.cleanmore.wechat.component.ApplicationComponent;
 import com.ymnet.onekeyclean.cleanmore.wechat.modules.ActivityModule;
@@ -26,6 +27,9 @@ public class BaseFragmentActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
+
+        Intent intent = new Intent(this, HomeTabActivity.class);
+        startActivity(intent);
 
     }
 

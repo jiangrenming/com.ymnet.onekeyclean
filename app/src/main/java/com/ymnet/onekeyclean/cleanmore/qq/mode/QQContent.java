@@ -10,7 +10,6 @@ import java.util.List;
 /**
  * Created by wangdh on 5/3/16.
  * gmail:wangduheng26@gamil.com
- * 2345:wangdh@2345.com
  */
 public class QQContent {
     private long size;

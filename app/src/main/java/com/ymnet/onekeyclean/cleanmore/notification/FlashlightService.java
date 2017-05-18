@@ -1,4 +1,4 @@
-package com.ymnet.onekeyclean;
+package com.ymnet.onekeyclean.cleanmore.notification;
 
 import android.app.Service;
 import android.content.Intent;
@@ -81,7 +81,7 @@ public class FlashlightService extends Service {
         } catch (Exception e) {
             e.printStackTrace();
             Log.d(TAG, "flashlightUtils: " + e.toString());
-            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.FlashlightService:flashlightUtils:" + e.toString());
+            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.notification.FlashlightService:flashlightUtils:" + e.toString());
         } finally {
             Intent intent2 = new Intent();
             try {

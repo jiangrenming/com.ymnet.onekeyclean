@@ -30,7 +30,6 @@ import bolts.Task;
 /**
  * Created by wangdh on 6/14/16.
  * gmail:wangduheng26@gamil.com
- * 2345:wangdh@2345.com
  */
 public class DetailPresImpl implements WeChatDetailPresenter<WeChatPicMode> {
     private WeChatDetailMvpView mvpView;

@@ -46,6 +46,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qq);
+
         C.setContext(getApplication());
         mPresenter = new QQPresenterImpl(this);
         initTitleBar();

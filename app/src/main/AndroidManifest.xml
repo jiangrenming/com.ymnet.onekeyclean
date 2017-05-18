@@ -104,10 +104,23 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.LOCATION_HARDWARE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>\
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.autofocus" />
+
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.autofocus"/>
+
+    <!-- account authenticator -->
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+
+    <!-- system broadcast permission -->
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
     <application
         android:name=".MarketApplication"
         android:allowBackup="true"
@@ -142,10 +155,12 @@
         <activity
             android:name=".cleanmore.wechat.WeChatActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/Activity_Translate_Theme"/>
         <activity
             android:name=".cleanmore.junk.SilverActivity"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/Activity_Translate_Theme"/>
         <activity
@@ -165,6 +180,7 @@
         <activity
             android:name=".cleanmore.qq.activity.QQActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/Activity_Translate_Theme">
         </activity>
@@ -176,7 +192,7 @@
         </activity>
 
         <service
-            android:name=".NotifyService"
+            android:name=".cleanmore.notification.NotifyService"
             android:enabled="true"
             android:exported="true"
             android:persistent="true">
@@ -219,16 +235,49 @@
             tools:replace="android:value"/>
 
         <service
-            android:name=".FlashlightService"
+            android:name=".cleanmore.notification.FlashlightService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
+        <service android:name=".cleanmore.service.BackgroundDoSomethingService"/>
+
+        <receiver android:name=".cleanmore.notification.NotifyService$NotifyStatusBroadCastReceiver">
+        </receiver>
+
+        <service
+            android:name=".cleanmore.notification.AssistantServiceHelper"
             android:enabled="true"
             android:exported="true">
         </service>
 
-        <service android:name=".cleanmore.service.BackgroundDoSomethingService"/>
+        <activity android:name=".cleanmore.notification.HomeTabActivity">
+        </activity>
+        <service
+            android:name=".cleanmore.accountauthenticator.AuthenticationService"
+            android:process=":auth">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator"/>
+        </service>
+        <provider
+            android:name=".cleanmore.accountauthenticator.AccountProviderNew"
+            android:authorities="onekeyclean_account"
+            android:exported="true"/>
 
-        <receiver android:name=".NotifyService$NotifyStatusBroadCastReceiver">
-        </receiver>
-
+        <service
+            android:name="com.ymnet.onekeyclean.cleanmore.accountauthenticator.SyncAdapterService"
+            android:exported="true"
+            android:process=":syncdata">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter"/>
+        </service>
     </application>
 
 </manifest>

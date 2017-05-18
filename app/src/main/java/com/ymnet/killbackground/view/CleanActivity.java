@@ -41,8 +41,8 @@ import com.ymnet.killbackground.presenter.CleanPresenterImpl;
 import com.ymnet.killbackground.retrofitservice.RetrofitService;
 import com.ymnet.killbackground.retrofitservice.bean.FolderLodingInfo;
 import com.ymnet.killbackground.view.customwidget.Wheel;
-import com.ymnet.onekeyclean.NotifyService;
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.notification.NotifyService;
 import com.ymnet.update.DownLoadFactory;
 
 import java.util.ArrayList;
@@ -565,9 +565,9 @@ public class CleanActivity extends Activity implements CleanView {
                         for (int i = 1; i < count; i++) {
                             cleanAppLists.get(i).setImageDrawable(appList.get(appList.size() - i - 1).loadIcon(packageManager));
                             if (i == count - 1) {
-                                playAnimation(cleanAppLists.get(i), 100 * i, true);
+                                playAnimation(cleanAppLists.get(i), 120 * i, true);
                             } else {
-                                playAnimation(cleanAppLists.get(i), 100 * i, false);
+                                playAnimation(cleanAppLists.get(i), 120 * i, false);
                             }
                             //toast展示为用户清理的内存
                             String sAgeFormat = CleanActivity.this.getResources().getString(R.string.toast_clean_result);
