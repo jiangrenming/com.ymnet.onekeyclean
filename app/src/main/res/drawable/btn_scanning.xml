@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/white" />
+    <stroke
+        android:width="0.5dp"
+        android:color="#d9d9d9" />
+    <corners android:radius="3dp" />
+</shape><!--<item android:drawable="@drawable/no_install_normal" android:state_pressed="true"/>-->
+

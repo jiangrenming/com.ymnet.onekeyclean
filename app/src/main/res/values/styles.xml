@@ -1,0 +1,231 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:background">@null</item>
+        <item name="android:colorBackground">@null</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!--<item name="android:fitsSystemWindows">true</item>沉浸式-->
+        <item name="android:windowAnimationStyle">@style/translate_activity_in_out</item>
+        <item name="android:activityOpenEnterAnimation">@style/translate_activity_in_out</item>
+        <item name="android:activityOpenExitAnimation">@style/translate_activity_in_out</item>
+        <item name="android:activityCloseEnterAnimation">@style/translate_activity_in_out</item>
+        <item name="android:activityCloseExitAnimation">@style/translate_activity_in_out</item>
+        <item name="android:taskOpenEnterAnimation">@style/translate_activity_in_out</item>
+        <item name="android:taskOpenExitAnimation">@style/translate_activity_in_out</item>
+        <item name="android:taskCloseEnterAnimation">@style/translate_activity_in_out</item>
+        <item name="android:taskCloseExitAnimation">@style/translate_activity_in_out</item>
+        <item name="android:taskToFrontEnterAnimation">@style/translate_activity_in_out</item>
+        <item name="android:taskToFrontExitAnimation">@style/translate_activity_in_out</item>
+        <item name="android:taskToBackEnterAnimation">@style/translate_activity_in_out</item>
+        <item name="android:taskToBackExitAnimation">@style/translate_activity_in_out</item>
+    </style>
+
+    <style name="wechat_text_defalut_style">
+        <item name="android:textColor">@color/gray20</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="fullscreenTheme" parent="AppTheme">
+      <!--  <item name="android:windowFullscreen">true</item>-->
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="wechat_item_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:textColor">@color/gray20</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="wechat_item_title_size">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:textColor">#f39700</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="wechat_text_small_style">
+        <item name="android:textColor">@color/gray60</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="topic_boon_count_down_unit">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="style_wrap_fill">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <!-- end 组件的长宽 -->
+    <!-- 页面标题style -->
+    <style name="page_title_style" parent="style_wrap_wrap">
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:shadowRadius">1</item>
+    </style>
+
+    <!-- begin 组件的长宽 -->
+    <style name="style_wrap_wrap">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="wechat_text_expand_defalut_style">
+        <item name="android:textColor">@color/gray40</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+    <style name="wechat_child_text_base_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/gray40</item>
+    </style>
+
+    <style name="wechat_child_text_time_style" parent="@style/wechat_child_text_base_style">
+
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:layout_gravity">left|top</item>
+    </style>
+
+    <style name="wechat_checkbox_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">right|bottom</item>
+        <item name="android:background">#00ffffff</item>
+        <item name="android:focusable">false</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <style name="wechat_child_text_size_style" parent="@style/wechat_child_text_base_style">
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_gravity">left|bottom</item>
+    </style>
+
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="dialog_animation_style">
+        <item name="android:windowEnterAnimation">@anim/dialog_modal_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_modal_out</item>
+    </style>
+
+    <!-- Style for theme -->
+    <style name="DialogTheme" parent="android:Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.5</item>
+    </style>
+
+    <style name="Activity_Translate_Theme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:background">@null</item>
+        <item name="android:colorBackground">@null</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!--<item name="android:fitsSystemWindows">true</item>沉浸式-->
+        <item name="android:windowAnimationStyle">@style/translate_activity_in_out</item>
+        <item name="android:activityOpenEnterAnimation">@style/translate_activity_in_out</item>
+        <item name="android:activityOpenExitAnimation">@style/translate_activity_in_out</item>
+        <item name="android:activityCloseEnterAnimation">@style/translate_activity_in_out</item>
+        <item name="android:activityCloseExitAnimation">@style/translate_activity_in_out</item>
+        <item name="android:taskOpenEnterAnimation">@style/translate_activity_in_out</item>
+        <item name="android:taskOpenExitAnimation">@style/translate_activity_in_out</item>
+        <item name="android:taskCloseEnterAnimation">@style/translate_activity_in_out</item>
+        <item name="android:taskCloseExitAnimation">@style/translate_activity_in_out</item>
+        <item name="android:taskToFrontEnterAnimation">@style/translate_activity_in_out</item>
+        <item name="android:taskToFrontExitAnimation">@style/translate_activity_in_out</item>
+        <item name="android:taskToBackEnterAnimation">@style/translate_activity_in_out</item>
+        <item name="android:taskToBackExitAnimation">@style/translate_activity_in_out</item>
+    </style>
+    <style name="translate_activity_in_out">
+        <item name="android:activityOpenEnterAnimation">@anim/translate_activity_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/translate_activity_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/translate_activity_in_anti</item>
+        <item name="android:activityCloseExitAnimation">@anim/translate_activity_out_anti</item>
+    </style>
+
+    <!--popowWindow动画 -->
+    <style name="ppwAnimation">
+        <item name="android:windowEnterAnimation">@anim/popshow_anim</item>
+        <item name="android:windowExitAnimation">@anim/pophidden_anim</item>
+    </style>
+
+    <style name="CategoryLegendStyle">
+        <item name="android:textColor">#666666</item>
+        <item name="android:textSize">@dimen/categoryLegend</item>
+        <item name="android:gravity">left</item>
+        <item name="android:layout_width">0.0dip</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:layout_weight">1.0</item>
+    </style>
+
+    <style name="Shadow">
+        <item name="android:shadowColor">#90ffffff</item>
+        <item name="android:shadowDx">0.0</item>
+        <item name="android:shadowDy">1.0</item>
+        <item name="android:shadowRadius">0.5</item>
+    </style>
+
+    <style name="CategoryButtonCountTextStyle" parent="@style/Shadow">
+        <item name="android:textSize">13.0dp</item>
+        <item name="android:textColor">#999999</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="CategoryButtonTextStyle" parent="@style/Shadow">
+        <item name="android:textColor">#333333</item>
+        <item name="android:textSize">16.0dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:drawablePadding">2.0dip</item>
+    </style>
+
+    <style name="CategoryButtonStyle">
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">0.0dip</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_weight">1.0</item>
+    </style>
+
+
+</resources>

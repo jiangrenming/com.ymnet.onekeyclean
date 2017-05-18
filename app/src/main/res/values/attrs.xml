@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--loading wheel -->
+    <declare-styleable name="CircularProgress">
+        <attr name="borderWidth" format="dimension" />
+        <attr name="isShowLogo" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="CleanAccelerationBallView">
+        <attr name="unfininsh_color" format="color"/>
+        <attr name="finish_color" format="color"/>
+        <attr name="wave_color" format="color"/>
+        <attr name="clean_progress" format="integer"/>
+    </declare-styleable>
+</resources>

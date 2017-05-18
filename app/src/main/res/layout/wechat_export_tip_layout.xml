@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/wechat_export_tip_bg">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="文件删除后不可恢复，建议删除前先导出要保存的文件"
+            android:lines="2"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="4dp"
+            android:maxEms="11"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/wechat_export_tip_close"/>
+</LinearLayout>

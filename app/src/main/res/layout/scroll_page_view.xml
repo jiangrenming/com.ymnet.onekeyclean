@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center"
+    android:background="@color/activity_background_color"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <com.example.umengnet.filebrowser.PhotoView
+        android:scaleType="fitCenter" 
+        android:id="@+id/photoview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminateDrawable="@drawable/my_progress_style"
+        android:indeterminateOnly="true"/>
+
+
+
+</FrameLayout>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/activity_background_color"
+    android:descendantFocusability="blocksDescendants"
+    android:paddingBottom="5dp"
+    android:paddingTop="15dp">
+
+    <RelativeLayout
+        android:id="@+id/rl_pic"
+        android:layout_width="@dimen/one_hundred_and_fifty_eight"
+        android:layout_height="@dimen/one_hundred_and_eleven"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/file_management_dir_bg" >
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="9.5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="9dp"
+            android:layout_marginTop="4.5dp"
+            android:background="@drawable/image_item_griw_default"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop"
+            android:src="@drawable/image_item_griw_default" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_pic"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="9dp"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        android:text="@string/wechat"
+        android:textColor="@color/detail_downloading"
+        android:textSize="13sp" />
+
+</RelativeLayout>

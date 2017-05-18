@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fl_foot_loading"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/white">
+
+    <!-- 进度条 -->
+    <LinearLayout
+        android:id="@+id/ll_foot_loading_pb"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <com.ymnet.onekeyclean.cleanmore.customview.CircularProgress
+            android:id="@+id/pb_foot_loading"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="center"
+            app:borderWidth="2.5dp"
+            app:isShowLogo="false" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/default_textsize_12dp"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/circle_loading_text_color"
+            android:text="@string/circle_loading_text"/>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/retry"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:drawablePadding="14dp"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="@string/click_to_refresh"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/fenlei_03"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/reach_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:background="@color/transparent"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="@string/have_no_more"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/no_data_hint"
+        android:textSize="15sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/click_loading"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:background="#ffffff"
+        android:drawablePadding="14dp"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="@string/click_load_more"
+        android:textColor="@color/bottom_tab_font_selected"
+        android:textSize="14sp"
+        android:visibility="gone" />
+    <!-- 无数据时的提示框   android:drawableTop="@drawable/btn_retry" -->
+
+    <LinearLayout
+        android:id="@+id/no_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/emptytitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="17dp"
+            android:drawableTop="@drawable/bg_loading_error"
+            android:gravity="center_horizontal"
+            android:text="@string/load_error_retry"
+            android:textColor="@color/fenlei"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/no_data_retry"
+            android:layout_width="96dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/no_install_btn_bg"
+            android:text="@string/try_refresh"
+            android:textColor="@color/diaglog_text_color"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:background="@color/activity_background_color"
+    android:gravity="center"
+    >
+
+    <com.ymnet.onekeyclean.cleanmore.filebrowser.PhotoView
+        android:id="@+id/photoview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter" />
+    <com.ymnet.onekeyclean.cleanmore.customview.CircularProgress
+        android:id="@+id/pb_loading"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        app:isShowLogo="false"
+        android:layout_gravity="center"
+        android:padding="5dp" />
+
+</FrameLayout>

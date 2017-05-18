@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="80dp"
+              android:background="@drawable/list_item_click"
+              android:descendantFocusability="blocksDescendants"
+              android:gravity="center_vertical"
+              android:orientation="horizontal">
+    <ImageView
+        android:id="@+id/iv_pic"
+        android:layout_width="@dimen/default_50dp"
+        android:layout_height="@dimen/default_50dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="12.5dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/app_icon_bg"/>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="middle"
+            android:singleLine="true"
+            android:text="@string/wechat"
+            android:textColor="@color/qr_scan_menu_back"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/tv_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_name"
+            android:layout_marginTop="8dp"
+            android:maxLength="9"
+            android:singleLine="true"
+            android:text="@string/update_tv_all_size"
+            android:textColor="@color/fenlei"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tv_size"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/tv_size"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/management_duration"
+            android:textColor="@color/fenlei"
+            android:textSize="12sp"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_install"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/item_down"
+        android:clickable="true"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/install_apk"
+        android:textColor="@color/main_blue_new"
+        android:textSize="14sp"
+        android:visibility="gone">
+    </TextView>
+
+    <CheckBox
+        android:id="@+id/cb_checked"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:background="#00000000"
+        android:button="@null"
+        android:drawablePadding="0dp"
+        android:drawableRight="@drawable/file_management_cb_music_checked_selector"
+        android:gravity="right|center_vertical"
+        android:paddingRight="20dp"
+        />
+
+
+</LinearLayout>

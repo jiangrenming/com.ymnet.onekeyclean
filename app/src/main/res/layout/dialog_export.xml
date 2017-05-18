@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <include
+        android:id="@+id/ll_title"
+        layout="@layout/dialog_title_text"/>
+
+
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center_horizontal|left" >
+
+        <TextView
+            android:id="@+id/dialog_message"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center|left"
+            android:maxEms="2"
+            android:textColor="@color/gray40"
+            android:textSize="@dimen/dialog_content_text_size" />
+
+        <TextView
+            android:id="@+id/dialog_path"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dialog_message"
+            android:layout_centerHorizontal="true"
+            android:gravity="center|left"
+            android:maxEms="2"
+            android:textColor="@color/gray60"
+            android:textSize="12dp" />
+
+    </RelativeLayout>
+    <include layout="@layout/dialog_buttom_both_btn" />
+</LinearLayout>

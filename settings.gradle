@@ -1,1 +1,1 @@
-include ':app', ':killbackground', ':commonlibrary', ':retrofit2Library'
+include ':app', ':commonlibrary', ':retrofit2Library'

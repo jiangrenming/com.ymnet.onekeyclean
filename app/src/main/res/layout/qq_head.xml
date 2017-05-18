@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="135dp"
+    android:orientation="vertical"
+    android:background="@color/main_blue_new1"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_qq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:src="@drawable/qq_cleanicon" />
+
+        <com.ymnet.onekeyclean.cleanmore.widget.SGTextView
+            android:id="@+id/tv_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/iv_qq"
+            android:text="@string/sgtextview_show"
+            android:textColor="@color/white"
+            android:textSize="60dp" />
+
+        <com.ymnet.onekeyclean.cleanmore.widget.SGTextView
+            android:id="@+id/tv_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tv_size"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/tv_size"
+            android:paddingTop="15dp"
+            android:text="@string/sgtextview_kb"
+            android:textColor="@color/white"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_proposal_clean"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_size"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/tv_size"
+            android:paddingBottom="35dp"
+            android:text="@string/suggestion_clean"
+            android:textColor="@color/white"
+            android:textSize="12dp"
+            android:visibility="gone" />
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:gravity="center"
+        style="@style/topic_boon_count_down_unit"
+        android:background="#19000000"
+        android:text="@string/qq_statistics_data"/>
+</LinearLayout>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#cc318cfc">
+
+        <!--<com.example.umengnet.widget.CleanAccelerationBallView
+            android:id="@+id/wave"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_pellet_floating_layer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/pellet_zhezao_2" />
+
+            <TextView
+                android:id="@+id/tv_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/sticky_tv_progress"
+                android:textColor="@color/white"
+                android:textSize="40dp" />
+        </com.example.umengnet.widget.CleanAccelerationBallView>-->
+        <com.example.umengnet.widget.WaveView
+            android:id="@+id/wave"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"/>
+    </FrameLayout>
+
+    <GridView
+        android:id="@+id/home_gv"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:fadingEdge="none"
+        android:gravity="center"
+        android:horizontalSpacing="2dp"
+        android:listSelector="@drawable/reverse_gridview_bg_selector"
+        android:numColumns="3"
+        android:overScrollMode="never"
+        android:padding="0.5dp"
+        android:verticalSpacing="2dp">
+    </GridView>
+
+</LinearLayout>

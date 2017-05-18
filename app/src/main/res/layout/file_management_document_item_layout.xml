@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@drawable/list_item_click"
+    android:descendantFocusability="blocksDescendants" >
+    <CheckBox
+        android:id="@+id/cb_checked"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:paddingRight="20dp"
+        android:background="#00000000"
+        android:button="@null"
+        android:drawablePadding="0dp"
+        android:drawableRight="@drawable/file_management_cb_music_checked_selector"
+        android:gravity="right|center_vertical"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/iv_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="12.5dp"
+        android:layout_marginRight="12.5dp"
+        android:layout_marginTop="25dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/file_management_word_type_txt" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/cb_checked"
+        android:layout_toRightOf="@id/iv_pic" >
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="middle"
+            android:singleLine="true"
+            android:text="@string/wechat"
+            android:textColor="@color/qr_scan_menu_back"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_name"
+            android:layout_marginTop="12.5dp"
+            android:maxLength="9"
+            android:singleLine="true"
+            android:text="@string/update_tv_all_size"
+            android:textColor="@color/fenlei"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tv_size"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/tv_size"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/management_duration"
+            android:textColor="@color/fenlei"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

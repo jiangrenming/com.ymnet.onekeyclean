@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="array_times">
+        <item>每天</item>
+        <item>每隔3天</item>
+        <item>每隔7天</item>
+        <item>每隔15天</item>
+    </string-array>
+
+    <string-array name="array_size">
+        <item>50M</item>
+        <item>100M</item>
+        <item>300M</item>
+        <item>500M</item>
+    </string-array>
+
+    <string-array name="filter_packnames">
+        <item>com.ymnet</item>
+        <item>com.market.chenxiang</item>
+        <item>com.androidmarket.dingzhi</item>
+        <!--手机桌面-->
+        <item>com.android.lockscreenymnet</item>
+        <item>com.android.wnspymnet</item>
+        <item>com.android.beautylockscreen</item>
+        <item>com.android.launcherymnet</item>
+        <item>com.zhuomian.launcherymnet</item>
+        <item>com.kubi.launcherymnet</item>
+        <item>com.circle.beauty</item>
+        <!--导航APP-->
+        <item>com.daohangymnet</item>
+        <item>com.ruichuang</item>
+        <item>com.daohangforxiuzhuo</item>
+        <!--阅读王-->
+        <item>com.bookymnet.reader</item>
+        <!--彩票-->
+        <item>com.caipiaoymnet</item>
+        <!--手机联盟统计模块-->
+        <item>com.service.usbhelper</item>
+        <!--天气王-->
+        <item>com.tianqiymnet</item>
+        <!--手机浏览器-->
+        <item>com.browserymnet</item>
+        <item>com.browser_llqhz</item>
+        <item>com.browserymnet_oemios</item>
+        <item>com.browserymnet_oem</item>
+        <!--360超级root-->
+        <item>com.qihoo.permmgr</item>
+        <!--<222-->
+    </string-array>
+
+    <string-array name="file_mime_type">
+        <item>文本</item>
+        <item>音频</item>
+        <item>视频</item>
+        <item>图片</item>
+    </string-array>
+</resources>

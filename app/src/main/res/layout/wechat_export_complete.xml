@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <include
+        android:id="@+id/ll_title"
+        layout="@layout/dialog_title_text"/>
+    <RelativeLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center_horizontal|left">
+        <TextView
+            android:id="@+id/tv_current"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center|left"
+            android:textColor="@color/gray40"
+            android:textSize="@dimen/dialog_content_text_size"
+            android:maxLines="2"/>
+        <TextView
+            android:id="@+id/dialog_path"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|left"
+            android:layout_below="@+id/tv_current"
+            android:maxEms="2"
+            android:text="@string/wechat_export_path"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/gray60"
+            android:textSize="12dp" />
+        <TextView
+            android:id="@+id/dialog_fail_tip"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|left"
+            android:layout_below="@+id/dialog_path"
+            android:maxEms="2"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/gray60"
+            android:textSize="12dp" />
+        <TextView
+            android:id="@+id/dialog_exist_tip"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|left"
+            android:layout_below="@+id/dialog_fail_tip"
+            android:maxEms="2"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/gray60"
+            android:textSize="12dp" />
+    </RelativeLayout>
+
+    <include layout="@layout/dialog_buttom_single_btn" />
+</LinearLayout>

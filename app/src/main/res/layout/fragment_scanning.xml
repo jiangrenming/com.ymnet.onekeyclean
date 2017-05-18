@@ -1,0 +1,13 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_background_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/fl_head"
+        layout="@layout/expandlistview_head" />
+    <include
+        android:id="@+id/sv_scan_iten"
+        layout="@layout/clean_scan_item_view" />
+</LinearLayout>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_background_color">
+
+    <com.example.umengnet.customview.MyViewPager
+        android:id="@+id/vp_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="#80000000"
+        android:fadingEdge="none"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/iv_top_back"
+            style="@style/style_wrap_fill"
+            android:background="@drawable/menu_back_selector"
+            android:clickable="true" />
+
+        <TextView
+            android:id="@+id/tv_page_position"
+            style="@style/page_title_style"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:text="@string/comment_time"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            style="@style/page_title_style"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="1dp"
+            android:layout_toLeftOf="@id/tv_page_position"
+            android:layout_toRightOf="@id/iv_top_back"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_pic_name"
+                style="@style/page_title_style"
+                android:ellipsize="middle"
+                android:singleLine="true"
+                android:text="@string/wechat"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_pic_description"
+                style="@style/page_title_style"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/management_duration"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_big_pic_bottom_normal"
+        android:baselineAligned="false"
+        android:fadingEdge="none"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_bottom_open"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/big_pic_bottom_bg"
+            android:drawableTop="@drawable/file_management_bottom_open"
+            android:text="@string/open_way"
+            android:gravity="center"
+            android:paddingTop="7dp"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/tv_bottom_del"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@drawable/big_pic_bottom_bg"
+            android:drawableTop="@drawable/file_management_bottom_delete"
+            android:gravity="center"
+            android:text="@string/file_delete"
+            android:paddingTop="7dp"
+            android:drawablePadding="0dp"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/tv_bottom_set_wallpaper"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingTop="7dp"
+
+            android:background="@drawable/big_pic_bottom_bg"
+            android:drawableTop="@drawable/file_management_bottom_set_wallpaper"
+
+            android:gravity="center"
+            android:text="@string/image_set_wallpager"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+    </LinearLayout>
+
+</RelativeLayout>
