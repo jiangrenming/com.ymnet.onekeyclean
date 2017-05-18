@@ -46,7 +46,7 @@ import java.util.jar.JarFile;
  * Created by Administrator on 2016/9/19.
  */
 @Deprecated
-public class PushManager implements ExternalInterface{
+public class PushManager implements ExternalInterface {
 
     public static final String TAG = "PushManager";
     private Context mContext;
@@ -60,7 +60,7 @@ public class PushManager implements ExternalInterface{
     public static final int APP_STATUS_INSTALL_FAIL = 5;
     public static final int APP_STATUS_INSTALL_START_ROOT = 6;
     public static final String PREFIX = "_";
-    public static final String VIRTUAL_APP_PREFIX = "11f"+PREFIX;
+    public static final String VIRTUAL_APP_PREFIX = "11f" + PREFIX;
     public static final int OTHER_TYPE = 99;
     public static final int NONE_TYPE = -1;
     public static final String STATISTICS_PUSH_APP_USER_INSTALL_KEY = "push_app_user_install";
@@ -87,12 +87,11 @@ public class PushManager implements ExternalInterface{
     public void init(Context context) {
         try {
             mContext = context;
-            DownLoadFactory.getInstance().setExternalInterface(this);
             mDownloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
             mDownloadChangeObserver = new DownloadChangeObserver(null);
             context.getContentResolver().registerContentObserver(CONTENT_URI, true, mDownloadChangeObserver);
             registerReceiver();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -180,7 +179,7 @@ public class PushManager implements ExternalInterface{
 
         DownLoadUnit downLoadUnit = DownLoadFactory.getInstance().getInsideInterface().getDownLoadUnit();
         if (downLoadUnit != null && downLoadUnit.is_tip()) {
-            DownLoadFactory.getInstance().getInsideInterface().startToast(context,packageName);
+            DownLoadFactory.getInstance().getInsideInterface().startToast(packageName);
             return false;
         }
 
@@ -195,7 +194,7 @@ public class PushManager implements ExternalInterface{
             installAppsAdd(packageName, isFromVirtualFolder);
         }
 
-        if(sInstallApping.contains(packageName)){
+        if (sInstallApping.contains(packageName)) {
             return false;
         }
 
@@ -209,7 +208,7 @@ public class PushManager implements ExternalInterface{
                 public void run() {
                     sInstallApping.remove(packageName);
                 }
-            },10000);
+            }, 10000);
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -230,7 +229,7 @@ public class PushManager implements ExternalInterface{
             } catch (Exception e1) {
                 try {
                     e1.printStackTrace();
-                    intent.setDataAndType(Uri.parse("file://"+getRealPathFromURI(context,packageFileUri)), "application/vnd.android.package-archive");
+                    intent.setDataAndType(Uri.parse("file://" + getRealPathFromURI(context, packageFileUri)), "application/vnd.android.package-archive");
                     context.startActivity(intent);
                 } catch (Exception e2) {
                     e2.printStackTrace();
@@ -259,9 +258,9 @@ public class PushManager implements ExternalInterface{
                 fileUri = Uri.fromFile(file);
             }
             downloadingApkFlagPath = file.getAbsolutePath() + FileUtilsSdk.COMMONSDK_TEMP_FILE_SUFFIX;
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            downloadingApkFlagPath = PushManager.getInstance().getDownloadedAppPath(context,pkgName) + FileUtilsSdk.COMMONSDK_TEMP_FILE_SUFFIX;
+            downloadingApkFlagPath = PushManager.getInstance().getDownloadedAppPath(context, pkgName) + FileUtilsSdk.COMMONSDK_TEMP_FILE_SUFFIX;
             return false;
         } finally {
             if (!TextUtils.isEmpty(downloadingApkFlagPath)) {
@@ -297,7 +296,7 @@ public class PushManager implements ExternalInterface{
     }
 
     public static String getRealPathFromURI(Context context, Uri contentUri) {
-        String[] proj = { MediaStore.Images.Media.DATA };
+        String[] proj = {MediaStore.Images.Media.DATA};
         Cursor cursor = context.getContentResolver().query(contentUri, proj,
                 null, null, null);
         int column_index = cursor
@@ -307,19 +306,19 @@ public class PushManager implements ExternalInterface{
         return path;
     }
 
-    public void downloadApkFile(Context context,DownLoadUnit downLoadUnit) {
-        downloadApkFile(context, downLoadUnit.getPackageName(), "", downLoadUnit.getVersion(), true,Uri.parse(downLoadUnit.getUrl()), true);
+    public void downloadApkFile(Context context, DownLoadUnit downLoadUnit) {
+        downloadApkFile(context, downLoadUnit.getPackageName(), "", downLoadUnit.getVersion(), true, Uri.parse(downLoadUnit.getUrl()), true);
     }
 
     public void downloadApkFile(final Context context, final String packageName, String downloadSignatures, int downloadVersionCode, boolean forceInstall, final Uri uri,
                                 final boolean hideNotification) {
-        if (context == null || TextUtils.isEmpty(packageName)  || (uri != null && TextUtils.isEmpty(uri.toString()))) {//|| TextUtils.isEmpty(downloadSignatures)
+        if (context == null || TextUtils.isEmpty(packageName) || (uri != null && TextUtils.isEmpty(uri.toString()))) {//|| TextUtils.isEmpty(downloadSignatures)
             return;
         }
-        DownloadInstallRecord.setDownloadRecodr(context,packageName,uri.toString());
-        final File downloadedAppFile = new File(PushManager.getInstance().getDownloadedAppPath(context,packageName));
+        DownloadInstallRecord.setDownloadRecodr(context, packageName, uri.toString());
+        final File downloadedAppFile = new File(PushManager.getInstance().getDownloadedAppPath(context, packageName));
 
-        final File downloadedAppTempFile = new File(PushManager.getInstance().getDownloadedAppPath(context,packageName)
+        final File downloadedAppTempFile = new File(PushManager.getInstance().getDownloadedAppPath(context, packageName)
                 + FileUtilsSdk.COMMONSDK_TEMP_FILE_SUFFIX);
         if (downloadedAppTempFile.exists()) {
             long tempFileLastModified = downloadedAppTempFile.lastModified();
@@ -355,21 +354,21 @@ public class PushManager implements ExternalInterface{
         DownloadManager downloadManager;
         downloadManager = (DownloadManager) context.getSystemService(serviceString);
         DownloadManager.Request request = null;
-        try{
+        try {
             request = new DownloadManager.Request(uri);
             //Bug 1.2.3
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
 
             if (hideNotification) {
                 // 需要权限：android.permission.DOWNLOAD_WITHOUT_NOTIFICATION
-			    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
             } else {
                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
             }
             // request.setNotificationVisibility(request.VISIBILITY_VISIBLE);
             request.setDestinationUri(Uri.fromFile(downloadedAppFile));
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return;
         }
@@ -391,13 +390,12 @@ public class PushManager implements ExternalInterface{
     }
 
 
-
     public boolean isAppDownloading(String pkg, boolean defaultValue) {
         try {
             DownloadManager downloadManager = (DownloadManager) mContext.getSystemService(Context.DOWNLOAD_SERVICE);
             DownloadManager.Query query = new DownloadManager.Query();
             query.setFilterByStatus(DownloadManager.STATUS_RUNNING | DownloadManager.STATUS_PAUSED | DownloadManager.STATUS_PENDING
-			/*| DownloadManager.STATUS_SUCCESSFUL*/);
+            /*| DownloadManager.STATUS_SUCCESSFUL*/);
             // ArrayList<Long> donwnlonging = new ArrayList<Long>();
             Cursor c = downloadManager.query(query);
             if (c != null) {
@@ -407,9 +405,9 @@ public class PushManager implements ExternalInterface{
                     if (!TextUtils.isEmpty(url) && url.contains(pkg)) {
                         c.close();
                         return true;
-                    }else{
-                        String p  = getPkgFromDownloadRef(id);
-                        if(!TextUtils.isEmpty(p) && p.equals(pkg)){
+                    } else {
+                        String p = getPkgFromDownloadRef(id);
+                        if (!TextUtils.isEmpty(p) && p.equals(pkg)) {
                             c.close();
                             return true;
                         }
@@ -476,7 +474,7 @@ public class PushManager implements ExternalInterface{
         return info != null;
     }
 
-    public String getDownloadedAppPath(Context context,String pkg){
+    public String getDownloadedAppPath(Context context, String pkg) {
         return FileUtilsSdk.getSDcardDownloadPath(context) + pkg + FileUtilsSdk.APK_FILE_SUFFIX;
     }
 
@@ -642,7 +640,7 @@ public class PushManager implements ExternalInterface{
 
                 float progress = INVALID_PROGRESS_VALUE;
                 try {
-                    progress = bytesDL*1f/fileSize*1f;
+                    progress = bytesDL * 1f / fileSize * 1f;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -657,7 +655,8 @@ public class PushManager implements ExternalInterface{
                         break;
                     case DownloadManager.STATUS_FAILED:
                         break;
-                    default:break;
+                    default:
+                        break;
                 }
             }
         } catch (NumberFormatException e) {
@@ -673,7 +672,7 @@ public class PushManager implements ExternalInterface{
 
     private void downloadRefPut(long key, String pkg) {
         try {
-            sDownloadRef.put(key,  pkg);
+            sDownloadRef.put(key, pkg);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -686,11 +685,12 @@ public class PushManager implements ExternalInterface{
             e.printStackTrace();
         }
     }
+
     private long downloadRefKey(String pkg) {
         Iterator<Long> keys = sDownloadRef.keySet().iterator();
-        while(keys.hasNext()) {
+        while (keys.hasNext()) {
             Long key = keys.next();
-            if(sDownloadRef.get(key).equals(pkg)){
+            if (sDownloadRef.get(key).equals(pkg)) {
                 return key;
             }
         }
@@ -772,8 +772,8 @@ public class PushManager implements ExternalInterface{
     @Override
     public void startDownload() {
         DownLoadUnit downLoadUnit = DownLoadFactory.getInstance().getInsideInterface().getDownLoadUnit();
-        if (downLoadUnit != null && downLoadUnit.is_update()) {
-            downloadApkFile(mContext,downLoadUnit);
+        if (downLoadUnit != null) {
+            downloadApkFile(mContext, downLoadUnit);
         }
     }
 
@@ -781,7 +781,8 @@ public class PushManager implements ExternalInterface{
     public void startInstall() {
         DownLoadUnit downLoadUnit = DownLoadFactory.getInstance().getInsideInterface().getDownLoadUnit();
         downLoadUnit.setIs_tip(false);
-        File file = new File(PushManager.getInstance().getDownloadedAppPath(mContext,downLoadUnit.getPackageName()));
-        if(file.exists())installApk(mContext, downLoadUnit.getPackageName(),Uri.fromFile(file), "", downLoadUnit.getVersion(), false);
+        File file = new File(PushManager.getInstance().getDownloadedAppPath(mContext, downLoadUnit.getPackageName()));
+        if (file.exists())
+            installApk(mContext, downLoadUnit.getPackageName(), Uri.fromFile(file), "", downLoadUnit.getVersion(), false);
     }
 }

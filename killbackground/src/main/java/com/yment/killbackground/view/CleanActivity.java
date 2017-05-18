@@ -28,7 +28,6 @@ import android.widget.TextView;
 import com.example.commonlibrary.retrofit2_callback.BaseCallModel;
 import com.example.commonlibrary.retrofit2_callback.MyCallBack;
 import com.example.commonlibrary.systemmanager.SystemMemory;
-import com.example.commonlibrary.utils.ConvertParamsUtils;
 import com.example.commonlibrary.utils.DensityUtil;
 import com.example.commonlibrary.utils.ScreenUtil;
 import com.example.commonlibrary.utils.ToastUtil;
@@ -37,12 +36,14 @@ import com.yment.killbackground.QihooSystemUtil;
 import com.yment.killbackground.R;
 import com.yment.killbackground.Utilities;
 import com.yment.killbackground.customlistener.MyViewPropertyAnimatorListener;
+import com.yment.killbackground.download.PushManager;
 import com.yment.killbackground.presenter.CleanPresenter;
 import com.yment.killbackground.presenter.CleanPresenterImpl;
 import com.yment.killbackground.retrofitservice.RetrofitService;
 import com.yment.killbackground.retrofitservice.bean.FolderLodingInfo;
 import com.yment.killbackground.view.customwidget.Wheel;
 import com.ymnet.update.DownLoadFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -58,28 +59,28 @@ public class CleanActivity extends Activity implements CleanView {
 
     private static final String TAG = "CleanActivity";
     private ImageView mRotateImage;
-    private TextView  mMemoryInfo;
-    private static final int  UPDATE_SNAP_TIME      = 100;
-    private              int  mRepeatTime           = 0;
-    private              int  mRepeatTotalTime      = 0;
-    private              long mTotalMemory          = 0;
-    private              int  mBeforeUsedMemoryRate = 0;
-    private static       int  mIncreaseDate         = 1;
-    private ImageView            mRotateImageInside;
+    private TextView mMemoryInfo;
+    private static final int UPDATE_SNAP_TIME = 100;
+    private int mRepeatTime = 0;
+    private int mRepeatTotalTime = 0;
+    private long mTotalMemory = 0;
+    private int mBeforeUsedMemoryRate = 0;
+    private static int mIncreaseDate = 1;
+    private ImageView mRotateImageInside;
     private ArrayList<ImageView> cleanAppLists;
-    private long                 mBeforeAvailMemorySize;
-    private long                 mSize;
-    private Wheel                mWheel;
-    private String               showToast;
-    private boolean isFirst              = true;
+    private long mBeforeAvailMemorySize;
+    private long mSize;
+    private Wheel mWheel;
+    private String showToast;
+    private boolean isFirst = true;
 
     private boolean updateMemoryInfoFlag = true;
     private boolean valueChange;
-    private ImageView      mDetermine;
-    private Button         mMoreFunction;
+    private ImageView mDetermine;
+    private Button mMoreFunction;
     private RelativeLayout mRelativeLayout;
     private CleanPresenter mCleanPresenter;
-    private int            mCount;
+    private int mCount;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -215,7 +216,7 @@ public class CleanActivity extends Activity implements CleanView {
                     //                    ToastUtil.showLong(getApplicationContext(), showToast);
 
                     startStaticApp(getApplicationContext());
-                    DownLoadFactory.getInstance().getInsideInterface().updateApp(CleanActivity.this);
+                    DownLoadFactory.getInstance().getInsideInterface().updateApp();
                 }
 
                 @Override
@@ -325,8 +326,8 @@ public class CleanActivity extends Activity implements CleanView {
     private void initData() {
         mTotalMemory = getTotalMemorySize(CleanActivity.this);
         mBeforeUsedMemoryRate = getUsedMemoryRate();
-        DownLoadFactory.getInstance().init(this);
-        //        PushManager.getInstance().init(getApplicationContext());
+        DownLoadFactory.getInstance().init(this, null, PushManager.getInstance());
+        PushManager.getInstance().init(getApplicationContext());
     }
 
     private Runnable mUpdateMemoryInfo = new Runnable() {
@@ -392,7 +393,7 @@ public class CleanActivity extends Activity implements CleanView {
                 intent.setClassName("com.ymnet.apphelper", "com.ymnet.apphelper.AppHelperActivityText");
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
-            }else if(Utilities.isAppInstalled(context, "com.android.ramcleaner")){
+            } else if (Utilities.isAppInstalled(context, "com.android.ramcleaner")) {
                 Intent intent = new Intent();
                 intent.setClassName("com.android.ramcleaner", "com.ymnet.apphelper.AppHelperActivityText");
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
