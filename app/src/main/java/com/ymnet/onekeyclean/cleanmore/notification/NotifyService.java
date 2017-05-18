@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -111,17 +112,24 @@ public class NotifyService extends Service implements Serializable {
         RemoteViews remoteViews = null;
         remoteViews = getRemoteViews();
         //奇酷手机更换图标为白色
-        if (matchModel("8681", "SM-", "OPPO")) {
-            System.out.println("---------------androidModel:奇酷,一加,OPPO");
+        if (matchModel("8681", "SM-", "OPPO", "HUAWEI")) {
+            System.out.println("---------------androidModel:奇酷,一加,OPPO,奇酷,一加,华为");
             remoteViews.setImageViewResource(R.id.iv_head, R.mipmap.onekeyclean_white);
             remoteViews.setImageViewResource(R.id.iv_wechat, R.mipmap.wechat_white);
             remoteViews.setImageViewResource(R.id.iv_qq, R.mipmap.qq_white);
             remoteViews.setImageViewResource(R.id.iv_deep, R.mipmap.brush_white);
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_white);
             remoteViews.setImageViewResource(R.id.iv_setting, R.mipmap.setting_white);
+            /*下面这种或者这种remoteViews.setInt(R.id.tv_head, "setTextColor", Color.parseColor("#ffffff"));*/
+            remoteViews.setTextColor(R.id.tv_head, Color.parseColor("#ffffff"));
+            remoteViews.setTextColor(R.id.tv_wechat, Color.parseColor("#ffffff"));
+            remoteViews.setTextColor(R.id.tv_qq, Color.parseColor("#ffffff"));
+            remoteViews.setTextColor(R.id.tv_deep, Color.parseColor("#ffffff"));
+            remoteViews.setTextColor(R.id.tv_flashlight, Color.parseColor("#ffffff"));
+            remoteViews.setTextColor(R.id.tv_setting, Color.parseColor("#ffffff"));
         }
 
-//        remoteViews.setTextViewTextSize(R.id.tv_head, TypedValue.COMPLEX_UNIT_SP, 5f);
+        //        remoteViews.setTextViewTextSize(R.id.tv_head, TypedValue.COMPLEX_UNIT_SP, 5f);
 
         //一键加速
         Intent intent2 = new Intent(C.get(), CleanActivity.class);
@@ -246,7 +254,7 @@ public class NotifyService extends Service implements Serializable {
             System.out.println("---------------androidModel:我是小米系列");
         } else if (matchModel("SM-")) {
             remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view_black_oneplus);
-        } else if (matchModel("OPPO")) {
+        } else if (matchModel("OPPO", "HUAWEI")) {
             remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view_black);
         } else {
             remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view_withoutbg);

@@ -18,8 +18,7 @@ public class MyAccountConfig {
     /**
      * how frequently the account sync should be performed, in seconds.
      */
-//    public static final long ACCOUNT_SYNC_TIME = 3600;
-    public static final long ACCOUNT_SYNC_TIME = 60;
+    public static final long ACCOUNT_SYNC_TIME = 300;
 
     /**
      * ACCOUNT_SYNCABLE > 0 denotes syncable, 0 means not syncable, < 0 means unknown
