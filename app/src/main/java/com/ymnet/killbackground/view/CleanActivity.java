@@ -26,7 +26,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.example.commonlibrary.retrofit2_callback.BaseCallModel;
 import com.example.commonlibrary.retrofit2_callback.MyCallBack;
 import com.example.commonlibrary.utils.DensityUtil;
@@ -36,6 +35,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.ymnet.killbackground.QihooSystemUtil;
 import com.ymnet.killbackground.Utilities;
 import com.ymnet.killbackground.customlistener.MyViewPropertyAnimatorListener;
+import com.ymnet.killbackground.download.PushManager;
 import com.ymnet.killbackground.presenter.CleanPresenter;
 import com.ymnet.killbackground.presenter.CleanPresenterImpl;
 import com.ymnet.killbackground.retrofitservice.RetrofitService;
@@ -44,7 +44,6 @@ import com.ymnet.killbackground.view.customwidget.Wheel;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.notification.NotifyService;
 import com.ymnet.update.DownLoadFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +55,6 @@ import static com.example.commonlibrary.systemmanager.SystemMemory.getAvailMemor
 import static com.example.commonlibrary.systemmanager.SystemMemory.getTotalMemorySize;
 
 public class CleanActivity extends Activity implements CleanView {
-
     private static final String TAG = "CleanActivity";
     private ImageView      mRotateImage;
     private ObjectAnimator mOa1;
@@ -223,7 +221,7 @@ public class CleanActivity extends Activity implements CleanView {
                     Log.d(TAG, "onAnimationEnd: mSize: " + mSize);
 
                     startStaticApp(getApplicationContext());
-                    DownLoadFactory.getInstance().getInsideInterface().updateApp(CleanActivity.this);
+                    DownLoadFactory.getInstance().getInsideInterface().updateApp();
                 }
 
                 @Override
@@ -329,8 +327,8 @@ public class CleanActivity extends Activity implements CleanView {
     private void initData() {
         mTotalMemory = getTotalMemorySize(CleanActivity.this);
         mBeforeUsedMemoryRate = getUsedMemoryRate();
-        DownLoadFactory.getInstance().init(this);
-        //        PushManager.getInstance().init(getApplicationContext());
+        DownLoadFactory.getInstance().init(this, null, PushManager.getInstance());
+        PushManager.getInstance().init(getApplicationContext());
     }
 
     /*private Runnable mUpdateMemoryInfo = new Runnable() {
@@ -542,7 +540,7 @@ public class CleanActivity extends Activity implements CleanView {
         Log.d(TAG, "onAnimationEnd: mSize: " + mSize);
 
         startStaticApp(getApplicationContext());
-        DownLoadFactory.getInstance().getInsideInterface().updateApp(CleanActivity.this);
+        DownLoadFactory.getInstance().getInsideInterface().updateApp();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)

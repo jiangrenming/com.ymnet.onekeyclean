@@ -50,11 +50,7 @@ public class NotifyService extends Service implements Serializable {
     private NotificationManager        mNotificationManager;
     private String                     mAndroidModel;
     private static boolean status = false;
-    private RemoteViews                   remoteViews;
-    private NotifyStatusBroadCastReceiver mReceiver;
-    private Notification                  mNotification;
     private long                          enclosingExecuteTime;
-
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -66,6 +62,19 @@ public class NotifyService extends Service implements Serializable {
                     stopService(intent);
                     break;
             }
+        }
+    };
+    private RemoteViews remoteViews;
+    private Notification mNotification;
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            boolean status = intent.getBooleanExtra("status", false);
+            Log.d(TAG, "onReceive: " + status);
+            changeFlashLightColor(status);
+
         }
     };
 
@@ -92,12 +101,9 @@ public class NotifyService extends Service implements Serializable {
     }
 
     private void registerBroadCastReceiver() {
-        if (mReceiver == null) {
             IntentFilter filter = new IntentFilter();
             filter.addAction("flashlight_status");
-            mReceiver = new NotifyService.NotifyStatusBroadCastReceiver();
             this.registerReceiver(mReceiver, filter);
-        }
     }
 
     private void initNotification() {

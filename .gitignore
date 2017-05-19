@@ -6,4 +6,5 @@ gradle/
 local.properties
 *.iml
 a.txt/
-/app/src/main/libs/
+app/src/main/obj/*
+
