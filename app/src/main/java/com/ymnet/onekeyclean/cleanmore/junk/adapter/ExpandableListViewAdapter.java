@@ -66,10 +66,10 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 
     private CleanTrustDBManager manager;
 
-//    private DisplayImageOptions options;
+    //    private DisplayImageOptions options;
 
-    private final int TYPE = 2;
-    private final int TYPE_CHILD = 0;
+    private final int TYPE                = 2;
+    private final int TYPE_CHILD          = 0;
     private final int TYPE_CHILD_OF_CHILD = 1;
 
     private static final String SCHEME = "package";
@@ -81,8 +81,8 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
         inflater = LayoutInflater.from(activity.getApplicationContext());
         this.handler = handler;
         manager = new CleanTrustDBManager(activity.getApplicationContext());
-//        options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).showImageOnLoading(R.drawable.big_file_folder)
-//                .showImageOnFail(R.drawable.big_file_folder).build();
+        //        options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).showImageOnLoading(R.drawable.big_file_folder)
+        //                .showImageOnFail(R.drawable.big_file_folder).build();
     }
 
     @Override
@@ -137,7 +137,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(convertView!=null){
+        if (convertView != null) {
             if (groupPosition == 0) {
                 convertView.setPadding(0, 0, 0, 0);
             } else {
@@ -233,8 +233,8 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
                     holder.iv_child_checkBox = (ImageView) convertView.findViewById(R.id.cache_type_check);
                     break;
             }
-            if(convertView!=null)
-            convertView.setTag(holder);
+            if (convertView != null)
+                convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
@@ -271,7 +271,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 
                     // TODO: 2017/4/26 0026 暂时注释掉:替换为小机器人
                     if (cache.icon == null) {
-                        holder.iv_junk_icon.setImageResource(R.mipmap.robot);
+                        holder.iv_junk_icon.setImageResource(R.drawable.file_features_icon);
                     } else {
                         holder.iv_junk_icon.setImageDrawable(cache.icon);
                     }
@@ -329,7 +329,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
                 if (ram.getApp().flag == 0) {//系统应用
                     holder.tv_junk_tip.setText(R.string.system_app_enable_clean);
                     holder.iv_junk_icon_small.setVisibility(View.GONE);
-//                    holder.ll_junk_layout.setOnClickListener(null);
+                    //                    holder.ll_junk_layout.setOnClickListener(null);
                 } else if (ram.getApp().flag == 1) {//用户应用
                     holder.tv_junk_tip.setText(R.string.use_app_suggest_clean);
                     holder.iv_junk_icon_small.setVisibility(View.VISIBLE);
@@ -395,14 +395,14 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
                     childOfChild.setSelect(1);
                     //检查二级项
                     JunkChildCache cache = getJunkChildCacheFromPackName(groupPosition, childOfChild.packageName);
-//                    List<JunkChildCacheOfChild> list = cache.childCacheOfChild;
+                    //                    List<JunkChildCacheOfChild> list = cache.childCacheOfChild;
                     cache.setSelect(checkSelect(cache));
-//                    if (checkSelectJunkChildCacheOfChild(list)) {
-//                        cache.setSelect(1);
-//                    }
-//                    if (checkSelectGroup()) {
-//                        dataList.get(groupPosition).setSelect(1);
-//                    }
+                    //                    if (checkSelectJunkChildCacheOfChild(list)) {
+                    //                        cache.setSelect(1);
+                    //                    }
+                    //                    if (checkSelectGroup()) {
+                    //                        dataList.get(groupPosition).setSelect(1);
+                    //                    }
                 }
                 //检查组
                 handleSendUpdateBtnNotifity();
@@ -426,12 +426,12 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
                             childOfChild.setSelect(0);
                         }
                     } else {
-//                        对select 取反
+                        //                        对select 取反
                         childrenItem.setSelect(0);
                     }
                 } else {
                     //使选中
-//                    checkGroup();检查组里面的子目录是否全部选中
+                    //                    checkGroup();检查组里面的子目录是否全部选中
                     if (childrenItem instanceof JunkChildCache) {
                         //子项的全部选中
                         childrenItem.setSelect(1);
@@ -494,7 +494,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
             public void onClick(View view) {
 
                 final Dialog dialog = DialogFactory.createDialog(activity, R.layout.dialog_clean);
-//                View v = inflater.inflate(R.layout.dialog_clean, null);
+                //                View v = inflater.inflate(R.layout.dialog_clean, null);
                 dialog.findViewById(R.id.rl).setVisibility(View.VISIBLE);
                 dialog.findViewById(R.id.ll).setVisibility(View.GONE);
 
@@ -525,7 +525,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
                 dialog_size.setText(activity.getString(R.string.size_format, FormatUtils.formatFileSize(childOfChild.size)));
                 dialogCheckbox.setText(Html.fromHtml(activity.getString(
                         R.string.contain_number_file,
-                        Util.getFileListCount(childOfChild.path)+"")));
+                        Util.getFileListCount(childOfChild.path) + "")));
                 dialog_btn0.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -608,7 +608,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
                 Button dialog_btn1 = (Button) dialog.findViewById(R.id.dialog_btn1);
                 Button dialog_btn0 = (Button) dialog.findViewById(R.id.dialog_btn0);
 
-//                ImageLoader.getInstance().displayImage(MarketImageDownloader.INSTALLED_APP_SCHEME+ram.app.packageName,iv_icon);
+                //                ImageLoader.getInstance().displayImage(MarketImageDownloader.INSTALLED_APP_SCHEME+ram.app.packageName,iv_icon);
                 dialog_btn0.setText(R.string.clear);
                 dialog_title.setText(ram.name);
                 if (ram.getApp().flag == 0) {
@@ -648,9 +648,9 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
                     @Override
                     public void onClick(View v) {
                         if (ram != null && ram.getApp() != null) {
-//                            Uri packageURI = UriUtil.parseUriOrNull("package:" + ram.getApp().packageName);
+                            //                            Uri packageURI = UriUtil.parseUriOrNull("package:" + ram.getApp().packageName);
                             Uri packageURI = Uri.parse("package:" + ram.getApp().packageName);
-                            System.out.println("packageURI:"+packageURI);
+                            System.out.println("packageURI:" + packageURI);
                             Intent intent = new Intent(Intent.ACTION_DELETE, packageURI);
                             activity.startActivity(intent);
                             /*try {
@@ -843,7 +843,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
                         values.put(CleanTrustDBHelper.FILE_TYPE,
                                 ITEMTYPE.CACHE.ordinal());
                         if (manager.insert(values)) {
-//                            Log.i("wdh", "白名单插入数据库成功");
+                            //                            Log.i("wdh", "白名单插入数据库成功");
                             if (cache.isExpanded) {// 如果二级目录是展开的 移除它的子项
                                 dataList.get(groupPosition).getChildrenItems().removeAll(cache.childCacheOfChild);
                             }
@@ -875,13 +875,13 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
                 if (cache.isExpanded) {
                     v.findViewById(R.id.junk_child_subscript).setVisibility(View.GONE);
                     cache.isExpanded = false;
-//                    List<JunkChildCacheOfChild> elementsToDel = ((JunkChildCache) dataList.get(groupPosttion).getChildrenItems().get(childPosition)).childCacheOfChild;
+                    //                    List<JunkChildCacheOfChild> elementsToDel = ((JunkChildCache) dataList.get(groupPosttion).getChildrenItems().get(childPosition)).childCacheOfChild;
                     childs.removeAll(elementsToDel);
 
                 } else {
                     v.findViewById(R.id.junk_child_subscript).setVisibility(View.VISIBLE);
                     cache.isExpanded = true;
-//                    List<JunkChildCacheOfChild> elementsToDel = ((JunkChildCache) dataList.get(groupPosttion).getChildrenItems().get(childPosition)).childCacheOfChild;
+                    //                    List<JunkChildCacheOfChild> elementsToDel = ((JunkChildCache) dataList.get(groupPosttion).getChildrenItems().get(childPosition)).childCacheOfChild;
                     childs.addAll(childPosition + 1, elementsToDel);
 
                 }
@@ -947,7 +947,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
         dialog_size.setText(activity.getString(R.string.size_format, FormatUtils.formatFileSize(residual.size)));
         dialogCheckbox.setText(Html.fromHtml(activity.getString(
                 R.string.contain_number_file,
-                residual.paths.size()+"")));
+                residual.paths.size() + "")));
         dialog_btn0.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1032,7 +1032,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
             }
         });
 
-//        dialog.setContentView(v);
+        //        dialog.setContentView(v);
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
@@ -1104,8 +1104,8 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 
     @SuppressLint("NewApi")
     final static class GroupViewHolder {
-        TextView groupNameTV;
-        TextView groupSizeTV;
+        TextView  groupNameTV;
+        TextView  groupSizeTV;
         ImageView groupImg;
         ImageView groupCb;
 
@@ -1124,7 +1124,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
             } else {
                 if (state == ScanHelp.STATE_ALL_SELECT) {
                     groupCb.setImageResource(R.drawable.item_check);
-//                    groupCb.setBackgroundResource(R.drawable.junk_checkbox_checked);
+                    //                    groupCb.setBackgroundResource(R.drawable.junk_checkbox_checked);
                 } else if (state == ScanHelp.STATE_UNALL_SELECT) {
                     groupCb.setImageResource(R.drawable.item_notcheck);
                 } else if (state == ScanHelp.STATE_HALF_SELECT) {
@@ -1139,10 +1139,10 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
     final static class ViewHolder {
         TextView tv_junk_name, tv_junk_tip, tv_junk_size;
         ImageView iv_junk_checkbox, iv_junk_icon, iv_junk_icon_small;
-        FrameLayout fl_junk_subscript;
+        FrameLayout  fl_junk_subscript;
         LinearLayout ll_junk_layout;
         LinearLayout ll_child_three;
-        TextView tv_child_name, tv_child_size;
+        TextView     tv_child_name, tv_child_size;
         ImageView iv_child_icon, iv_child_checkBox;
 
         public void setSelect(int state) {
@@ -1160,7 +1160,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
             } else {
                 if (state == ScanHelp.STATE_ALL_SELECT) {
                     iv_junk_checkbox.setImageResource(R.drawable.item_check);
-//                    groupCb.setBackgroundResource(R.drawable.junk_checkbox_checked);
+                    //                    groupCb.setBackgroundResource(R.drawable.junk_checkbox_checked);
                 } else if (state == ScanHelp.STATE_UNALL_SELECT) {
                     iv_junk_checkbox.setImageResource(R.drawable.item_notcheck);
                 } else if (state == ScanHelp.STATE_HALF_SELECT) {

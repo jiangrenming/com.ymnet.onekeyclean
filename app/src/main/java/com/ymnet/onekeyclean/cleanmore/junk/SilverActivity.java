@@ -256,7 +256,6 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
     public void scanState(final int state) {
 
         if (isFinishing()||getSupportFragmentManager().isDestroyed()) {
-
             return;
         }
         runOnUiThread(new Runnable() {
@@ -492,6 +491,15 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
         fragmentController.beginNewTransaction();
         fragmentController.changeDisplayFragment(cf);
         fragmentController.commit();
+
+    //todo      清理结束广告,加判断--自动请求模块排序数据，更新未成功则使用上一次数据；每天只请求1次。
+        /*showToastForShort("清理成功!");
+        if (todayNoNewData()) {
+            //请求数据
+            requestData();
+            //添加数据到recyclerviewAdapter,
+
+        }*/
     }
 
     /**

@@ -82,7 +82,8 @@ public class DeleteHelp {
         for (JunkChild child : childs) {
             if (child instanceof InstalledAppAndRAM) {
                 InstalledAppAndRAM ram = (InstalledAppAndRAM) child;
-                if (ram.getSelect() == 1 && uid == ram.app.uid) {
+                // TODO: 2017/5/19 0019 修改 去除选中标准
+                if (ram.getSelect() == 1/* && uid == ram.app.uid*/) {
                     return true;
                 }
             }
