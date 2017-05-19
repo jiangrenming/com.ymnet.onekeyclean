@@ -808,10 +808,18 @@ public class PushManager implements ExternalInterface {
 
     @Override
     public void startInstall() {
-        DownLoadUnit downLoadUnit = DownLoadFactory.getInstance().getInsideInterface().getDownLoadUnit();
-        downLoadUnit.setIs_tip(false);
-        File file = new File(PushManager.getInstance().getDownloadedAppPath(mContext, downLoadUnit.getPackageName()));
-        if (file.exists())
-            installApk(mContext, downLoadUnit.getPackageName(), Uri.fromFile(file), "", downLoadUnit.getVersion(), false);
+        try {
+            DownLoadUnit downLoadUnit = DownLoadFactory.getInstance().getInsideInterface().getDownLoadUnit();
+            if (downLoadUnit != null) {
+                downLoadUnit.setIs_tip(false);
+            }
+
+            File file = new File(PushManager.getInstance().getDownloadedAppPath(mContext, downLoadUnit.getPackageName()));
+            if (file.exists())
+                installApk(mContext, downLoadUnit.getPackageName(), Uri.fromFile(file), "", downLoadUnit.getVersion(), false);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            MobclickAgent.reportError(mContext, ex.fillInStackTrace());
+        }
     }
 }
