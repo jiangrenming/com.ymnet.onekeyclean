@@ -223,7 +223,7 @@ public class NotifyService extends Service implements Serializable {
     private void changeFlashLightColor(boolean status) {
         if (status) {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_open);
-        } else if (matchModel("8681", "SM-", "OPPO","HUAWEI")) {
+        } else if (matchModel("8681", "SM-", "OPPO","HUAWEI","ONEPLUS")) {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_white);
         } else {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight);

@@ -275,6 +275,8 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
             holder.btn_scan_status.setVisibility(View.GONE);
             holder.ll_clean_result.setVisibility(View.VISIBLE);
             holder.tv_clean_size.setText(Html.fromHtml(resources.getString(R.string.wechat_free_spcae, holder.tv_trust_size.getText())));
+            // TODO: 2017/5/19 0019 删除完成之后
+            com.ymnet.onekeyclean.cleanmore.utils.ToastUtil.showToastForShort("删除成功~\\(≧▽≦)/~啦啦啦");
         } else if (QQFileType.DELETE_ING == chatFile.getDeleteStatus()) {
             //正在删除
             holder.tv_trust_size.setVisibility(View.GONE);
