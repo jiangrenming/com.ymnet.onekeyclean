@@ -218,13 +218,12 @@ public class NotifyService extends Service implements Serializable {
 
         }
 
-
     }
 
     private void changeFlashLightColor(boolean status) {
         if (status) {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_open);
-        } else if (matchModel("8681", "SM-", "OPPO")) {
+        } else if (matchModel("8681", "SM-", "OPPO","HUAWEI")) {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_white);
         } else {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight);
@@ -248,17 +247,7 @@ public class NotifyService extends Service implements Serializable {
         //获取手机机型
         mAndroidModel = PhoneModel.getAndroidModel();
         System.out.println("---------------androidModel:" + mAndroidModel);
-
-        if (matchModel("Redmi", "MI")) {
-            remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view);
-            System.out.println("---------------androidModel:我是小米系列");
-        } else if (matchModel("SM-")) {
-            remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view_black_oneplus);
-        } else if (matchModel("OPPO", "HUAWEI")) {
-            remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view_black);
-        } else {
-            remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view_withoutbg);
-        }
+        remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view_withoutbg);
         return remoteViews;
     }
 

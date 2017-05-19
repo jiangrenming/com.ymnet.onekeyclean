@@ -29,6 +29,7 @@
     <string name="cache_file_info">浏览过的图片和小视频缓存</string>
     <string name="cache_file_effect">删除后联网可重新加载,请放心清理</string>
     <string name="chat_pic_info">聊天产生的图片,包括聊天消息、公众号中的图片</string>
+    <string name="qq_chat_pic_info">聊天产生的图片,包括个人和群消息</string>
     <string name="chat_voice_info">聊天产生的语音，包括个人和群消息</string>
     <string name="chat_video_info">聊天产生的视频及预览图，包括个人和群消息</string>
     <string name="export">导出</string>

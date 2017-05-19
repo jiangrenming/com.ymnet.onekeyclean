@@ -4,7 +4,7 @@
               android:layout_height="match_parent"
               android:background="@color/main_blue_new"
               android:orientation="vertical">
-
+    <!--垃圾清理完成界面-->
     <RelativeLayout
         android:id="@+id/rl_show"
         android:layout_width="match_parent"

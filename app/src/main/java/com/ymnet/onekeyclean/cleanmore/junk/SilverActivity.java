@@ -7,6 +7,7 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -40,7 +41,7 @@ import java.util.List;
 
 
 public class SilverActivity extends BaseFragmentActivity implements View.OnClickListener, ScanHelp.IScanResult, ScanFinishFragment.OnScanFinishFragmentInteractionListener, CleaningFragment.OnCleanFragmentEndListener {
-    private String tag = "SilverActivity";
+    private String TAG = "SilverActivity";
     private RelativeLayout rl_page_title;
     private Button btn_stop;
     private View ani_view;
@@ -241,6 +242,15 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
         });
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        datas = mScan.getDatas();
+        if (datas == null || datas.size() == 0) {
+            Log.d(TAG, "onStop: 结束界面");
+            finish();
+        }
+    }
 
     @Override
     public void scanState(final int state) {
@@ -459,7 +469,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
         }
     }
 
-    // TODO: 2017/4/20 0020 微信清理
+    // TODO: 2017/4/20 0020 清理结束
     private void startCleanOverActivity() {
 
         if (isFinishing()||getSupportFragmentManager().isDestroyed()) {

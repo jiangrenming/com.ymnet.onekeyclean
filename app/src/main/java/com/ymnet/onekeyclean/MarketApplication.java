@@ -49,28 +49,6 @@ public class MarketApplication extends BaseApplication {
         return application;
     }
 
-    private boolean mMainProcess;
-
-    private void initializeInjector() {
-        this.applicationComponent = DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(this))
-                .build();
-    }
-
-    public ApplicationComponent getApplicationComponent() {
-        return this.applicationComponent;
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        versionname = BuildConfig.VERSION_NAME;
-        packegename = BuildConfig.APPLICATION_ID;
-        versioncode = BuildConfig.VERSION_CODE;
-
-        C.setContext(base);
-    }
-
     @Override
     @SuppressLint("NewApi")
     public void onCreate() {
@@ -129,6 +107,28 @@ public class MarketApplication extends BaseApplication {
         Intent intent = new Intent(this, HomeTabActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    private boolean mMainProcess;
+
+    private void initializeInjector() {
+        this.applicationComponent = DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this))
+                .build();
+    }
+
+    public ApplicationComponent getApplicationComponent() {
+        return this.applicationComponent;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        versionname = BuildConfig.VERSION_NAME;
+        packegename = BuildConfig.APPLICATION_ID;
+        versioncode = BuildConfig.VERSION_CODE;
+
+        C.setContext(base);
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)

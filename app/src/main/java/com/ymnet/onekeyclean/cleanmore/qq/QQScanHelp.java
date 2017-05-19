@@ -98,7 +98,7 @@ public class QQScanHelp {
             tempFile.setType(QQConstants.QQ_TYPE_DEFALUT);
             content.add(tempFile);
 
-            QQFileType picFile = new QQPicMode(getString(R.string.chat_pic), 0, R.drawable.wechat_pic, getString(R.string.chat_pic_info), "");
+            QQFileType picFile = new QQPicMode(getString(R.string.chat_pic), 0, R.drawable.wechat_pic, getString(R.string.qq_chat_pic_info), "");
             picFile.setType(QQConstants.QQ_TYPE_PIC);
             content.add(picFile);
 

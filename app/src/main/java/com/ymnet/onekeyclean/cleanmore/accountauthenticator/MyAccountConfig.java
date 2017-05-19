@@ -9,7 +9,7 @@ package com.ymnet.onekeyclean.cleanmore.accountauthenticator;
  * @version V4.0
  */
 public class MyAccountConfig {
-    // TODO: 2017/5/17 0017 必须修改
+
     public static final String CONTENT_AUTHORITY = "com.ymnet.onekeyclean.cleanmore.accountauthenticator.MyAccountProvider";
     public static final String ACCOUNT_TYPE      = "com.ymnet.onekeyclean";
     public static final String ACCOUNT_NAME      = "一键清理";

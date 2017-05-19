@@ -6,7 +6,6 @@ import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -24,14 +23,11 @@ import com.ymnet.onekeyclean.cleanmore.utils.Util;
 import com.ymnet.onekeyclean.cleanmore.wechat.WeChatActivity;
 import com.ymnet.onekeyclean.cleanmore.wechat.device.DeviceInfo;
 
-
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * to handle interaction events.
- * Use the {@link CleanOverFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * 垃圾清理完成界面
  */
+
+// TODO: 2017/5/18 0018
 public class CleanOverFragment extends BaseFragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";
     public static final int HAS_CLEAN_CACHE = -1;
