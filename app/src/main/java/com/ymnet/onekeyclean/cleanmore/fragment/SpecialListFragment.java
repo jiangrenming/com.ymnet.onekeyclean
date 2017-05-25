@@ -130,7 +130,6 @@ public class SpecialListFragment extends BaseAppListFragmentSpecial implements F
         mBannerActLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 微信清理 暂时取消这里的点击效果(牵连太多了)
 //                TopicUtils.startTopic(getActivity(), bannerActData, BANNER_ACT);
 //                StatisticSpec.sendEvent(StatisticEventContants.main_ADbanner);
             }
@@ -425,7 +424,6 @@ public class SpecialListFragment extends BaseAppListFragmentSpecial implements F
         actEnter.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 微信清理 暂时取消这里的点击效果(牵连太多了)
 //                TopicUtils.startTopic(getActivity(), floatActData, FLOAT_ACT);
             }
         });

@@ -81,13 +81,6 @@ public class BaseFragmentActivity extends FragmentActivity {
         }
     }
 
-    // TODO: 2017/5/10 0010 v7包的方法
-    /*protected void addFragment(int containerViewId, Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(containerViewId, fragment);
-        fragmentTransaction.commit();
-    }*/
-
     /**
      * Get the Main Application component for dependency injection.
      */

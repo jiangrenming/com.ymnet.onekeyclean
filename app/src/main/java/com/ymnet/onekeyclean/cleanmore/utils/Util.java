@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.View;
 
+import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.cleanmore.wechat.MTask;
 
 import java.io.BufferedReader;
@@ -184,7 +185,6 @@ public class Util {
             process.waitFor();
             process.destroy();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -410,8 +410,8 @@ public class Util {
             int x = Integer.parseInt(field.get(obj).toString());
             y = context.getResources().getDimensionPixelSize(x);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+            MobclickAgent.reportError(C.get(), e.toString());
         }
         return y;
     }

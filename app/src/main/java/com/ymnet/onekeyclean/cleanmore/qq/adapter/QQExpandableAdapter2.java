@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * Created by MajinBuu on 2017/5/4 0004.
  *
- * @overView ${todo}.
+ * @overView QQ接收的文件adapter
  */
 
 public class QQExpandableAdapter2 extends BaseExpandableListAdapter implements View.OnClickListener {
@@ -181,33 +181,8 @@ public class QQExpandableAdapter2 extends BaseExpandableListAdapter implements V
         /*if (itemDatas[0] != null) {
             setController(ch.sdv2, UriUtil.parseUriOrNull("file://" + itemDatas[2].path));
         }*/
-
-        // TODO: 2017/5/4 0004 继续
         return convertView;
     }
-
-   /* private void setExportAttributes(TextView tv_time0, WareFileInfo itemData) {
-        if (tv_time0 == null || itemData == null)
-            return;
-        int status = itemData.getExportStatus();
-        if (status == WareFileInfo.EXPORT_SUCCESS) {
-            tv_time0.setVisibility(View.VISIBLE);
-            tv_time0.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
-            tv_time0.setTextColor(Color.WHITE);
-            tv_time0.setText(R.string.has_export);
-            tv_time0.setPadding(4, 2, 4, 2);
-            tv_time0.setBackgroundColor(res.getColor(R.color.wechat_export_success_bg));
-        } else if (status == WareFileInfo.EXPORT_FAILE) {
-            tv_time0.setVisibility(View.VISIBLE);
-            tv_time0.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
-            tv_time0.setTextColor(Color.WHITE);
-            tv_time0.setPadding(4, 2, 4, 2);
-            tv_time0.setText(R.string.export_fail);
-            tv_time0.setBackgroundColor(res.getColor(R.color.wechat_export_fail_bg));
-        } else {
-            tv_time0.setVisibility(View.GONE);
-        }
-    }*/
 
     @Override
     public void onClick(View v) {
@@ -276,7 +251,6 @@ public class QQExpandableAdapter2 extends BaseExpandableListAdapter implements V
     public boolean hasStableIds() {
         return false;
     }
-
 
     static class GroupHolder {
         public TextView tv_time, tv_size;

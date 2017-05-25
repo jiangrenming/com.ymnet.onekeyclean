@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.animation.TweenAnimationUtils;
 import com.ymnet.onekeyclean.cleanmore.constants.QQConstants;
@@ -26,9 +27,15 @@ import com.ymnet.onekeyclean.cleanmore.qq.presenter.QQPresenter;
 import com.ymnet.onekeyclean.cleanmore.qq.presenter.QQPresenterImpl;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
+import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
+import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewClickListener;
 import com.ymnet.onekeyclean.cleanmore.wechat.view.BaseFragmentActivity;
 import com.ymnet.onekeyclean.cleanmore.widget.SGTextView;
+import com.ymnet.onekeyclean.cleanmore.widget.WaveLoadingView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import bolts.Task;
 
@@ -41,11 +48,16 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
     private QQRecyclerViewAdapter adapter;
     private View                  ani_view;
     private String TAG="QQActivity";
+    private WaveLoadingView mWaveLoadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qq);
+
+        Map<String, String> m = new HashMap<>();
+        m.put(OnekeyField.ONEKEYCLEAN, "qq_clean");
+        MobclickAgent.onEvent(this, StatisticMob.STATISTIC_ID, m);
 
         C.setContext(getApplication());
         mPresenter = new QQPresenterImpl(this);
@@ -129,12 +141,20 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
     private SGTextView tv_size, tv_unit;
     private View view_head;
     private int headHeight;
 
     private void initializeHeadView() {
         view_head = getLayoutInflater().inflate(R.layout.qq_head, rv, false);
+        mWaveLoadingView = (WaveLoadingView) view_head.findViewById(R.id.waveLoadingView);
+        mWaveLoadingView.setAmplitudeRatio(33);
         tv_size = (SGTextView) view_head.findViewById(R.id.tv_size);
         tv_unit = (SGTextView) view_head.findViewById(R.id.tv_unit);
         ViewTreeObserver observer = view_head.getViewTreeObserver();
@@ -169,6 +189,8 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
     int  titleHeight;
 
     private void initTitleBar() {
+        mWaveLoadingView = (WaveLoadingView)findViewById(R.id.waveLoadingView);
+
         ll_title = findViewById(R.id.ll_title);
         TextView left_btn = (TextView) findViewById(R.id.junk_title_txt);
         left_btn.setText(R.string.qq_clean);
@@ -201,12 +223,22 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
             public void run() {
                 RecyclerView.Adapter adapter = rv.getAdapter();
                 if (adapter != null) {
+                    int value;
                     adapter.notifyDataSetChanged();
                     long size = mPresenter.getSize();
                     String[] unit = FormatUtils.getFileSizeAndUnit(size);
                     if (unit != null && unit.length == 2) {
                         tv_size.setText(unit[0]);
                         tv_unit.setText(unit[1]);
+                        if (size < 10 * 1024 * 1024) {
+                            value = 10;
+                        } else if (size < 75 * 1024 * 1024) {
+                            value = 30;
+                        } else {
+                            value = 70;
+                        }
+                        Log.d("CleaningFragment", "value:" + value);
+                        mWaveLoadingView.setProgressValue(value);
                     }
                 }
             }
@@ -266,7 +298,8 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
             public void run() {
                 ViewGroup.LayoutParams params = ani_view.getLayoutParams();
                 params.height = headHeight + titleHeight;
-                ani_view.setVisibility(View.VISIBLE);
+//                ani_view.setVisibility(View.VISIBLE);
+                ani_view.setVisibility(View.GONE);
                 ani_view.requestLayout();
 
                 TweenAnimationUtils.startScanTranslateAnimation(QQActivity.this, ani_view);
@@ -295,5 +328,13 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
     @Override
     public void showError() {
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mWaveLoadingView != null) {
+            mWaveLoadingView.cancelAnimation();
+        }
     }
 }

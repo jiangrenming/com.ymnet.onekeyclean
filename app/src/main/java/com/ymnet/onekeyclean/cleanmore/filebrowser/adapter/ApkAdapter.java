@@ -96,8 +96,6 @@ public class ApkAdapter extends BaseAdapter implements OnClickListener {
 		mHolder.tvName.setText(mInfos.get(position).appName);
 
 //        ImageLoader.getInstance().displayImage(MarketImageDownloader.UNINSTALLED_APP_SCHEME + mInfos.get(position).filePath, mHolder.ivPic);
-		// TODO: 2017/4/28 0028 暂时注释掉: 替换为小机器人
-		//		mHolder.ivPic.setImageURI(UriUtil.parseUriOrNull(MarkFrescoIconLoadUtils.APK_SCHEME + mInfos.get(position).filePath));
 		mHolder.ivPic.setImageResource(R.drawable.app_icon_bg);
 		return convertView;
 	}

@@ -269,7 +269,6 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
                     holder.iv_junk_icon.setImageResource(R.drawable.big_file_folder);
                 } else {
 
-                    // TODO: 2017/4/26 0026 暂时注释掉:替换为小机器人
                     if (cache.icon == null) {
                         holder.iv_junk_icon.setImageResource(R.drawable.file_features_icon);
                     } else {
@@ -279,7 +278,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
                 holder.ll_junk_layout.setOnClickListener(getCacheOnClickListener(cache, groupPosition, childPosition));
             } else if (childrenItem instanceof JunkChildResidual) {
                 JunkChildResidual residual = (JunkChildResidual) childrenItem;
-                holder.iv_junk_icon.setImageResource(R.drawable.big_file_folder);
+                holder.iv_junk_icon.setImageResource(R.drawable.file_features_icon);
                 holder.tv_junk_tip.setText(R.string.junk_suggest_title);
                 holder.iv_junk_icon_small.setVisibility(View.GONE);
                 holder.fl_junk_subscript.setVisibility(View.GONE);
@@ -289,7 +288,6 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
                 holder.iv_junk_icon_small.setVisibility(View.GONE);
                 holder.fl_junk_subscript.setVisibility(View.GONE);
                 JunkChildApk apk = (JunkChildApk) childrenItem;
-                // TODO: 2017/4/26 0026 暂时注释掉: 替换为小机器人
                 if (apk.icon == null) {
                     holder.iv_junk_icon.setImageResource(R.mipmap.robot);
                 } else {
@@ -336,7 +334,6 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
                 }
                 holder.ll_junk_layout.setOnClickListener(getRAMOnClickListener(ram, groupPosition));
 
-                // TODO: 2017/4/26 0026 暂时注释掉: 替换为小机器人
                 if (ram.icon == null) {
                     holder.iv_junk_icon.setImageResource(R.mipmap.robot);
                 } else {
@@ -354,7 +351,6 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
                 holder.iv_child_checkBox.setVisibility(View.INVISIBLE);
                 holder.ll_child_three.setOnClickListener(null);
                 holder.ll_child_three.setOnLongClickListener(null);
-                // TODO: 2017/4/26 0026 暂时注释掉: 替换为小机器人
                 if (childOfChild.icon == null) {
                     holder.iv_child_icon.setImageResource(R.mipmap.robot);
                 } else {
@@ -455,7 +451,6 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
             public boolean onLongClick(View v) {
                 final AddTrustDialog trustDialog = DialogFactory.createTrustDialog(activity);
                 trustDialog.show();
-                // TODO: 2017/4/26 0026 暂时注释掉: 替换为小机器人
                 trustDialog.getIcon().setImageResource(R.mipmap.robot);
                 trustDialog.setName(childOfChild.name);
                 trustDialog.setBtnOnClickListener(new OnClickListener() {
@@ -568,7 +563,6 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
                 final AddTrustDialog trustDialog = DialogFactory.createTrustDialog(activity);
                 trustDialog.show();
                 trustDialog.setBtnText(ram.getSelect() == 1 ? activity.getString(R.string.not_checked) : activity.getString(R.string.check));
-                // TODO: 2017/4/26 0026 暂时注释掉: 替换为小机器人
                 if (ram.icon == null) {
                     trustDialog.getIcon().setImageResource(R.mipmap.robot);
                 } else {
@@ -708,7 +702,6 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
             public boolean onLongClick(View v) {
                 final AddTrustDialog trustDialog = DialogFactory.createTrustDialog(activity);
                 trustDialog.show();
-                // TODO: 2017/4/26 0026 暂时注释掉: 替换为小机器人
                 if (apk.icon == null) {
                     trustDialog.getIcon().setImageResource(R.mipmap.robot);
                 } else {
@@ -822,7 +815,6 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
             public boolean onLongClick(View v) {
                 final AddTrustDialog trustDialog = DialogFactory.createTrustDialog(activity);
                 trustDialog.show();
-                // TODO: 2017/4/26 0026 暂时注释掉: 替换为小机器人
                 if (cache.icon == null) {
                     trustDialog.getIcon().setImageResource(R.mipmap.robot);
                 } else {
@@ -1123,12 +1115,15 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
                 }
             } else {
                 if (state == ScanHelp.STATE_ALL_SELECT) {
-                    groupCb.setImageResource(R.drawable.item_check);
+//                    groupCb.setImageResource(R.drawable.item_check);
+                    groupCb.setImageResource(R.drawable.junk_scan_status_finish);
                     //                    groupCb.setBackgroundResource(R.drawable.junk_checkbox_checked);
                 } else if (state == ScanHelp.STATE_UNALL_SELECT) {
-                    groupCb.setImageResource(R.drawable.item_notcheck);
+//                    groupCb.setImageResource(R.drawable.item_notcheck);
+                    groupCb.setImageResource(R.drawable.ring);
                 } else if (state == ScanHelp.STATE_HALF_SELECT) {
-                    groupCb.setImageResource(R.drawable.junk_checkbox_halfselect);
+//                    groupCb.setImageResource(R.drawable.junk_checkbox_halfselect);
+                    groupCb.setImageResource(R.drawable.ring);
                 }
             }
 
@@ -1159,12 +1154,15 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
                 }
             } else {
                 if (state == ScanHelp.STATE_ALL_SELECT) {
-                    iv_junk_checkbox.setImageResource(R.drawable.item_check);
+//                    iv_junk_checkbox.setImageResource(R.drawable.item_check);
+                    iv_junk_checkbox.setImageResource(R.drawable.junk_scan_status_finish);
                     //                    groupCb.setBackgroundResource(R.drawable.junk_checkbox_checked);
                 } else if (state == ScanHelp.STATE_UNALL_SELECT) {
-                    iv_junk_checkbox.setImageResource(R.drawable.item_notcheck);
+//                    iv_junk_checkbox.setImageResource(R.drawable.item_notcheck);
+                    iv_junk_checkbox.setImageResource(R.drawable.ring);
                 } else if (state == ScanHelp.STATE_HALF_SELECT) {
-                    iv_junk_checkbox.setImageResource(R.drawable.junk_checkbox_halfselect);
+                    iv_junk_checkbox.setImageResource(R.drawable.ring);
+//                    iv_junk_checkbox.setImageResource(R.drawable.junk_checkbox_halfselect);
                 }
             }
 

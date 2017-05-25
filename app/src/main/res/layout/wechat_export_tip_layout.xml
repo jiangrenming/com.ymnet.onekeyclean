@@ -18,7 +18,7 @@
         <ImageView
             android:id="@+id/iv_close"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:padding="8dp"
             android:scaleType="fitStart"
             android:src="@drawable/wechat_export_tip_close"/>

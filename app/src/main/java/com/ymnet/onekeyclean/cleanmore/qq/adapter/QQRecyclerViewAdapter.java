@@ -33,8 +33,9 @@ import java.util.List;
 
 /**
  * Created by wangduheng26 on 4/1/16.
+ * override  QQ清理界面recyclerview
  */
-// TODO: 2017/4/21 0021 QQ清理界面recyclerview
+
 public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter {
     private static final String TAG = "QQRecyclerViewAdapter";
     private QQContent                 content;
@@ -141,7 +142,7 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
             if (chatFile.isInEndAnim()) {
                 holder.btn_scan_status.setBackgroundResource(R.drawable.btn_clean_bg);
                 holder.btn_scan_status.setTextColor(resources.getColor(R.color.white));
-                holder.btn_scan_status.setText("去处理");
+                holder.btn_scan_status.setText(R.string.qq_go_clean);
             } else {
                 holder.btn_scan_status.setBackgroundResource(R.drawable.btn_scanning);
                 holder.btn_scan_status.setTextColor(resources.getColor(R.color.radio_text_color));
@@ -242,7 +243,7 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
             if (chatFile.isInEndAnim()) {
                 holder.btn_scan_status.setBackgroundResource(R.drawable.btn_clean_bg);
                 holder.btn_scan_status.setTextColor(resources.getColor(R.color.white));
-                holder.btn_scan_status.setText("去处理");
+                holder.btn_scan_status.setText(R.string.qq_go_clean);
             } else {
                 holder.btn_scan_status.setBackgroundResource(R.drawable.btn_scanning);
                 holder.btn_scan_status.setTextColor(resources.getColor(R.color.radio_text_color));
@@ -275,7 +276,6 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
             holder.btn_scan_status.setVisibility(View.GONE);
             holder.ll_clean_result.setVisibility(View.VISIBLE);
             holder.tv_clean_size.setText(Html.fromHtml(resources.getString(R.string.wechat_free_spcae, holder.tv_trust_size.getText())));
-            // TODO: 2017/5/19 0019 删除完成之后
             com.ymnet.onekeyclean.cleanmore.utils.ToastUtil.showToastForShort("删除成功~\\(≧▽≦)/~啦啦啦");
         } else if (QQFileType.DELETE_ING == chatFile.getDeleteStatus()) {
             //正在删除

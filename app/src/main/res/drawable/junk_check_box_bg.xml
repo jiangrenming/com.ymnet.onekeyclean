@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--todo 改成圆形的-->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-	<item android:state_activated="false" android:state_selected="true" android:drawable="@drawable/item_check" />
-    <item android:state_activated="false" android:state_selected="false" android:drawable="@drawable/item_notcheck" />
+	<!--<item android:state_activated="false" android:state_selected="true" android:drawable="@drawable/item_check" />-->
+	<item android:state_activated="false" android:state_selected="true" android:drawable="@drawable/junk_scan_status_finish" />
+    <!--<item android:state_activated="false" android:state_selected="false" android:drawable="@drawable/item_notcheck" />-->
+    <item android:state_activated="false" android:state_selected="false" android:drawable="@drawable/ring" />
 	<!--<item android:state_activated="true" android:drawable="@drawable/junk_checkbox_halfselect"/>-->
-    <item android:drawable="@drawable/item_notcheck" />
+    <item android:drawable="@drawable/ring" />
 </selector>

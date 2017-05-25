@@ -8,10 +8,6 @@ import android.view.WindowManager;
 /**
  * @author Maj1nBuu
  * @data 2017/2/8 21:14.
- * @overView ${TODO}
- * @updater $Author$
- * @updateTime $Date$
- * @updateOverView ${TODO}
  */
 
 public class BoomView extends View {
@@ -37,7 +33,5 @@ public class BoomView extends View {
 
         mWindowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
     }
-
-
 
 }

@@ -102,10 +102,11 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.LOCATION_HARDWARE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR"/>
 
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.autofocus"/>
@@ -211,6 +212,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".cleanmore.web.WebHtmlActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"/>
 
         <receiver
             android:name="com.ymnet.killbackground.deviceAdminReceiver"
@@ -252,32 +257,42 @@
 
         <activity android:name=".cleanmore.notification.HomeTabActivity">
         </activity>
+
         <service
             android:name=".cleanmore.accountauthenticator.AuthenticationService"
             android:process=":auth">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
+
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator"/>
         </service>
+
         <provider
             android:name=".cleanmore.accountauthenticator.AccountProviderNew"
             android:authorities="onekeyclean_account"
             android:exported="true"/>
 
         <service
-            android:name="com.ymnet.onekeyclean.cleanmore.accountauthenticator.SyncAdapterService"
+            android:name=".cleanmore.accountauthenticator.SyncAdapterService"
             android:exported="true"
             android:process=":syncdata">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter"/>
             </intent-filter>
+
             <meta-data
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter"/>
         </service>
+
+        <receiver
+            android:name=".cleanmore.notification.SettingsReceiver"
+            android:enabled="true"
+            android:exported="true">
+        </receiver>
     </application>
 
 </manifest>

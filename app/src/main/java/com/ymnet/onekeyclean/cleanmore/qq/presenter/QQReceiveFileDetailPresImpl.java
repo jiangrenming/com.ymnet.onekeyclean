@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * Created by MajinBuu on 2017/5/5 0005.
  *
- * @overView ${todo}.
  */
 
 public class QQReceiveFileDetailPresImpl implements QQDetailPresenter<QQReceiveMode> {

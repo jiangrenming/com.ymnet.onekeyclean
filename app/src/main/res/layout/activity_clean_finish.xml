@@ -33,6 +33,13 @@
                 android:src="@drawable/clean_sun_center_bg"/>
 
             <ImageView
+                android:id="@+id/iv_blingbling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bling_anim"
+                android:visibility="gone"/>
+
+            <ImageView
                 android:id="@+id/iv_high_light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -40,10 +47,10 @@
                 android:layout_marginLeft="-400dp"
                 android:src="@drawable/high_light"/>
 
-            <ImageView
+            <!--<ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/mask_blue"/>
+                android:src="@drawable/mask_blue"/>-->
         </FrameLayout>
 
         <TextView
@@ -82,4 +89,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
+    <!--<FrameLayout
+        android:id="@+id/fl_morefunction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />-->
 </LinearLayout>

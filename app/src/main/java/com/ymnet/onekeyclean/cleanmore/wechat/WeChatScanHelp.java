@@ -82,7 +82,7 @@ public class WeChatScanHelp {
         return C.get().getString(id);
     }
 
-    // TODO: 2017/4/19 0019 微信获取各种数据处
+    //微信获取各种数据处
     public WeChatContent getInitData() {
         boolean isResetData = (System.currentTimeMillis() - exitTime) > 5 * TimeConstants.MINUTE;
         //大于五分钟才显示再次扫描
@@ -240,7 +240,7 @@ public class WeChatScanHelp {
 
 
     private void startScanFile(final WeChatContent datas) {
-        // TODO: 2017/5/10 0010 先扫描是否安装微信app
+        //先扫描是否安装微信app
         if (checkStorageState()) {
             Task.BACKGROUND_EXECUTOR.execute(new Runnable() {
                 @Override
@@ -467,8 +467,6 @@ public class WeChatScanHelp {
                         return;
                     }
                     String path = paths[i];
-                    // TODO: 2017/4/25 0025
-                    //                    getData(weChatFile, path, list, null);
                     getData(weChatFile, path, list, null);
                 }
             }

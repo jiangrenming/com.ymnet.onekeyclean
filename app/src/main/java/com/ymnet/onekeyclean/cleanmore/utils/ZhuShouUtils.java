@@ -50,7 +50,7 @@ public class ZhuShouUtils {
                 int canMove = 0;
                 try {
                     PackageInfo packageInfo = pm.getPackageInfo(a.packageName, 0);
-                    Field field = packageInfo.getClass().getField("installLocation");
+                    OnekeyField field = packageInfo.getClass().getField("installLocation");
                     field.setAccessible(true);
                     canMove = field.getInt(packageInfo);
                 } catch (Throwable e) {

@@ -68,7 +68,7 @@ public class QQDetailPresImpl implements QQDetailPresenter<QQPicMode> {
         if (data == null)
             return result;
         if (data instanceof QQPicMode) {
-            List<ListDataMode> pics = ((QQPicMode)data).getPics();
+            List<ListDataMode> pics = ((QQPicMode) data).getPics();
             if (pics == null || pics.isEmpty())
                 return result;
             for (ListDataMode temp : pics) {
@@ -77,7 +77,7 @@ public class QQDetailPresImpl implements QQDetailPresenter<QQPicMode> {
             }
             return result;
         } else if (data instanceof QQReceiveMode) {
-            List<ListDataMode> receiveFile = ((QQReceiveMode)data).getReceiveFile();
+            List<ListDataMode> receiveFile = ((QQReceiveMode) data).getReceiveFile();
             if (receiveFile == null || receiveFile.isEmpty())
                 return result;
             for (ListDataMode temp : receiveFile) {
@@ -104,7 +104,7 @@ public class QQDetailPresImpl implements QQDetailPresenter<QQPicMode> {
                     if (info.fileName == null) {
                         FileTreeUtils.simpleDeleteFile(info.path);
                     } else {
-                        FileTreeUtils.simpleDeleteFile(info.path+File.separator+info.fileName);
+                        FileTreeUtils.simpleDeleteFile(info.path + File.separator + info.fileName);
                     }
                     info.hasDelete = true;
                 }
@@ -143,7 +143,7 @@ public class QQDetailPresImpl implements QQDetailPresenter<QQPicMode> {
                 }
             }
         } else {
-            List<ListDataMode> receiveFile = ((QQReceiveMode)data).getReceiveFile();
+            List<ListDataMode> receiveFile = ((QQReceiveMode) data).getReceiveFile();
             if (receiveFile == null || receiveFile.isEmpty())
                 return false;
             Iterator<ListDataMode> iterator = receiveFile.iterator();
@@ -307,9 +307,9 @@ public class QQDetailPresImpl implements QQDetailPresenter<QQPicMode> {
             return;
         List<ListDataMode> temp;
         if (data instanceof QQPicMode) {
-             temp = ((QQPicMode) data).getPics();
+            temp = ((QQPicMode) data).getPics();
         } else {//QQReceiveMode类型
-             temp = ((QQReceiveMode) data).getReceiveFile();
+            temp = ((QQReceiveMode) data).getReceiveFile();
         }
         if (temp == null || temp.isEmpty())
             return;
@@ -347,12 +347,7 @@ public class QQDetailPresImpl implements QQDetailPresenter<QQPicMode> {
         if (extra < 0)
             extra = 0;
         try {
-            // TODO: 2017/5/8 0008 类型转换异常
-           /* if (qqFileType instanceof QQPicMode) {
-                data = (QQPicMode) QQScanHelp.getInstance().get(extra);
-            } else {*/
-                data =  QQScanHelp.getInstance().get(extra);
-//            }
+            data = QQScanHelp.getInstance().get(extra);
             cancleAll();
         } catch (Exception e) {
             e.printStackTrace();

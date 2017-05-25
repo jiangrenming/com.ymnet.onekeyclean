@@ -25,7 +25,6 @@ public class AddTrustDialog extends Dialog {
     public AddTrustDialog(Context context) {
         super(context, R.style.DialogTheme);
         this.context = context;
-        // TODO Auto-generated constructor stub
     }
 
 

@@ -21,24 +21,20 @@ public class ListViewDialog extends Dialog {
     public ListViewDialog(Context context) {
         super(context, R.style.DialogTheme);
         this.context = context;
-        // TODO Auto-generated constructor stub
     }
     public ListViewDialog(Context context, BaseAdapter adapter, OnItemClickListener click) {
         super(context, R.style.DialogTheme);
         this.context = context;
         this.click = click;
         this.adapter = adapter;
-        // TODO Auto-generated constructor stub
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_listview);
         initView();
     }
     private void initView() {
-        // TODO Auto-generated method stub
         tv_title = (TextView) findViewById(R.id.tv_dialog_title);
         lv_show = (ListView) findViewById(R.id.lv_show);
         lv_show.setOnItemClickListener(click);

@@ -3,7 +3,7 @@ package com.ymnet.onekeyclean.cleanmore.constants;
 /**
  * Created by wangduheng26 on 4/1/16.
  */
-// TODO: 2017/5/3 0003 QQ扫描路径要修改
+//QQ扫描路径
 public interface QQConstants {
     String BASE_PATH = "/Tencent/MobileQQ/";
 
@@ -22,7 +22,7 @@ public interface QQConstants {
     String QQ_TIME_STATUE_ONE        = "1个月前";
     String QQ_TIME_STATUE_ONE_BEFORE = "1个月内";
 
-    // TODO: 2017/5/3 0003 QQ缓存清理目录
+    // QQ缓存清理目录
     //TEMP 路径
     String[] TEMP_PATH = {
             BASE_PATH + "diskcache"

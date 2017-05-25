@@ -19,7 +19,6 @@ import bolts.Task;
 /**
  * Created by MajinBuu on 2017/5/3 0003.
  *
- * @overView ${todo}.
  */
 
 public class QQPresenterImpl implements QQPresenter{

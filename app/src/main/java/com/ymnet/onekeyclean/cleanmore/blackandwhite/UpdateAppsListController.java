@@ -29,78 +29,67 @@ public class UpdateAppsListController implements BlackAndWhiteList<AppBAWLocal>
     @Override
     public ArrayList<AppBAWLocal> getWhiteList()
     {
-        // TODO Auto-generated method stub
         return appsList.getWhiteList();
     }
     
     @Override
     public ArrayList<AppBAWLocal> getBlackList()
     {
-        // TODO Auto-generated method stub
         return appsList.getBlackList();
     }
     
     @Override
     public boolean addToWhiteList(AppBAWLocal t)
     {
-        // TODO Auto-generated method stub
         return appsList.addToWhiteList(t);
     }
     
     @Override
     public boolean removeFromWhiteList(AppBAWLocal t)
     {
-        // TODO Auto-generated method stub
         return appsList.removeFromWhiteList(t);
     }
     
     @Override
     public boolean addToBlackList(AppBAWLocal t)
     {
-        // TODO Auto-generated method stub
         return appsList.addToBlackList(t);
     }
     
     @Override
     public boolean removeFromBlackList(AppBAWLocal t)
     {
-        // TODO Auto-generated method stub
         return appsList.removeFromBlackList(t);
     }
     
     @Override
     public boolean isInWhiteList(AppBAWLocal t)
     {
-        // TODO Auto-generated method stub
         return appsList.isInWhiteList(t);
     }
     
     @Override
     public boolean isInBlackList(AppBAWLocal t)
     {
-        // TODO Auto-generated method stub
         return appsList.isInBlackList(t);
     }
     
     @Override
     public boolean clearWhiteList()
     {
-        // TODO Auto-generated method stub
         return appsList.clearWhiteList();
     }
     
     @Override
     public boolean clearBlackList()
     {
-        // TODO Auto-generated method stub
         return appsList.clearBlackList();
     }
     
     @Override
     public void initList()
     {
-        // TODO Auto-generated method stub
-        
+
     }
     
     private void init(Context cxt)

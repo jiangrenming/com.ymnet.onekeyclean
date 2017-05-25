@@ -37,7 +37,7 @@ public class SGTextView extends TextView {
     }
 
     private void init() {
-        fromAsset = Typeface.createFromAsset(getContext().getAssets(), "fonts/cm_main_percent2345.ttf");
+        fromAsset = Typeface.createFromAsset(getContext().getAssets(), "fonts/System San Francisco Display Regular.ttf");
         mPaint = getPaint();
         mPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
 

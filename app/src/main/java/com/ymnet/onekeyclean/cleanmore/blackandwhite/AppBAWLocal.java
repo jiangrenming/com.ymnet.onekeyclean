@@ -124,7 +124,6 @@ public class AppBAWLocal implements Serializable
     @Override
     public boolean equals(Object o)
     {
-        // TODO Auto-generated method stub
         if(o != null && (getClass() == o.getClass())){
             return ((AppBAWLocal) o).packageName.equals(packageName);
         }
