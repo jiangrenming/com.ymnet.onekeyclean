@@ -34,6 +34,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.ymnet.killbackground.QihooSystemUtil;
 import com.ymnet.killbackground.Utilities;
 import com.ymnet.killbackground.customlistener.MyViewPropertyAnimatorListener;
+import com.ymnet.killbackground.download.PushManager;
 import com.ymnet.killbackground.presenter.CleanPresenter;
 import com.ymnet.killbackground.presenter.CleanPresenterImpl;
 import com.ymnet.killbackground.utils.Run;
@@ -55,7 +56,6 @@ import static com.example.commonlibrary.systemmanager.SystemMemory.getAvailMemor
 import static com.example.commonlibrary.systemmanager.SystemMemory.getTotalMemorySize;
 
 public class CleanActivity extends Activity implements CleanView {
-
     private static final String TAG = "CleanActivity";
     private ImageView            mRotateImage;
     private ObjectAnimator       mOa1;
@@ -171,7 +171,7 @@ public class CleanActivity extends Activity implements CleanView {
                 public void onAnimationEnd(final Animation animation) {
 
                     startStaticApp(getApplicationContext());
-                    DownLoadFactory.getInstance().getInsideInterface().updateApp(CleanActivity.this);
+                    DownLoadFactory.getInstance().getInsideInterface().updateApp();
                 }
 
                 @Override
@@ -270,7 +270,7 @@ public class CleanActivity extends Activity implements CleanView {
 
     private void initData() {
         mTotalMemory = getTotalMemorySize(CleanActivity.this);
-        DownLoadFactory.getInstance().init(this);
+        DownLoadFactory.getInstance().init(this,null, PushManager.getInstance());
     }
 
 
@@ -445,7 +445,7 @@ public class CleanActivity extends Activity implements CleanView {
         }, time);
 
         startStaticApp(getApplicationContext());
-        DownLoadFactory.getInstance().getInsideInterface().updateApp(CleanActivity.this);
+        DownLoadFactory.getInstance().getInsideInterface().updateApp();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
