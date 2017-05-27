@@ -43,11 +43,11 @@ import bolts.Task;
 public class QQActivity extends BaseFragmentActivity implements QQMVPView {
 
     public final static String EXTRA_ITEM_POSITION = "qq_position";
-    public static final String QQ_FILE_TYPE         = "qq_filetype";
+    public static final String QQ_FILE_TYPE        = "qq_filetype";
     private QQPresenter           mPresenter;
     private QQRecyclerViewAdapter adapter;
     private View                  ani_view;
-    private String TAG="QQActivity";
+    private String TAG = "QQActivity";
     private WaveLoadingView mWaveLoadingView;
 
     @Override
@@ -56,7 +56,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
         setContentView(R.layout.activity_qq);
 
         Map<String, String> m = new HashMap<>();
-        m.put(OnekeyField.ONEKEYCLEAN, "qq_clean");
+        m.put(OnekeyField.ONEKEYCLEAN, "QQ清理");
         MobclickAgent.onEvent(this, StatisticMob.STATISTIC_ID, m);
 
         C.setContext(getApplication());
@@ -65,6 +65,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
         initializeRecyclerView();
         ani_view = findViewById(R.id.ani_view);
     }
+
     private RecyclerViewPlus      rv;
     private DividerItemDecoration did;
 
@@ -97,7 +98,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
         adapter.setRecyclerListListener(new RecyclerViewClickListener() {
             @Override
             public void onClick(View v, int position) {
-                Log.d(TAG, "onClick: "+position);
+                Log.d(TAG, "onClick: " + position);
                 navigationOther(position);
             }
         });
@@ -109,17 +110,17 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
         if (mPresenter != null) {
             QQFileType type = mPresenter.get(position);
             if (type != null) {
-                Log.d(TAG, "navigationOther: "+"type不为null");
+                Log.d(TAG, "navigationOther: " + "type不为null");
                 //                StatisticSpec.sendEvent(type.getsE());
                 if (QQFileType.DELETE_DEFAULT == type.getDeleteStatus()) {
                     if (type.getType() == QQConstants.QQ_TYPE_DEFALUT) {
                         mPresenter.remove(position);
-                        Log.d(TAG, "navigationOther: "+"不跳转,类型为QQ_TYPE_DEFALUT");
+                        Log.d(TAG, "navigationOther: " + "不跳转,类型为QQ_TYPE_DEFALUT");
                     } else {
-                        Log.d(TAG, "navigationOther: "+"跳转");
+                        Log.d(TAG, "navigationOther: " + "跳转");
                         Intent intent = new Intent(this, QQDetailActivity.class);
                         intent.putExtra(EXTRA_ITEM_POSITION, position);
-                        intent.putExtra(QQ_FILE_TYPE,type);
+                        intent.putExtra(QQ_FILE_TYPE, type);
                         startActivityForResult(intent, REQUEST_DETAIL_CHANGE);
                     }
                 }
@@ -149,7 +150,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
 
     private SGTextView tv_size, tv_unit;
     private View view_head;
-    private int headHeight;
+    private int  headHeight;
 
     private void initializeHeadView() {
         view_head = getLayoutInflater().inflate(R.layout.qq_head, rv, false);
@@ -189,7 +190,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
     int  titleHeight;
 
     private void initTitleBar() {
-        mWaveLoadingView = (WaveLoadingView)findViewById(R.id.waveLoadingView);
+        mWaveLoadingView = (WaveLoadingView) findViewById(R.id.waveLoadingView);
 
         ll_title = findViewById(R.id.ll_title);
         TextView left_btn = (TextView) findViewById(R.id.junk_title_txt);
@@ -264,6 +265,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
      * 标记是否做扫描动画
      */
     boolean end = true;
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -298,7 +300,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
             public void run() {
                 ViewGroup.LayoutParams params = ani_view.getLayoutParams();
                 params.height = headHeight + titleHeight;
-//                ani_view.setVisibility(View.VISIBLE);
+                //                ani_view.setVisibility(View.VISIBLE);
                 ani_view.setVisibility(View.GONE);
                 ani_view.requestLayout();
 

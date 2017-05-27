@@ -1,7 +1,5 @@
 package com.ymnet.onekeyclean.cleanmore.wechat.listener;
 
-import android.view.View;
-
 /**
  * Created by MajinBuu on 2017/5/23 0023.
  *
@@ -9,5 +7,5 @@ import android.view.View;
  */
 
 public interface RecyclerViewScrollListener {
-    void onScroll(View view, int position);
+    void onScroll();
 }

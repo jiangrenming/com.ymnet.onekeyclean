@@ -20,16 +20,16 @@ import android.view.ViewGroup;
 public class RecyclerViewPlus extends RecyclerView {
 
     private static final String TAG = RecyclerViewPlus.class.getSimpleName();
-
-//    private SpecialListFragment.OnListviewScrollListener listener;
+    //    private SpecialListFragment.OnListviewScrollListener listener;
 
     @Nullable
     private View emptyView;
 
     private LayoutManager mLayoutManager;
-
+    private Context mContext;
     public RecyclerViewPlus(Context context) {
         super(context);
+        this.mContext = context;
         init();
     }
 
@@ -43,32 +43,40 @@ public class RecyclerViewPlus extends RecyclerView {
         init();
     }
 
-    private void init() {
-//        setOnScrollListener(scrollListener);
+    public void init() {
+        //        setOnScrollListener(scrollListener);
     }
 
-   /* public void setListviewScrollListener(SpecialListFragment.OnListviewScrollListener listener) {
-        this.listener = listener;
+    @Override
+    public void onChildDetachedFromWindow(View child) {
+        getChildDetached(child);
     }
 
-    private OnScrollListener scrollListener = new OnScrollListener() {
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            if (listener != null) {
-                listener.onScrolled(recyclerView, dx, dy);
-            }
+    public View getChildDetached(View child) {
+        return child;
+    }
+
+    /*public void setListviewScrollListener(SpecialListFragment.OnListviewScrollListener listener) {
+            this.listener = listener;
         }
 
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-            if (listener != null) {
-                listener.onScrollStateChanged(recyclerView, newState);
+        private OnScrollListener scrollListener = new OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (listener != null) {
+                    listener.onScrolled(recyclerView, dx, dy);
+                }
             }
-        }
-    };*/
 
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (listener != null) {
+                    listener.onScrollStateChanged(recyclerView, newState);
+                }
+            }
+        };*/
     private void checkIfEmpty() {
         if (emptyView != null && getAdapter() != null) {
             RecyclerView.Adapter adapter = getAdapter();
@@ -142,10 +150,10 @@ public class RecyclerViewPlus extends RecyclerView {
     public static abstract class HeaderFooterItemAdapter extends RecyclerView.Adapter {
 
         private SparseArray<ViewHolderWrapper> mHeaderViews;
-        private int mHeaderFooterViewType;
+        private int                            mHeaderFooterViewType;
         private SparseArray<ViewHolderWrapper> mFooterViews;
-        private int mHeaderCount;//头部View个数
-        private int mFooterCount;//底部View个数
+        private int                            mHeaderCount;//头部View个数
+        private int                            mFooterCount;//底部View个数
 
 
         public boolean isHeaderView(int position) {
@@ -169,7 +177,7 @@ public class RecyclerViewPlus extends RecyclerView {
         }
 
 
-/**
+        /**
          * Called when RecyclerView needs a new {@link ViewHolder} of the given type to represent
          * an item.
          * <p>
@@ -208,7 +216,7 @@ public class RecyclerViewPlus extends RecyclerView {
         }
 
 
-/**
+        /**
          * Return the view type of the item at <code>position</code> for the purposes
          * of view recycling.
          * <p>
@@ -245,7 +253,7 @@ public class RecyclerViewPlus extends RecyclerView {
         }
 
 
-/**
+        /**
          * Returns the total number of items in the data set hold by the adapter.
          * <p>
          * You can NOT override this yourself!
@@ -297,7 +305,7 @@ public class RecyclerViewPlus extends RecyclerView {
         }
 
 
-/**
+        /**
          * Called by RecyclerView to display the data at the specified position. This method
          * should update the contents of the {@link ViewHolder#itemView} to reflect the item at
          * the given position.

@@ -52,7 +52,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
         setContentView(R.layout.activity_we_chat);
 
         Map<String, String> m = new HashMap<>();
-        m.put(OnekeyField.ONEKEYCLEAN, "wechat_clean");
+        m.put(OnekeyField.ONEKEYCLEAN, "微信清理");
         MobclickAgent.onEvent(this, StatisticMob.STATISTIC_ID, m);
 
         C.setContext(getApplication());

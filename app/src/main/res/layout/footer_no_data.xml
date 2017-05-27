@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/dialog_btn_background_selector"
+              android:orientation="vertical">
 
     <TextView
         android:id="@+id/footer_more"
@@ -10,7 +11,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp"
-        android:text="点击查看更多..."
+        android:text="点击查看更多"
         android:textColor="@color/bottom_tab_font_selected"
-        android:textSize="15sp" />
+        android:textSize="15sp"/>
 </LinearLayout>

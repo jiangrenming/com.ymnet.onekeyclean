@@ -79,7 +79,10 @@ public class ScanningFragment extends BaseFragment {
 
     private void initView(View view) {
         headView = (FrameLayout) view.findViewById(R.id.fl_head);
+
         mWaveLoadingView = (WaveLoadingView) view.findViewById(R.id.waveLoadingView);
+        mWaveLoadingView.setAmplitudeRatio(33);
+
         tv_scan_progress = (TextView) view.findViewById(R.id.tv_scan_progress);
         tv_size = (TextView) view.findViewById(R.id.tv_size);
         tv_unit = (TextView) view.findViewById(R.id.tv_unit);
@@ -180,7 +183,6 @@ public class ScanningFragment extends BaseFragment {
         }
         Log.d("CleaningFragment", "value:" + value);
         mWaveLoadingView.setProgressValue(value);
-        mWaveLoadingView.setAmplitudeRatio(33);
 
        /* if (headView != null) {
             //            ColorDrawable cd = new ColorDrawable(color);

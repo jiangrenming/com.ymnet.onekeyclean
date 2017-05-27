@@ -1,6 +1,8 @@
 package com.ymnet.onekeyclean.cleanmore.junk.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,12 +22,9 @@ import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewClickListener
 import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewScrollListener;
 
 import java.util.List;
-import java.util.function.ToDoubleBiFunction;
 
 /**
- * Created by wangdh on 5/26/16.
- * gmail:wangduheng26@gamil.com
- * 2345:wangdh@2345.com
+ * Created by MajinBuu on 5/24/17.
  */
 public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter implements MarketObserver {
 
@@ -37,9 +36,9 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
     private final int FOOT_PROGRESS_HOLDER_VIEW = 3;
     private final int EMPTY_VIEW                = 4;
     private final int FOOT_HOLDER_VIEW          = 5;
-    private RecyclerViewClickListener listener;
+    private RecyclerViewClickListener  listener;
     private RecyclerViewScrollListener mScrollListener;
-    private LayoutInflater            inflater;
+    private LayoutInflater             inflater;
 
     public RecommendAdapter(List<InformationResult> data) {
         this.data = data;
@@ -48,6 +47,10 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
 
     public void setRecyclerListListener(RecyclerViewClickListener mRecyclerClickListener) {
         this.listener = mRecyclerClickListener;
+    }
+
+    public void addScrollListener(RecyclerViewScrollListener recyclerViewScrollListener) {
+        this.mScrollListener = recyclerViewScrollListener;
     }
 
     @Override
@@ -73,13 +76,19 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
 
     @Override
     public int getContentItemCount() {
-        Log.d(TAG, "getContentItemCount: data:" + data.size());
         return (data == null || data.isEmpty()) ? 0 : data.size()/* + 1*/;
     }
 
     @Override
-    protected void onBindContentViewHolder(ContentViewHolder holder, final int position) {
-        Log.d(TAG, "onBindContentViewHolder:position: "+position);
+    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        int adapterPosition = holder.getAdapterPosition();
+        Log.d("RecommendAdapter", "adapterPosition:" + adapterPosition);
+    }
+
+    @Override
+    protected void onBindContentViewHolder(final ContentViewHolder holder, final int position) {
+                Log.d(TAG, "onBindContentViewHolder:position: "+position);
         if (holder instanceof FootViewHolder) { //底部loadmore界面
             FootViewHolder footHolder = (FootViewHolder) holder;
         } else if (holder instanceof ThreeViewHolder) {
@@ -114,32 +123,53 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
                 @Override
                 public void onClick(View v) {
                     listener.onClick(v, position);
+                    changeState(holder, position);
                 }
             });
         }
-        // TODO: 2017/5/23 0023 添加滑动监听
-        /*if (mScrollListener != null && position == getContentItemCount()) {
-            mScrollListener.onScroll(v,position);
-        }*/
 
+    }
+
+    private void changeState(ContentViewHolder holder, int position) {
+        if (holder instanceof ThreeViewHolder) {
+            ThreeViewHolder viewHolder = (ThreeViewHolder) holder;
+            InformationResult moreData = data.get(position);
+            if (moreData != null) {
+                viewHolder.author_name.setTextColor(Color.parseColor("#9c9c9c"));
+                viewHolder.publish_time.setTextColor(Color.parseColor("#9c9c9c"));
+                viewHolder.new_title.setTextColor(Color.parseColor("#9c9c9c"));
+            }
+        } else if (holder instanceof OneImagViewHolder) {
+            OneImagViewHolder oneImagHolder = (OneImagViewHolder) holder;
+            oneImagHolder.author_name.setTextColor(Color.parseColor("#9c9c9c"));
+            oneImagHolder.publish_time.setTextColor(Color.parseColor("#9c9c9c"));
+            oneImagHolder.content.setTextColor(Color.parseColor("#9c9c9c"));
+        }
     }
 
     /**
      * 见底时的界面
      */
     public class FooterVisibleHolder extends RecyclerViewPlus.HeaderFooterItemAdapter.ContentViewHolder {
+
         public TextView txt_more;
 
         public FooterVisibleHolder(View itemView) {
             super(itemView);
             txt_more = (TextView) itemView.findViewById(R.id.footer_more);
+            Log.d(TAG, "FooterVisibleHolder: 见底了");
+            if (mScrollListener != null) {
+                mScrollListener.onScroll();
+            }
         }
+
     }
 
     /**
      * 视频界面
      */
     public class VideoViewHolder extends RecyclerViewPlus.HeaderFooterItemAdapter.ContentViewHolder {
+
         public VideoViewHolder(View itemView) {
             super(itemView);
         }
@@ -149,6 +179,7 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
      * 无数据时的界面
      */
     public class EmptyViewHolder extends RecyclerViewPlus.HeaderFooterItemAdapter.ContentViewHolder {
+
         public EmptyViewHolder(View itemView) {
             super(itemView);
         }
@@ -158,6 +189,7 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
      * 显示3张图片的布局
      */
     protected class ThreeViewHolder extends RecyclerViewPlus.HeaderFooterItemAdapter.ContentViewHolder {
+
         private ImageView img1;
         private ImageView img2;
         private ImageView img3;
@@ -174,12 +206,14 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
             img2 = (ImageView) view.findViewById(R.id.item_bitmap_2);
             img3 = (ImageView) view.findViewById(R.id.item_bitmap_3);
         }
+
     }
 
     /**
      * 显示一张图片的布局
      */
     protected class OneImagViewHolder extends RecyclerViewPlus.HeaderFooterItemAdapter.ContentViewHolder {
+
         private TextView  content;
         private ImageView img;
         private TextView  author_name;
@@ -192,6 +226,7 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
             author_name = (TextView) view.findViewById(R.id.author_name);
             publish_time = (TextView) view.findViewById(R.id.publish_time);
         }
+
     }
 
     /**
@@ -200,13 +235,16 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
     protected class FootViewHolder extends RecyclerViewPlus.HeaderFooterItemAdapter.ContentViewHolder {
 
         public ProgressBar load;
-        public TextView    more;
+
+        public TextView more;
 
         public FootViewHolder(View view) {
             super(view);
             load = (ProgressBar) view.findViewById(R.id.recycle_load_more);
             more = (TextView) view.findViewById(R.id.recycle_open_more);
+            Log.d(TAG, "FootViewHolder: 到达最底部了");
         }
+
     }
 
     @Override
@@ -236,9 +274,33 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
 
     }
 
+    private int mTotalCount = 0;
+
+    public void setTotalCount(int count) {
+        this.mTotalCount = count;
+    }
+
+    public void setToalData(int totalCount) {
+        this.mTotalCount = totalCount;
+    }
+
     public void update(MarketObservable observable, Object data) {
     }
 
+    public void addFootData() {
+        data.add(null);
+        notifyItemInserted(data.size() - 1);
+    }
+
+    public void removeFootData() {
+        int size = data.size() - 1;
+        removeData(size);
+    }
+
+    public void removeData(int position) {
+        data.remove(position);
+        notifyItemRemoved(position);
+    }
 }
 
 

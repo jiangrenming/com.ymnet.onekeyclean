@@ -61,4 +61,5 @@
     <color name="ball_finish_color">#70b8ff</color>
     <color name="wave_color">#4ca6ff</color>
     <color name="main_green_new">#11BA53</color>
+    <color name="checked">#9c9c9c</color>
 </resources>

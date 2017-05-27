@@ -218,6 +218,7 @@ public class ScanHelp {
     }
 
     public long getTotalSize() {
+        Log.d(TAG, "cacheSystemSize:"+FormatUtils.formatFileSize(cacheSystemSize) +"/cacheSize:"+FormatUtils.formatFileSize(cacheSize)+"/residualSize :"+FormatUtils.formatFileSize(cacheSystemSize)+"/apkSize :"+FormatUtils.formatFileSize(apkSize)+"/ramSize:" +FormatUtils.formatFileSize(ramSize));
         return cacheSystemSize + cacheSize + residualSize + apkSize + ramSize;
     }
 

@@ -77,7 +77,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
         setContentView(R.layout.activity_silver);
 
         Map<String, String> m = new HashMap<>();
-        m.put(OnekeyField.ONEKEYCLEAN, "junk_clean");
+        m.put(OnekeyField.ONEKEYCLEAN, "垃圾清理");
         MobclickAgent.onEvent(this, StatisticMob.STATISTIC_ID, m);
 
         resources = getResources();

@@ -7,5 +7,5 @@ package com.ymnet.onekeyclean.cleanmore.utils;
  */
 
 public class StatisticMob {
-    public static final String STATISTIC_ID = "onekeyclean";
+    public static final String STATISTIC_ID = "clean";
 }

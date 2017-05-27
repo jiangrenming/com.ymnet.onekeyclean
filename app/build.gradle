@@ -68,7 +68,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile files('libs/nineoldandroids-2.4.0.jar')
-
     compile project(':commonlibrary')
     compile name: 'statisticalsdk-debug', ext: 'aar'
     compile name: 'app_process', ext: 'aar'
@@ -84,4 +83,5 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'in.srain.cube:ultra-ptr:1.0.11'
     testCompile 'junit:junit:4.12'
+//    compile 'com.android.support:recyclerview-v7:25.0.0'
 }

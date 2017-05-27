@@ -113,7 +113,7 @@ public class CleanActivity extends Activity implements CleanView {
         MobclickAgent.setScenarioType(getApplicationContext(), MobclickAgent.EScenarioType.E_UM_NORMAL);
 
         Map<String, String> m = new HashMap<>();
-        m.put(OnekeyField.ONEKEYCLEAN, "onekeyclean");
+        m.put(OnekeyField.ONEKEYCLEAN, "手机加速");
         MobclickAgent.onEvent(this, StatisticMob.STATISTIC_ID, m);
 
     }

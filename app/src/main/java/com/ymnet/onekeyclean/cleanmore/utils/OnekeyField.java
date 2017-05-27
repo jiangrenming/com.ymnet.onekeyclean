@@ -10,7 +10,7 @@ public class OnekeyField {
     /**
      * statistics-key
      */
-    public static final String ONEKEYCLEAN = "onekey";
+    public static final String ONEKEYCLEAN = "一键清理";
     /**
      * BroadcastReceiver intent key
      */
