@@ -49,7 +49,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:background="@drawable/no_install_btn_bg"
-        android:text="@string/btn_junk_clean"
+        android:text="@string/tv_junk_clean"
         android:textColor="@color/diaglog_text_color"
         android:textSize="16sp"/>
 </RelativeLayout>
