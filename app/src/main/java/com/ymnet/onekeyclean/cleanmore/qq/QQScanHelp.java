@@ -93,7 +93,7 @@ public class QQScanHelp {
             } else {
                 content.clear();
             }
-            // TODO: 2017/5/3 0003 QQ扫描路径要修改
+            //QQ扫描路径要修改
             QQFileType tempFile = new QQFileDefault(getString(R.string.temp_file), 0, R.drawable.wechat_temp, getString(R.string.temp_file_info), getString(R.string.temp_file_effect));
             tempFile.setType(QQConstants.QQ_TYPE_DEFALUT);
             content.add(tempFile);
@@ -109,7 +109,7 @@ public class QQScanHelp {
             QQFileType video = new QQPicMode(getString(R.string.chat_video), 0, R.drawable.wechat_video, getString(R.string.chat_video_info), "");
             video.setType(QQConstants.QQ_TYPE_PIC);
             content.add(video);
-            //todo 微信QQ不同之处:接收的文件
+            //微信QQ不同之处:接收的文件
             QQFileType receiveFile = new QQReceiveMode(getString(R.string.receive_file), 0, R.drawable.receive_icon, getString(R.string.receive_file_info), getString(R.string.receive_file_effect));
 
             receiveFile.setType(QQConstants.QQ_TYPE_RECEIVE);
@@ -135,7 +135,7 @@ public class QQScanHelp {
         convert2(temp, other);
     }
 int count;
-    // TODO: 2017/5/8 0008 接收文件日期添加该方法
+    //接收文件日期添加该方法
     private void convert(List<WareFileInfo> temp, QQFileType pics) {
         if (temp == null || temp.size() == 0)
             return;
@@ -198,7 +198,6 @@ int count;
         }
     }
 
-    // TODO: 2017/5/8 0008 修改类型
     private void convert2(List<WareFileInfo> temp, QQFileType receive) {
         if (temp == null || temp.size() == 0)
             return;
@@ -535,8 +534,6 @@ int count;
                         return;
                     }
                     String path = paths[i];
-                    // TODO: 2017/4/25 0025
-                    //                    getData(QQFile, path, list, null);
                     getData(QQFile, path, list, null);
                 }
             }
@@ -573,7 +570,7 @@ int count;
      * @param suffixs 需要的文件后缀 数组
      * @return
      */
-    // TODO: 2017/5/4 0004 添加文件格式
+    //添加文件格式
     private List<WareFileInfo> getData(QQFileType source, File file, List<WareFileInfo> res, String[] suffixs) {
         if (threadStop) {
             return res;

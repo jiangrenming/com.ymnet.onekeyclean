@@ -11,11 +11,16 @@ import android.util.Log;
 
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
+import com.example.commonlibrary.utils.NotificationUntil;
+import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
+import com.ymnet.onekeyclean.cleanmore.utils.ToastUtil;
+
 
 public class FlashlightService extends Service {
 
-    private static Camera            camera;
-    private final        String TAG             = "FlashlightService";
+    private static Camera camera;
+    private final String TAG = "FlashlightService";
+    private static final String MODEL = "androidmodel";
     private CameraManager mManager;
     private static boolean toggle = true;
 
@@ -33,6 +38,14 @@ public class FlashlightService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         mManager = (CameraManager) getSystemService(C.get().CAMERA_SERVICE);
+        boolean model = intent.getBooleanExtra(MODEL, false);
+
+        if (model) {
+            Log.d(TAG, "onStartCommand: 需要收起通知栏的机型");
+            //收起通知栏
+            NotificationUntil.collapseStatusBar(this);
+            ToastUtil.showToastForShort("请先获取系统权限");
+        }
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 mManager.setTorchMode("0", toggle);
@@ -43,10 +56,17 @@ public class FlashlightService extends Service {
                 intent1.putExtra("status", toggle);
                 sendBroadcast(intent1);
 
+                if (toggle) {
+                    Intent intent2 = new Intent(this, SettingsReceiver.class);
+                    intent2.putExtra(OnekeyField.KEY, OnekeyField.FLASHLIGHT);
+                    sendBroadcast(intent2);
+                }
+
                 toggle = !toggle;
             } else {
                 flashlightUtils();
             }
+
         } catch (Exception e) {
             MobclickAgent.reportError(C.get(), e.toString());
             e.printStackTrace();
@@ -76,6 +96,11 @@ public class FlashlightService extends Service {
                 Camera.Parameters parameters = camera.getParameters();
                 parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);// 开启
                 camera.setParameters(parameters);
+
+                Intent intent2 = new Intent(this, SettingsReceiver.class);
+                intent2.putExtra(OnekeyField.KEY, OnekeyField.FLASHLIGHT);
+                sendBroadcast(intent2);
+
             }
 
         } catch (Exception e) {

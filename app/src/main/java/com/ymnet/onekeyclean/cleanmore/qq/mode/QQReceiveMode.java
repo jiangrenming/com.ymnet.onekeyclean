@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by MajinBuu on 2017/5/5 0005.
  *
- * @overView ${todo}.
+ * QQ接收文件mode
  */
 
 public class QQReceiveMode extends QQFileType {

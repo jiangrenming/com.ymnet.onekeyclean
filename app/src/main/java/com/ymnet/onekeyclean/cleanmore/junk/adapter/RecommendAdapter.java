@@ -1,265 +1,306 @@
-package com.ymnet.onekeyclean.cleanmore.junk.adapter;/*
-package com.example.baidumapsevice.junk.adapter;
+package com.ymnet.onekeyclean.cleanmore.junk.adapter;
 
-import android.app.Activity;
-import android.app.DownloadManager;
-import android.content.res.Resources;
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Pair;
-import android.util.TypedValue;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.baidumapsevice.SessionManager;
-import com.example.baidumapsevice.common.ApplicationUtils;
-import com.example.baidumapsevice.customview.RecyclerViewPlus;
-import com.example.baidumapsevice.datacenter.DataCenterObserver;
-import com.example.baidumapsevice.datacenter.MarketObservable;
-import com.example.baidumapsevice.datacenter.MarketObserver;
-import com.example.baidumapsevice.utils.C;
-import com.example.baidumapsevice.utils.DisplayUtil;
-import com.example.baidumapsevice.wechat.R;
-import com.example.baidumapsevice.wechat.listener.RecyclerViewClickListener;
-import com.facebook.common.util.UriUtil;
+import com.bumptech.glide.Glide;
+import com.example.commonlibrary.retrofit2service.bean.InformationResult;
+import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
+import com.ymnet.onekeyclean.cleanmore.datacenter.MarketObservable;
+import com.ymnet.onekeyclean.cleanmore.datacenter.MarketObserver;
+import com.ymnet.onekeyclean.cleanmore.utils.C;
+import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewClickListener;
+import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewScrollListener;
 
 import java.util.List;
 
-*/
 /**
- * Created by wangdh on 5/26/16.
- * gmail:wangduheng26@gamil.com
- * 2345:wangdh@2345.com
- *//*
-
-// TODO: 2017/4/27 0027 最后
+ * Created by MajinBuu on 5/24/17.
+ */
 public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter implements MarketObserver {
-    private RecyclerViewClickListener listener;
-    private List<App>                 data;
-    private Resources                 res;
-    private Activity                  mActivity;
-    private DataCenterObserver        session;
-    private DownloadManager           mDownloadManager;
-    public static final int TITLE = 0;
-    public static final int CONTENT = 1;
 
-    public RecommendAdapter(Activity activity, List<App> data) {
-        this.mActivity = activity;
+    private String TAG = "RecommendAdapter";
+    private List<InformationResult> data;
+    private final int SINGLE_IMAGE_VIEW         = 0;
+    private final int THREE_IMAGE_VIEW          = 1;
+    private final int VIDEO_VIEW                = 2;
+    private final int FOOT_PROGRESS_HOLDER_VIEW = 3;
+    private final int EMPTY_VIEW                = 4;
+    private final int FOOT_HOLDER_VIEW          = 5;
+    private RecyclerViewClickListener  listener;
+    private RecyclerViewScrollListener mScrollListener;
+    private LayoutInflater             inflater;
+
+    public RecommendAdapter(List<InformationResult> data) {
         this.data = data;
-        res = C.get().getResources();
-        session = DataCenterObserver.get(mActivity);
-        session.addObserver(this);
-        mDownloadManager = DownloadManager.getInstance(mActivity.getApplicationContext());
+        this.inflater = (LayoutInflater) C.get().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public void setRecyclerListListener(RecyclerViewClickListener mRecyclerClickListener) {
         this.listener = mRecyclerClickListener;
     }
 
+    public void addScrollListener(RecyclerViewScrollListener recyclerViewScrollListener) {
+        this.mScrollListener = recyclerViewScrollListener;
+    }
+
     @Override
     protected int getContentItemViewType(int position) {
-        if (position == 0) {
-            return TITLE;
-        } else {
-            return CONTENT;
+        if (data != null) {
+            if (data.get(position) == null) {
+                return FOOT_PROGRESS_HOLDER_VIEW;
+            } else {
+                int show_type = data.get(position).getShow_type();
+                if (show_type == 3) {
+                    return SINGLE_IMAGE_VIEW;
+                } else if (show_type == 4) {
+                    return THREE_IMAGE_VIEW;
+                } else if (show_type == -1) {
+                    return FOOT_HOLDER_VIEW;
+                } else {
+                    return VIDEO_VIEW;
+                }
+            }
         }
+        return EMPTY_VIEW;
     }
 
     @Override
     public int getContentItemCount() {
-        return (data == null||data.isEmpty()) ? 0 : data.size() + 1;
+        return (data == null || data.isEmpty()) ? 0 : data.size()/* + 1*/;
     }
 
     @Override
-    protected void onBindContentViewHolder(ContentViewHolder holder, int position) {
-        if (holder instanceof TitleHolder) {
-            if (((TitleHolder) holder).itemView instanceof TextView) {
-                ((TextView) ((TitleHolder) holder).itemView).setText(R.string.single_game_recommend);
+    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        int adapterPosition = holder.getAdapterPosition();
+        Log.d("RecommendAdapter", "adapterPosition:" + adapterPosition);
+    }
+
+    @Override
+    protected void onBindContentViewHolder(final ContentViewHolder holder, final int position) {
+                Log.d(TAG, "onBindContentViewHolder:position: "+position);
+        if (holder instanceof FootViewHolder) { //底部loadmore界面
+            FootViewHolder footHolder = (FootViewHolder) holder;
+        } else if (holder instanceof ThreeViewHolder) {
+            ThreeViewHolder viewHolder = (ThreeViewHolder) holder;
+            InformationResult moreData = data.get(position);
+            if (moreData != null) {
+                viewHolder.author_name.setText(moreData.getAuthor_name());
+                viewHolder.publish_time.setText(moreData.getPublish_time());
+                viewHolder.new_title.setText(moreData.getTitle());
+                Glide.with(C.get()).load(moreData.getThumbnail_pic_s1()).asBitmap().into(viewHolder.img1);
+                Glide.with(C.get()).load(moreData.getThumbnail_pic_s2()).asBitmap().into(viewHolder.img2);
+                Glide.with(C.get()).load(moreData.getThumbnail_pic_s3()).asBitmap().into(viewHolder.img3);
             }
-        } else if (position > 0) {
-            final int index = position - 1;
-            AppItemViewHolder vh = (AppItemViewHolder) holder;
-            App app = data.get(index);
-            vh.iv_app_icon.setImageURI(UriUtil.parse(app.icon));
-            AppListLableController.setTitleIcon(app.recomIco, vh.iv_recommend_icon);
-            vh.tv_title.setText(app.title);
-            vh.tv_title.requestLayout();
+        } else if (holder instanceof OneImagViewHolder) {
+            OneImagViewHolder oneImagHolder = (OneImagViewHolder) holder;
+            oneImagHolder.author_name.setText(data.get(position).getAuthor_name());
+            oneImagHolder.publish_time.setText(data.get(position).getPublish_time());
+            oneImagHolder.content.setText(data.get(position).getTitle());
+            Glide.with(C.get()).load(data.get(position).getThumbnail_pic_s1()).asBitmap().into(oneImagHolder.img);
 
-            if (!TextUtils.isEmpty(app.sLabel)) {
-                vh.tv_label.setText(app.sLabel);
-                vh.tv_label.setVisibility(View.VISIBLE);
-            } else {
-                vh.tv_label.setVisibility(View.GONE);
-            }
-
-            if (app.giftTotal > 0) {
-                vh.tv_gift_label.setVisibility(View.VISIBLE);
-            } else {
-                vh.tv_gift_label.setVisibility(View.GONE);
-            }
-            vh.tv_size.setText(app.fileLength);
-            vh.tv_download_count.setText(ApplicationUtils.getFormatDownloads(app.totalDowns));
-
-            try {
-                double m = Double.parseDouble(app.mark);
-                if (m > 10) {
-                    app.mark = "10.0";
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            if (!TextUtils.isEmpty(app.eventTitle)) {
-                // show event
-                vh.tv_introduce.setText(app.eventTitle);
-                vh.tv_introduce.setTextColor(res.getColor(R.color.special_event));
-                vh.tv_introduce.setCompoundDrawablesWithIntrinsicBounds(res.getDrawable(R.drawable.event_icon), null, null, null);
-                vh.tv_introduce.setCompoundDrawablePadding(DisplayUtil.dpToPx(3, res));
-            } else {
-                // show oneword
-                vh.tv_introduce.setText(app.oneword);
-                if (0 == app.seoKeyColor) {
-                    vh.tv_introduce.setTextColor(res.getColor(R.color.special_item_two));
-                } else {
-                    vh.tv_introduce.setTextColor(res.getColor(R.color.special_event));
-                }
-                vh.tv_introduce.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-                vh.tv_introduce.setCompoundDrawablePadding(DisplayUtil.dpToPx(0, res));
-            }
-
-            // 列表中存在下载列表的任务，更新状态
-            String packageName = app.packageName;
-
-            vh.versioncode = app.versionCode;
-            vh.packageName = packageName;
-            vh.tv_download.setTag(R.id.download_item, app);
-            vh.tv_download.setTag(R.id.download_url, app.url);
-            vh.pb_progress.setTag(R.id.download_url, app.url);
-            vh.tv_rate.setTag(R.id.download_url, app.url);
-            vh.tv_introduce.setTag(R.id.download_url, app.url);
-            vh.rl_size_download_count.setTag(R.id.download_url, app.url);
-            vh.ll_download_size_speed.setTag(R.id.download_url, app.url);
-            vh.tv_download_size.setTag(R.id.download_url, app.url);
-            vh.tv_speed.setTag(R.id.download_url, app.url);
-            ViewTagger.setTag(vh.tv_download, R.id.hold_activty, mActivity);
-            mDownloadManager.setOnClickListener(vh.tv_download);
-            AppsUtils.notifyDisplayEvent(packageName);
-
-            DownloadInfo downloadInfo = mDownloadManager.getDownloadInfo(app.url);
-            if (downloadInfo != null) {
-                downloadInfo.addProgressViews(
-                        vh.pb_progress,
-                        vh.tv_download,
-                        vh.tv_rate,
-                        vh.tv_introduce
-                        vh.rl_size_download_count,,
-                        vh.ll_download_size_speed,
-                        vh.tv_download_size,
-                        vh.tv_speed);
-                downloadInfo.notifyProgress(mActivity);
-            } else {
-                // 升级 or 打开 or 下载
-                if (session.getAppsInfoHandler().checkInupdatelist(app.packageName)) {
-                    // 升级
-                    vh.tv_download.setText(R.string.update);
-                    vh.tv_download.setTextColor(mActivity.getResources().getColor(R.color.item_update_color));
-                    vh.tv_download.setBackgroundResource(R.drawable.install_bg);
-
-                    //签名冲突
-                    InstalledApp mInstalledApp = session.getInstalledApp(app.packageName); //In case of NullPointerException
-                    if (!TextUtils.isEmpty(app.certMd5) && mInstalledApp != null && !mInstalledApp.signatures.contains(app.certMd5)) {
-                        vh.tv_signature.setVisibility(View.VISIBLE);
-                    } else {
-                        vh.tv_signature.setVisibility(View.GONE);
-                    }
-                } else if (session.getAppsInfoHandler().checkIsHasInatall(app.packageName)) {
-                    // 打开
-                    vh.tv_download.setText(R.string.download_start);
-                    vh.tv_download.setTextColor(mActivity.getResources().getColor(R.color.item_update_color));
-                    vh.tv_download.setBackgroundResource(R.drawable.install_bg);
-                    vh.tv_signature.setVisibility(View.GONE);
-                } else {
-                    vh.tv_download.setText(R.string.appstore_download);
-                    vh.tv_download.setTextColor(mActivity.getResources().getColor(R.color.item_down_color));
-                    vh.tv_download.setBackgroundResource(R.drawable.item_down);
-                    vh.tv_signature.setVisibility(View.GONE);
-                    vh.tv_download.setTag(R.id.download_result_click,new DetailActivity.DownloadClickCallBack(){
-                        @Override
-                        public void clickCallBack() {
-                            StatisticSpec.sendEvent(StatisticEventContants.clean_finish_recommend_list_download);
-                        }
-
-                        @Override
-                        public void clickCallBack(int position) {
-                        }
-                    });
-                }
-
-                vh.tv_download.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-                vh.pb_progress.setVisibility(View.GONE);
-                vh.tv_rate.setVisibility(View.INVISIBLE);
-                vh.tv_introduce.setVisibility(View.VISIBLE);
-                vh.rl_size_download_count.setVisibility(View.VISIBLE);
-                vh.ll_download_size_speed.setVisibility(View.GONE);
-            }
-            if (listener != null) {
-                vh.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        listener.onClick(v, index);
-                    }
-                });
-            }
-
-            vh.itemView.setTag(vh);
+        } else if (holder instanceof VideoViewHolder) {
+            //暂时不做
+        } else if (holder instanceof FooterVisibleHolder) {//底部没有数据之后
+            FooterVisibleHolder footHolder = (FooterVisibleHolder) holder;
+        } else {
+            //无数据时 空白页
+            EmptyViewHolder emptyHolder = (EmptyViewHolder) holder;
+            return;
         }
+        if (listener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onClick(v, position);
+                    changeState(holder, position);
+                }
+            });
+        }
+
+    }
+
+    private void changeState(ContentViewHolder holder, int position) {
+        if (holder instanceof ThreeViewHolder) {
+            ThreeViewHolder viewHolder = (ThreeViewHolder) holder;
+            InformationResult moreData = data.get(position);
+            if (moreData != null) {
+                viewHolder.author_name.setTextColor(Color.parseColor("#9c9c9c"));
+                viewHolder.publish_time.setTextColor(Color.parseColor("#9c9c9c"));
+                viewHolder.new_title.setTextColor(Color.parseColor("#9c9c9c"));
+            }
+        } else if (holder instanceof OneImagViewHolder) {
+            OneImagViewHolder oneImagHolder = (OneImagViewHolder) holder;
+            oneImagHolder.author_name.setTextColor(Color.parseColor("#9c9c9c"));
+            oneImagHolder.publish_time.setTextColor(Color.parseColor("#9c9c9c"));
+            oneImagHolder.content.setTextColor(Color.parseColor("#9c9c9c"));
+        }
+    }
+
+    /**
+     * 见底时的界面
+     */
+    public class FooterVisibleHolder extends RecyclerViewPlus.HeaderFooterItemAdapter.ContentViewHolder {
+
+        public TextView txt_more;
+
+        public FooterVisibleHolder(View itemView) {
+            super(itemView);
+            txt_more = (TextView) itemView.findViewById(R.id.footer_more);
+            Log.d(TAG, "FooterVisibleHolder: 见底了");
+            if (mScrollListener != null) {
+                mScrollListener.onScroll();
+            }
+        }
+
+    }
+
+    /**
+     * 视频界面
+     */
+    public class VideoViewHolder extends RecyclerViewPlus.HeaderFooterItemAdapter.ContentViewHolder {
+
+        public VideoViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    /**
+     * 无数据时的界面
+     */
+    public class EmptyViewHolder extends RecyclerViewPlus.HeaderFooterItemAdapter.ContentViewHolder {
+
+        public EmptyViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    /**
+     * 显示3张图片的布局
+     */
+    protected class ThreeViewHolder extends RecyclerViewPlus.HeaderFooterItemAdapter.ContentViewHolder {
+
+        private ImageView img1;
+        private ImageView img2;
+        private ImageView img3;
+        private TextView  new_title;
+        private TextView  author_name;
+        private TextView  publish_time;
+
+        public ThreeViewHolder(View view) {
+            super(view);
+            new_title = (TextView) view.findViewById(R.id.new_title);
+            author_name = (TextView) view.findViewById(R.id.author_name);
+            publish_time = (TextView) view.findViewById(R.id.publish_time);
+            img1 = (ImageView) view.findViewById(R.id.item_bitmap_1);
+            img2 = (ImageView) view.findViewById(R.id.item_bitmap_2);
+            img3 = (ImageView) view.findViewById(R.id.item_bitmap_3);
+        }
+
+    }
+
+    /**
+     * 显示一张图片的布局
+     */
+    protected class OneImagViewHolder extends RecyclerViewPlus.HeaderFooterItemAdapter.ContentViewHolder {
+
+        private TextView  content;
+        private ImageView img;
+        private TextView  author_name;
+        private TextView  publish_time;
+
+        public OneImagViewHolder(View view) {
+            super(view);
+            content = (TextView) view.findViewById(R.id.item_content);
+            img = (ImageView) view.findViewById(R.id.item_bitmap);
+            author_name = (TextView) view.findViewById(R.id.author_name);
+            publish_time = (TextView) view.findViewById(R.id.publish_time);
+        }
+
+    }
+
+    /**
+     * 到达最底部时显示的布局
+     */
+    protected class FootViewHolder extends RecyclerViewPlus.HeaderFooterItemAdapter.ContentViewHolder {
+
+        public ProgressBar load;
+
+        public TextView more;
+
+        public FootViewHolder(View view) {
+            super(view);
+            load = (ProgressBar) view.findViewById(R.id.recycle_load_more);
+            more = (TextView) view.findViewById(R.id.recycle_open_more);
+            Log.d(TAG, "FootViewHolder: 到达最底部了");
+        }
+
     }
 
     @Override
     public ContentViewHolder onCreateContentView(ViewGroup parent, int viewType) {
-        if (viewType == TITLE) {
-            RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            TextView title = new TextView(mActivity);
-            title.setLayoutParams(lp);
-            title.setPadding(DisplayUtil.dpToPx(10, res), DisplayUtil.dpToPx(12, res), 0, DisplayUtil.dpToPx(6, res));
-            title.setTextColor(res.getColor(R.color.gray20));
-            title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-            title.setBackgroundColor(Color.WHITE);
-            return new TitleHolder(title);
-        } else {
-            View v = LayoutInflater.from(C.get()).inflate(R.layout.complex_list_app_item, parent, false);
-            v.setBackgroundResource(R.drawable.dialog_btn_background_selector);
-            v.findViewById(R.id.lv_divider).setVisibility(View.GONE);
-            return new AppItemViewHolder(v);
-        }
 
+        ContentViewHolder holder;
+        if (viewType == FOOT_PROGRESS_HOLDER_VIEW) {
+            View view = inflater.inflate(R.layout.recycler_view_layout_progress, parent, false);
+            holder = new FootViewHolder(view);
+        } else if (viewType == THREE_IMAGE_VIEW) {
+            View view = inflater.inflate(R.layout.recycler_view_layout_item_three, parent, false);
+            holder = new ThreeViewHolder(view);
+        } else if (viewType == SINGLE_IMAGE_VIEW) {
+            View view = inflater.inflate(R.layout.recycler_view_layout_item_one, parent, false);
+            holder = new OneImagViewHolder(view);
+        } else if (viewType == VIDEO_VIEW) {  //-->待加
+            View view = inflater.inflate(R.layout.recycler_view_layout_item_one, parent, false);
+            holder = new VideoViewHolder(view);
+        } else if (viewType == FOOT_HOLDER_VIEW) { //底部加载更多字样-7条
+            View view = inflater.inflate(R.layout.footer_no_data, parent, false);
+            holder = new FooterVisibleHolder(view);
+        } else {
+            View view = inflater.inflate(R.layout.empty_item, parent, false);
+            holder = new EmptyViewHolder(view);
+        }
+        return holder;
+
+    }
+
+    private int mTotalCount = 0;
+
+    public void setTotalCount(int count) {
+        this.mTotalCount = count;
+    }
+
+    public void setToalData(int totalCount) {
+        this.mTotalCount = totalCount;
     }
 
     public void update(MarketObservable observable, Object data) {
-        if (data instanceof Pair) {
-            Pair pair = (Pair) data;
-            if (pair.first.equals(SessionManager.P_INSTALL_APP) || pair.first.equals(SessionManager.P_REMOVE_APP)) {
-                notifyDataSetChanged();
-            } else if (pair.first.equals(SessionManager.P_UPGRADE_NUM)) {
-                notifyDataSetChanged();
-            }
-        } else if (data instanceof String) {
-            if (SessionManager.ADD_OR_REMOVE_DOWNLOAD.equals(data)) {
-                notifyDataSetChanged();
-            } else if (SessionManager.DOWNLOAD_LOAD_COMPLETED.equals(data)) {
-                notifyDataSetChanged();
-            }
-        }
     }
 
-    static class TitleHolder extends RecyclerViewPlus.HeaderFooterItemAdapter.ContentViewHolder {
+    public void addFootData() {
+        data.add(null);
+        notifyItemInserted(data.size() - 1);
+    }
 
-        public TitleHolder(View itemView) {
-            super(itemView);
-        }
+    public void removeFootData() {
+        int size = data.size() - 1;
+        removeData(size);
+    }
+
+    public void removeData(int position) {
+        data.remove(position);
+        notifyItemRemoved(position);
     }
 }
-*/
+
+

@@ -2,13 +2,15 @@
 
 
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="@string/wechat_voice_tip"
-    android:textColor="@color/white"
-    android:background="@color/tip_bg_green"
-    android:paddingBottom="5dp"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp"
-    android:paddingTop="5dp"
-    android:textSize="12sp" />
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@color/tip_bg_green"
+          android:gravity="center_vertical"
+          android:drawableLeft="@drawable/tip"
+          android:paddingBottom="5dp"
+          android:paddingLeft="15dp"
+          android:paddingRight="15dp"
+          android:paddingTop="5dp"
+          android:text="@string/wechat_voice_tip"
+          android:textColor="@color/white"
+          android:textSize="12sp"/>

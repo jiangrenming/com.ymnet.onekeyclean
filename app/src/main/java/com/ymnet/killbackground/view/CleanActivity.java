@@ -27,8 +27,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.commonlibrary.retrofit2_callback.BaseCallModel;
-import com.example.commonlibrary.retrofit2_callback.MyCallBack;
 import com.example.commonlibrary.utils.DensityUtil;
 import com.example.commonlibrary.utils.ScreenUtil;
 import com.example.commonlibrary.utils.ToastUtil;
@@ -39,18 +37,19 @@ import com.ymnet.killbackground.customlistener.MyViewPropertyAnimatorListener;
 import com.ymnet.killbackground.download.PushManager;
 import com.ymnet.killbackground.presenter.CleanPresenter;
 import com.ymnet.killbackground.presenter.CleanPresenterImpl;
-import com.ymnet.killbackground.retrofitservice.RetrofitService;
-import com.ymnet.killbackground.retrofitservice.bean.FolderLodingInfo;
+import com.ymnet.killbackground.utils.Run;
 import com.ymnet.killbackground.view.customwidget.Wheel;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.notification.NotifyService;
+import com.ymnet.onekeyclean.cleanmore.utils.C;
+import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
+import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.update.DownLoadFactory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import retrofit2.Response;
 
 import static android.text.format.Formatter.formatFileSize;
 import static com.example.commonlibrary.systemmanager.SystemMemory.getAvailMemorySize;
@@ -75,7 +74,7 @@ public class CleanActivity extends Activity implements CleanView {
     private Animation            mAnimation;
     private boolean isFirst      = true;
     private long    mTotalMemory = 0;
-    private Handler mHandler     = new Handler() {
+    private Handler mHandler     = new Handler(C.get().getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -91,13 +90,12 @@ public class CleanActivity extends Activity implements CleanView {
                     }
                     break;
                 case 1:
-                    new Thread(new Runnable() {
+                    Run.onSub(new Runnable() {
                         @Override
                         public void run() {
                             mCleanPresenter.killAll(CleanActivity.this, true);
                         }
-                    }).start();
-
+                    });
                     break;
             }
         }
@@ -114,6 +112,10 @@ public class CleanActivity extends Activity implements CleanView {
         QihooSystemUtil.openAllPermission(getApplicationContext(), "com.ymnet.apphelper");
         MobclickAgent.setScenarioType(getApplicationContext(), MobclickAgent.EScenarioType.E_UM_NORMAL);
 
+        Map<String, String> m = new HashMap<>();
+        m.put(OnekeyField.ONEKEYCLEAN, "手机加速");
+        MobclickAgent.onEvent(this, StatisticMob.STATISTIC_ID, m);
+
     }
 
     @Override
@@ -126,28 +128,6 @@ public class CleanActivity extends Activity implements CleanView {
     private void startNotification() {
         Intent service = new Intent(this, NotifyService.class);
         startService(service);
-    }
-
-    private void getData(final Map<String, String> params) {
-        RetrofitService.getInstance().githubApi.createFolderMapTwo(params).enqueue(new MyCallBack<BaseCallModel<List<FolderLodingInfo>>>() {
-
-            @Override
-            protected void ertryConnection() {
-                //递归的回调接口，再次连接接口请求
-                getData(params);
-            }
-
-            @Override
-            public void onSucess(Response<BaseCallModel<List<FolderLodingInfo>>> response) {
-                //得到数据的处理
-            }
-
-            @Override
-            public void onFailure(String message) {
-                //处理失败的界面操作
-            }
-
-        });
     }
 
     @Override
@@ -472,16 +452,17 @@ public class CleanActivity extends Activity implements CleanView {
     @Override
     public void getIconAndShow(final long cleanMem) {
 
-        final Intent intent = new Intent(Intent.ACTION_MAIN, null);
-        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        final int count = cleanAppLists.size();
-        final PackageManager packageManager = this.getPackageManager();
-        final List<ResolveInfo> appList = packageManager.queryIntentActivities(intent, 0);
-
         runOnUiThread(new Runnable() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void run() {
+
+                final Intent intent = new Intent(Intent.ACTION_MAIN, null);
+                intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                final int count = cleanAppLists.size();
+                final PackageManager packageManager = CleanActivity.this.getPackageManager();
+                final List<ResolveInfo> appList = packageManager.queryIntentActivities(intent, 0);
+
                 //清理百分比
                 mUsedMemory = getUsedMemoryRate();
 

@@ -5,8 +5,6 @@ import com.ymnet.onekeyclean.cleanmore.wechat.view.MVPView;
 
 /**
  * Created by MajinBuu on 2017/5/3 0003.
- *
- * @overView ${todo}.
  */
 
 public interface QQMVPView extends MVPView {

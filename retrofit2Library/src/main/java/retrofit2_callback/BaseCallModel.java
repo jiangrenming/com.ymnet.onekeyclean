@@ -1,4 +1,4 @@
-package com.example.commonlibrary.retrofit2_callback;
+package retrofit2_callback;
 
 /**
  * Created by jrm on 2017-4-21.

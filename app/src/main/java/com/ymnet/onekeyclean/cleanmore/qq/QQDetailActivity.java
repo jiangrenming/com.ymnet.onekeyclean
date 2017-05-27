@@ -101,7 +101,6 @@ public class QQDetailActivity extends ImmersiveActivity implements QQDetailMvpVi
                         if (mPresenter.checkStorage()) {
                             String message = mPresenter.checkExportFileLimit();
                             if (TextUtils.isEmpty(message)) {
-                                Log.d(TAG, "onClick: 打印了1111111111111111");
                                 showDialogConfirmExport();
                             } else {
                                 showExceedLimit(message);

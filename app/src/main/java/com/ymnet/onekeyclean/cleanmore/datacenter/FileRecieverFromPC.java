@@ -94,7 +94,6 @@ class FileRecieverFromPC {
         try {
             c.close();
         } catch (Exception e) {
-            // TODO: handle exception
         }
         mHandler.sendEmptyMessage(DataCenterObserver.RECEVIRE_FILE_FROM_PC);
         MediaBulkDeleter deleter = new MediaBulkDeleter(context, MarketProvider.RECEIVER_URL);

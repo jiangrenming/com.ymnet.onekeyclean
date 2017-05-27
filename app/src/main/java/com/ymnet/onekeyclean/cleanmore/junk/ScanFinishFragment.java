@@ -25,6 +25,7 @@ import com.ymnet.onekeyclean.cleanmore.junk.adapter.ExpandableListViewAdapter;
 import com.ymnet.onekeyclean.cleanmore.junk.mode.JunkGroup;
 import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
 import com.ymnet.onekeyclean.cleanmore.widget.FloatingGroupExpandableListView;
+import com.ymnet.onekeyclean.cleanmore.widget.WaveLoadingView;
 import com.ymnet.onekeyclean.cleanmore.widget.WrapperExpandableListAdapter;
 
 import java.lang.ref.WeakReference;
@@ -54,8 +55,9 @@ public class ScanFinishFragment extends BaseFragment {
 
 
     private OnScanFinishFragmentInteractionListener mListener;
-    private View headView;
-    private Resources resources;
+    private View                                    headView;
+    private Resources                               resources;
+    private WaveLoadingView                         mWaveLoadingView;
 
     public void setDatas(List<JunkGroup> datas) {
         this.datas = datas;
@@ -84,6 +86,7 @@ public class ScanFinishFragment extends BaseFragment {
         resources = getResources();
         View view = inflater.inflate(R.layout.fragment_scan_finish, container, false);
         headView = inflater.inflate(R.layout.expandlistview_head, elv_scan_result, false);
+        mWaveLoadingView = (WaveLoadingView) headView.findViewById(R.id.waveLoadingView);
         initHeadView(headView);
         elv_scan_result = (FloatingGroupExpandableListView) view.findViewById(R.id.elv_scan_result);
         if (datas != null && datas.size() > 0) {
@@ -195,7 +198,7 @@ public class ScanFinishFragment extends BaseFragment {
     private void initHeadView(View headView) {
         TextView tv_scan_progress = (TextView) headView.findViewById(R.id.tv_scan_progress);
         tv_proposal_clean = (TextView) headView.findViewById(R.id.tv_proposal_clean);
-        // TODO: 2017/5/9 0009 清理垃圾大数字120dp
+        //清理垃圾大数字120dp
         TextView tv_size = (TextView) headView.findViewById(R.id.tv_size);
         TextView tv_unit = (TextView) headView.findViewById(R.id.tv_unit);
         tv_scan_progress.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -205,6 +208,7 @@ public class ScanFinishFragment extends BaseFragment {
             tv_size.setText(fileSizeAndUnit[0]);
             tv_unit.setText(fileSizeAndUnit[1]);
         }
+
         initHeadViewColor(headView, dataSize);
     }
 
@@ -240,6 +244,9 @@ public class ScanFinishFragment extends BaseFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        if (mWaveLoadingView != null) {
+            mWaveLoadingView.cancelAnimation();
+        }
     }
 
     @Override
@@ -270,16 +277,25 @@ public class ScanFinishFragment extends BaseFragment {
     }
 
     private void initHeadViewColor(View view, long size) {
+
+        currentHeadViewColor = resources.getColor(R.color.main_blue_new1);
+        int value;
         if (size <= 10 * 1024 * 1024) {
             // 绿色
-            currentHeadViewColor = resources.getColor(R.color.clean_bg_green);
+//            currentHeadViewColor = resources.getColor(R.color.clean_bg_green);
+            value = 10;
         } else if (size <= 75 * 1024 * 1024) {
             // 橙色
-            currentHeadViewColor = resources.getColor(R.color.clean_bg_orange);
+//            currentHeadViewColor = resources.getColor(R.color.clean_bg_orange);
+            value = 30;
         } else {
             // 红色
-            currentHeadViewColor = resources.getColor(R.color.clean_bg_red);
+//            currentHeadViewColor = resources.getColor(R.color.clean_bg_red);
+            value = 70;
         }
+        Log.d("CleaningFragment", "value:" + value);
+        mWaveLoadingView.setProgressValue(value);
+        mWaveLoadingView.setAmplitudeRatio(33);
         mListener.updateTitleColor(currentHeadViewColor);
         view.setBackgroundColor(currentHeadViewColor);
     }
@@ -292,8 +308,9 @@ public class ScanFinishFragment extends BaseFragment {
         }
     }
 
-    // TODO: 2017/5/9 0009 清理垃圾大数字动画
+    //清理垃圾大数字动画
     public void startAnim() {
+
        /* if (headView != null && C.get() != null) {
             FrameLayout fl_num_layout = (FrameLayout) headView.findViewById(R.id.fl_num_layout);
             RelativeLayout ll_number = (RelativeLayout) headView.findViewById(R.id.ll_number);

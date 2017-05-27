@@ -31,7 +31,7 @@
             android:id="@+id/btn_bottom_delete"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@drawable/wechat_delete_bg"
+            android:background="@drawable/wechat_export_bg"
             android:clickable="true"
             android:gravity="center"
             android:text="@string/file_delete"

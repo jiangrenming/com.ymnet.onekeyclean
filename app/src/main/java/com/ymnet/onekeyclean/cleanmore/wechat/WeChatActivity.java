@@ -5,12 +5,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.animation.TweenAnimationUtils;
 import com.ymnet.onekeyclean.cleanmore.constants.WeChatConstants;
@@ -19,6 +21,8 @@ import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
 import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
+import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
+import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.wechat.adapter.WeChatRecyclerViewAdapter;
 import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewClickListener;
 import com.ymnet.onekeyclean.cleanmore.wechat.mode.WeChatContent;
@@ -28,6 +32,10 @@ import com.ymnet.onekeyclean.cleanmore.wechat.presenter.WeChatPresenterImpl;
 import com.ymnet.onekeyclean.cleanmore.wechat.view.BaseFragmentActivity;
 import com.ymnet.onekeyclean.cleanmore.wechat.view.WeChatMvpView;
 import com.ymnet.onekeyclean.cleanmore.widget.SGTextView;
+import com.ymnet.onekeyclean.cleanmore.widget.WaveLoadingView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import bolts.Task;
 
@@ -36,11 +44,16 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
     WeChatPresenter mPresenter;
     public final static String EXTRA_ITEM_POSITION = "wechat_position";
     public final static String WECHAT_GUIDE        = "wechat_guide";
+    private WaveLoadingView mWaveLoadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_we_chat);
+
+        Map<String, String> m = new HashMap<>();
+        m.put(OnekeyField.ONEKEYCLEAN, "微信清理");
+        MobclickAgent.onEvent(this, StatisticMob.STATISTIC_ID, m);
 
         C.setContext(getApplication());
         mPresenter = new WeChatPresenterImpl(this);
@@ -57,7 +70,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
     @Override
     protected void onResume() {
         super.onResume();
-
+        MobclickAgent.onResume(this);
     }
 
     @Override
@@ -117,7 +130,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
 
     private void initializeRecyclerView() {
         rv = (RecyclerViewPlus) findViewById(R.id.rv_content);
-        //todo 2017.5.12 没有任何东西的界面
+        //没有任何东西的界面
         View emptyView = findViewById(R.id.v_empty);
         initEmptyView(emptyView);
         rv.setEmptyView(emptyView);
@@ -175,6 +188,8 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
 
     private void initializeHeadView() {
         view_head = getLayoutInflater().inflate(R.layout.wechat_head, rv, false);
+        mWaveLoadingView = (WaveLoadingView) view_head.findViewById(R.id.waveLoadingView);
+        mWaveLoadingView.setAmplitudeRatio(33);
         tv_size = (SGTextView) view_head.findViewById(R.id.tv_size);
         tv_unit = (SGTextView) view_head.findViewById(R.id.tv_unit);
         ViewTreeObserver observer = view_head.getViewTreeObserver();
@@ -204,12 +219,22 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
             public void run() {
                 RecyclerView.Adapter adapter = rv.getAdapter();
                 if (adapter != null) {
+                    int value;
                     adapter.notifyDataSetChanged();
                     long size = mPresenter.getSize();
                     String[] unit = FormatUtils.getFileSizeAndUnit(size);
                     if (unit != null && unit.length == 2) {
                         tv_size.setText(unit[0]);
                         tv_unit.setText(unit[1]);
+                        if (size < 10 * 1024 * 1024) {
+                            value = 10;
+                        } else if (size < 75 * 1024 * 1024) {
+                            value = 30;
+                        } else {
+                            value = 70;
+                        }
+                        Log.d("CleaningFragment", "value:" + value);
+                        mWaveLoadingView.setProgressValue(value);
                     }
                 }
             }
@@ -284,7 +309,8 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
             public void run() {
                 ViewGroup.LayoutParams params = ani_view.getLayoutParams();
                 params.height = headHeight + titleHeight;
-                ani_view.setVisibility(View.VISIBLE);
+//                ani_view.setVisibility(View.VISIBLE);
+                ani_view.setVisibility(View.GONE);
                 ani_view.requestLayout();
 
                 TweenAnimationUtils.startScanTranslateAnimation(WeChatActivity.this, ani_view);
@@ -313,6 +339,14 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
     @Override
     public void changeDivider() {
         did.setDividerId(this, R.drawable.recyclerview_driver_10_bg);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mWaveLoadingView != null) {
+            mWaveLoadingView.cancelAnimation();
+        }
     }
 
     @Override

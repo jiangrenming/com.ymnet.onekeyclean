@@ -8,7 +8,6 @@ import com.ymnet.onekeyclean.cleanmore.wechat.presenter.IPresenter;
 /**
  * Created by MajinBuu on 2017/5/3 0003.
  *
- * @overView ${todo}.
  */
 
 public interface QQPresenter extends IPresenter {

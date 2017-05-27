@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="false">
         <shape>
-            <solid android:color="@color/main_blue_new"/>
+            <solid android:color="@color/main_green_new"/>
             <!--<gradient android:angle="270" android:endColor="@color/white" android:startColor="@color/white" />-->
             <stroke android:width="0.5dp" android:color="#3097fd" />
             <corners android:radius="3dp" />

@@ -36,7 +36,6 @@ import java.util.List;
  * An {@link IntentService} subclass for handling asynchronous task requests in
  * a service on a separate handler thread.
  * <p/>
- * TODO: Customize class - update intent actions, extra parameters and static
  * helper methods.
  */
 public class BackgroundDoSomethingService extends IntentService {
@@ -54,7 +53,6 @@ public class BackgroundDoSomethingService extends IntentService {
      *
      * @see IntentService
      */
-    // TODO: Customize helper method
     public static void startActionFoo(Context context, String param1, String param2) {
         Intent intent = new Intent(context, BackgroundDoSomethingService.class);
         intent.setAction(ACTION_FOO);
@@ -170,7 +168,6 @@ public class BackgroundDoSomethingService extends IntentService {
      * parameters.
      */
     private void handleActionBaz() {
-        // TODO: Handle action Baz
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
@@ -242,7 +239,6 @@ public class BackgroundDoSomethingService extends IntentService {
              size = statFs.getBlockCountLong() * statFs.getBlockSizeLong();
         }
         try {
-            // TODO: 2017/4/28 0028 暂时注释so文件
             Method method = pm.getClass().getMethod("freeStorageAndNotify", long.class, IPackageDataObserver.class);
             method.invoke(pm, size, new IPackageDataObserver.Stub() {
                 @Override

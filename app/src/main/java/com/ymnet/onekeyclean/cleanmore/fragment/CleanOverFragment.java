@@ -4,9 +4,12 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,32 +17,56 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.commonlibrary.retrofit2service.RetrofitService;
+import com.example.commonlibrary.retrofit2service.bean.InformationResult;
+import com.example.commonlibrary.retrofit2service.bean.NewsInformation;
+import com.example.commonlibrary.utils.ConvertParamsUtils;
+import com.example.commonlibrary.utils.NetworkUtils;
 import com.nineoldandroids.view.ViewHelper;
 import com.ymnet.onekeyclean.R;
-import com.ymnet.onekeyclean.cleanmore.filebrowser.FileCategoryActivity;
+import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
+import com.ymnet.onekeyclean.cleanmore.junk.adapter.RecommendAdapter;
+import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
+import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.CleanSetSharedPreferences;
 import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
+import com.ymnet.onekeyclean.cleanmore.utils.ToastUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
+import com.ymnet.onekeyclean.cleanmore.web.WebHtmlActivity;
 import com.ymnet.onekeyclean.cleanmore.wechat.WeChatActivity;
 import com.ymnet.onekeyclean.cleanmore.wechat.device.DeviceInfo;
+import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewClickListener;
+import com.ymnet.onekeyclean.cleanmore.widget.BottomScrollView;
+import com.ymnet.onekeyclean.cleanmore.widget.LinearLayoutItemDecoration;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * 垃圾清理完成界面
  */
-
-// TODO: 2017/5/18 0018
 public class CleanOverFragment extends BaseFragment implements View.OnClickListener {
-    private static final String ARG_PARAM1 = "param1";
-    public static final int HAS_CLEAN_CACHE = -1;
 
-
-    private Long deleteSize;
-    private ImageView iv_sun;
-    private ImageView iv_sun_center;
-    private TextView tv_clean_success_size;
-    private TextView tv_history_clean_size;
-    private ImageView iv_high_light;
-    private int height;
+    private              String TAG             = "CleanOverFragment";
+    private static final String ARG_PARAM1      = "param1";
+    public static final  int    HAS_CLEAN_CACHE = -1;
+    private Long             deleteSize;
+    private ImageView        iv_sun;
+    private ImageView        iv_sun_center;
+    private TextView         tv_clean_success_size;
+    private TextView         tv_history_clean_size;
+    private RecyclerViewPlus rv;
+    //信息流相关
+    private int page = 1;
+    private ImageView mBlingBling;
+    private List<InformationResult> moreData = new ArrayList<>();
+    private RecommendAdapter adapter;
+    private View             foot;
 
     public static CleanOverFragment newInstance(Long size) {
         CleanOverFragment fragment = new CleanOverFragment();
@@ -59,7 +86,6 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
         if (getArguments() != null) {
             deleteSize = getArguments().getLong(ARG_PARAM1);
         }
-
     }
 
     private AnimatorSet initAnimSet() {
@@ -68,7 +94,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
         Animator anim = AnimatorInflater.loadAnimator(context,
                 R.animator.anim_clean_complete);
         Animator anim2 = AnimatorInflater.loadAnimator(context,
-                R.animator.anim_clean_complete);// 透明度+缩放动画
+                R.animator.anim_clean_complete_center);// 透明度+缩放动画
         Animator anim3 = AnimatorInflater.loadAnimator(context,
                 R.animator.anim_clean_complete_alpha);
         Animator anim4 = AnimatorInflater.loadAnimator(context,
@@ -86,8 +112,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
         anim2.setTarget(iv_sun_center);
         anim3.setTarget(tv_clean_success_size);
         anim4.setTarget(tv_history_clean_size);
-        anim5.setTarget(iv_high_light);
-//        anim6.setTarget(btn_continue);
+        //        anim6.setTarget(btn_continue);
         anim7.setTarget(ll_content);
 
         animSet.play(anim).with(anim2);
@@ -95,7 +120,6 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
         animSet.play(anim3).with(anim4);
         animSet.play(anim3).with(anim5);
         animSet.play(anim7).after(anim3);
-        iv_high_light.setVisibility(View.VISIBLE);
         return animSet;
     }
 
@@ -103,27 +127,41 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.activity_clean_finish, container, false);
     }
 
-    private View             ll_content;
-//    private RecyclerViewPlus rv;
-    private View             head;
+    private View ll_content;
+    private View head;
+    private int  height;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         View rootView = getView();
-        if (rootView == null) return;
+        if (rootView == null)
+            return;
+        BottomScrollView sv = (BottomScrollView) rootView.findViewById(R.id.sv_scanend);
+        sv.setSmoothScrollingEnabled(true);
+        //滑动到底的监听
+        sv.setOnScrollToBottomListener(new BottomScrollView.OnScrollToBottomListener() {
+            @Override
+            public void onScrollBottomListener(boolean isBottom) {
+                if (isBottom) {
+                    getNewsInformation();
+                }
+            }
+        });
         // find content view
         iv_sun = (ImageView) rootView.findViewById(R.id.iv_sun);
         iv_sun_center = (ImageView) rootView.findViewById(R.id.iv_sun_center);
-        iv_high_light = (ImageView) rootView.findViewById(R.id.iv_high_light);
+
+        mBlingBling = (ImageView) rootView.findViewById(R.id.iv_blingbling);
+        mBlingBling.setImageResource(R.drawable.bling_anim);
+
         tv_clean_success_size = (TextView) rootView.findViewById(R.id.tv_clean_success_size);
         tv_history_clean_size = (TextView) rootView.findViewById(R.id.tv_history_clean_size);
         ll_content = rootView.findViewById(R.id.ll_content);
-//        rv = (RecyclerViewPlus) rootView.findViewById(R.id.rv_recommend);
+        rv = (RecyclerViewPlus) rootView.findViewById(R.id.rv_recommend);
 
         height = DeviceInfo.getScreenHeight(getActivity());
 
@@ -132,8 +170,17 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
         ViewHelper.setAlpha(tv_history_clean_size, 0.0f);
         ViewHelper.setTranslationY(ll_content, height);
         ViewHelper.setAlpha(iv_sun, 0f);
-        iv_high_light.setVisibility(View.GONE);
+        ViewHelper.setRotation(iv_sun, 0f);
+
         initData();
+        //星星闪烁动画
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startAnimation();
+            }
+        }, 500);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -146,16 +193,41 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
                     ViewHelper.setAlpha(tv_clean_success_size, 1);
                     ViewHelper.setAlpha(tv_history_clean_size, 1);
                     ViewHelper.setAlpha(iv_sun, 1);
+                    ViewHelper.setRotation(iv_sun, 0f);
                     ViewHelper.setTranslationY(ll_content, 0);
                 }
             }
         }, 100);
-
     }
 
-    // TODO: 2017/4/27 0027 最后
-//    List<App>        data;
-//    RecommendAdapter adapter;
+    /**
+     * 星星闪烁动画
+     */
+    private void startAnimation() {
+
+        mBlingBling.setVisibility(View.VISIBLE);
+
+        AnimationDrawable animationDrawable = (AnimationDrawable) mBlingBling.getDrawable();
+        if (animationDrawable.isRunning()) {
+            animationDrawable.stop();
+        }
+        animationDrawable.start();
+
+        //获取动画时间,执行之后移除
+        int numberOfFrames = animationDrawable.getNumberOfFrames();
+        int duration = 0;
+        for (int i = 0; i < numberOfFrames; i++) {
+            duration += animationDrawable.getDuration(i);
+        }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mBlingBling.setVisibility(View.GONE);
+            }
+        }, duration + 100);
+    }
+
 
     private void initData() {
 
@@ -170,56 +242,69 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
         } else {
             str0 = FormatUtils.formatFileSize(CleanSetSharedPreferences.getLaseTimeSize(getActivity(), deleteSize));
             String text = getString(R.string.clean_success_size, str0);
-//            tv_clean_success_size.setText(Html.fromHtml(text));
+            //            tv_clean_success_size.setText(Html.fromHtml(text));
             tv_clean_success_size.setText(Util.getSpannableString(text));
         }
         String str1 = FormatUtils.formatFileSize(CleanSetSharedPreferences.getTodayCleanSize(getActivity(), deleteSize));
         String str2 = FormatUtils.formatFileSize(CleanSetSharedPreferences.getTotalCleanSize(getActivity(), deleteSize));
         tv_history_clean_size.setText(getString(R.string.today_clean_total_clean, str1, str2));
 
+        LinearLayoutManager layout = new LinearLayoutManager(C.get()) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        rv.addItemDecoration(new LinearLayoutItemDecoration(C.get(), LinearLayoutItemDecoration.HORIZONTAL_LIST));
+        rv.setLayoutManager(layout);
 
-        /*DividerItemDecoration did = new DividerItemDecoration(C.get(), R.drawable.recyclerview_driver_1_bg);
-        rv.addItemDecoration(did);
-        rv.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        rv.setLayoutManager(llm);
         head = LayoutInflater.from(getActivity()).inflate(R.layout.clean_over_head, rv, false);
         head.findViewById(R.id.rl_wechat).setOnClickListener(this);
-        head.findViewById(R.id.rl_file).setOnClickListener(this);
-        data = new ArrayList<>();
-        adapter = new RecommendAdapter(getActivity(), data);//更多应用推荐
+        head.findViewById(R.id.rl_qq).setOnClickListener(this);
+
+        //获取网络数据
+        getNewsInformation();
+
+        adapter = new RecommendAdapter(moreData);//更多应用推荐
         adapter.addHeaderView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
             @Override
             protected View onCreateView(ViewGroup parent) {
                 return head;
             }
         });
+        if (NetworkUtils.isNetworkAvailable(C.get())) {
+            foot = LayoutInflater.from(C.get()).inflate(R.layout.recycler_view_layout_progress, rv, false);
+        } else {
+            foot = LayoutInflater.from(C.get()).inflate(R.layout.footer_no_data, rv, false);
+            foot.findViewById(R.id.footer_more).setOnClickListener(this);
+        }
+
         adapter.addFooterView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
             @Override
             protected View onCreateView(ViewGroup parent) {
-                RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DisplayUtil.dip2px(C.get(), 15));
-                View foot = new View(getActivity());
-                foot.setLayoutParams(lp);
-                foot.setBackgroundColor(Color.TRANSPARENT);
+
                 return foot;
             }
         });
+
         adapter.setRecyclerListListener(new RecyclerViewClickListener() {
             @Override
             public void onClick(View v, int position) {
-                if (position >= data.size()) return;
-                App app = data.get(position);
-                Intent intent = new Intent(getActivity(), DetailActivity.class);
-                intent.putExtra(App.class.getSimpleName(), app);
-                intent.putExtra("clicktoevent", StatisticEventContants.clean_finish_recommend_detail_download);
+                if (position >= moreData.size())
+                    return;
+
+                InformationResult info = moreData.get(position);
+                String news_url = info.getNews_url();
+
+                Intent intent = new Intent(getActivity(), WebHtmlActivity.class);
+                intent.putExtra("html", news_url);
+                intent.putExtra("flag", 20);
                 startActivity(intent);
-                delayedFinish();
             }
         });
-        rv.setAdapter(adapter);*/
-//        loadFromServer();
-    }
 
+        rv.setAdapter(adapter);
+    }
 
     @Override
     public void setSupportTag(String tag) {
@@ -244,14 +329,12 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
             it = new Intent(getActivity(), WeChatActivity.class);
             startActivity(it);
             delayedFinish();
-            //                StatisticSpec.sendEvent(StatisticEventContants.clean_finish_cleanwechat);
-
-        } else if (i == R.id.rl_file) {
-            it = new Intent(getActivity(), FileCategoryActivity.class);
+        } else if (i == R.id.rl_qq) {
+            it = new Intent(getActivity(), QQActivity.class);
             startActivity(it);
             delayedFinish();
-            //                StatisticSpec.sendEvent(StatisticEventContants.clean_finish_filemanage);
-
+        } else if (i == R.id.footer_more) {
+            getNewsInformation();
         }
     }
 
@@ -260,57 +343,38 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void run() {
                 FragmentActivity activity = getActivity();
-                if (activity == null || activity.isFinishing()) return;
+                if (activity == null || activity.isFinishing())
+                    return;
                 activity.finish();
             }
         }, 300);
     }
 
-  /*  protected PageCall<ListAppEntity>                 mPageCall;
-    private Callback<PageListResponse<ListAppEntity>> mCallBack;*/
+    //网络获取新闻数据
+    private void getNewsInformation() {
+        Map<String, String> infosPamarms = ConvertParamsUtils.getInstatnce().getParamsTwo("type", "all", "p", String.valueOf(page++));
 
-    /*private void loadFromServer() {
-        if (mPageCall == null) {
-            mPageCall = createPageCall();
-        }
-        if (mCallBack == null) {
-            mCallBack = createCallBack();
-        }
-        mPageCall.enqueue(mCallBack);
-    }*/
-
-    /*private Callback<PageListResponse<ListAppEntity>> createCallBack() {
-        return new Callback<PageListResponse<ListAppEntity>>() {
+        RetrofitService.getInstance().githubApi.createInfomationsTwo(infosPamarms).enqueue(new Callback<NewsInformation>() {
             @Override
-            public void onResponse(Call<PageListResponse<ListAppEntity>> call, PageListResponse<ListAppEntity> response) {
-                if (isAdded()) {
-                    if (MHttp.responseOK(response.getCode())) {
-                        AppListDatas mDatas = transform(response);
-                        if (mDatas != null && mDatas.bufferApps != null && mDatas.bufferApps.list != null) {
-                            ArrayList<App> appsList = mDatas.bufferApps.list;
-                            data.clear();
-                            data.addAll(new ModulePresenter().filter(appsList, 15));
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
+            public void onResponse(Call<NewsInformation> call, Response<NewsInformation> response) {
+                if (response.raw().body() != null) {
+                    NewsInformation newsInformation = response.body();
+                    int count = newsInformation.getCount();
+                    adapter.setTotalCount(count);
+                    ArrayList<InformationResult> data = newsInformation.getData();
+                    Log.d(TAG, "onResponse: data:" + data);
 
+                    moreData.addAll(data);
+                    adapter.notifyDataSetChanged();
                 }
             }
 
             @Override
-            public void onFailure(Call<PageListResponse<ListAppEntity>> call, Throwable t) {
-
+            public void onFailure(Call<NewsInformation> call, Throwable t) {
+                ToastUtil.showToastForShort("网络异常,请检查网络...");
             }
-        };
-    }*/
+        });
 
-   /* protected PageCall<ListAppEntity> createPageCall() {
-        return TApier.get().getSoftListByRecom(getString(R.string.type_single_game));
-    }*/
-
-  /*  protected AppListDatas transform(PageListResponse<ListAppEntity> response) {
-        return new AppListDatasMapper.EntityList2AppListDatasMapper().transform(response);
-    }*/
-
+    }
 
 }

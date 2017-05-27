@@ -29,7 +29,6 @@ public class BaseFragmentController implements IBaseFragmentController
     @Override
     public void removeAll()
     {
-        // TODO Auto-generated method stub      
         FragmentTransaction localTransaction = mFragmentManager.beginTransaction();
         for(int i=0;i<mFragmentManager.getFragments().size();i++){
             localTransaction.remove(mFragmentManager.getFragments().get(i));

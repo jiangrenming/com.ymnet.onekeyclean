@@ -1,52 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
     <RelativeLayout
         android:id="@+id/rl_wechat"
         android:layout_width="match_parent"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
+        android:layout_height="80dp"
         android:background="@drawable/dialog_btn_background_selector"
-        android:layout_height="80dp">
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
+
         <ImageView
             android:id="@+id/wechat_icon"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:src="@drawable/wechat_features_icon"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:src="@drawable/wechat_features_icon"/>
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="12dp"
-            android:layout_alignParentRight="true"
             android:src="@drawable/setting_arrow"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/wechat_icon"
             android:layout_marginLeft="15dp"
-            android:orientation="vertical"
-            android:gravity="center_vertical">
+            android:layout_toRightOf="@+id/wechat_icon"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/wechat_features"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="17sp"
+                android:text="@string/managementfragment_wechat_clean"
                 android:textColor="@color/gray20"
-                android:text="@string/managementfragment_wechat_clean"/>
+                android:textSize="17sp"/>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:textSize="14sp"
+                android:text="@string/wechat_statistics_data_small"
                 android:textColor="@color/gray40"
-                android:text="@string/wechat_statistics_data_small"/>
+                android:textSize="14sp"/>
         </LinearLayout>
 
     </RelativeLayout>
+
     <RelativeLayout
+        android:id="@+id/rl_qq"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/dialog_btn_background_selector"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
+
+        <ImageView
+            android:id="@+id/qq_icon"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/qq_features_icon"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:src="@drawable/setting_arrow"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/qq_icon"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/qq_features"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/managementfragment_qq_clean"
+                android:textColor="@color/gray20"
+                android:textSize="17sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/qq_statistics_data_small"
+                android:textColor="@color/gray40"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:drawableLeft="@drawable/magazine"
+        android:drawablePadding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/activity_background_color"
+        android:padding="8dp"
+        android:text="每时新闻"
+        android:textColor="#9c9c9c"
+        android:textSize="14sp"/>
+    <!--文件管理-->
+    <!--<RelativeLayout
         android:id="@+id/rl_file"
         android:layout_width="match_parent"
         android:paddingLeft="12dp"
@@ -91,5 +162,5 @@
                 android:text="@string/file_features_directions"/>
         </LinearLayout>
 
-    </RelativeLayout>
+    </RelativeLayout>-->
 </LinearLayout>

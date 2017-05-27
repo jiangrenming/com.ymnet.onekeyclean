@@ -8,7 +8,6 @@ public class AssistantServiceHelper extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        // TODO: 2017/5/17 0017  
         int i = event.describeContents();
     }
 

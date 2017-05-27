@@ -58,7 +58,6 @@ public class FileDetailsActivity extends ImmersiveActivity implements
     private String titleName;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_file_details);
 		Intent i = getIntent();
@@ -107,7 +106,6 @@ public class FileDetailsActivity extends ImmersiveActivity implements
 	}
 	@Override
 	public void onClick(View arg0) {
-		// TODO Auto-generated method stub
 		int i = arg0.getId();
 		if (i == R.id.ibtn_right) {
 			if (popWindow == null) {
@@ -141,7 +139,6 @@ public class FileDetailsActivity extends ImmersiveActivity implements
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		// TODO Auto-generated method stub
 		File file = data.get(position);
 		updateUi(file);
 	}
@@ -159,14 +156,12 @@ public class FileDetailsActivity extends ImmersiveActivity implements
 
     private void showOpenFileDialog(final File file) {
         String[] item=getResources().getStringArray(R.array.file_mime_type);
-        // TODO Auto-generated method stub
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,R.layout.textview,R.id.textview,item);
          dialogSize= DialogFactory.createListViewDialog(this, adapter, new OnItemClickListener() {
 
 			 @Override
 			 public void onItemClick(AdapterView<?> parent, View view,
 									 int position, long id) {
-				 // TODO Auto-generated method stub
 				 chooseOver(position, file);
 				 dialogSize.dismiss();
 			 }
@@ -207,7 +202,6 @@ public class FileDetailsActivity extends ImmersiveActivity implements
      * @param file
      */
 	private void addTitleFold(final File file) {
-		// TODO Auto-generated method stub
 		if (file == null)
 			return;
 		TextView tv = new TextView(this);
@@ -232,7 +226,6 @@ public class FileDetailsActivity extends ImmersiveActivity implements
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				String tagPath = (String) v.getTag();
 				// int index=-1;
 				int indexOfChild = ll_idle.indexOfChild(v);

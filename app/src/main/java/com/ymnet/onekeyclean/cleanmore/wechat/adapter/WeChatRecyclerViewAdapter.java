@@ -32,8 +32,9 @@ import java.util.List;
 
 /**
  * Created by wangduheng26 on 4/1/16.
+ * override 微信清理界面recyclerview
  */
-// TODO: 2017/4/21 0021 微信清理界面recyclerview
+
 public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter {
     private WeChatContent             content;
     private RecyclerViewClickListener mRecyclerClickListener;
@@ -132,7 +133,7 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
             if (chatFile.isInEndAnim()) {
                 holder.btn_scan_status.setBackgroundResource(R.drawable.btn_clean_bg);
                 holder.btn_scan_status.setTextColor(resources.getColor(R.color.white));
-                holder.btn_scan_status.setText("去处理");
+                holder.btn_scan_status.setText(R.string.qq_go_clean);
             } else {
                 holder.btn_scan_status.setBackgroundResource(R.drawable.btn_scanning);
                 holder.btn_scan_status.setTextColor(resources.getColor(R.color.radio_text_color));
@@ -238,7 +239,7 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
             if (chatFile.isInEndAnim()) {
                 holder.btn_scan_status.setBackgroundResource(R.drawable.btn_clean_bg);
                 holder.btn_scan_status.setTextColor(resources.getColor(R.color.white));
-                holder.btn_scan_status.setText("去处理");
+                holder.btn_scan_status.setText(R.string.qq_go_clean);
             } else {
                 holder.btn_scan_status.setBackgroundResource(R.drawable.btn_scanning);
                 holder.btn_scan_status.setTextColor(resources.getColor(R.color.radio_text_color));

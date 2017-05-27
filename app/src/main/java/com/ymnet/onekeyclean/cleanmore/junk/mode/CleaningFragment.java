@@ -1,11 +1,11 @@
 package com.ymnet.onekeyclean.cleanmore.junk.mode;
 
 import android.app.Activity;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,6 +22,7 @@ import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.fragment.BaseFragment;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
+import com.ymnet.onekeyclean.cleanmore.widget.WaveLoadingView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ public class CleaningFragment extends BaseFragment {
     private long size;
 
     private OnCleanFragmentEndListener endListener;
+    private WaveLoadingView mWaveLoadingView;
 
 
     public static CleaningFragment newInstance() {
@@ -99,11 +101,13 @@ public class CleaningFragment extends BaseFragment {
     }
 
     private void initHead(View view) {
+        mWaveLoadingView = (WaveLoadingView)view.findViewById(R.id.waveLoadingView);
         headView = (FrameLayout) view.findViewById(R.id.fl_head);
         tv_size = (TextView) view.findViewById(R.id.tv_size);
         tv_unit = (TextView) view.findViewById(R.id.tv_unit);
         tv_scan_progress = (TextView) view.findViewById(R.id.tv_scan_progress);
         setCleaningSize(size);
+
         updateHeadViewColor(size);
     }
 
@@ -121,14 +125,18 @@ public class CleaningFragment extends BaseFragment {
     }
 
     private void updateHeadViewColor(long size) {
-        ColorDrawable cd;
+        //颜色
+        int value = (int) (size*50 / (75 * 1024 * 1024));
+        Log.d("CleaningFragment", "value:" + value+"/size:"+size);
+        mWaveLoadingView.setProgressValue(value);
+        mWaveLoadingView.setAmplitudeRatio(33);
+        /*ColorDrawable cd;
         if (size == 0) {
-             cd = new ColorDrawable(getResources().getColor(R.color.main_blue_new));
+            cd = new ColorDrawable(getResources().getColor(R.color.main_blue_new));
             headView.setBackgroundDrawable(cd.mutate());
         } else if (size <= 10 * 1024 * 1024) {
             // 绿色
-             cd = new ColorDrawable(getResources().getColor(R.color.clean_bg_green));
-
+            cd = new ColorDrawable(getResources().getColor(R.color.clean_bg_green));
             headView.setBackgroundDrawable(cd.mutate());
 //            headView.setBackgroundColor(getResources().getColor(R.color.clean_bg_green));
 
@@ -146,9 +154,9 @@ public class CleaningFragment extends BaseFragment {
             headView.setBackgroundDrawable(cd.mutate());
 //            headView.setBackgroundColor(getResources().getColor(R.color.clean_bg_red));
 
-        }
-        if (endListener != null)
-            endListener.onUpdateActivityTitleColor(size);
+        }*/
+        /*if (endListener != null)
+            endListener.onUpdateActivityTitleColor(size);*/
     }
 
     Handler handler = new MyHandler(this);
@@ -177,6 +185,9 @@ public class CleaningFragment extends BaseFragment {
     }
 
     private void startCleanAnimation() {
+
+        mWaveLoadingView.startAnimation();
+
         View view = lv.getChildAt(0);
         Animation ani = AnimationUtils.loadAnimation(C.get(), R.anim.push_left_out);
         ani.setAnimationListener(new Animation.AnimationListener() {
@@ -238,6 +249,9 @@ public class CleaningFragment extends BaseFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        if (mWaveLoadingView != null) {
+            mWaveLoadingView.startAnimation();
+        }
         try {
             endListener = (OnCleanFragmentEndListener) activity;
         } catch (ClassCastException e) {
@@ -250,6 +264,9 @@ public class CleaningFragment extends BaseFragment {
     public void onDetach() {
         super.onDetach();
         endListener = null;
+        if (mWaveLoadingView != null) {
+            mWaveLoadingView.cancelAnimation();
+        }
     }
 
     @Override
@@ -278,9 +295,9 @@ public class CleaningFragment extends BaseFragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnCleanFragmentEndListener {
-        public void onCleanEndCallBack();
+        void onCleanEndCallBack();
 
-        public void onUpdateActivityTitleColor(long size);
+        void onUpdateActivityTitleColor(long size);
     }
 
     public class CleanAdapter extends BaseAdapter {
@@ -334,24 +351,9 @@ public class CleaningFragment extends BaseFragment {
             }
             JunkChild item = mList.get(position);
             hold.junk_child_check
-                    .setImageResource(R.drawable.item_check);
+                    .setImageResource(R.drawable.junk_scan_status_finish);
             hold.tv_name.setText(item.name);
             hold.tv_size.setText(FormatUtils.formatFileSize(item.size));
-            // TODO: 2017/4/26 0026 暂时注解掉 给iv设置图片路径
-            /*if (item instanceof JunkChildCache) {
-//                ImageLoader.getInstance().displayImage(MarketImageDownloader.INSTALLED_APP_SCHEME + ((JunkChildCache) item).packageName, hold.iv);
-                hold.iv.setImageURI(UriUtil.parseUriOrNull(MarkFrescoIconLoadUtils.APP_SCHEME+((JunkChildCache) item).packageName));
-
-            } else if (item instanceof JunkChildApk) {
-//                ImageLoader.getInstance().displayImage(MarketImageDownloader.UNINSTALLED_APP_SCHEME + ((JunkChildApk) item).path, hold.iv);
-                hold.iv.setImageURI(UriUtil.parseUriOrNull(MarkFrescoIconLoadUtils.APK_SCHEME + ((JunkChildApk) item).packageName));
-            } else if (item instanceof InstalledAppAndRAM) {
-                hold.iv.setImageResource(R.drawable.icon_header_ram);
-//                ImageLoader.getInstance().displayImage(MarketImageDownloader.INSTALLED_APP_SCHEME + ((InstalledAppAndRAM) item).getApp().packageName, hold.iv);
-            } else {
-                hold.iv.setImageResource(R.drawable.big_file_folder);
-            }*/
-
 
             return convertView;
         }

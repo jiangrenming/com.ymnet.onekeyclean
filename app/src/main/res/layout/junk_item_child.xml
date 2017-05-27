@@ -27,7 +27,7 @@
                 android:id="@+id/junk_icon"
                 android:contentDescription="@null"
                 android:scaleType="centerCrop"
-                android:src="@drawable/big_file_folder"
+                android:src="@drawable/file_features_icon"
                 android:layout_width="@dimen/default_50dp"
                 android:layout_height="@dimen/default_50dp"/>
             <ImageView

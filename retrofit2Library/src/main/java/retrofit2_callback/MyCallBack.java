@@ -1,4 +1,4 @@
-package com.example.commonlibrary.retrofit2_callback;
+package retrofit2_callback;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -10,13 +10,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
 /**
  * Created by jrm on 2017-4-21.
  * 这里的回调主要是针对 返回的json的数据格式完全死统一的形式 才可以用；
  * 自定义回调接口，实现Retrofit的回调 CallBack
  */
 
-public  abstract class MyCallBack <T extends BaseCallModel> implements Callback<T>{
+public  abstract class MyCallBack <T extends BaseCallModel> implements Callback<T> {
 
     Handler retroHandle;
     int mCount=0;

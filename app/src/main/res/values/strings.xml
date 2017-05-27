@@ -1,6 +1,6 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">一键清理</string>
-    <string name="btn_junk_clean">清理垃圾</string>
+    <string name="btn_junk_clean">释放内存</string>
     <string name="not_find_file">未发现文件</string>
     <string name="wechat_empty_tip">微信只占用手机的部分存储空间,建议使用清理垃圾功能释放存储空间</string>
     <string name="qq_empty_tip">QQ只占用手机的部分存储空间,建议使用清理垃圾功能释放存储空间</string>
@@ -21,20 +21,20 @@
     <string name="sgtextview_kb">KB</string>
     <string name="temp_file">运行文件</string>
     <string name="cache_file">朋友圈缓存</string>
-    <string name="chat_pic">聊天图片</string>
-    <string name="chat_voice">聊天语音</string>
+    <string name="chat_pic">图片文件</string>
+    <string name="chat_voice">语音文件</string>
     <string name="chat_video">聊天视频</string>
     <string name="temp_file_info">使用过程产生的垃圾文件</string>
     <string name="temp_file_effect">不含任何聊天记录,请放心清理</string>
-    <string name="cache_file_info">浏览过的图片和小视频缓存</string>
+    <string name="cache_file_info">浏览过的图片和视频文件缓存</string>
     <string name="cache_file_effect">删除后联网可重新加载,请放心清理</string>
-    <string name="chat_pic_info">聊天产生的图片,包括聊天消息、公众号中的图片</string>
-    <string name="qq_chat_pic_info">聊天产生的图片,包括个人和群消息</string>
-    <string name="chat_voice_info">聊天产生的语音，包括个人和群消息</string>
+    <string name="chat_pic_info">聊天图片,包括聊天消息、公众号中的图片</string>
+    <string name="qq_chat_pic_info">聊天图片,包括个人和群消息</string>
+    <string name="chat_voice_info">聊天语音，包括个人和群消息</string>
     <string name="chat_video_info">聊天产生的视频及预览图，包括个人和群消息</string>
     <string name="export">导出</string>
     <string name="file_delete">删除</string>
-    <string name="wechat_voice_tip">由于微信对聊天语音进行了加密,暂不支持播放</string>
+    <string name="wechat_voice_tip"> 由于微信对聊天语音进行了加密,无法播放,请谨慎删除</string>
 
     <!-- fileBrowser -->
     <string name="category_all">所有</string>
@@ -72,7 +72,7 @@
     <string name="yes_zh">确定</string>
     <string name="download_deleting">正在清空记录，请稍候…</string>
     <string name="exporting">正在导出</string>
-    <string name="wechat_export_success_tip">已成功导出%1$d个文件，你可以通过下面路径找到这些文件</string>
+    <string name="wechat_export_success_tip">已成功导出%1$d个文件，您可以通过下面路径找到这些文件</string>
     <string name="wechat_export_error_tip">%1$d个文件导出失败，请注意查看</string>
     <string name="wechat_export_exist_tip">%1$d个文件已存在，请注意查看</string>
     <string name="i_know">我知道了</string>
@@ -142,7 +142,7 @@
     <string name="no_found_junk">未发现垃圾</string>
     <string name="so_beautiful">真干净</string>
     <string name="today_clean_total_clean">今日清理: %1$s   历史清理: %2$s</string>
-    <string name="wechat_statistics_data_small">80%手机的微信垃圾超过1G</string>
+    <string name="wechat_statistics_data_small">定期清理微信,释放更多空间</string>
     <string name="file_manager">文件管理</string>
     <string name="file_features_directions">整理文件,释放更多空间</string>
     <string name="file_category_count_default">读取中…</string>
@@ -181,11 +181,17 @@
     <string name="qq_voice_tip">由于QQ对聊天语音进行了加密,暂不支持播放</string>
     <string name="txtfilename">我是文件名称.txt</string>
     <string name="filesize">12.00M</string>
-    <string name="qq_go_clean">去处理</string>
+    <string name="qq_go_clean">查看管理</string>
 
     <string name="toast_bean_best">已清理至最佳状态</string>
     <string name="toast_clean_result">释放%1$s内存 \n性能提升%2$d%%</string>
     <string name="device_admin_label">一键清理</string>
     <string name="onkeycleandefaultcontent">欢迎使用一键清理功能</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="managementfragment_qq_clean">QQ清理</string>
+    <string name="qq_statistics_data_small">定期清理QQ,释放更多空间</string>
+    <string name="more_recommend">更多推荐</string>
+    <string name="tv_junk_clean">垃圾清理</string>
 
 </resources>

@@ -617,8 +617,6 @@ public class PushManager implements ExternalInterface {
 
             super(handler);
 
-            // TODO Auto-generated constructor stub
-
         }
 
         @Override

@@ -43,7 +43,7 @@
 
             <com.ymnet.onekeyclean.cleanmore.widget.AnimImageView
                 android:id="@+id/junk_sort_item_ram_progress"
-                android:layout_width="20.0dip"
+                android:layout_width="20dip"
                 android:layout_height="20.0dip"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"

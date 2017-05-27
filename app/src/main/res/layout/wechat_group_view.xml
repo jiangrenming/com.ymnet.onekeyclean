@@ -5,7 +5,7 @@
     android:background="@color/white"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
-    android:layout_height="40dp">
+    android:layout_height="46dp">
     <TextView
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
@@ -16,18 +16,19 @@
         android:drawablePadding="10dp"
         style="@style/wechat_text_expand_defalut_style"
         android:drawableRight="@drawable/junk_group_arrow_down"/>
+
+    <!--android:background="@drawable/bg_shape"-->
     <TextView
         android:id="@+id/tv_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_shape"
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
         android:minHeight="21.0dip"
         android:minWidth="21.0dip"
         android:paddingLeft="6.5dip"
         android:paddingRight="6.5dip"
-        android:textColor="@color/white"
+        android:textColor="@color/wechat_export_success_bg"
         android:layout_toLeftOf="@+id/cb_status"
         android:layout_marginRight="10dp"
         android:textSize="13.0sp" />

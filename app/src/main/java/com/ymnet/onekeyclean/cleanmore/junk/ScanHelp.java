@@ -158,11 +158,10 @@ public class ScanHelp {
     }
 
     /**
-     * 开始扫描
+     * 微信扫描 开始扫描
      *
      * @param flag 扫描的结果只需要大小 不需要具体的数据
      */
-    // TODO: 2017/4/20 0020 微信扫描:开始扫描
     public synchronized void startScan(final boolean flag) {
         NotificationManager2345 manager = NotificationManager2345.getInstance(context);
         manager.cancelNotification(NotificationManager2345.NOTIFI_CLAEAN_2345);
@@ -219,6 +218,7 @@ public class ScanHelp {
     }
 
     public long getTotalSize() {
+        Log.d(TAG, "cacheSystemSize:"+FormatUtils.formatFileSize(cacheSystemSize) +"/cacheSize:"+FormatUtils.formatFileSize(cacheSize)+"/residualSize :"+FormatUtils.formatFileSize(cacheSystemSize)+"/apkSize :"+FormatUtils.formatFileSize(apkSize)+"/ramSize:" +FormatUtils.formatFileSize(ramSize));
         return cacheSystemSize + cacheSize + residualSize + apkSize + ramSize;
     }
 

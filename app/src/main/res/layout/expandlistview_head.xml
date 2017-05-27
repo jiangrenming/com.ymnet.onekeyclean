@@ -1,67 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fl_num_layout"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/main_blue_new1">
-    <RelativeLayout
-        android:id="@+id/ll_number"
-        android:layout_width="match_parent"
-        android:layout_height="125dp"
-        android:paddingBottom="25dp"
-        android:gravity="center">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:id="@+id/fl_num_layout"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:background="@color/main_blue_new1"
+             android:orientation="vertical">
 
-        <com.ymnet.onekeyclean.cleanmore.widget.SGTextView
-            android:id="@+id/tv_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="60dp"
-            android:textColor="@color/white"
-            android:paddingBottom="15dp"
-            android:text="@string/sgtextview_show" />
+        <com.ymnet.onekeyclean.cleanmore.widget.WaveLoadingView
+            android:id="@+id/waveLoadingView"
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            app:wlv_borderColor="@color/wave_color"
+            app:wlv_borderWidth="0dp"
+            app:wlv_progressValue="10"
+            app:wlv_round_rectangle="true"
+            app:wlv_shapeType="square"
+            app:wlv_titleCenterSize="24sp"
+            app:wlv_triangle_direction="north"
+            app:wlv_waveAmplitude="20"
+            app:wlv_waveColor="@color/wave_color"/>
 
-        <com.ymnet.onekeyclean.cleanmore.widget.SGTextView
-            android:id="@+id/tv_unit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/tv_size"
-            android:layout_alignTop="@+id/tv_size"
-            android:paddingTop="15dp"
-            android:paddingBottom="10dp"
-            android:layout_marginLeft="5dp"
-            android:textSize="17dp"
-            android:text="@string/sgtextview_kb"
-            android:textColor="@color/white"/>
+        <RelativeLayout
+            android:id="@+id/ll_number"
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            android:gravity="center"
+            android:paddingBottom="25dp">
 
-        <TextView
-            android:id="@+id/tv_proposal_clean"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/tv_size"
-            android:layout_alignBottom="@+id/tv_size"
-            android:paddingBottom="30dp"
-            android:layout_marginLeft="5dp"
-            android:textSize="11dp"
-            android:visibility="gone"
-            android:textColor="@color/white"
-            android:text="@string/suggestion_clean" />
-    </RelativeLayout>
+            <com.ymnet.onekeyclean.cleanmore.widget.SGTextView
+                android:id="@+id/tv_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="15dp"
+                android:text="@string/sgtextview_show"
+                android:textColor="@color/white"
+                android:textSize="60dp"/>
+
+            <com.ymnet.onekeyclean.cleanmore.widget.SGTextView
+                android:id="@+id/tv_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_size"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="15dp"
+                android:layout_toRightOf="@+id/tv_size"
+                android:paddingBottom="10dp"
+                android:paddingTop="15dp"
+                android:text="@string/sgtextview_kb"
+                android:textColor="@color/white"
+                android:textSize="17dp"/>
+
+            <TextView
+                android:id="@+id/tv_proposal_clean"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tv_size"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/tv_size"
+                android:layout_marginTop="15dp"
+                android:text="@string/suggestion_clean"
+                android:textColor="@color/white"
+                android:textSize="11dp"
+                android:visibility="gone"/>
+        </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_scan_progress"
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
         android:layout_gravity="bottom"
-        android:gravity="bottom"
         android:background="@drawable/main_mid_bg"
-        android:lines="1"
-        android:singleLine="true"
         android:ellipsize="middle"
+        android:gravity="bottom"
+        android:lines="1"
+        android:paddingBottom="5dp"
         android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:singleLine="true"
         android:text="@string/mobile_clear_scanning"
         android:textColor="@android:color/white"
-        android:textSize="13sp" />
+        android:textSize="13sp"/>
 </FrameLayout>

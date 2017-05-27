@@ -32,7 +32,7 @@
             android:layout_toRightOf="@id/header_icon"
             android:textColor="#ff666666"
             android:textSize="14.0sp" />
-
+        <!--android:background="@drawable/num_bg"-->
         <TextView
             android:id="@+id/header_count"
             android:layout_width="wrap_content"
@@ -40,13 +40,12 @@
             android:layout_alignWithParentIfMissing="true"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/header_check"
-            android:background="@drawable/num_bg"
             android:gravity="center"
             android:minHeight="21.0dip"
             android:minWidth="21.0dip"
             android:paddingLeft="6.5dip"
             android:paddingRight="6.5dip"
-            android:textColor="@color/white"
+            android:textColor="@color/wechat_export_success_bg"
             android:textSize="13.0sp" />
 
         <ImageView

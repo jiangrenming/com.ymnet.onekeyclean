@@ -13,7 +13,6 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -25,6 +24,7 @@ import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
 import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
+import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
 import com.ymnet.onekeyclean.cleanmore.wechat.WeChatActivity;
 
 import java.io.Serializable;
@@ -46,11 +46,11 @@ public class NotifyService extends Service implements Serializable {
     private static final int    REQUEST_CODE05  = 5;
     private static final int    REQUEST_CODE06  = 6;
     private static final String OPEN_FLASHLIGHT = "openflashlight";
+    private static final String MODEL = "androidmodel";
     private NotificationCompat.Builder mBuilder;
     private NotificationManager        mNotificationManager;
     private String                     mAndroidModel;
     private static boolean status = false;
-    private long                          enclosingExecuteTime;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -137,6 +137,7 @@ public class NotifyService extends Service implements Serializable {
 
         //        remoteViews.setTextViewTextSize(R.id.tv_head, TypedValue.COMPLEX_UNIT_SP, 5f);
 
+
         //一键加速
         Intent intent2 = new Intent(C.get(), CleanActivity.class);
         intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -164,14 +165,20 @@ public class NotifyService extends Service implements Serializable {
         //手电筒
         Intent intent7 = new Intent(this, FlashlightService.class);
         intent7.putExtra(OPEN_FLASHLIGHT, status);
+        if (matchModel("vivo")) {
+            intent7.putExtra(MODEL, true);
+        } else {
+            intent7.putExtra(MODEL, false);
+        }
         status = !status;
 
         PendingIntent pendingIntent7 = PendingIntent.getService(C.get(), REQUEST_CODE05, intent7, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_flashlight, pendingIntent7);
 
         //系统设置
-        Intent intent6 = new Intent(Settings.ACTION_SETTINGS);
-        PendingIntent pendingIntent6 = PendingIntent.getActivity(C.get(), REQUEST_CODE06, intent6, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent6 = new Intent(this,SettingsReceiver.class);
+        intent6.putExtra(OnekeyField.KEY, OnekeyField.SETTINGS);
+        PendingIntent pendingIntent6 = PendingIntent.getBroadcast(C.get(), REQUEST_CODE06, intent6, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_setting, pendingIntent6);
 
         mBuilder = new NotificationCompat.Builder(C.get());

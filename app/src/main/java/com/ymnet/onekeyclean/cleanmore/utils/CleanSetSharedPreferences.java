@@ -161,7 +161,6 @@ public class CleanSetSharedPreferences {
 	}
 
 	public static long getAlertTime(Context context) {
-		// TODO Auto-generated method stub
 		if (context != null) {
 			return context.getSharedPreferences(CLEAN_SETTING_PREFERENCE,Context.MODE_PRIVATE).getLong(ALERT_TIME, 0);
 		}

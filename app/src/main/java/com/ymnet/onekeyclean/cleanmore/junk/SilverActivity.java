@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.animation.TweenAnimationUtils;
 import com.ymnet.onekeyclean.cleanmore.constants.ByteConstants;
@@ -33,11 +34,15 @@ import com.ymnet.onekeyclean.cleanmore.service.BackgroundDoSomethingService;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.CleanSetSharedPreferences;
 import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
+import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
+import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
 import com.ymnet.onekeyclean.cleanmore.wechat.view.BaseFragmentActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class SilverActivity extends BaseFragmentActivity implements View.OnClickListener, ScanHelp.IScanResult, ScanFinishFragment.OnScanFinishFragmentInteractionListener, CleaningFragment.OnCleanFragmentEndListener {
@@ -71,6 +76,10 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_silver);
 
+        Map<String, String> m = new HashMap<>();
+        m.put(OnekeyField.ONEKEYCLEAN, "垃圾清理");
+        MobclickAgent.onEvent(this, StatisticMob.STATISTIC_ID, m);
+
         resources = getResources();
         initDrawable();
         initView();
@@ -90,6 +99,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
             revertBtn();
             initScan();
         }
+        MobclickAgent.onResume(this);
     }
 
     @Override
@@ -159,7 +169,9 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
         ScanningFragment scanningF = ScanningFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_content, scanningF, scanningFragmentTag).commit();
         //扫描动画
-        ani_view.setVisibility(View.VISIBLE);
+        // TODO: 2017/5/24 0024 删
+//        ani_view.setVisibility(View.VISIBLE);
+        ani_view.setVisibility(View.GONE);
         TweenAnimationUtils.startScanTranslateAnimation(this, ani_view);
     }
 
@@ -171,6 +183,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
         return null;
     }
     private void initView() {
+
         rl_page_title = (RelativeLayout) findViewById(R.id.rl_page_title);
         btn_stop = (Button) findViewById(R.id.btn_stop);
         ani_view = findViewById(R.id.ani_view);
@@ -245,10 +258,13 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
     @Override
     protected void onStop() {
         super.onStop();
-        datas = mScan.getDatas();
-        if (datas == null || datas.size() == 0) {
-            Log.d(TAG, "onStop: 结束界面");
-            finish();
+
+        if (mScan != null) {
+            datas = mScan.getDatas();
+            if (datas == null || datas.size() == 0) {
+                Log.d(TAG, "onStop: 结束界面");
+                finish();
+            }
         }
     }
 
@@ -306,6 +322,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
 
     @SuppressLint("NewApi")
     private void updateHeadColor(long size) {
+
         ScanningFragment fragment = getScanningFragment();
         if(fragment==null)return;
         if (android.os.Build.VERSION.SDK_INT >= 16) {
@@ -314,7 +331,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
                 if (currentDrawable == null) {
                     currentDrawable = blue2Green1;
                     fragment.scanColor(blue2Green2, transitionAnimationDuration);
-                    rl_page_title.setBackground(blue2Green1);
+//                    rl_page_title.setBackground(blue2Green1);
                     blue2Green1.startTransition(transitionAnimationDuration);
 //                    blue2Green2.startTransition(transitionAnimationDuration);
                 }
@@ -324,7 +341,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
                 if (currentDrawable == null || currentDrawable == blue2Green1) {
                     currentDrawable = green2Orange1;
                     fragment.scanColor(green2Orange1, transitionAnimationDuration);
-                    rl_page_title.setBackground(green2Orange2);
+//                    rl_page_title.setBackground(green2Orange2);
                     green2Orange2.startTransition(transitionAnimationDuration);
                 }
             } else {
@@ -332,22 +349,22 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
                 if (currentDrawable == null || currentDrawable == green2Orange1 || currentDrawable == blue2Green1) {
                     currentDrawable = orange2Red1;
                     fragment.scanColor(orange2Red1, transitionAnimationDuration);
-                    rl_page_title.setBackground(orange2Red2);
+//                    rl_page_title.setBackground(orange2Red2);
                     orange2Red2.startTransition(transitionAnimationDuration);
                 }
             }
         } else {
             if (size <= 10 * ByteConstants.MB) {
                 // 绿色
-                rl_page_title.setBackgroundColor(resources.getColor(R.color.clean_bg_green));
+//                rl_page_title.setBackgroundColor(resources.getColor(R.color.clean_bg_green));
                 fragment.scanColor(resources.getColor(R.color.clean_bg_green));
             } else if (size <= 75 * ByteConstants.MB) {
                 // 橙色
-                rl_page_title.setBackgroundColor(resources.getColor(R.color.clean_bg_orange));
+//                rl_page_title.setBackgroundColor(resources.getColor(R.color.clean_bg_orange));
                 fragment.scanColor(resources.getColor(R.color.clean_bg_orange));
             } else {
                 // 红色
-                rl_page_title.setBackgroundColor(resources.getColor(R.color.clean_bg_red));
+//                rl_page_title.setBackgroundColor(resources.getColor(R.color.clean_bg_red));
                 fragment.scanColor(resources.getColor(R.color.clean_bg_red));
             }
         }
@@ -468,7 +485,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
         }
     }
 
-    // TODO: 2017/4/20 0020 清理结束
+    //清理结束
     private void startCleanOverActivity() {
 
         if (isFinishing()||getSupportFragmentManager().isDestroyed()) {
@@ -492,7 +509,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
         fragmentController.changeDisplayFragment(cf);
         fragmentController.commit();
 
-    //todo      清理结束广告,加判断--自动请求模块排序数据，更新未成功则使用上一次数据；每天只请求1次。
+    //todo 清理结束广告,加判断--自动请求模块排序数据，更新未成功则使用上一次数据；每天只请求1次。
         /*showToastForShort("清理成功!");
         if (todayNoNewData()) {
             //请求数据
@@ -500,6 +517,15 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
             //添加数据到recyclerviewAdapter,
 
         }*/
+        /*MoreFragment moreF = MoreFragment.newInstance();
+        SingleDisplayFragmentController fragmentController2 =
+                new SingleDisplayFragmentController(getSupportFragmentManager(), R.id.fl_morefunction);
+        fragmentController2.beginNewTransaction();
+        fragmentController2.changeDisplayFragment(moreF);
+        fragmentController2.commit();*/
+        /*MoreFragment moreF = MoreFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().add(R.id.ll_morefunction,moreF).commit();*/
+
     }
 
     /**
