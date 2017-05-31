@@ -70,11 +70,17 @@ public class NotifyService extends Service implements Serializable {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-
             boolean status = intent.getBooleanExtra("status", false);
             Log.d(TAG, "onReceive: " + status);
+
             changeFlashLightColor(status);
 
+            mHandler.removeMessages(0);
+            //手电筒服务 在接收到广播的关闭状态5秒后 停止服务
+            if (!status) {
+                Log.d(TAG, "onReceive: 五秒后停止FlashlightService");
+                mHandler.sendEmptyMessageDelayed(0, 5000);
+            }
         }
     };
 
@@ -210,28 +216,6 @@ public class NotifyService extends Service implements Serializable {
             }
         }
         return false;
-    }
-
-
-    public class NotifyStatusBroadCastReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            boolean status = intent.getBooleanExtra("status", false);
-            Log.d(TAG, "onReceive: " + status);
-
-            changeFlashLightColor(status);
-
-            mHandler.removeMessages(0);
-            //手电筒服务 在接收到广播的关闭状态5秒后 停止服务
-            if (!status) {
-                Log.d(TAG, "onReceive: 五秒后停止FlashlightService");
-                mHandler.sendEmptyMessageDelayed(0, 5000);
-            }
-
-        }
-
     }
 
     private void changeFlashLightColor(boolean status) {
