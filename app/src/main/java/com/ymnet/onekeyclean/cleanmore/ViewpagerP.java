@@ -1,6 +1,10 @@
 /*
 package com.ymnet.onekeyclean.cleanmore;
 
+<<<<<<< HEAD
+=======
+import android.net.Uri;
+>>>>>>> guest
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.TabLayout.Tab;
@@ -11,11 +15,25 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.ymnet.onekeyclean.R;
+<<<<<<< HEAD
 
 public class ViewpagerP extends FragmentActivity {
 
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
+=======
+import com.ymnet.onekeyclean.cleanmore.fragment.testfragment.Fragment1;
+import com.ymnet.onekeyclean.cleanmore.fragment.testfragment.Fragment2;
+import com.ymnet.onekeyclean.cleanmore.fragment.testfragment.Fragment3;
+import com.ymnet.onekeyclean.cleanmore.fragment.testfragment.Fragment4;
+
+
+public class ViewpagerP extends FragmentActivity implements Fragment1.OnFragmentInteractionListener, Fragment2.OnFragmentInteractionListener,Fragment3.OnFragmentInteractionListener,Fragment4.OnFragmentInteractionListener{
+
+    private ViewPager mViewPager;
+    private TabLayout mTabLayout;
+    private MyFragmentPagerAdapter myFragmentPagerAdapter;
+>>>>>>> guest
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +44,11 @@ public class ViewpagerP extends FragmentActivity {
 
     private void initView() {
         //使用适配器将ViewPager与Fragment绑定在一起
+<<<<<<< HEAD
         mViewPager= (ViewPager) findViewById(R.id.viewPager);
+=======
+        mViewPager = (ViewPager) findViewById(R.id.viewPager);
+>>>>>>> guest
         myFragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(myFragmentPagerAdapter);
 
@@ -48,9 +70,20 @@ public class ViewpagerP extends FragmentActivity {
 
     }
 
+<<<<<<< HEAD
     public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
         private String[] mTitles = new String[]{"首页", "发现", "进货单","我的"};
+=======
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
+
+        private String[] mTitles = new String[]{"首页", "发现", "进货单", "我的"};
+>>>>>>> guest
 
         public MyFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -58,6 +91,7 @@ public class ViewpagerP extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
+<<<<<<< HEAD
             */
 /*if (position == 1) {
                 return new Fragment2();
@@ -67,6 +101,16 @@ public class ViewpagerP extends FragmentActivity {
                 return new Fragment4();
             }
             return new Fragment1();*//*
+=======
+            if (position == 1) {
+                return new Fragment2();
+            } else if (position == 2) {
+                return new Fragment3();
+            } else if (position == 3) {
+                return new Fragment4();
+            }
+            return new Fragment1();
+>>>>>>> guest
 
         }
 
@@ -82,5 +126,9 @@ public class ViewpagerP extends FragmentActivity {
         }
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> guest
 }
 */

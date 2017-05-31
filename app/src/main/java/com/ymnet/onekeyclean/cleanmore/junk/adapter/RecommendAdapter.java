@@ -18,6 +18,7 @@ import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
 import com.ymnet.onekeyclean.cleanmore.datacenter.MarketObservable;
 import com.ymnet.onekeyclean.cleanmore.datacenter.MarketObserver;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
+import com.ymnet.onekeyclean.cleanmore.utils.SharedPreferencesUtil;
 import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewClickListener;
 import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewScrollListener;
 
@@ -39,6 +40,7 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
     private RecyclerViewClickListener  listener;
     private RecyclerViewScrollListener mScrollListener;
     private LayoutInflater             inflater;
+    private String ItemID = "item_id";
 
     public RecommendAdapter(List<InformationResult> data) {
         this.data = data;
@@ -88,12 +90,13 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
 
     @Override
     protected void onBindContentViewHolder(final ContentViewHolder holder, final int position) {
-                Log.d(TAG, "onBindContentViewHolder:position: "+position);
+        Log.d(TAG, "onBindContentViewHolder:position: " + position);
         if (holder instanceof FootViewHolder) { //底部loadmore界面
             FootViewHolder footHolder = (FootViewHolder) holder;
         } else if (holder instanceof ThreeViewHolder) {
             ThreeViewHolder viewHolder = (ThreeViewHolder) holder;
             InformationResult moreData = data.get(position);
+
             if (moreData != null) {
                 viewHolder.author_name.setText(moreData.getAuthor_name());
                 viewHolder.publish_time.setText(moreData.getPublish_time());
@@ -101,6 +104,10 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
                 Glide.with(C.get()).load(moreData.getThumbnail_pic_s1()).asBitmap().into(viewHolder.img1);
                 Glide.with(C.get()).load(moreData.getThumbnail_pic_s2()).asBitmap().into(viewHolder.img2);
                 Glide.with(C.get()).load(moreData.getThumbnail_pic_s3()).asBitmap().into(viewHolder.img3);
+
+                if (SharedPreferencesUtil.getIntFromDefaultSharedPreferences(data.get(position).getId()+"") == moreData.getId()) {
+                    changeState(holder, position);
+                }
             }
         } else if (holder instanceof OneImagViewHolder) {
             OneImagViewHolder oneImagHolder = (OneImagViewHolder) holder;
@@ -108,6 +115,10 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
             oneImagHolder.publish_time.setText(data.get(position).getPublish_time());
             oneImagHolder.content.setText(data.get(position).getTitle());
             Glide.with(C.get()).load(data.get(position).getThumbnail_pic_s1()).asBitmap().into(oneImagHolder.img);
+
+            if (SharedPreferencesUtil.getIntFromDefaultSharedPreferences(data.get(position).getId()+"") == data.get(position).getId()) {
+                changeState(holder, position);
+            }
 
         } else if (holder instanceof VideoViewHolder) {
             //暂时不做
@@ -131,6 +142,7 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
     }
 
     private void changeState(ContentViewHolder holder, int position) {
+
         if (holder instanceof ThreeViewHolder) {
             ThreeViewHolder viewHolder = (ThreeViewHolder) holder;
             InformationResult moreData = data.get(position);
@@ -145,6 +157,9 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
             oneImagHolder.publish_time.setTextColor(Color.parseColor("#9c9c9c"));
             oneImagHolder.content.setTextColor(Color.parseColor("#9c9c9c"));
         }
+
+        int id = data.get(position).getId();
+        SharedPreferencesUtil.putIntToDefaultSharedPreferences(data.get(position).getId()+"", id);
     }
 
     /**

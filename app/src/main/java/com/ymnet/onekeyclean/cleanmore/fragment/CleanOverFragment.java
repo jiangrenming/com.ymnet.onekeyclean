@@ -298,8 +298,9 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
 
                 Intent intent = new Intent(getActivity(), WebHtmlActivity.class);
                 intent.putExtra("html", news_url);
-                intent.putExtra("flag", 20);
+                intent.putExtra("flag", 10);
                 startActivity(intent);
+
             }
         });
 

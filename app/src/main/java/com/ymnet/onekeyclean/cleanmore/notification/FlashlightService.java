@@ -8,21 +8,25 @@ import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.commonlibrary.utils.NotificationUntil;
+import com.example.commonlibrary.utils.PhoneModel;
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
-import com.example.commonlibrary.utils.NotificationUntil;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
-import com.ymnet.onekeyclean.cleanmore.utils.ToastUtil;
+
+import java.util.List;
 
 
 public class FlashlightService extends Service {
 
     private static Camera camera;
-    private final String TAG = "FlashlightService";
+    private final        String TAG   = "FlashlightService";
     private static final String MODEL = "androidmodel";
     private CameraManager mManager;
     private static boolean toggle = true;
+    private String mAndroidModel;
 
     public FlashlightService() {
     }
@@ -44,10 +48,33 @@ public class FlashlightService extends Service {
             Log.d(TAG, "onStartCommand: 需要收起通知栏的机型");
             //收起通知栏
             NotificationUntil.collapseStatusBar(this);
-            ToastUtil.showToastForShort("请先获取系统权限");
+            //            ToastUtil.showToastForShort("请先获取系统权限");
         }
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mAndroidModel = PhoneModel.getAndroidModel();
+
+            if (matchModel("M5")) {
+                if (camera == null) {
+                    camera = Camera.open();
+                }
+                //改变手电筒显示状态
+                Intent intent3 = new Intent();
+                intent3.setAction("flashlight_status");
+                intent3.putExtra("status", !isFlashlightOn());
+                sendBroadcast(intent3);
+
+                if (isFlashlightOn()) {
+                    Log.d(TAG, "flashlightUtils: 闪光灯现在开着,关闭动作");
+                    camera.getParameters().setFlashMode(Camera.Parameters.FLASH_MODE_OFF);// 关闭
+                    camera.setParameters(camera.getParameters());
+                    camera.stopPreview();
+                    camera.release();
+                    camera = null;
+                } else {
+                    openFlashLight();
+                }
+
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 mManager.setTorchMode("0", toggle);
 
                 Log.d(TAG, "onStartCommand: " + toggle);
@@ -108,17 +135,17 @@ public class FlashlightService extends Service {
             Log.d(TAG, "flashlightUtils: " + e.toString());
             MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.notification.FlashlightService:flashlightUtils:" + e.toString());
         } finally {
-            Intent intent2 = new Intent();
+            Intent intent3 = new Intent();
             try {
-                intent2.setAction("flashlight_status");
-                intent2.putExtra("status", isFlashlightOn());
+                intent3.setAction("flashlight_status");
+                intent3.putExtra("status", isFlashlightOn());
             } catch (Exception e) {
                 if (camera != null) {
                     camera.release();
                     camera = null;
                 }
             } finally {
-                sendBroadcast(intent2);
+                sendBroadcast(intent3);
             }
         }
 
@@ -130,6 +157,56 @@ public class FlashlightService extends Service {
     public boolean isFlashlightOn() {
         String flashMode = camera.getParameters().getFlashMode();
         return flashMode.equals(Camera.Parameters.FLASH_MODE_TORCH);
+    }
+
+
+    /**
+     * 手机型号匹配
+     *
+     * @param s
+     * @return 只要手机型号满足条件返回true.
+     */
+    private boolean matchModel(String... s) {
+        for (int i = 0; i < s.length; i++) {
+            if (mAndroidModel.contains(s[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    private void openFlashLight() {
+
+        //        camera = Camera.open();
+        Camera.Parameters params = camera.getParameters();
+        List<String> list = params.getSupportedFlashModes();
+        if (list.contains(Camera.Parameters.FLASH_MODE_TORCH)) {
+            params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+        } else {
+            Toast.makeText(getApplicationContext(), "此设备不支持闪光灯模式",
+                    Toast.LENGTH_SHORT).show();
+        }
+        camera.setParameters(params);
+        camera.startPreview();
+
+        Camera.Parameters p = camera.getParameters();
+        List<String> focusModes = p.getSupportedFocusModes();
+
+        if (focusModes != null && focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
+            //Phone supports autofocus!
+            camera.autoFocus(new Camera.AutoFocusCallback() {
+                public void onAutoFocus(boolean success, Camera camera) {
+                }
+            });
+        } else {
+            //Phone does not support autofocus!
+        }
+
+        //统计
+        Intent intent2 = new Intent(this, SettingsReceiver.class);
+        intent2.putExtra(OnekeyField.KEY, OnekeyField.FLASHLIGHT);
+        sendBroadcast(intent2);
     }
 
 }
