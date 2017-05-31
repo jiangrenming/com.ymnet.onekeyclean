@@ -128,7 +128,7 @@ public class NotifyService extends Service implements Serializable {
         remoteViews = getRemoteViews();
         //奇酷手机更换图标为白色
 
-        if (matchModel("8681", "SM-", "OPPO", "HUAWEI",/*"ONEPLUS",*/"Le","vivo","M5")) {
+        if (matchModel("8681", "SM-", "OPPO", "HUAWEI",/*"ONEPLUS",*/"Le","vivo","M5","Coolpad")) {
 
             System.out.println("---------------androidModel:奇酷,一加,OPPO,奇酷,华为");
             remoteViews.setImageViewResource(R.id.iv_head, R.mipmap.onekeyclean_white);
@@ -227,7 +227,7 @@ public class NotifyService extends Service implements Serializable {
         if (status) {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_open);
 
-        } else if (matchModel("8681", "SM-", "OPPO","HUAWEI",/*"ONEPLUS",*/"Le","vivo","M5")) {
+        } else if (matchModel("8681", "SM-", "OPPO","HUAWEI",/*"ONEPLUS",*/"Le","vivo","M5","Coolpad")) {
 
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_white);
         } else {
