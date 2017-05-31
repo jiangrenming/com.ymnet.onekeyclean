@@ -74,6 +74,7 @@ public class CleanActivity extends Activity implements CleanView {
     private Animation            mAnimation;
     private boolean isFirst      = true;
     private long    mTotalMemory = 0;
+    private int temp;
     private Handler mHandler     = new Handler(C.get().getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
@@ -82,8 +83,11 @@ public class CleanActivity extends Activity implements CleanView {
                 //数字动态显示清理量
                 case 0:
                     if (mCount >= 0 && valueChange) {
-                        mMemoryInfo.setText("" + (mUsedMemory + mCount--) + "%");
-                        mHandler.sendEmptyMessageDelayed(0, 200);
+                        if(temp < mCount) {
+                            mMemoryInfo.setText("" + (mUsedMemory - ++temp) + "%");
+                            mHandler.sendEmptyMessageDelayed(0, 200);
+                        }
+                        //                        mMemoryInfo.setText("" + (mUsedMemory + mCount--) + "%");
                         Log.d(TAG, "handleMessage: " + (mUsedMemory + "  " + mCount));
                     } else {
                         mMemoryInfo.setText("" + mUsedMemory + "%");
@@ -96,6 +100,9 @@ public class CleanActivity extends Activity implements CleanView {
                             mCleanPresenter.killAll(CleanActivity.this, true);
                         }
                     });
+                    break;
+                case 2://清理前显示的数值
+                    mMemoryInfo.setText("" + mUsedMemory + "%");
                     break;
             }
         }
@@ -155,6 +162,10 @@ public class CleanActivity extends Activity implements CleanView {
                         isFirst = false;
                     }
                     mMemoryInfo.setVisibility(View.VISIBLE);
+                    mUsedMemory = getUsedMemoryRate();
+                    mMemoryInfo.setText("" + mUsedMemory + "%");
+//                    mHandler.sendEmptyMessageDelayed(2, 100);
+                    mHandler.sendEmptyMessage(2);
 
                     //吸入软件整体动画结合展示(个个软件图标暂未展示)
                     mWheel = (Wheel) findViewById(R.id.wheel_iv);
@@ -401,7 +412,6 @@ public class CleanActivity extends Activity implements CleanView {
         //对勾动画开启
         //展开动画
 
-
         mRotateImage.setVisibility(View.INVISIBLE);
         mMemoryInfo.setVisibility(View.INVISIBLE);
 
@@ -463,8 +473,8 @@ public class CleanActivity extends Activity implements CleanView {
                 final PackageManager packageManager = CleanActivity.this.getPackageManager();
                 final List<ResolveInfo> appList = packageManager.queryIntentActivities(intent, 0);
 
-                //清理百分比
-                mUsedMemory = getUsedMemoryRate();
+                //当前手机剩余内存百分比
+//                mUsedMemory = getUsedMemoryRate();
 
                 mCount = (int) (Math.abs(cleanMem * 100) / mTotalMemory + 0.5f);
                 Log.d(TAG, "onAnimationEnd: mSize: " + "/内存总量:" + mTotalMemory + "/清理量:" + cleanMem + "/清理百分比:" + mCount);

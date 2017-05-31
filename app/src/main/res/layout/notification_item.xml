@@ -39,8 +39,8 @@
 
         <ImageView
             android:id="@+id/iv_head"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:src="@mipmap/onekeyclean"/>
 
         <TextView
@@ -90,8 +90,8 @@
 
         <ImageView
             android:id="@+id/iv_deep"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:src="@mipmap/brush"/>
 
         <TextView
@@ -115,12 +115,12 @@
 
         <ImageView
             android:id="@+id/iv_wechat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@mipmap/wechat"/>
 
         <TextView
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:id="@+id/tv_wechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -140,8 +140,8 @@
 
         <ImageView
             android:id="@+id/iv_qq"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:src="@mipmap/qq"/>
 
         <TextView
@@ -164,8 +164,8 @@
 
         <ImageView
             android:id="@+id/iv_flashlight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:src="@mipmap/flashlight"/>
 
         <TextView
@@ -188,8 +188,8 @@
 
         <ImageView
             android:id="@+id/iv_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:src="@mipmap/setting"/>
 
         <TextView
