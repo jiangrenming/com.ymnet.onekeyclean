@@ -89,6 +89,7 @@ public class CleanPresenterImpl implements CleanPresenter {
                 content = context.getResources().getString(R.string.toast_bean_best);
                 cleanView.showToast(content);
                 cleanView.bestState(true);
+
             } else {
                 //2>需要清理:
                 valueChange = true;

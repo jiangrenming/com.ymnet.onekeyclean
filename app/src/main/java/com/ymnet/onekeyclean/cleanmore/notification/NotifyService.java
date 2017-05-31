@@ -118,7 +118,7 @@ public class NotifyService extends Service implements Serializable {
         RemoteViews remoteViews = null;
         remoteViews = getRemoteViews();
         //奇酷手机更换图标为白色
-        if (matchModel("8681", "SM-", "OPPO", "HUAWEI","ONEPLUS")) {
+        if (matchModel("8681", "SM-", "OPPO", "HUAWEI","ONEPLUS","Coolpad")) {
             System.out.println("---------------androidModel:奇酷,一加,OPPO,奇酷,华为");
             remoteViews.setImageViewResource(R.id.iv_head, R.mipmap.onekeyclean_white);
             remoteViews.setImageViewResource(R.id.iv_wechat, R.mipmap.wechat_white);
@@ -140,6 +140,7 @@ public class NotifyService extends Service implements Serializable {
 
         //一键加速
         Intent intent2 = new Intent(C.get(), CleanActivity.class);
+//        Intent intent2 = new Intent(C.get(), ViewpagerP.class);
         intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(C.get(), REQUEST_CODE01, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_head, pendingIntent);
@@ -165,7 +166,7 @@ public class NotifyService extends Service implements Serializable {
         //手电筒
         Intent intent7 = new Intent(this, FlashlightService.class);
         intent7.putExtra(OPEN_FLASHLIGHT, status);
-        if (matchModel("vivo")) {
+        if (matchModel("vivo","Coolpad")) {//需要收起通知栏的机型
             intent7.putExtra(MODEL, true);
         } else {
             intent7.putExtra(MODEL, false);
@@ -236,7 +237,7 @@ public class NotifyService extends Service implements Serializable {
     private void changeFlashLightColor(boolean status) {
         if (status) {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_open);
-        } else if (matchModel("8681", "SM-", "OPPO","HUAWEI","ONEPLUS")) {
+        } else if (matchModel("8681", "SM-", "OPPO","HUAWEI","ONEPLUS","Coolpad")) {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_white);
         } else {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight);
