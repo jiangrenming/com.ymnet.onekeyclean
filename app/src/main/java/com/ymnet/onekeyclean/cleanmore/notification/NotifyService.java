@@ -29,6 +29,7 @@ import com.ymnet.onekeyclean.cleanmore.wechat.WeChatActivity;
 
 import java.io.Serializable;
 
+
 /**
  * Created by MajinBuu on 2017/5/11.
  *
@@ -118,7 +119,7 @@ public class NotifyService extends Service implements Serializable {
         RemoteViews remoteViews = null;
         remoteViews = getRemoteViews();
         //奇酷手机更换图标为白色
-        if (matchModel("8681", "SM-", "OPPO", "HUAWEI","ONEPLUS","Coolpad")) {
+        if (matchModel("8681", "SM-", "OPPO", "HUAWEI",/*"ONEPLUS",*/"Le","vivo","M5")) {
             System.out.println("---------------androidModel:奇酷,一加,OPPO,奇酷,华为");
             remoteViews.setImageViewResource(R.id.iv_head, R.mipmap.onekeyclean_white);
             remoteViews.setImageViewResource(R.id.iv_wechat, R.mipmap.wechat_white);
@@ -237,7 +238,7 @@ public class NotifyService extends Service implements Serializable {
     private void changeFlashLightColor(boolean status) {
         if (status) {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_open);
-        } else if (matchModel("8681", "SM-", "OPPO","HUAWEI","ONEPLUS","Coolpad")) {
+        } else if (matchModel("8681", "SM-", "OPPO","HUAWEI",/*"ONEPLUS",*/"Le","vivo","M5")) {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_white);
         } else {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight);

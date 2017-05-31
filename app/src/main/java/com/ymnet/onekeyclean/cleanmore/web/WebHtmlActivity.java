@@ -17,6 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 
 /**
@@ -33,26 +34,32 @@ public class WebHtmlActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.web_activity);
-        webView = (WebView) findViewById(R.id.webview);
-        back = (ImageView) findViewById(R.id.back);
-        setConfig();
-        loadWebView();
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (webView.canGoBack()){
-                    webView.goBack();//返回上个页面
-                    return ;
+        try {
+            setContentView(R.layout.web_activity);
+            webView = (WebView) findViewById(R.id.webview);
+            back = (ImageView) findViewById(R.id.back);
+            setConfig();
+            loadWebView();
+            back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (webView.canGoBack()) {
+                        webView.goBack();//返回上个页面
+                        return;
+                    }
+                    finish();
                 }
-                finish();
-            }
-        });
+            });
+        } catch (Exception e) {
+            MobclickAgent.reportError(this, "没有webview,"+e.toString());
+            finish();
+        }
+
     }
 
     private void loadWebView() {
         final String htmlUrl = getIntent().getStringExtra("html");
-        flag = getIntent().getIntExtra("flag",-1);
+        flag = getIntent().getIntExtra("flag", -1);
         if (!TextUtils.isEmpty(htmlUrl)) {
             webView.loadUrl(htmlUrl);
             webView.setWebChromeClient(new WebChromeClient());
@@ -66,9 +73,9 @@ public class WebHtmlActivity extends Activity {
                     if (uri.equals(uri2)) {
                         return super.shouldOverrideUrlLoading(view, url);
                     } else {
-                       /* if (flag != -1 && flag == 10){
-                            JumpUtil.getInstance().unJumpAddress(WebHtmlActivity.this, url,10);
-                        }else {
+                        if (flag != -1 && flag == 10) {
+                            JumpUtil.getInstance().unJumpAddress(WebHtmlActivity.this, url, 10);
+                        }/* else {
                             JumpUtil.getInstance().unJumpAddress(WebHtmlActivity.this, url,20);
                         }*/
                         return true;
@@ -142,7 +149,7 @@ public class WebHtmlActivity extends Activity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK&& webView.canGoBack()){
+        if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
             webView.goBack();//返回上个页面
             return true;
         }

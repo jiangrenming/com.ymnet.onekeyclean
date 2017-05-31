@@ -21,7 +21,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-    <!--app:tabBackground="@drawable/selected"-->
+  <!--  &lt;!&ndash;app:tabBackground="@drawable/selected"&ndash;&gt;
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
@@ -32,5 +32,5 @@
         app:tabMode="fixed"
         app:tabSelectedTextColor="#CC33FF"
         app:tabTextColor="@color/colorPrimary"/>
-
+-->
 </LinearLayout>
