@@ -7,7 +7,6 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -259,13 +258,13 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
     protected void onStop() {
         super.onStop();
 
-        if (mScan != null) {
+        /*if (mScan != null) {
             datas = mScan.getDatas();
             if (datas == null || datas.size() == 0) {
                 Log.d(TAG, "onStop: 结束界面");
                 finish();
             }
-        }
+        }*/
     }
 
     @Override
