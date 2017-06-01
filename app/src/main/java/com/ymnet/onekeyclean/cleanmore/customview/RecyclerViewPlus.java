@@ -362,8 +362,7 @@ public class RecyclerViewPlus extends RecyclerView {
         public static abstract class ViewHolderWrapper {
 
             private ViewHolder onCreateViewHolder(ViewGroup parent) {
-                return new ViewHolder(onCreateView(parent)) {
-                };
+                return new ViewHolder(onCreateView(parent)){};
             }
 
             protected abstract View onCreateView(ViewGroup parent);

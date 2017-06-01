@@ -4,11 +4,13 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -29,6 +31,7 @@ import com.ymnet.onekeyclean.cleanmore.junk.adapter.RecommendAdapter;
 import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.CleanSetSharedPreferences;
+import com.ymnet.onekeyclean.cleanmore.utils.DisplayUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
 import com.ymnet.onekeyclean.cleanmore.utils.ToastUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
@@ -46,6 +49,7 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 
 /**
  * 垃圾清理完成界面
@@ -67,6 +71,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
     private List<InformationResult> moreData = new ArrayList<>();
     private RecommendAdapter adapter;
     private View             foot;
+    private View mNewsHead;
 
     public static CleanOverFragment newInstance(Long size) {
         CleanOverFragment fragment = new CleanOverFragment();
@@ -261,6 +266,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
         head = LayoutInflater.from(getActivity()).inflate(R.layout.clean_over_head, rv, false);
         head.findViewById(R.id.rl_wechat).setOnClickListener(this);
         head.findViewById(R.id.rl_qq).setOnClickListener(this);
+        mNewsHead = head.findViewById(R.id.tv_news_head);
 
         //获取网络数据
         getNewsInformation();
@@ -274,9 +280,16 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
         });
         if (NetworkUtils.isNetworkAvailable(C.get())) {
             foot = LayoutInflater.from(C.get()).inflate(R.layout.recycler_view_layout_progress, rv, false);
+            mNewsHead.setVisibility(View.VISIBLE);
         } else {
-            foot = LayoutInflater.from(C.get()).inflate(R.layout.footer_no_data, rv, false);
-            foot.findViewById(R.id.footer_more).setOnClickListener(this);
+//            foot = LayoutInflater.from(C.get()).inflate(R.layout.footer_no_data, rv, false);
+//            foot.findViewById(R.id.footer_more).setOnClickListener(this);
+            RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DisplayUtil.dip2px(C.get(), 6));
+            foot = new View(getActivity());
+            foot.setLayoutParams(lp);
+            foot.setBackgroundColor(Color.TRANSPARENT);
+
+            mNewsHead.setVisibility(View.GONE);
         }
 
         adapter.addFooterView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
