@@ -290,7 +290,7 @@
         <!-- sc-general -->
         <!-- sc-baipai -->
         <receiver
-            android:name=".cleanmore.notification.SettingsReceiver"
+            android:name=".cleanmore.notification.StatisticReceiver"
             android:enabled="true"
             android:exported="true">
         </receiver>

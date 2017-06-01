@@ -24,4 +24,18 @@ public class PhoneModel {
     public static String getAndroidModel() {
         return Build.MODEL;
     }
+    /**
+     * 手机型号匹配
+     *
+     * @param s
+     * @return 只要手机型号满足条件返回true.
+     */
+    public static boolean matchModel(String... s) {
+        for (int i = 0; i < s.length; i++) {
+            if (getAndroidModel().contains(s[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

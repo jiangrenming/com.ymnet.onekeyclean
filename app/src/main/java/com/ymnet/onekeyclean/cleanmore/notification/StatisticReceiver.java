@@ -14,9 +14,14 @@ import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SettingsReceiver extends BroadcastReceiver {
+/**
+ * @create by MajinBuu
+ * @Data 2017-05-27
+ * @describe 给service发送BroadcastReceiver做统计
+ */
+public class StatisticReceiver extends BroadcastReceiver {
 
-    public SettingsReceiver() {
+    public StatisticReceiver() {
     }
 
     @Override

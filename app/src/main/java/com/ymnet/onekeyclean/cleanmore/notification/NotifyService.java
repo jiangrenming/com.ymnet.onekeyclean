@@ -119,7 +119,7 @@ public class NotifyService extends Service implements Serializable {
         RemoteViews remoteViews = null;
         remoteViews = getRemoteViews();
         //奇酷手机更换图标为白色
-        if (matchModel("8681", "SM-", "OPPO", "HUAWEI",/*"ONEPLUS",*/"Le","vivo","M5","Coolpad")) {
+        if (PhoneModel.matchModel("8681", "SM-", "OPPO", "HUAWEI",/*"ONEPLUS",*/"Le","vivo","M5","Coolpad")) {
             System.out.println("---------------androidModel:奇酷,一加,OPPO,奇酷,华为");
             remoteViews.setImageViewResource(R.id.iv_head, R.mipmap.onekeyclean_white);
             remoteViews.setImageViewResource(R.id.iv_wechat, R.mipmap.wechat_white);
@@ -167,7 +167,7 @@ public class NotifyService extends Service implements Serializable {
         //手电筒
         Intent intent7 = new Intent(this, FlashlightService.class);
         intent7.putExtra(OPEN_FLASHLIGHT, status);
-        if (matchModel("vivo","Coolpad")) {//需要收起通知栏的机型
+        if (PhoneModel.matchModel("vivo","Coolpad")) {//需要收起通知栏的机型
             intent7.putExtra(MODEL, true);
         } else {
             intent7.putExtra(MODEL, false);
@@ -178,7 +178,7 @@ public class NotifyService extends Service implements Serializable {
         remoteViews.setOnClickPendingIntent(R.id.ll_flashlight, pendingIntent7);
 
         //系统设置
-        Intent intent6 = new Intent(this,SettingsReceiver.class);
+        Intent intent6 = new Intent(this,StatisticReceiver.class);
         intent6.putExtra(OnekeyField.KEY, OnekeyField.SETTINGS);
         PendingIntent pendingIntent6 = PendingIntent.getBroadcast(C.get(), REQUEST_CODE06, intent6, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_setting, pendingIntent6);
@@ -197,22 +197,6 @@ public class NotifyService extends Service implements Serializable {
          */
         startForeground(ID, mNotification);
     }
-
-    /**
-     * 手机型号匹配
-     *
-     * @param s
-     * @return 只要手机型号满足条件返回true.
-     */
-    private boolean matchModel(String... s) {
-        for (int i = 0; i < s.length; i++) {
-            if (mAndroidModel.contains(s[i])) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     public class NotifyStatusBroadCastReceiver extends BroadcastReceiver {
 
@@ -238,7 +222,7 @@ public class NotifyService extends Service implements Serializable {
     private void changeFlashLightColor(boolean status) {
         if (status) {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_open);
-        } else if (matchModel("8681", "SM-", "OPPO","HUAWEI",/*"ONEPLUS",*/"Le","vivo","M5","Coolpad")) {
+        } else if (PhoneModel.matchModel("8681", "SM-", "OPPO","HUAWEI",/*"ONEPLUS",*/"Le","vivo","M5","Coolpad")) {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_white);
         } else {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight);
