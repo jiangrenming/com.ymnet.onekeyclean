@@ -234,6 +234,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
                             value = 70;
                         }
                         Log.d("CleaningFragment", "value:" + value);
+
                         mWaveLoadingView.setProgressValue(value);
                     }
                 }

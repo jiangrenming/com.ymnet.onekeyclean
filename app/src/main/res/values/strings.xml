@@ -185,6 +185,7 @@
 
     <string name="toast_bean_best">已清理至最佳状态</string>
     <string name="toast_clean_result">释放%1$s内存 \n性能提升%2$d%%</string>
+    <string name="used_memory">内存使用%1$d%%</string>
     <string name="device_admin_label">一键清理</string>
     <string name="onkeycleandefaultcontent">欢迎使用一键清理功能</string>
 
@@ -193,5 +194,6 @@
     <string name="qq_statistics_data_small">定期清理QQ,释放更多空间</string>
     <string name="more_recommend">更多推荐</string>
     <string name="tv_junk_clean">垃圾清理</string>
+    <string name="file_clean">照片,视频,安装包</string>
 
 </resources>

@@ -19,8 +19,8 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.example.commonlibrary.utils.PhoneModel;
-import com.ymnet.killbackground.view.CleanActivity;
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.ViewpagerP;
 import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
 import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
@@ -140,8 +140,8 @@ public class NotifyService extends Service implements Serializable {
 
 
         //一键加速
-        Intent intent2 = new Intent(C.get(), CleanActivity.class);
-//        Intent intent2 = new Intent(C.get(), ViewpagerP.class);
+//        Intent intent2 = new Intent(C.get(), CleanActivity.class);
+        Intent intent2 = new Intent(C.get(), ViewpagerP.class);
         intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(C.get(), REQUEST_CODE01, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_head, pendingIntent);

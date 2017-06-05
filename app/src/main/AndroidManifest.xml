@@ -237,9 +237,6 @@
         </service>
         <service android:name=".cleanmore.service.BackgroundDoSomethingService"/>
 
-        <receiver android:name=".cleanmore.notification.NotifyService$NotifyStatusBroadCastReceiver">
-        </receiver>
-
         <service
             android:name=".cleanmore.notification.AssistantServiceHelper"
             android:enabled="true"

@@ -1,13 +1,51 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.ymnet.onekeyclean.cleanmore.fragment.testfragment.Fragment1">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ymnet.onekeyclean.cleanmore.fragment.testfragment.Fragment1">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+   <!-- <ScrollView
+        android:id="@+id/sv_home"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"/>
+        android:layout_height="match_parent">-->
 
-</FrameLayout>
+        <LinearLayout
+            android:id="@+id/ll_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--<include layout="@layout/fragment_item0"/>-->
+
+            <!--<android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_frag_function"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />-->
+            <com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus
+                android:id="@+id/rv_frag_function"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@mipmap/robot"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@mipmap/robot"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@mipmap/robot"/>
+
+        </LinearLayout>
+    <!--</ScrollView>-->
+</LinearLayout>

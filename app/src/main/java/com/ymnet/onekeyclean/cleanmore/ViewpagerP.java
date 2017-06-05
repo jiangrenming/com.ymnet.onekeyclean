@@ -1,10 +1,8 @@
-/*
 package com.ymnet.onekeyclean.cleanmore;
 
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.TabLayout.Tab;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -32,7 +30,10 @@ public class ViewpagerP extends FragmentActivity implements Fragment1.OnFragment
     }
 
     private void initView() {
-        //使用适配器将ViewPager与Fragment绑定在一起
+        mViewPager = (ViewPager) findViewById(R.id.viewPager);
+        myFragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(myFragmentPagerAdapter);
+       /* //使用适配器将ViewPager与Fragment绑定在一起
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         myFragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(myFragmentPagerAdapter);
@@ -51,7 +52,7 @@ public class ViewpagerP extends FragmentActivity implements Fragment1.OnFragment
         one.setIcon(R.mipmap.robot);
         two.setIcon(R.mipmap.robot);
         three.setIcon(R.mipmap.robot);
-        four.setIcon(R.mipmap.robot);
+        four.setIcon(R.mipmap.robot);*/
 
     }
 
@@ -95,4 +96,3 @@ public class ViewpagerP extends FragmentActivity implements Fragment1.OnFragment
 
 
 }
-*/

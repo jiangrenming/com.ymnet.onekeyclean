@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.commonlibrary.retrofit2service.RetrofitService;
-import com.example.commonlibrary.retrofit2service.bean.InformationResult;
 import com.example.commonlibrary.retrofit2service.bean.NewsInformation;
 import com.example.commonlibrary.utils.ConvertParamsUtils;
 import com.example.commonlibrary.utils.NetworkUtils;
@@ -33,7 +32,6 @@ import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.CleanSetSharedPreferences;
 import com.ymnet.onekeyclean.cleanmore.utils.DisplayUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
-import com.ymnet.onekeyclean.cleanmore.utils.ToastUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
 import com.ymnet.onekeyclean.cleanmore.web.WebHtmlActivity;
 import com.ymnet.onekeyclean.cleanmore.wechat.WeChatActivity;
@@ -68,7 +66,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
     //信息流相关
     private int page = 1;
     private ImageView mBlingBling;
-    private List<InformationResult> moreData = new ArrayList<>();
+    private List<NewsInformation.DataBean> moreData = new ArrayList<>();
     private RecommendAdapter adapter;
     private View             foot;
     private View mNewsHead;
@@ -306,7 +304,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
                 if (position >= moreData.size())
                     return;
 
-                InformationResult info = moreData.get(position);
+                NewsInformation.DataBean info = moreData.get(position);
                 String news_url = info.getNews_url();
 
                 Intent intent = new Intent(getActivity(), WebHtmlActivity.class);
@@ -375,7 +373,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
                     NewsInformation newsInformation = response.body();
                     int count = newsInformation.getCount();
                     adapter.setTotalCount(count);
-                    ArrayList<InformationResult> data = newsInformation.getData();
+                    List<NewsInformation.DataBean> data = newsInformation.getData();
                     Log.d(TAG, "onResponse: data:" + data);
 
                     moreData.addAll(data);
@@ -385,7 +383,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
 
             @Override
             public void onFailure(Call<NewsInformation> call, Throwable t) {
-                ToastUtil.showToastForShort("网络异常,请检查网络...");
+//                ToastUtil.showToastForShort("网络异常,请检查网络...");
             }
         });
 

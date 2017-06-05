@@ -12,7 +12,14 @@
         <attr name="wave_color" format="color"/>
         <attr name="clean_progress" format="integer"/>
     </declare-styleable>
-
+    <declare-styleable name="ProgressButton">
+        <attr name="progressColor" format="color" />
+        <attr name="progressBgColor" format="color" />
+        <attr name="buttonNormalColor" format="color" />
+        <attr name="buttonPressedColor" format="color" />
+        <attr name="buttonCornerRadius" format="dimension"/>
+        <attr name="showProgressNum" format="boolean"/>
+    </declare-styleable>
     <declare-styleable name="WaveLoadingView">
         <attr name="wlv_borderWidth" format="dimension"/>
         <attr name="wlv_borderColor" format="color"/>

@@ -98,17 +98,6 @@ public class ImageAdapter extends BaseAdapter {
 		}
 
 		if (!isChanging) {
-			/*ImageRequest imageRequest =
-					ImageRequestBuilder.newBuilderWithSource(UriUtil.parseUriOrNull("file://" + mInfos.get(position).filePath))
-							.setResizeOptions(new ResizeOptions(imageWidth,imageWidth))
-							.setProgressiveRenderingEnabled(true)
-							.build();
-			DraweeController controller = Fresco.newDraweeControllerBuilder()
-					.setImageRequest(imageRequest)
-					.setOldController(mHolder.ivImage.getController())
-					.build();
-
-			mHolder.ivImage.setController(controller);*/
 
 			Glide.with(mContext)
 					.load("file://" + mInfos.get(position).filePath)
@@ -117,8 +106,6 @@ public class ImageAdapter extends BaseAdapter {
 					.centerCrop()
 					.into(mHolder.ivImage);
 
-//			mHolder.ivImage.setImageURI(Uri.parse("file://" + mInfos.get(position).filePath));
-//			ImageLoader.getInstance().displayImage("file://" + mInfos.get(position).filePath, mHolder.ivImage, mOptions);
 		}
 		
 		if (isChanging && position == curLastVisiblePosition) {
