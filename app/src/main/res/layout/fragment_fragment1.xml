@@ -1,51 +1,49 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ymnet.onekeyclean.cleanmore.fragment.testfragment.Fragment1">
+    tools:context="com.ymnet.onekeyclean.cleanmore.fragment.testfragment.HomeFragment">
 
-   <!-- <ScrollView
-        android:id="@+id/sv_home"
+    <com.ymnet.onekeyclean.cleanmore.widget.StickyLayout
+        android:id="@+id/sticky_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">-->
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/v_touch_bounce"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#c0ffff00"/>
 
         <LinearLayout
-            android:id="@+id/ll_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!--<include layout="@layout/fragment_item0"/>-->
-
-            <!--<android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_frag_function"
+            <LinearLayout
+                android:id="@+id/sticky_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />-->
+                android:orientation="vertical">
+
+                <include layout="@layout/fragment_item0"/>
+
+                <!--<com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus
+                    android:id="@+id/rv_frag_function"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />-->
+
+            </LinearLayout>
+
             <com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus
-                android:id="@+id/rv_frag_function"
+                android:id="@+id/sticky_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:src="@mipmap/robot"/>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:src="@mipmap/robot"/>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:src="@mipmap/robot"/>
-
         </LinearLayout>
-    <!--</ScrollView>-->
+    </com.ymnet.onekeyclean.cleanmore.widget.StickyLayout>
 </LinearLayout>

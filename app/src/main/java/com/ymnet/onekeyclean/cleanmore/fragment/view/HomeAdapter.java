@@ -31,45 +31,6 @@ public class HomeAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter implem
         this.mData = recyclerInfo;
     }
 
-   /* @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == 0) {
-            View view = View.inflate(mContext, R.layout.fragment_item0, null);
-            return new FunctionHeadHolder(view);
-
-        } else if (viewType == 1) {
-            View view = View.inflate(mContext, R.layout.function_home_item_layout, null);
-            return new FunctionHolder(view);
-        }
-        return null;
-    }*/
-
-   /* @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof FunctionHolder) {
-            FunctionHolder mHolder = (FunctionHolder) holder;
-            mHolder.mIcon.setImageResource(mData.FunctionDrawable[position]);
-            mHolder.mTitle.setText(mData.FunctionTitle[position]);
-            if (mData.FunctionDesc[position] == R.string.used_memory) {
-                String sAgeFormat = C.get().getResources().getString(R.string.used_memory);
-                String format = String.format(sAgeFormat, getUsedMemory());
-                mHolder.mDesc.setText(format);
-            } else {
-                mHolder.mDesc.setText(C.get().getString(mData.FunctionDesc[position]));
-            }
-        } else if (holder instanceof FunctionHeadHolder) {
-            FunctionHeadHolder headHolder = (FunctionHeadHolder) holder;
-            String strSize = mData.sizeAndUnit[0];
-            String strUnit = mData.sizeAndUnit[1];
-
-            headHolder.size.setText(strSize);
-            headHolder.unit.setText(strUnit);
-            headHolder.wave.setProgressValue(mData.waveLevel);
-            headHolder.progressButton.setOnClickListener(this);
-        }
-
-    }*/
-
     @Override
     public int getContentItemCount() {
         return mData.FunctionTitle.length;
@@ -121,7 +82,7 @@ public class HomeAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter implem
     }
 
     private int getUsedMemory() {
-        return (int) (100 * ((float) getAvailMemorySize(C.get()) / SystemMemory.getTotalMemorySize(C.get())));
+        return 100-(int) (100 * ((float) getAvailMemorySize(C.get()) / SystemMemory.getTotalMemorySize(C.get())));
     }
 
     /*@Override

@@ -7,19 +7,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
+import android.view.ViewTreeObserver;
 
-import com.example.commonlibrary.systemmanager.SystemMemory;
-import com.example.commonlibrary.utils.DensityUtil;
 import com.example.commonlibrary.utils.ToastUtil;
 import com.ymnet.killbackground.utils.Run;
 import com.ymnet.onekeyclean.R;
@@ -48,24 +44,24 @@ import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
 import com.ymnet.onekeyclean.cleanmore.widget.LinearLayoutItemDecoration;
 import com.ymnet.onekeyclean.cleanmore.widget.ProgressButton;
 import com.ymnet.onekeyclean.cleanmore.widget.SGTextView;
+import com.ymnet.onekeyclean.cleanmore.widget.StickyLayout;
 import com.ymnet.onekeyclean.cleanmore.widget.WaveLoadingView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.commonlibrary.systemmanager.SystemMemory.getAvailMemorySize;
 import static com.example.commonlibrary.utils.ToastUtil.showShort;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Fragment1.OnFragmentInteractionListener} interface
+ * {@link HomeFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Fragment1#newInstance} factory method to
+ * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment1 extends Fragment implements View.OnClickListener, ScanHelp.IScanResult {
+public class HomeFragment extends Fragment implements View.OnClickListener, ScanHelp.IScanResult, StickyLayout.OnGiveUpTouchEventListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -77,26 +73,28 @@ public class Fragment1 extends Fragment implements View.OnClickListener, ScanHel
     private String mParam1;
     private String mParam2;
 
-    private SGTextView      tv_size;
-    private SGTextView      tv_unit;
-    private WaveLoadingView mWave;
-    private ProgressButton  mProgressButton;
+    private SGTextView                  tv_size;
+    private SGTextView                  tv_unit;
+    private WaveLoadingView             mWave;
+    private ProgressButton              mProgressButton;
+    private ArrayList<JunkChild>        mJunkChildDatas;
+    private long                        mJunkChildSize;
+    private RecyclerViewPlus            mRecyclerView;
+    private HomeAdapter                 mAdapter;
+    private RecyclerInfo                mRecyclerInfo;
+    private View                        mScrollView;
+    private View                        mHeadContent;
+    private int                         measuredHeight;
+    private View                        mRlHomeHead;
+    private StickyLayout                mStickLayout;
+    private int                         mWaveHeight;
+    private WeakReference<HomeFragment> theFragment;
     private Handler mHandler = new MyHandler(this);
-    private ArrayList<JunkChild> mJunkChildDatas;
-    private long                 mJunkChildSize;
-    private RecyclerViewPlus     mRecyclerView;
-    private HomeAdapter          mAdapter;
-    private RecyclerInfo         mRecyclerInfo;
-    private View                 mScrollView;
-    private View                 mHead;
-    private View                 mLl;
-    private View                 mHeadContent;
-    //    private View mRecylerView;
+    private View mStickyHead;
 
     class MyHandler extends Handler {
-        WeakReference<Fragment1> theFragment;
 
-        public MyHandler(Fragment1 fragment) {
+        public MyHandler(HomeFragment fragment) {
             theFragment = new WeakReference<>(fragment);
         }
 
@@ -108,11 +106,10 @@ public class Fragment1 extends Fragment implements View.OnClickListener, ScanHel
                     startCleanAnimation();
                     break;
             }
-
         }
     }
 
-    public Fragment1() {
+    public HomeFragment() {
     }
 
     /**
@@ -121,10 +118,10 @@ public class Fragment1 extends Fragment implements View.OnClickListener, ScanHel
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Fragment1.
+     * @return A new instance of fragment HomeFragment.
      */
-    public static Fragment1 newInstance(String param1, String param2) {
-        Fragment1 fragment = new Fragment1();
+    public static HomeFragment newInstance(String param1, String param2) {
+        HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -183,24 +180,30 @@ public class Fragment1 extends Fragment implements View.OnClickListener, ScanHel
         return view;
     }
 
-    float downY = 0;
-
     private void initView(View view) {
-        //        mScrollView = view.findViewById(R.id.sv_home);
-        mLl = view.findViewById(R.id.ll_home);
-        mRecyclerView = (RecyclerViewPlus) view.findViewById(R.id.rv_frag_function);
+        mStickyHead = view.findViewById(R.id.sticky_header);
+        mHeadContent = view.findViewById(R.id.ll_head_content);
+        mRlHomeHead = view.findViewById(R.id.rl_home_head);
+
+        mStickLayout = (StickyLayout) view.findViewById(R.id.sticky_layout);
+        mStickLayout.setOnGiveUpTouchEventListener(this);
+        mStickLayout.setSticky(true);
+        final ViewGroup.LayoutParams layoutParams = mStickyHead.getLayoutParams();
+
+        mStickLayout.setHeightChangeListener(new StickyLayout.HeightChangeListener() {
+            @Override
+            public void notifyChange(float scale) {
+
+//                setWaveHeight(scale,layoutParams);
+                setHeadContentSize(scale);
+            }
+        });
+        mRecyclerView = (RecyclerViewPlus) view.findViewById(R.id.sticky_content);
         mRecyclerInfo = new RecyclerInfo();
         mAdapter = new HomeAdapter(C.get(), mRecyclerInfo);
-        LinearLayoutManager layout = new LinearLayoutManager(C.get())/* {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        }*/;
 
+        final LinearLayoutManager layout = new LinearLayoutManager(C.get());
         mRecyclerView.setLayoutManager(layout);
-        mHead = LayoutInflater.from(C.get()).inflate(R.layout.fragment_item0, mRecyclerView, false);
-
 
         mRecyclerView.addItemDecoration(new LinearLayoutItemDecoration(C.get(), LinearLayoutItemDecoration.HORIZONTAL_LIST));
         mAdapter.addFooterView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
@@ -213,140 +216,19 @@ public class Fragment1 extends Fragment implements View.OnClickListener, ScanHel
                 return foot;
             }
         });
-        mAdapter.addHeaderView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
-            @Override
-            protected View onCreateView(ViewGroup parent) {
-                return mHead;
-            }
-        });
 
         mRecyclerView.setAdapter(mAdapter);
-        mHeadContent = mHead.findViewById(R.id.ll_head_content);
+        mRecyclerView.canScrollVertically(1);
 
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            mScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                @Override
-                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//                    Log.d("Fragment1", "scrollY:" + scrollY);
-//                    Log.d("Fragment1", "oldScrollY:" + oldScrollY);
-                    if (scrollY - oldScrollY > 0) {
-//                        Log.d("Fragment1", "close");
-                    } else if (scrollY - oldScrollY < 0) {
-//                        Log.d("Fragment1", "open");
-                    }
-                }
-            });
+       /* for (int i = 0; i < mRecyclerView.getChildCount(); i++) {
+            ViewCompat.animate(mRecyclerView.getChildAt(i)).scaleY(0.8f).setDuration(500).start();
+
         }*/
 
-        final GestureDetector gestureDetector = new GestureDetector(new GestureDetector.OnGestureListener() {
-            @Override
-            public boolean onDown(MotionEvent e) {
-                Log.d("Fragment1", "onDown");
-                return false;
-            }
-
-            @Override
-            public void onShowPress(MotionEvent e) {
-
-            }
-
-            @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-                return false;
-            }
-
-            @Override
-            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                Log.d("Fragment1", "distanceX:" + distanceX + "/distanceY:" + distanceY);
-                Log.d("Fragment1", "e1.getAction():" + e1.getAction());
-                switch (e1.getAction()) {
-
-                    case MotionEvent.ACTION_UP:
-                        if (distanceY < 0) {
-                            Log.d("Fragment1", "open");
-                            //                                        mRecyclerView.smoothScrollBy(0, -DensityUtil.dp2px(C.get(), 300));
-                            mRecyclerView.smoothScrollToPosition(0);
-                            //                    mRecyclerView.addView(mHead, 0);
-                            ViewCompat.animate(mHeadContent).scaleY(1).scaleX(1).setDuration(500).setInterpolator(new DecelerateInterpolator()).start();
-
-                        } else if (distanceY > 0) {
-                            Log.d("Fragment1", "close");
-                            mRecyclerView.smoothScrollBy(0, DensityUtil.dp2px(C.get(), 300));
-                            //                    mRecyclerView.smoothScrollToPosition(1);
-                            //                    mRecyclerView.removeView(mHead);
-                            ViewCompat.animate(mHeadContent).scaleY(0).scaleX(0).setDuration(500).setInterpolator(new DecelerateInterpolator()).start();
-
-                        }
-                        break;
-                }
-
-                return true;
-            }
-
-            @Override
-            public void onLongPress(MotionEvent e) {
-
-            }
-
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                Log.d("Fragment1", "/velocityY:" + velocityY);
-                if (velocityY < 0) {
-                    mRecyclerView.smoothScrollBy(0, DensityUtil.dp2px(C.get(), 300));
-                } else if (velocityY > 0) {
-                    mRecyclerView.smoothScrollBy(0, -DensityUtil.dp2px(C.get(), 300));
-                }
-                return true;
-            }
-        });
-
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                /*Log.d("Fragment1", "dy:" + dy);
-                if (dy > 0) {
-                    Log.d("Fragment1", "open");
-                } else {
-                    Log.d("Fragment1", "close");
-                }*/
-            }
-        });
-
-
-        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        downY = event.getY();
-                        Log.d("Fragment1", "downY:" + downY);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        float upY = event.getY();
-                        Log.d("Fragment1", "upY:" + upY);
-                        Log.d("Fragment1", "upY - downY:" + (upY - downY));
-                       /* if (upY - downY > 0) {
-                            Log.d("Fragment1", "open");
-                        } else {
-                            Log.d("Fragment1", "close");
-                        }*/
-                        break;
-                }
-                return gestureDetector.onTouchEvent(event);
-            }
-
-        });
-        tv_size = (SGTextView) mHead.findViewById(R.id.tv_homehead_size);
-        tv_unit = (SGTextView) mHead.findViewById(R.id.tv_homehead_unit);
-        mWave = (WaveLoadingView) mHead.findViewById(R.id.wlv_home);
-        mProgressButton = (ProgressButton) mHead.findViewById(R.id.pb_ram_prompt);
+        tv_size = (SGTextView) view.findViewById(R.id.tv_homehead_size);
+        tv_unit = (SGTextView) view.findViewById(R.id.tv_homehead_unit);
+        mWave = (WaveLoadingView) view.findViewById(R.id.wlv_home);
+        mProgressButton = (ProgressButton) view.findViewById(R.id.pb_ram_prompt);
         mProgressButton.setStop(false);
         mProgressButton.setOnClickListener(this);
         mProgressButton.setOnStateListener(new ProgressButton.OnStateListener() {
@@ -366,22 +248,67 @@ public class Fragment1 extends Fragment implements View.OnClickListener, ScanHel
             }
         });
 
-
-        String sAgeFormat = getActivity().getResources().getString(R.string.used_memory);
-        String format = String.format(sAgeFormat, getUsedMemory());
         mAdapter.notifyDataSetChanged();
+        mStickyHead.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mWaveHeight = mStickyHead.getMeasuredHeight();
+                Log.d("HomeFragment", "mWaveHeight:" + mWaveHeight);
+                mStickyHead.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
 
     }
 
-    private int getUsedMemory() {
-        return (int) (100 * ((float) getAvailMemorySize(C.get()) / SystemMemory.getTotalMemorySize(C.get())));
+    /**
+     * head缩放动画
+     */
+    private void setHeadContentSize(float scale) {
+        Log.d("HomeFragment", "拉伸 缩放动画:" + scale);
+        if (mHeadContent.getMeasuredHeight() < mWaveHeight) {
+            mHeadContent.setScaleX(scale);
+            mHeadContent.setScaleY(scale);
+        }
     }
+
+    private void setWaveHeight(float scale, ViewGroup.LayoutParams layoutParams) {
+        layoutParams.height = (int) (mWaveHeight * scale);
+        mStickyHead.setLayoutParams(layoutParams);
+        mStickyHead.requestLayout();
+
+    }
+
+    /**
+     * 根据滑动间距重新给view布局
+     */
+    /*private void relayoutView(float distanceY, final int measuredHeight) {
+
+        int percent = (int) (100 * (measuredHeight - distanceY + 0.5f) / measuredHeight + 0.5f);
+        Log.d("HomeFragment", "percent:" + percent);
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(100, percent);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float animatedValue = (float) animation.getAnimatedValue();
+                Log.d("HomeFragment", "animatedValue:" + animatedValue);
+                layoutParams.height = ((int) (animatedValue + 0.5f) * measuredHeight / 100);
+                mRlHomeHead.setLayoutParams(layoutParams);
+                //                mRlHomeHead.requestLayout();
+                mRlHomeHead.requestFocus();
+            }
+        });
+        //        valueAnimator.setDuration(10);
+        valueAnimator.start();
+        *//*if (valueAnimator != null && valueAnimator.isRunning()) {
+            mRlHomeHead.computeScroll();
+        }*//*
+    }*/
 
     private void initData() {
         if (CleanFragmentInfo.progressButtonState == null || CleanFragmentInfo.displayValue == 0) {
             return;
         }
-        Log.d("Fragment1", "初始化:" + CleanFragmentInfo.progressButtonState);
+        Log.d("HomeFragment", "初始化:" + CleanFragmentInfo.progressButtonState);
         if (CleanFragmentInfo.progressButtonState.equals("scanFinish")) {
             mProgressButton.setTag("scanFinish");
             mProgressButton.setText("立刻清理2");
@@ -393,12 +320,10 @@ public class Fragment1 extends Fragment implements View.OnClickListener, ScanHel
         String[] sizeAndUnit = FormatUtils.getFileSizeAndUnit(CleanFragmentInfo.displayValue);
         String strSize = sizeAndUnit[0];
         String strUnit = sizeAndUnit[1];
-        //        mRecyclerInfo.sizeAndUnit = sizeAndUnit;
 
         tv_size.setText(strSize);
         tv_unit.setText(strUnit);
         updateWaveLevel(CleanFragmentInfo.displayValue);
-        //        mAdapter.setData(mRecyclerInfo);
         mAdapter.notifyDataSetChanged();
     }
 
@@ -422,11 +347,11 @@ public class Fragment1 extends Fragment implements View.OnClickListener, ScanHel
                     }
                     selectSize = mScan.getTotalSelectSize();
                     setCleanFragmentData(cleanFragmentDatas, selectSize);
-                    Log.d("Fragment1", "cleanFragmentDatas.size():" + cleanFragmentDatas.size());
+                    Log.d("HomeFragment", "cleanFragmentDatas.size():" + cleanFragmentDatas.size());
                     mHandler.sendEmptyMessageDelayed(0x11, 200);
                     needSave = false;
                 } else if ("scanStop".equals(mProgressButton.getTag().toString())) {
-                    Log.d("Fragment1", "scanStop这里scanFinish");
+                    Log.d("HomeFragment", "scanStop这里scanFinish");
                     mProgressButton.setTag("scanFinish");
                     CleanFragmentInfo.progressButtonState = "scanFinish";
                     if (mScan != null && mScan.isRun()) {
@@ -435,6 +360,14 @@ public class Fragment1 extends Fragment implements View.OnClickListener, ScanHel
                 }
                 break;
         }
+    }
+
+    @Override
+    public boolean giveUpTouchEvent(MotionEvent event) {
+        if (mRecyclerView.getScrollY() == 0) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -482,7 +415,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, ScanHel
                         showShort(C.get(), "扫描5结束");
                         break;
                     case ScanState.SCAN_ALL_END:
-                        Log.d("Fragment1", "scanFinish这里scanFinish");
+                        Log.d("HomeFragment", "scanFinish这里scanFinish");
                         mProgressButton.setTag("scanFinish");
                         CleanFragmentInfo.progressButtonState = "scanFinish";
                         mProgressButton.setProgress(100);
@@ -556,14 +489,11 @@ public class Fragment1 extends Fragment implements View.OnClickListener, ScanHel
             long size = mScan.getTotalSize();
             CleanFragmentInfo.displayValue = size;
             String[] sizeAndUnit = FormatUtils.getFileSizeAndUnit(size);
-            //            mRecyclerInfo.sizeAndUnit = sizeAndUnit;
             String strSize = sizeAndUnit[0];
             String strUnit = sizeAndUnit[1];
             tv_size.setText(strSize);
             tv_unit.setText(strUnit);
             updateWaveLevel(size);
-            //            mAdapter.notifyDataSetChanged();
-            //            mAdapter.setData(mRecyclerInfo);
         }
     }
 
@@ -584,8 +514,6 @@ public class Fragment1 extends Fragment implements View.OnClickListener, ScanHel
         } else {
             value = 70;
         }
-        //        mRecyclerInfo.waveLevel = 0;
-        //        mRecyclerInfo.waveLevel = value;
         mWave.setProgressValue(value);
     }
 
@@ -647,7 +575,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, ScanHel
         //                mHandler.sendEmptyMessageDelayed(0x11, 100);
         if (mJunkChildDatas.size() == 0) {
             mProgressButton.setText("清理完成");
-            Log.d("Fragment1", "empty这里赋值");
+            Log.d("HomeFragment", "empty这里赋值");
             mProgressButton.setTag("empty");
             onCleanEnd();
         }
@@ -672,7 +600,6 @@ public class Fragment1 extends Fragment implements View.OnClickListener, ScanHel
         mJunkChildSize -= junkChild.size;
         setCleaningSize(mJunkChildSize);
         updateWaveLevel(mJunkChildSize);
-        //        mAdapter.setData(mRecyclerInfo);
         mAdapter.notifyDataSetChanged();
     }
 
@@ -683,7 +610,6 @@ public class Fragment1 extends Fragment implements View.OnClickListener, ScanHel
      */
     private void setCleaningSize(long size) {
         String[] fileSizeAndUnit = FormatUtils.getFileSizeAndUnit(size);
-        //        mRecyclerInfo.sizeAndUnit = fileSizeAndUnit;
         if (fileSizeAndUnit != null && fileSizeAndUnit.length == 2) {
             tv_size.setText(fileSizeAndUnit[0]);
             tv_unit.setText(fileSizeAndUnit[1]);
@@ -701,7 +627,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, ScanHel
                     DataCenterObserver.get(C.get()).setJunkDataList(datas);
                     DataCenterObserver.get(C.get()).setLastScanTime(System.currentTimeMillis());
                 }
-                Log.d("Fragment1", "mProgressButton.getTag():" + mProgressButton.getTag());
+                Log.d("HomeFragment", "mProgressButton.getTag():" + mProgressButton.getTag());
                 CleanFragmentInfo.progressButtonState = (String) mProgressButton.getTag();
             }
         } catch (Exception e) {

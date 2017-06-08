@@ -10,13 +10,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.ymnet.onekeyclean.R;
-import com.ymnet.onekeyclean.cleanmore.fragment.testfragment.Fragment1;
+import com.ymnet.onekeyclean.cleanmore.fragment.testfragment.HomeFragment;
 import com.ymnet.onekeyclean.cleanmore.fragment.testfragment.Fragment2;
 import com.ymnet.onekeyclean.cleanmore.fragment.testfragment.Fragment3;
 import com.ymnet.onekeyclean.cleanmore.fragment.testfragment.Fragment4;
 
 
-public class ViewpagerP extends FragmentActivity implements Fragment1.OnFragmentInteractionListener, Fragment2.OnFragmentInteractionListener,Fragment3.OnFragmentInteractionListener,Fragment4.OnFragmentInteractionListener{
+public class ViewpagerP extends FragmentActivity implements HomeFragment.OnFragmentInteractionListener, Fragment2.OnFragmentInteractionListener,Fragment3.OnFragmentInteractionListener,Fragment4.OnFragmentInteractionListener{
 
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
@@ -78,7 +78,7 @@ public class ViewpagerP extends FragmentActivity implements Fragment1.OnFragment
             } else if (position == 3) {
                 return new Fragment4();
             }
-            return new Fragment1();
+            return new HomeFragment();
 
         }
 
