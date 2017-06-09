@@ -163,6 +163,11 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
                 navigationOther(position);
 
             }
+
+            @Override
+            public void selectState(long selectSize, boolean flag) {
+
+            }
         });
         rv.setAdapter(adapter);
 

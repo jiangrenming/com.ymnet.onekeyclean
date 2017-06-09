@@ -51,7 +51,7 @@ public class QQDetailPresImpl implements QQDetailPresenter<QQPicMode> {
     }
 
     /**
-     * 拿到微信垃圾中对应项的数据
+     * 拿到QQ垃圾中对应项的数据
      */
     @Override
     public QQFileType getData() {

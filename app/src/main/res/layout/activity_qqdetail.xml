@@ -17,11 +17,11 @@
         android:layout_below="@+id/rl_title" />
 
     <include
-        android:id="@+id/ll_bottom"
-        layout="@layout/wechat_detail_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
+    android:id="@+id/ll_bottom"
+    layout="@layout/wechat_detail_button"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true" />
 
     <ExpandableListView
         android:id="@+id/elv"

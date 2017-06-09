@@ -3,6 +3,7 @@ package com.ymnet.onekeyclean.cleanmore.qq.activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,9 +11,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
+import com.ymnet.killbackground.customlistener.MyViewPropertyAnimatorListener;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.animation.TweenAnimationUtils;
 import com.ymnet.onekeyclean.cleanmore.constants.QQConstants;
@@ -49,6 +52,9 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
     private View                  ani_view;
     private String TAG = "QQActivity";
     private WaveLoadingView mWaveLoadingView;
+    private RelativeLayout  mRl;
+    private TextView        mTvBtn;
+    private boolean         isRemove;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +69,48 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
         mPresenter = new QQPresenterImpl(this);
         initTitleBar();
         initializeRecyclerView();
+        initBottom();
         ani_view = findViewById(R.id.ani_view);
+    }
+
+    private void initBottom() {
+        mRl = (RelativeLayout) findViewById(R.id.rl_qq_btn);
+        mTvBtn = (TextView) findViewById(R.id.btn_bottom_delete);
+        mTvBtn.setEnabled(true);
+        mTvBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigationOther(0);
+                if ((adapter.getContentItemViewType(0) == QQConstants.QQ_TYPE_DEFALUT)) {
+                    hideItem();
+                }
+
+            }
+        });
+    }
+
+    private void hideItem() {
+        ViewGroup.LayoutParams layoutParams = rv.getChildAt(1).getLayoutParams();
+        layoutParams.height = 0;
+        rv.requestLayout();
+
+        bottomGone();
+        isRemove = true;
+        adapter.notifyDataSetChanged();
+    }
+
+    private void bottomGone() {
+        ViewGroup.LayoutParams layoutParams = mRl.getLayoutParams();
+        ViewCompat.animate(mRl).alpha(0).setDuration(1000).setListener(new MyViewPropertyAnimatorListener(){
+            @Override
+            public void onAnimationEnd(View view) {
+                super.onAnimationEnd(view);
+                mRl.setVisibility(View.GONE);
+            }
+        }).start();
+
+        // TODO: 2017/6/9 0009 添加信息流
+
     }
 
     private RecyclerViewPlus      rv;
@@ -75,7 +122,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
         initEmptyView(emptyView);
         rv.setEmptyView(emptyView);
         did = new DividerItemDecoration(this, R.drawable.recyclerview_driver_1_bg);
-        rv.addItemDecoration(did);
+        //        rv.addItemDecoration(did);
         rv.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
 
@@ -84,11 +131,11 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
         initializeHeadView();
         QQContent content = mPresenter.initData();
         content.filterDelete();
-        //扫描手机中应用,是否有微信.如果手机中未安装微信该应用,就展示未发现文件界面
+        //扫描手机中应用,是否有QQ.如果手机中未安装QQ该应用,就展示未发现文件界面
         if (!mPresenter.isInstallAPP()) {
             content.clear();
         }
-        adapter = new QQRecyclerViewAdapter(mPresenter, content);
+        adapter = new QQRecyclerViewAdapter(mPresenter, content, isRemove);
         adapter.addHeaderView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
             @Override
             protected View onCreateView(ViewGroup parent) {
@@ -101,8 +148,14 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
                 Log.d(TAG, "onClick: " + position);
                 navigationOther(position);
             }
+
+            @Override
+            public void selectState(long selectSize, boolean flag) {
+                mTvBtn.setEnabled(flag);
+            }
         });
         rv.setAdapter(adapter);
+
     }
 
 
@@ -134,18 +187,22 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("QQActivity", "返回结果");
         if (REQUEST_DETAIL_CHANGE == requestCode && resultCode == RESULT_OK) {
             boolean extra = data.getBooleanExtra(FLAG_CHANGE, false);
+            Log.d("QQActivity", "extra:" + extra);
             if (extra && adapter != null) {
                 updateData();
             }
         }
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+
     }
 
     private SGTextView tv_size, tv_unit;
@@ -320,6 +377,17 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
 
             }
         });
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (!(adapter.getContentItemViewType(0) == QQConstants.QQ_TYPE_DEFALUT)) {
+                    bottomGone();
+                } else if (mPresenter.get(0).getCurrentSize() > 0) {
+                    mRl.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
     }
 
     @Override

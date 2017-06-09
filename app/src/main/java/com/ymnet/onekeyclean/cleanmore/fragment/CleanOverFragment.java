@@ -313,6 +313,11 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
                 startActivity(intent);
 
             }
+
+            @Override
+            public void selectState(long selectSize, boolean flag) {
+
+            }
         });
 
         rv.setAdapter(adapter);

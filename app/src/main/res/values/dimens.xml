@@ -16,4 +16,5 @@
     <dimen name="sp12">12sp</dimen>
 
     <dimen name="corner_radius">5dp</dimen>
+    <dimen name="default_48dp">48dp</dimen>
 </resources>
