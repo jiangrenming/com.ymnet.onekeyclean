@@ -7,6 +7,7 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -82,8 +83,24 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
         initDrawable();
         initView();
         initScanningFragment();
-        initScan();
-        from = getIntent().getIntExtra("from",-1);
+
+//        Bundle bundle = getIntent().getExtras();
+//        ScanHelp scanHelp = (ScanHelp) bundle.get(OnekeyField.SCANRESULT);
+//        if (scanHelp != null) {
+//            mScan = scanHelp;
+//            SQLiteDatabase db = new ClearManager(this).openClearDatabase();
+//            mScan = ScanHelp.getInstance(this);
+//            mScan.getDb();
+//            mScan.setiScanResult(this);
+//            mScan.setRun(false);
+//            mScan.setRun(true);
+//            mScan.startScan(false);
+//        } else {
+
+            initScan();
+            from = getIntent().getIntExtra("from",-1);
+//        }
+
     }
 
     @Override
@@ -138,12 +155,12 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
     }
 
     private void initScan() {
-        if (mScan != null) {
+       /* if (mScan != null) {
             mScan.setiScanResult(null);
             mScan.setRun(false);
             mScan.close();
             mScan = null;
-        }
+        }*/
         if (checkHasCleanCache()) {
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -160,7 +177,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
             mScan.setRun(true);
             mScan.startScan(false);
         }
-
+        Log.d("MyHandler", "mScan:" + mScan.getTotalSelectSize() + "--" + mScan.hashCode());
     }
 
     private void initScanningFragment() {

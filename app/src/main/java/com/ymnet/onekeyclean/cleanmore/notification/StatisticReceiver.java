@@ -5,9 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
 
-import com.umeng.analytics.MobclickAgent;
-import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.example.commonlibrary.utils.NotificationUntil;
+import com.umeng.analytics.MobclickAgent;
+import com.ymnet.killbackground.view.CleanActivity;
+import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
 import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 
@@ -38,6 +39,16 @@ public class StatisticReceiver extends BroadcastReceiver {
             Intent intent6 = new Intent(Settings.ACTION_SETTINGS);
             intent6.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             C.get().startActivity(intent6);
+            //收起通知栏
+            NotificationUntil.collapseStatusBar(context);
+        } else if (intent.getStringExtra(OnekeyField.KEY).equals(OnekeyField.KILLBACKGROUND)) {
+            Map<String, String> m = new HashMap<>();
+            m.put(OnekeyField.ONEKEYCLEAN, "手机加速");
+            MobclickAgent.onEvent(C.get(),StatisticMob.STATISTIC_ID,m);
+
+            Intent intent7 = new Intent(context, CleanActivity.class);
+            intent7.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            C.get().startActivity(intent7);
             //收起通知栏
             NotificationUntil.collapseStatusBar(context);
         }

@@ -42,14 +42,10 @@ import com.ymnet.killbackground.view.customwidget.Wheel;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.notification.NotifyService;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
-import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
-import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.update.DownLoadFactory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import static android.text.format.Formatter.formatFileSize;
@@ -124,10 +120,6 @@ public class CleanActivity extends Activity implements CleanView {
         QihooSystemUtil.openAllPermission(getApplicationContext(), "com.ymnet.apphelper");
         MobclickAgent.setScenarioType(getApplicationContext(), MobclickAgent.EScenarioType.E_UM_NORMAL);
 
-        Map<String, String> m = new HashMap<>();
-        m.put(OnekeyField.ONEKEYCLEAN, "手机加速");
-        MobclickAgent.onEvent(this, StatisticMob.STATISTIC_ID, m);
-
     }
 
     @Override
@@ -146,9 +138,6 @@ public class CleanActivity extends Activity implements CleanView {
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-
-        Log.d(TAG, "onResume: ");
-        Log.i("Tagg", "ggg");
 
         if (isFirst) {
             //1.球转动,圆环转动 过程当中清理缓存;

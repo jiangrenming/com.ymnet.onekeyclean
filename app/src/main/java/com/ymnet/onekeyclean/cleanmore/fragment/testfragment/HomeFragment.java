@@ -1,5 +1,6 @@
 package com.ymnet.onekeyclean.cleanmore.fragment.testfragment;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.net.Uri;
@@ -103,7 +104,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0x11:
-                    startCleanAnimation();
+//                    startCleanAnimation();
+                    //跳转界面,执行清理动画
+                    if (mScan != null) {
+                        mScan.setRun(false);
+                        mScan.close();
+                    }
+                    Intent intent = new Intent(getContext(), SilverActivity.class);
+                    intent.putExtra("state", "scanFi");
+//                    Bundle bundle = new Bundle();
+                    Log.d("MyHandler", "mScan:" + mScan.getTotalSelectSize() + "--" + mScan.hashCode());
+//                    bundle.putParcelable(OnekeyField.SCANRESULT, mScan);
+//                    intent.putExtras(bundle);
+                    startActivity(intent);
                     break;
             }
         }
@@ -348,6 +361,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                     selectSize = mScan.getTotalSelectSize();
                     setCleanFragmentData(cleanFragmentDatas, selectSize);
                     Log.d("HomeFragment", "cleanFragmentDatas.size():" + cleanFragmentDatas.size());
+
                     mHandler.sendEmptyMessageDelayed(0x11, 200);
                     needSave = false;
                 } else if ("scanStop".equals(mProgressButton.getTag().toString())) {
@@ -360,14 +374,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                 }
                 break;
         }
-    }
-
-    @Override
-    public boolean giveUpTouchEvent(MotionEvent event) {
-        if (mRecyclerView.getScrollY() == 0) {
-            return true;
-        }
-        return false;
     }
 
     @Override
@@ -424,7 +430,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                         datas = mScan.getDatas();
                         if (datas == null || datas.size() == 0) {
                             //todo 清理完成展示界面
-                            //                                                        startCleanOverActivity();
+                            // startCleanOverActivity();
                             mProgressButton.setText("清理完成");
                             showShort(C.get(), "清理完成展示界面");
                         } else {
@@ -458,8 +464,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    @Override
+    public boolean giveUpTouchEvent(MotionEvent event) {
+        if (mRecyclerView.getScrollY() == 0) {
+            return true;
+        }
+        return false;
     }
 
     /**

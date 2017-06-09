@@ -10,8 +10,8 @@
         android:id="@+id/rl_home_head"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:background="@color/main_blue_new1">
+        android:background="@color/main_blue_new1"
+        android:gravity="center">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -52,7 +52,8 @@
                     android:paddingBottom="15dp"
                     android:text="@string/sgtextview_show"
                     android:textColor="@color/white"
-                    android:textSize="100dp"/>
+                    android:textSize="100dp"
+                    />
 
                 <com.ymnet.onekeyclean.cleanmore.widget.SGTextView
                     android:id="@+id/tv_homehead_unit"
@@ -66,9 +67,35 @@
                     android:paddingTop="15dp"
                     android:text="@string/sgtextview_kb"
                     android:textColor="@color/white"
-                    android:textSize="17dp"/>
+                    android:textSize="17dp"
+                    />
 
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/ll_clean_down"
+                    android:gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
+                    <ImageView
+                        android:id="@+id/iv_clean_down"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp"
+                        android:src="@drawable/eluanshibig1"/>
+
+                    <TextView
+                        android:id="@+id/tv_clean_down"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/iv_cleanddd"
+                        android:layout_marginTop="20dp"
+                        android:text="经常清理垃圾"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"/>
+
+                </LinearLayout>
             </RelativeLayout>
 
             <!--<TextView

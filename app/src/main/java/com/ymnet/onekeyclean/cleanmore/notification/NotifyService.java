@@ -19,9 +19,8 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.example.commonlibrary.utils.PhoneModel;
-import com.ymnet.killbackground.view.CleanActivity;
 import com.ymnet.onekeyclean.R;
-import com.ymnet.onekeyclean.cleanmore.ViewpagerP;
+import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
 import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
@@ -140,13 +139,15 @@ public class NotifyService extends Service implements Serializable {
 
 
         //一键加速
-        Intent intent2 = new Intent(C.get(), CleanActivity.class);
-        intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(C.get(), REQUEST_CODE01, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent2 = new Intent(C.get(), StatisticReceiver.class);
+        intent2.putExtra(OnekeyField.KEY, OnekeyField.KILLBACKGROUND);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(C.get(), REQUEST_CODE01, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_head, pendingIntent);
 
         //微信清理
         Intent intent3 = new Intent(C.get(), WeChatActivity.class);
+//        Intent intent3 = new Intent(C.get(), ViewpagerP.class);
+
         intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent1 = PendingIntent.getActivity(C.get(), REQUEST_CODE02, intent3, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_wechat, pendingIntent1);
@@ -158,9 +159,7 @@ public class NotifyService extends Service implements Serializable {
         remoteViews.setOnClickPendingIntent(R.id.ll_qq, pendingIntent4);
 
         //垃圾清理
-//        Intent intent5 = new Intent(C.get(), SilverActivity.class);
-        Intent intent5 = new Intent(C.get(), ViewpagerP.class);
-
+        Intent intent5 = new Intent(C.get(), SilverActivity.class);
         intent5.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent5 = PendingIntent.getActivity(C.get(), REQUEST_CODE04, intent5, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_deep, pendingIntent5);
