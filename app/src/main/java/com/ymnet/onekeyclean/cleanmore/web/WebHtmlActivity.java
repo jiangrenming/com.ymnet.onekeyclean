@@ -50,6 +50,10 @@ public class WebHtmlActivity extends Activity {
                     finish();
                 }
             });
+
+            //获取本地推广浏览器
+            JumpUtil.getInstance().getWebAddresss(this);
+
         } catch (Exception e) {
             MobclickAgent.reportError(this, "没有webview,"+e.toString());
             finish();

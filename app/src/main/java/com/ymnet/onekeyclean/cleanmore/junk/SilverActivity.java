@@ -51,7 +51,6 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
     private View ani_view;
     private static final String scanningFragmentTag="scanning";
     private ScanHelp mScan;
-
     private Resources resources;
     private boolean needSave = false;
 
@@ -83,8 +82,24 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
         initDrawable();
         initView();
         initScanningFragment();
-        initScan();
-        from = getIntent().getIntExtra("from",-1);
+
+//        Bundle bundle = getIntent().getExtras();
+//        ScanHelp scanHelp = (ScanHelp) bundle.get(OnekeyField.SCANRESULT);
+//        if (scanHelp != null) {
+//            mScan = scanHelp;
+//            SQLiteDatabase db = new ClearManager(this).openClearDatabase();
+//            mScan = ScanHelp.getInstance(this);
+//            mScan.getDb();
+//            mScan.setiScanResult(this);
+//            mScan.setRun(false);
+//            mScan.setRun(true);
+//            mScan.startScan(false);
+//        } else {
+
+            initScan();
+            from = getIntent().getIntExtra("from",-1);
+//        }
+
     }
 
     @Override
@@ -139,12 +154,12 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
     }
 
     private void initScan() {
-        if (mScan != null) {
+       /* if (mScan != null) {
             mScan.setiScanResult(null);
             mScan.setRun(false);
             mScan.close();
             mScan = null;
-        }
+        }*/
         if (checkHasCleanCache()) {
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -161,7 +176,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
             mScan.setRun(true);
             mScan.startScan(false);
         }
-
+//        Log.d("MyHandler", "mScan:" + mScan.getTotalSelectSize() + "--" + mScan.hashCode());
     }
 
     private void initScanningFragment() {
@@ -507,23 +522,6 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
         fragmentController.beginNewTransaction();
         fragmentController.changeDisplayFragment(cf);
         fragmentController.commit();
-
-    //todo 清理结束广告,加判断--自动请求模块排序数据，更新未成功则使用上一次数据；每天只请求1次。
-        /*showToastForShort("清理成功!");
-        if (todayNoNewData()) {
-            //请求数据
-            requestData();
-            //添加数据到recyclerviewAdapter,
-
-        }*/
-        /*MoreFragment moreF = MoreFragment.newInstance();
-        SingleDisplayFragmentController fragmentController2 =
-                new SingleDisplayFragmentController(getSupportFragmentManager(), R.id.fl_morefunction);
-        fragmentController2.beginNewTransaction();
-        fragmentController2.changeDisplayFragment(moreF);
-        fragmentController2.commit();*/
-        /*MoreFragment moreF = MoreFragment.newInstance();
-        getSupportFragmentManager().beginTransaction().add(R.id.ll_morefunction,moreF).commit();*/
 
     }
 

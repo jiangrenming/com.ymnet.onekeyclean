@@ -36,14 +36,17 @@ import java.util.List;
  */
 
 public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter {
-    private WeChatContent             content;
+    private boolean flag = true;
+    private WeChatContent content;
     private RecyclerViewClickListener mRecyclerClickListener;
     private Resources                 resources;
     private WeChatPresenter           presenter;
+    private boolean mIsRemove;
 
-    public WeChatRecyclerViewAdapter(WeChatPresenter presenter, WeChatContent content) {
+    public WeChatRecyclerViewAdapter(WeChatPresenter presenter, WeChatContent content, boolean isRemove) {
         this.presenter = presenter;
         this.content = content;
+        this.mIsRemove = isRemove;
         resources = C.get().getResources();
     }
 
@@ -53,7 +56,7 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
 
     @Override
     public ContentViewHolder onCreateContentView(ViewGroup parent, int viewType) {
-        if (WeChatConstants.WECHAT_TYPE_DEFALUT == viewType) {
+       /* if (WeChatConstants.WECHAT_TYPE_DEFALUT == viewType) {
             View view = LayoutInflater.from(C.get()).inflate(R.layout.cardview_default, parent, false);
             return new InnerViewHolderDefalut(view, mRecyclerClickListener);
         } else if (WeChatConstants.WECHAT_TYPE_VOICE == viewType) {
@@ -62,8 +65,15 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
         } else if (WeChatConstants.WECAHT_TYPE_PIC == viewType) {
             View view = LayoutInflater.from(C.get()).inflate(R.layout.cardview_pic, parent, false);
             return new InnerViewHolderPic(view, mRecyclerClickListener);
+        }*/
+        if (WeChatConstants.WECHAT_TYPE_DEFALUT== viewType) {
+            View view = LayoutInflater.from(C.get()).inflate(R.layout.clean_over_item_defalut, parent, false);
+            return new InnerViewHolderStandard(view, mRecyclerClickListener);
+        } else {
+            View view = LayoutInflater.from(C.get()).inflate(R.layout.clean_over_item, parent, false);
+            return new InnerViewHolderOther(view, mRecyclerClickListener);
         }
-        return null;
+//        return null;
     }
 
     @Override
@@ -91,7 +101,15 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
                 holder.tv_trust_info.setText(chatFile.getFileInfo());
                 holder.tv_trust_name.setText(chatFile.getFileName());
                 holder.itemView.setEnabled(true);
-                //微信文件
+                holder.iv_item_icon.setImageResource(chatFile.getIconId());
+
+                if (holder instanceof InnerViewHolderStandard) {
+                    configViewHolderStandard((InnerViewHolderStandard) holder, chatFile);
+                } else if (holder instanceof InnerViewHolderOther) {
+                    configViewHolderOther((InnerViewHolderOther) holder, chatFile);
+                }
+
+                /*//微信文件
                 if (holder instanceof InnerViewHolderDefalut) {
                     configViewHolderDefault((InnerViewHolderDefalut) holder, chatFile);
                 //微信音频
@@ -100,7 +118,7 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
                 //微信图片
                 } else if (holder instanceof InnerViewHolderPic) {
                     configViewHolderPic((InnerViewHolderPic) holder, chatFile);
-                }
+                }*/
 
             } else {
                 //扫描中
@@ -120,6 +138,32 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
             }
 
         }
+    }
+
+    private void configViewHolderOther(InnerViewHolderOther holder, WeChatFileType chatFile) {
+        if (holder == null || chatFile == null)
+            return;
+
+        if (chatFile.getDeleteStatus() == WeChatFileType.DELETE_DEFAULT) {
+            holder.tv_trust_size.setVisibility(View.VISIBLE);
+            holder.tv_trust_size.setText(FormatUtils.formatFileSize(chatFile.getScanOldSize()));
+        } else if (chatFile.getDeleteStatus() == WeChatFileType.DELETE_CLOSE) {
+            holder.ll_main_content.setVisibility(View.GONE);
+        }
+    }
+
+    private void configViewHolderStandard(InnerViewHolderStandard holder, WeChatFileType chatFile) {
+        if (holder == null || chatFile == null)
+            return;
+        if (chatFile.getDeleteStatus() == WeChatFileType.DELETE_DEFAULT) {
+            holder.tv_trust_size.setVisibility(View.VISIBLE);
+            holder.tv_trust_size.setText(FormatUtils.formatFileSize(chatFile.getScanOldSize()));
+        }
+
+        /*if (mIsRemove) {
+            holder.itemView.setVisibility(View.GONE);
+            notifyDataSetChanged();
+        }*/
     }
 
     private void configViewHolderPic(InnerViewHolderPic holder, WeChatFileType chatFile) {
@@ -329,7 +373,7 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
         public TextView btn_scan_status;
 
         public View ll_scanning, ll_main_content;
-        public ImageView iv_scanning_icon;
+        public ImageView iv_scanning_icon,iv_item_icon;
         public TextView tv_scanning_name;
         public ImageView junk_sort_item_apk_progress;
         public int position = -1;
@@ -347,7 +391,7 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
             tv_trust_size = (TextView) itemView.findViewById(R.id.tv_trust_size);
             tv_trust_info = (TextView) itemView.findViewById(R.id.tv_trust_info);
             btn_scan_status = (TextView) itemView.findViewById(R.id.btn_scan_status);
-
+            iv_item_icon = (ImageView) itemView.findViewById(R.id.iv_item_icon);
 
         }
     }
@@ -458,6 +502,52 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
             iv_video_play3 = itemView.findViewById(R.id.iv_video_play2);
 
 
+        }
+    }
+
+    private class InnerViewHolderStandard extends InnerViewHolder {
+
+        public ImageView check;
+
+        public InnerViewHolderStandard(View itemView, final RecyclerViewClickListener onClickListener) {
+            super(itemView, onClickListener);
+            final long size = content.getSize();
+
+            check = (ImageView) itemView.findViewById(R.id.iv_item_check);
+            check.setSelected(flag);
+            check.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    long selectSize;
+                    check.setSelected(!flag);
+                    if (flag) {
+                        selectSize=  size - content.get(0).getScanOldSize();
+                    } else {
+                        selectSize = size;
+                    }
+                    notifyDataSetChanged();
+                    onClickListener.selectState(selectSize, !flag);
+                    flag = !flag;
+
+                }
+            });
+        }
+    }
+
+    private class InnerViewHolderOther extends InnerViewHolder {
+
+        public InnerViewHolderOther(View itemView, final RecyclerViewClickListener onClickListener) {
+            super(itemView, onClickListener);
+            if (onClickListener != null) {
+                ll_main_content.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (position != -1) {
+                            onClickListener.onClick(v, position);
+                        }
+                    }
+                });
+            }
         }
     }
 }

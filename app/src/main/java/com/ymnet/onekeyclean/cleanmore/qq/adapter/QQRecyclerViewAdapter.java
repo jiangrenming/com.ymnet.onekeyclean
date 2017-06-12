@@ -38,14 +38,17 @@ import java.util.List;
 
 public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter {
     private static final String TAG = "QQRecyclerViewAdapter";
+    private boolean mIsRemove;
     private QQContent                 content;
     private RecyclerViewClickListener mRecyclerClickListener;
     private Resources                 resources;
     private QQPresenter               presenter;
+    private boolean flag = true;
 
-    public QQRecyclerViewAdapter(QQPresenter presenter, QQContent content) {
+    public QQRecyclerViewAdapter(QQPresenter presenter, QQContent content, boolean isRemove) {
         this.presenter = presenter;
         this.content = content;
+        this.mIsRemove = isRemove;
         resources = C.get().getResources();
     }
 
@@ -56,7 +59,8 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
     @Override
     public ContentViewHolder onCreateContentView(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateContentView: 进来了:" + viewType);
-        if (QQConstants.QQ_TYPE_DEFALUT == viewType || QQConstants.QQ_TYPE_RECEIVE == viewType) {
+        // TODO: 2017/6/9 0009 更改为统一的条目布局
+       /* if (QQConstants.QQ_TYPE_DEFALUT == viewType || QQConstants.QQ_TYPE_RECEIVE == viewType) {
             View view = LayoutInflater.from(C.get()).inflate(R.layout.cardview_default, parent, false);
             return new InnerViewHolderDefalut(view, mRecyclerClickListener);
         } else if (QQConstants.QQ_TYPE_VOICE == viewType) {
@@ -65,8 +69,14 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
         } else if (QQConstants.QQ_TYPE_PIC == viewType) {
             View view = LayoutInflater.from(C.get()).inflate(R.layout.cardview_pic, parent, false);
             return new InnerViewHolderPic(view, mRecyclerClickListener);
+        }*/
+        if (QQConstants.QQ_TYPE_DEFALUT == viewType) {
+            View view = LayoutInflater.from(C.get()).inflate(R.layout.clean_over_item_defalut, parent, false);
+            return new InnerViewHolderStandard(view, mRecyclerClickListener);
+        } else {
+            View view = LayoutInflater.from(C.get()).inflate(R.layout.clean_over_item, parent, false);
+            return new InnerViewHolderOther(view, mRecyclerClickListener);
         }
-        return null;
     }
 
     @Override
@@ -77,7 +87,7 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
 
     @Override
     public int getContentItemViewType(int position) {
-        Log.i(TAG, content.getType(position) + "");
+        Log.i(TAG, "item类型:" + content.getType(position) + "");
         return content.getType(position);
     }
 
@@ -98,8 +108,10 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
                 holder.tv_trust_info.setText(chatFile.getFileInfo());
                 holder.tv_trust_name.setText(chatFile.getFileName());
                 holder.itemView.setEnabled(true);
+                holder.iv_item_icon.setImageResource(chatFile.getIconId());
 
-                //QQ文件类型
+                //TODO 更换为silveractivity中holder类型
+                /*//QQ文件类型
                 if (holder instanceof InnerViewHolderDefalut) {
                     configViewHolderDefault((InnerViewHolderDefalut) holder, chatFile);
                     //QQ音频类型
@@ -108,8 +120,12 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
                     //QQ图片类型
                 } else if (holder instanceof InnerViewHolderPic) {
                     configViewHolderPic((InnerViewHolderPic) holder, chatFile);
+                }*/
+                if (holder instanceof InnerViewHolderStandard) {
+                    configViewHolderStandard((InnerViewHolderStandard) holder, chatFile);
+                } else if (holder instanceof InnerViewHolderOther) {
+                    configViewHolderOther((InnerViewHolderOther) holder, chatFile);
                 }
-
             } else {
                 //扫描中
                 holder.ll_scanning.setVisibility(View.VISIBLE);
@@ -130,16 +146,45 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
         }
     }
 
+    private void configViewHolderOther(InnerViewHolderOther holder, QQFileType chatFile) {
+        if (holder == null || chatFile == null)
+            return;
+
+        if (chatFile.getDeleteStatus() == QQFileType.DELETE_DEFAULT) {
+            holder.tv_trust_size.setVisibility(View.VISIBLE);
+            holder.tv_trust_size.setText(FormatUtils.formatFileSize(chatFile.getScanOldSize()));
+        } else if (chatFile.getDeleteStatus() == QQFileType.DELETE_CLOSE) {
+            //            holder.tv_trust_size.setText(FormatUtils.formatFileSize(chatFile.getCurrentSize()));
+            holder.ll_main_content.setVisibility(View.GONE);
+
+        }
+
+    }
+
+    private void configViewHolderStandard(InnerViewHolderStandard holder, QQFileType chatFile) {
+        if (holder == null || chatFile == null)
+            return;
+        if (chatFile.getDeleteStatus() == QQFileType.DELETE_DEFAULT) {
+            holder.tv_trust_size.setVisibility(View.VISIBLE);
+            holder.tv_trust_size.setText(FormatUtils.formatFileSize(chatFile.getScanOldSize()));
+        }
+        Log.d(TAG, "mIsRemove:" + mIsRemove);
+        /*if (mIsRemove) {
+            holder.itemView.setVisibility(View.GONE);
+            notifyDataSetChanged();
+        }*/
+    }
+
     private void configViewHolderPic(InnerViewHolderPic holder, QQFileType chatFile) {
         if (holder == null || chatFile == null)
             return;
         if (chatFile.getDeleteStatus() == QQFileType.DELETE_DEFAULT) {
-            holder.btn_scan_status.setVisibility(View.VISIBLE);
+            //            holder.btn_scan_status.setVisibility(View.VISIBLE);
             holder.ll_show_default.setVisibility(View.VISIBLE);
             holder.tv_trust_size.setVisibility(View.VISIBLE);
             holder.tv_trust_size.setText(FormatUtils.formatFileSize(chatFile.getScanOldSize()));
             holder.ll_result.setVisibility(View.GONE);
-            if (chatFile.isInEndAnim()) {
+            /*if (chatFile.isInEndAnim()) {
                 holder.btn_scan_status.setBackgroundResource(R.drawable.btn_clean_bg);
                 holder.btn_scan_status.setTextColor(resources.getColor(R.color.white));
                 holder.btn_scan_status.setText(R.string.qq_go_clean);
@@ -147,7 +192,7 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
                 holder.btn_scan_status.setBackgroundResource(R.drawable.btn_scanning);
                 holder.btn_scan_status.setTextColor(resources.getColor(R.color.radio_text_color));
                 holder.btn_scan_status.setText(R.string.wechat_scanning);
-            }
+            }*/
             List<WareFileInfo> paths = null;
             if (chatFile instanceof QQPicMode) {
                 paths = getShowPaths((QQPicMode) chatFile);
@@ -210,7 +255,7 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
 
             }
         } else if (chatFile.getDeleteStatus() == QQFileType.DELETE_CLOSE) {
-            holder.btn_scan_status.setVisibility(View.GONE);
+            //            holder.btn_scan_status.setVisibility(View.GONE);
             holder.ll_show_default.setVisibility(View.GONE);
             holder.tv_trust_size.setVisibility(View.GONE);
             holder.ll_result.setVisibility(View.VISIBLE);
@@ -235,22 +280,22 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
         if (holder == null || chatFile == null)
             return;
         if (chatFile.getDeleteStatus() == QQFileType.DELETE_DEFAULT) {
-            holder.btn_scan_status.setVisibility(View.VISIBLE);
+            //            holder.btn_scan_status.setVisibility(View.VISIBLE);
             holder.ll_show_default.setVisibility(View.VISIBLE);
             holder.tv_trust_size.setVisibility(View.VISIBLE);
             holder.tv_trust_size.setText(FormatUtils.formatFileSize(chatFile.getScanOldSize()));
             holder.ll_result.setVisibility(View.GONE);
             if (chatFile.isInEndAnim()) {
-                holder.btn_scan_status.setBackgroundResource(R.drawable.btn_clean_bg);
+                /*holder.btn_scan_status.setBackgroundResource(R.drawable.btn_clean_bg);
                 holder.btn_scan_status.setTextColor(resources.getColor(R.color.white));
-                holder.btn_scan_status.setText(R.string.qq_go_clean);
+                holder.btn_scan_status.setText(R.string.qq_go_clean);*/
             } else {
-                holder.btn_scan_status.setBackgroundResource(R.drawable.btn_scanning);
+               /* holder.btn_scan_status.setBackgroundResource(R.drawable.btn_scanning);
                 holder.btn_scan_status.setTextColor(resources.getColor(R.color.radio_text_color));
-                holder.btn_scan_status.setText("扫描中");
+                holder.btn_scan_status.setText("扫描中");*/
             }
         } else if (chatFile.getDeleteStatus() == QQFileType.DELETE_CLOSE) {
-            holder.btn_scan_status.setVisibility(View.GONE);
+            //            holder.btn_scan_status.setVisibility(View.GONE);
             holder.ll_show_default.setVisibility(View.GONE);
             holder.tv_trust_size.setVisibility(View.GONE);
             holder.ll_result.setVisibility(View.VISIBLE);
@@ -273,14 +318,14 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
         if (QQFileType.DELETE_CLOSE == chatFile.getDeleteStatus()) {
             //删除完成
             holder.tv_trust_size.setVisibility(View.GONE);
-            holder.btn_scan_status.setVisibility(View.GONE);
+            //            holder.btn_scan_status.setVisibility(View.GONE);
             holder.ll_clean_result.setVisibility(View.VISIBLE);
             holder.tv_clean_size.setText(Html.fromHtml(resources.getString(R.string.wechat_free_spcae, holder.tv_trust_size.getText())));
             com.ymnet.onekeyclean.cleanmore.utils.ToastUtil.showToastForShort("删除成功");
         } else if (QQFileType.DELETE_ING == chatFile.getDeleteStatus()) {
             //正在删除
             holder.tv_trust_size.setVisibility(View.GONE);
-            holder.btn_scan_status.setVisibility(View.GONE);
+            //            holder.btn_scan_status.setVisibility(View.GONE);
             holder.ll_show_cleaning.setVisibility(View.VISIBLE);
             if (chatFile instanceof QQFileDefault) {
                 holder.pb_cleaning.setProgress(100 - QQUtil.percent(chatFile.getCurrentSize(), chatFile.getScanOldSize()));
@@ -291,10 +336,10 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
             holder.tv_trust_size.setVisibility(View.VISIBLE);
             holder.tv_trust_size.setText(FormatUtils.formatFileSize(chatFile.getScanOldSize()));
             holder.ll_defalut.setVisibility(View.VISIBLE);
-            holder.btn_scan_status.setVisibility(View.VISIBLE);
+            /*holder.btn_scan_status.setVisibility(View.VISIBLE);*/
             Log.i("Tagc", chatFile.isInEndAnim() + "");
             Log.d(TAG, "configViewHolderDefault: " + chatFile.getType());
-            if (chatFile.getType() == QQConstants.QQ_TYPE_RECEIVE){
+            /*if (chatFile.getType() == QQConstants.QQ_TYPE_RECEIVE) {
                 if (chatFile.isInEndAnim()) {
                     holder.btn_scan_status.setBackgroundResource(R.drawable.btn_clean_bg);
                     holder.btn_scan_status.setTextColor(resources.getColor(R.color.white));
@@ -314,7 +359,7 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
                     holder.btn_scan_status.setTextColor(resources.getColor(R.color.radio_text_color));
                     holder.btn_scan_status.setText(R.string.wechat_scanning);
                 }
-            }
+            }*/
 
         }
     }
@@ -348,10 +393,10 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
 
     abstract class InnerViewHolder extends ContentViewHolder {
         public TextView tv_trust_name, tv_trust_size, tv_trust_info;
-        public TextView btn_scan_status;
+        //        public TextView btn_scan_status;
 
         public View ll_scanning, ll_main_content;
-        public ImageView iv_scanning_icon;
+        public ImageView iv_scanning_icon, iv_item_icon;
         public TextView  tv_scanning_name;
         public ImageView junk_sort_item_apk_progress;
         public int position = -1;
@@ -368,7 +413,8 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
             tv_trust_name = (TextView) itemView.findViewById(R.id.tv_trust_name);
             tv_trust_size = (TextView) itemView.findViewById(R.id.tv_trust_size);
             tv_trust_info = (TextView) itemView.findViewById(R.id.tv_trust_info);
-            btn_scan_status = (TextView) itemView.findViewById(R.id.btn_scan_status);
+            iv_item_icon = (ImageView) itemView.findViewById(R.id.iv_item_icon);
+            //                        btn_scan_status = (TextView) itemView.findViewById(btn_scan_status);
 
         }
     }
@@ -392,14 +438,14 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
             tv_clean_size = (TextView) itemView.findViewById(R.id.tv_clean_size);
             Log.i("Tagnn", "ww");
             if (onClickListener != null) {
-                btn_scan_status.setOnClickListener(new View.OnClickListener() {
+               /* btn_scan_status.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (position != -1) {
                             onClickListener.onClick(v, position);
                         }
                     }
-                });
+                });*/
             }
 
         }
@@ -425,14 +471,14 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
                         }
                     }
                 });
-                btn_scan_status.setOnClickListener(new View.OnClickListener() {
+                /*btn_scan_status.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (position != -1) {
                             onClickListener.onClick(v, position);
                         }
                     }
-                });
+                });*/
             }
         }
     }
@@ -440,8 +486,8 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
     class InnerViewHolderPic extends InnerViewHolder {
         public View fl1, fl2, fl3, iv_video_play1, iv_video_play2, iv_video_play3;
         public View ll_result, ll_show_default;
-        public ImageView iv_icon,sdv1, sdv2, sdv3;
-        public TextView  tv_clean_size;
+        public ImageView iv_icon, sdv1, sdv2, sdv3;
+        public TextView tv_clean_size;
 
         public InnerViewHolderPic(View itemView, final RecyclerViewClickListener onClickListener) {
             super(itemView, onClickListener);
@@ -458,14 +504,14 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
                         }
                     }
                 });
-                btn_scan_status.setOnClickListener(new View.OnClickListener() {
+                /*btn_scan_status.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (position != -1) {
                             onClickListener.onClick(v, position);
                         }
                     }
-                });
+                });*/
             }
             sdv1 = (ImageView) itemView.findViewById(R.id.sdv0);
             sdv2 = (ImageView) itemView.findViewById(R.id.sdv1);
@@ -477,6 +523,64 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
             iv_video_play2 = itemView.findViewById(R.id.iv_video_play1);
             iv_video_play3 = itemView.findViewById(R.id.iv_video_play2);
 
+        }
+    }
+
+    class InnerViewHolderStandard extends InnerViewHolder {
+
+        public ImageView check;
+
+        public InnerViewHolderStandard(View itemView, final RecyclerViewClickListener onClickListener) {
+            super(itemView, onClickListener);
+            final long size = content.getSize();
+
+            check = (ImageView) itemView.findViewById(R.id.iv_item_check);
+            check.setSelected(flag);
+            /*if (onClickListener != null) {
+                ll_main_content.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (position != -1) {
+                            onClickListener.onClick(v, position);
+                        }
+                    }
+                });
+            }*/
+            check.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    long selectSize;
+                    check.setSelected(!flag);
+                    if (flag) {
+                        //                        content.setSize(size + content.get(0).getScanOldSize());
+                        selectSize=  size - content.get(0).getScanOldSize();
+                    } else {
+                        //                        content.setSize(size);
+                        selectSize = size;
+                    }
+                    notifyDataSetChanged();
+                    onClickListener.selectState(selectSize, !flag);
+                    flag = !flag;
+
+                }
+            });
+        }
+    }
+
+    class InnerViewHolderOther extends InnerViewHolder {
+
+        public InnerViewHolderOther(View itemView, final RecyclerViewClickListener onClickListener) {
+            super(itemView, onClickListener);
+            if (onClickListener != null) {
+                ll_main_content.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (position != -1) {
+                            onClickListener.onClick(v, position);
+                        }
+                    }
+                });
+            }
         }
     }
 }

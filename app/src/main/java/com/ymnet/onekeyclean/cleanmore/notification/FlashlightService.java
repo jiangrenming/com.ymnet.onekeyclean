@@ -51,9 +51,9 @@ public class FlashlightService extends Service {
             //            ToastUtil.showToastForShort("请先获取系统权限");
         }
         try {
-            mAndroidModel = PhoneModel.getAndroidModel();
+//            mAndroidModel = PhoneModel.getAndroidModel();
 
-            if (matchModel("M5")) {
+            if (PhoneModel.matchModel("M5")) {
                 if (camera == null) {
                     camera = Camera.open();
                 }
@@ -84,7 +84,7 @@ public class FlashlightService extends Service {
                 sendBroadcast(intent1);
 
                 if (toggle) {
-                    Intent intent2 = new Intent(this, SettingsReceiver.class);
+                    Intent intent2 = new Intent(this, StatisticReceiver.class);
                     intent2.putExtra(OnekeyField.KEY, OnekeyField.FLASHLIGHT);
                     sendBroadcast(intent2);
                 }
@@ -124,7 +124,7 @@ public class FlashlightService extends Service {
                 parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);// 开启
                 camera.setParameters(parameters);
 
-                Intent intent2 = new Intent(this, SettingsReceiver.class);
+                Intent intent2 = new Intent(this, StatisticReceiver.class);
                 intent2.putExtra(OnekeyField.KEY, OnekeyField.FLASHLIGHT);
                 sendBroadcast(intent2);
 
@@ -159,23 +159,6 @@ public class FlashlightService extends Service {
         return flashMode.equals(Camera.Parameters.FLASH_MODE_TORCH);
     }
 
-
-    /**
-     * 手机型号匹配
-     *
-     * @param s
-     * @return 只要手机型号满足条件返回true.
-     */
-    private boolean matchModel(String... s) {
-        for (int i = 0; i < s.length; i++) {
-            if (mAndroidModel.contains(s[i])) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
     private void openFlashLight() {
 
         //        camera = Camera.open();
@@ -204,7 +187,7 @@ public class FlashlightService extends Service {
         }
 
         //统计
-        Intent intent2 = new Intent(this, SettingsReceiver.class);
+        Intent intent2 = new Intent(this, StatisticReceiver.class);
         intent2.putExtra(OnekeyField.KEY, OnekeyField.FLASHLIGHT);
         sendBroadcast(intent2);
     }

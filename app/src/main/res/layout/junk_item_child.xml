@@ -2,17 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/junk_layout"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/junk_bg"
     android:orientation="vertical"
-    android:paddingTop="5dp">
-
+    android:paddingTop="1dp">
+<!--修改了marginleft-->
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="70.0dip"
+        android:layout_height="65dp"
         android:layout_gravity="top"
-        android:layout_marginLeft="7.0dip"
-        android:layout_marginRight="7.0dip"
         android:background="@drawable/list_group_selector" >
 
         <FrameLayout
@@ -28,8 +26,8 @@
                 android:contentDescription="@null"
                 android:scaleType="centerCrop"
                 android:src="@drawable/file_features_icon"
-                android:layout_width="@dimen/default_50dp"
-                android:layout_height="@dimen/default_50dp"/>
+                android:layout_width="@dimen/default_48dp"
+                android:layout_height="@dimen/default_48dp"/>
             <ImageView
                 android:id="@+id/junk_icon_small"
                 android:layout_width="19.0dip"
@@ -55,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:textColor="#ff333333"
-                android:textSize="16.0sp" />
+                android:textSize="14.0sp" />
 			<View android:layout_width="0dp"
 			    android:layout_height="5dp"/>
             <TextView
@@ -63,7 +61,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#ff666666"
-                android:textSize="12.0sp" />
+                android:textSize="10.0sp" />
         </LinearLayout>
 
         <TextView

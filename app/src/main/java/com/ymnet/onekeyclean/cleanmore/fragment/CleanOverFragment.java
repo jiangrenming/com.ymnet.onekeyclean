@@ -4,33 +4,37 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.commonlibrary.retrofit2service.RetrofitService;
-import com.example.commonlibrary.retrofit2service.bean.InformationResult;
 import com.example.commonlibrary.retrofit2service.bean.NewsInformation;
 import com.example.commonlibrary.utils.ConvertParamsUtils;
 import com.example.commonlibrary.utils.NetworkUtils;
 import com.nineoldandroids.view.ViewHelper;
+import com.ymnet.killbackground.customlistener.MyViewPropertyAnimatorListener;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
 import com.ymnet.onekeyclean.cleanmore.junk.adapter.RecommendAdapter;
 import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.CleanSetSharedPreferences;
+import com.ymnet.onekeyclean.cleanmore.utils.DisplayUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
-import com.ymnet.onekeyclean.cleanmore.utils.ToastUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
 import com.ymnet.onekeyclean.cleanmore.web.WebHtmlActivity;
 import com.ymnet.onekeyclean.cleanmore.wechat.WeChatActivity;
@@ -46,6 +50,7 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 
 /**
  * 垃圾清理完成界面
@@ -64,9 +69,12 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
     //信息流相关
     private int page = 1;
     private ImageView mBlingBling;
-    private List<InformationResult> moreData = new ArrayList<>();
+    private List<NewsInformation.DataBean> moreData = new ArrayList<>();
     private RecommendAdapter adapter;
     private View             foot;
+    private View mNewsHead;
+    private View fl_idle;
+    private int width;
 
     public static CleanOverFragment newInstance(Long size) {
         CleanOverFragment fragment = new CleanOverFragment();
@@ -152,6 +160,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
             }
         });
         // find content view
+        fl_idle = rootView.findViewById(R.id.fl_idle);
         iv_sun = (ImageView) rootView.findViewById(R.id.iv_sun);
         iv_sun_center = (ImageView) rootView.findViewById(R.id.iv_sun_center);
 
@@ -164,6 +173,17 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
         rv = (RecyclerViewPlus) rootView.findViewById(R.id.rv_recommend);
 
         height = DeviceInfo.getScreenHeight(getActivity());
+        width = DeviceInfo.getScreenWidth(getActivity());
+
+        fl_idle.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Log.d("CleanOverFragment", "fl_idle.getMeasuredWidth():" + fl_idle.getMeasuredWidth());
+                fl_idle.setTranslationX(width / 2 - fl_idle.getMeasuredWidth() / 2);
+
+                fl_idle.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
 
         ViewHelper.setAlpha(iv_sun_center, 0.0f);
         ViewHelper.setAlpha(tv_clean_success_size, 0.0f);
@@ -204,7 +224,17 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
      * 星星闪烁动画
      */
     private void startAnimation() {
+        ViewCompat.animate(fl_idle).translationX(0).setDuration(500).setListener(new MyViewPropertyAnimatorListener(){
+            @Override
+            public void onAnimationEnd(View view) {
+                super.onAnimationEnd(view);
+                blingAnim();
 
+            }
+        }).start();
+    }
+
+    private void blingAnim() {
         mBlingBling.setVisibility(View.VISIBLE);
 
         AnimationDrawable animationDrawable = (AnimationDrawable) mBlingBling.getDrawable();
@@ -234,7 +264,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
         String str0;
         if (deleteSize == HAS_CLEAN_CACHE) {
             tv_clean_success_size.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
-            tv_clean_success_size.setText(getString(R.string.no_found_junk));
+            tv_clean_success_size.setText(getString(R.string.so_beautiful));
         } else if (deleteSize == 0) {
             str0 = getString(R.string.so_beautiful);
             tv_clean_success_size.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
@@ -261,6 +291,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
         head = LayoutInflater.from(getActivity()).inflate(R.layout.clean_over_head, rv, false);
         head.findViewById(R.id.rl_wechat).setOnClickListener(this);
         head.findViewById(R.id.rl_qq).setOnClickListener(this);
+        mNewsHead = head.findViewById(R.id.tv_news_head);
 
         //获取网络数据
         getNewsInformation();
@@ -274,9 +305,16 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
         });
         if (NetworkUtils.isNetworkAvailable(C.get())) {
             foot = LayoutInflater.from(C.get()).inflate(R.layout.recycler_view_layout_progress, rv, false);
+            mNewsHead.setVisibility(View.VISIBLE);
         } else {
-            foot = LayoutInflater.from(C.get()).inflate(R.layout.footer_no_data, rv, false);
-            foot.findViewById(R.id.footer_more).setOnClickListener(this);
+//            foot = LayoutInflater.from(C.get()).inflate(R.layout.footer_no_data, rv, false);
+//            foot.findViewById(R.id.footer_more).setOnClickListener(this);
+            RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DisplayUtil.dip2px(C.get(), 6));
+            foot = new View(getActivity());
+            foot.setLayoutParams(lp);
+            foot.setBackgroundColor(Color.TRANSPARENT);
+
+            mNewsHead.setVisibility(View.GONE);
         }
 
         adapter.addFooterView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
@@ -293,13 +331,18 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
                 if (position >= moreData.size())
                     return;
 
-                InformationResult info = moreData.get(position);
+                NewsInformation.DataBean info = moreData.get(position);
                 String news_url = info.getNews_url();
 
                 Intent intent = new Intent(getActivity(), WebHtmlActivity.class);
                 intent.putExtra("html", news_url);
                 intent.putExtra("flag", 10);
                 startActivity(intent);
+
+            }
+
+            @Override
+            public void selectState(long selectSize, boolean flag) {
 
             }
         });
@@ -362,7 +405,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
                     NewsInformation newsInformation = response.body();
                     int count = newsInformation.getCount();
                     adapter.setTotalCount(count);
-                    ArrayList<InformationResult> data = newsInformation.getData();
+                    List<NewsInformation.DataBean> data = newsInformation.getData();
                     Log.d(TAG, "onResponse: data:" + data);
 
                     moreData.addAll(data);
@@ -372,7 +415,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
 
             @Override
             public void onFailure(Call<NewsInformation> call, Throwable t) {
-                ToastUtil.showToastForShort("网络异常,请检查网络...");
+//                ToastUtil.showToastForShort("网络异常,请检查网络...");
             }
         });
 

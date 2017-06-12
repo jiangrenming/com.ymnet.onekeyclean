@@ -13,7 +13,7 @@ android {
         applicationId "com.ymnet.onekeyclean"
 //        applicationId "com.ymnet.onekeyclear"
         minSdkVersion 16
-        targetSdkVersion 19
+        targetSdkVersion 22
         versionCode 130
         versionName "1.30"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -73,7 +73,6 @@ dependencies {
     compile name: 'app_process', ext: 'aar'
     compile name: 'appupdate', ext: 'aar'
     compile name: 'statisticalsdk-releaseInLauncher', ext: 'aar'
-    //    compile 'com.android.support:recyclerview-v7:25.0.0'
 
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'
@@ -85,7 +84,7 @@ dependencies {
     compile 'com.parse.bolts:bolts-android:1.2.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'in.srain.cube:ultra-ptr:1.0.11'
-//    compile 'com.android.support:design:22.2.0'
+    compile 'com.android.support:design:22.2.0'
     testCompile 'junit:junit:4.12'
 
 

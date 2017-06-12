@@ -19,7 +19,6 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.example.commonlibrary.utils.PhoneModel;
-import com.ymnet.killbackground.view.CleanActivity;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
 import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
@@ -28,8 +27,6 @@ import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
 import com.ymnet.onekeyclean.cleanmore.wechat.WeChatActivity;
 
 import java.io.Serializable;
-
-import retrofit2.http.HEAD;
 
 
 /**
@@ -49,12 +46,12 @@ public class NotifyService extends Service implements Serializable {
     private static final int    REQUEST_CODE05  = 5;
     private static final int    REQUEST_CODE06  = 6;
     private static final String OPEN_FLASHLIGHT = "openflashlight";
-    private static final String MODEL = "androidmodel";
+    private static final String MODEL           = "androidmodel";
     private NotificationCompat.Builder mBuilder;
     private NotificationManager        mNotificationManager;
     private String                     mAndroidModel;
-    private static boolean status = false;
-    private Handler mHandler = new Handler() {
+    private static boolean status   = false;
+    private        Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -67,7 +64,7 @@ public class NotifyService extends Service implements Serializable {
             }
         }
     };
-    private RemoteViews remoteViews;
+    private RemoteViews  remoteViews;
     private Notification mNotification;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
@@ -110,9 +107,9 @@ public class NotifyService extends Service implements Serializable {
     }
 
     private void registerBroadCastReceiver() {
-            IntentFilter filter = new IntentFilter();
-            filter.addAction("flashlight_status");
-            this.registerReceiver(mReceiver, filter);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("flashlight_status");
+        this.registerReceiver(mReceiver, filter);
     }
 
     private void initNotification() {
@@ -128,7 +125,7 @@ public class NotifyService extends Service implements Serializable {
         remoteViews = getRemoteViews();
         //奇酷手机更换图标为白色
 
-        if (matchModel("8681", "SM-", "OPPO", "HUAWEI",/*"ONEPLUS",*/"Le","vivo","M5","Coolpad")) {
+        if (PhoneModel.matchModel("8681", "SM-", "OPPO", "HUAWEI",/*"ONEPLUS",*/"Le", "M5"/*,"Coolpad"*/)) {
 
             System.out.println("---------------androidModel:奇酷,一加,OPPO,奇酷,华为");
             remoteViews.setImageViewResource(R.id.iv_head, R.mipmap.onekeyclean_white);
@@ -150,14 +147,15 @@ public class NotifyService extends Service implements Serializable {
 
 
         //一键加速
-        Intent intent2 = new Intent(C.get(), CleanActivity.class);
-//        Intent intent2 = new Intent(C.get(), ViewpagerP.class);
-        intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(C.get(), REQUEST_CODE01, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent2 = new Intent(C.get(), StatisticReceiver.class);
+        intent2.putExtra(OnekeyField.KEY, OnekeyField.KILLBACKGROUND);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(C.get(), REQUEST_CODE01, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_head, pendingIntent);
 
         //微信清理
         Intent intent3 = new Intent(C.get(), WeChatActivity.class);
+//        Intent intent3 = new Intent(C.get(), ViewpagerP.class);
+
         intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent1 = PendingIntent.getActivity(C.get(), REQUEST_CODE02, intent3, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_wechat, pendingIntent1);
@@ -177,7 +175,7 @@ public class NotifyService extends Service implements Serializable {
         //手电筒
         Intent intent7 = new Intent(this, FlashlightService.class);
         intent7.putExtra(OPEN_FLASHLIGHT, status);
-        if (matchModel("vivo","Coolpad")) {//需要收起通知栏的机型
+        if (PhoneModel.matchModel("vivo", "Coolpad")) {//需要收起通知栏的机型
             intent7.putExtra(MODEL, true);
         } else {
             intent7.putExtra(MODEL, false);
@@ -188,7 +186,8 @@ public class NotifyService extends Service implements Serializable {
         remoteViews.setOnClickPendingIntent(R.id.ll_flashlight, pendingIntent7);
 
         //系统设置
-        Intent intent6 = new Intent(this,SettingsReceiver.class);
+        Intent intent6 = new Intent(this, StatisticReceiver.class);
+
         intent6.putExtra(OnekeyField.KEY, OnekeyField.SETTINGS);
         PendingIntent pendingIntent6 = PendingIntent.getBroadcast(C.get(), REQUEST_CODE06, intent6, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_setting, pendingIntent6);
@@ -208,26 +207,12 @@ public class NotifyService extends Service implements Serializable {
         startForeground(ID, mNotification);
     }
 
-    /**
-     * 手机型号匹配
-     *
-     * @param s
-     * @return 只要手机型号满足条件返回true.
-     */
-    private boolean matchModel(String... s) {
-        for (int i = 0; i < s.length; i++) {
-            if (mAndroidModel.contains(s[i])) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     private void changeFlashLightColor(boolean status) {
         if (status) {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_open);
 
-        } else if (matchModel("8681", "SM-", "OPPO","HUAWEI",/*"ONEPLUS",*/"Le","vivo","M5","Coolpad")) {
+        } else if (PhoneModel.matchModel("8681", "SM-", "OPPO", "HUAWEI",/*"ONEPLUS",*/"Le", "M5"/*,"Coolpad"*/)) {
 
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_white);
         } else {
@@ -252,7 +237,11 @@ public class NotifyService extends Service implements Serializable {
         //获取手机机型
         mAndroidModel = PhoneModel.getAndroidModel();
         System.out.println("---------------androidModel:" + mAndroidModel);
-        remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view_withoutbg);
+        if (PhoneModel.matchModel("vivo")) {
+            remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view_white);
+        } else {
+            remoteViews = new RemoteViews(C.get().getPackageName(), R.layout.notification_view_withoutbg);
+        }
         return remoteViews;
     }
 

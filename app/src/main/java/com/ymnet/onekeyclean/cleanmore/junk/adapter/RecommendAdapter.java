@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.commonlibrary.retrofit2service.bean.InformationResult;
+import com.example.commonlibrary.retrofit2service.bean.NewsInformation;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
 import com.ymnet.onekeyclean.cleanmore.datacenter.MarketObservable;
@@ -30,7 +30,7 @@ import java.util.List;
 public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter implements MarketObserver {
 
     private String TAG = "RecommendAdapter";
-    private List<InformationResult> data;
+    private List<NewsInformation.DataBean> data;
     private final int SINGLE_IMAGE_VIEW         = 0;
     private final int THREE_IMAGE_VIEW          = 1;
     private final int VIDEO_VIEW                = 2;
@@ -42,7 +42,7 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
     private LayoutInflater             inflater;
     private String ItemID = "item_id";
 
-    public RecommendAdapter(List<InformationResult> data) {
+    public RecommendAdapter(List<NewsInformation.DataBean> data) {
         this.data = data;
         this.inflater = (LayoutInflater) C.get().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -95,7 +95,7 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
             FootViewHolder footHolder = (FootViewHolder) holder;
         } else if (holder instanceof ThreeViewHolder) {
             ThreeViewHolder viewHolder = (ThreeViewHolder) holder;
-            InformationResult moreData = data.get(position);
+            NewsInformation.DataBean moreData = data.get(position);
 
             if (moreData != null) {
                 viewHolder.author_name.setText(moreData.getAuthor_name());
@@ -145,7 +145,7 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
 
         if (holder instanceof ThreeViewHolder) {
             ThreeViewHolder viewHolder = (ThreeViewHolder) holder;
-            InformationResult moreData = data.get(position);
+            NewsInformation.DataBean moreData = data.get(position);
             if (moreData != null) {
                 viewHolder.author_name.setTextColor(Color.parseColor("#9c9c9c"));
                 viewHolder.publish_time.setTextColor(Color.parseColor("#9c9c9c"));
