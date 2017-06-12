@@ -9,6 +9,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +26,7 @@ import com.example.commonlibrary.retrofit2service.bean.NewsInformation;
 import com.example.commonlibrary.utils.ConvertParamsUtils;
 import com.example.commonlibrary.utils.NetworkUtils;
 import com.nineoldandroids.view.ViewHelper;
+import com.ymnet.killbackground.customlistener.MyViewPropertyAnimatorListener;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
 import com.ymnet.onekeyclean.cleanmore.junk.adapter.RecommendAdapter;
@@ -70,6 +73,8 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
     private RecommendAdapter adapter;
     private View             foot;
     private View mNewsHead;
+    private View fl_idle;
+    private int width;
 
     public static CleanOverFragment newInstance(Long size) {
         CleanOverFragment fragment = new CleanOverFragment();
@@ -155,6 +160,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
             }
         });
         // find content view
+        fl_idle = rootView.findViewById(R.id.fl_idle);
         iv_sun = (ImageView) rootView.findViewById(R.id.iv_sun);
         iv_sun_center = (ImageView) rootView.findViewById(R.id.iv_sun_center);
 
@@ -167,6 +173,17 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
         rv = (RecyclerViewPlus) rootView.findViewById(R.id.rv_recommend);
 
         height = DeviceInfo.getScreenHeight(getActivity());
+        width = DeviceInfo.getScreenWidth(getActivity());
+
+        fl_idle.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Log.d("CleanOverFragment", "fl_idle.getMeasuredWidth():" + fl_idle.getMeasuredWidth());
+                fl_idle.setTranslationX(width / 2 - fl_idle.getMeasuredWidth() / 2);
+
+                fl_idle.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
 
         ViewHelper.setAlpha(iv_sun_center, 0.0f);
         ViewHelper.setAlpha(tv_clean_success_size, 0.0f);
@@ -207,7 +224,17 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
      * 星星闪烁动画
      */
     private void startAnimation() {
+        ViewCompat.animate(fl_idle).translationX(0).setDuration(500).setListener(new MyViewPropertyAnimatorListener(){
+            @Override
+            public void onAnimationEnd(View view) {
+                super.onAnimationEnd(view);
+                blingAnim();
 
+            }
+        }).start();
+    }
+
+    private void blingAnim() {
         mBlingBling.setVisibility(View.VISIBLE);
 
         AnimationDrawable animationDrawable = (AnimationDrawable) mBlingBling.getDrawable();
@@ -237,7 +264,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
         String str0;
         if (deleteSize == HAS_CLEAN_CACHE) {
             tv_clean_success_size.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
-            tv_clean_success_size.setText(getString(R.string.no_found_junk));
+            tv_clean_success_size.setText(getString(R.string.so_beautiful));
         } else if (deleteSize == 0) {
             str0 = getString(R.string.so_beautiful);
             tv_clean_success_size.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);

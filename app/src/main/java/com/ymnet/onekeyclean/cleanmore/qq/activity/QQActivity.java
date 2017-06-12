@@ -436,6 +436,10 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
                         Log.d("CleaningFragment", "value:" + value);
                         mWaveLoadingView.setProgressValue(value);
                     }
+                    if (size==0) {
+                        //todo adapter更换头布局
+
+                    }
                 }
             }
         });
