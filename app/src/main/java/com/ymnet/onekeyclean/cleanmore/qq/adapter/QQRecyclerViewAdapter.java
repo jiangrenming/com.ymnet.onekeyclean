@@ -159,7 +159,6 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
 
         }
 
-        Log.d(TAG, "deletstatus:" + chatFile.getDeleteStatus() + "---old" + chatFile.getScanOldSize() + "dele" + chatFile.getCurrentSize());
     }
 
     private void configViewHolderStandard(InnerViewHolderStandard holder, QQFileType chatFile) {
@@ -170,10 +169,10 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
             holder.tv_trust_size.setText(FormatUtils.formatFileSize(chatFile.getScanOldSize()));
         }
         Log.d(TAG, "mIsRemove:" + mIsRemove);
-        if (mIsRemove) {
+        /*if (mIsRemove) {
             holder.itemView.setVisibility(View.GONE);
             notifyDataSetChanged();
-        }
+        }*/
     }
 
     private void configViewHolderPic(InnerViewHolderPic holder, QQFileType chatFile) {

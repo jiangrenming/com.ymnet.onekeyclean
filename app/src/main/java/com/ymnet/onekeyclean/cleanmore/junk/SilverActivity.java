@@ -7,7 +7,6 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -177,7 +176,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
             mScan.setRun(true);
             mScan.startScan(false);
         }
-        Log.d("MyHandler", "mScan:" + mScan.getTotalSelectSize() + "--" + mScan.hashCode());
+//        Log.d("MyHandler", "mScan:" + mScan.getTotalSelectSize() + "--" + mScan.hashCode());
     }
 
     private void initScanningFragment() {

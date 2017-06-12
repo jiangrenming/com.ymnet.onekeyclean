@@ -11,17 +11,44 @@
         android:id="@+id/ll_title"
         layout="@layout/junk_title_layout"/>
 
-    <com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus
-        android:id="@+id/rv_content"
+    <com.ymnet.onekeyclean.cleanmore.widget.BottomScrollView
+        android:id="@+id/sv_scanend"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/ll_title"
-        android:background="@color/white"
-        android:clipToPadding="false"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        android:overScrollMode="never"
-        android:splitMotionEvents="false"/>
+        android:scrollbars="none"
+        android:splitMotionEvents="true">
+
+        <LinearLayout
+            android:background="@color/gray94"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus
+                android:id="@+id/rv_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:clipToPadding="false"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                android:overScrollMode="never"
+                android:splitMotionEvents="false"/>
+
+            <com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus
+                android:visibility="gone"
+                android:id="@+id/rv_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rv_content"
+                android:clipToPadding="false"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                android:overScrollMode="never"
+                android:splitMotionEvents="false"/>
+        </LinearLayout>
+    </com.ymnet.onekeyclean.cleanmore.widget.BottomScrollView>
 
     <View
         android:id="@+id/ani_view"

@@ -1,12 +1,14 @@
 package com.ymnet.onekeyclean.cleanmore.qq.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,11 @@ import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.commonlibrary.retrofit2service.RetrofitService;
+import com.example.commonlibrary.retrofit2service.bean.NewsInformation;
+import com.example.commonlibrary.utils.ConvertParamsUtils;
+import com.example.commonlibrary.utils.NetworkUtils;
+import com.example.commonlibrary.utils.ScreenUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.killbackground.customlistener.MyViewPropertyAnimatorListener;
 import com.ymnet.onekeyclean.R;
@@ -22,6 +29,7 @@ import com.ymnet.onekeyclean.cleanmore.constants.QQConstants;
 import com.ymnet.onekeyclean.cleanmore.customview.DividerItemDecoration;
 import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
 import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
+import com.ymnet.onekeyclean.cleanmore.junk.adapter.RecommendAdapter;
 import com.ymnet.onekeyclean.cleanmore.qq.QQDetailActivity;
 import com.ymnet.onekeyclean.cleanmore.qq.adapter.QQRecyclerViewAdapter;
 import com.ymnet.onekeyclean.cleanmore.qq.mode.QQContent;
@@ -29,18 +37,27 @@ import com.ymnet.onekeyclean.cleanmore.qq.mode.QQFileType;
 import com.ymnet.onekeyclean.cleanmore.qq.presenter.QQPresenter;
 import com.ymnet.onekeyclean.cleanmore.qq.presenter.QQPresenterImpl;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
+import com.ymnet.onekeyclean.cleanmore.utils.DisplayUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
 import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
+import com.ymnet.onekeyclean.cleanmore.web.WebHtmlActivity;
 import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewClickListener;
 import com.ymnet.onekeyclean.cleanmore.wechat.view.BaseFragmentActivity;
+import com.ymnet.onekeyclean.cleanmore.widget.BottomScrollView;
+import com.ymnet.onekeyclean.cleanmore.widget.LinearLayoutItemDecoration;
 import com.ymnet.onekeyclean.cleanmore.widget.SGTextView;
 import com.ymnet.onekeyclean.cleanmore.widget.WaveLoadingView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import bolts.Task;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class QQActivity extends BaseFragmentActivity implements QQMVPView {
@@ -51,10 +68,18 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
     private QQRecyclerViewAdapter adapter;
     private View                  ani_view;
     private String TAG = "QQActivity";
-    private WaveLoadingView mWaveLoadingView;
-    private RelativeLayout  mRl;
-    private TextView        mTvBtn;
-    private boolean         isRemove;
+    private WaveLoadingView  mWaveLoadingView;
+    private RelativeLayout   mRl;
+    private TextView         mTvBtn;
+    private boolean          isRemove;
+    private RecyclerViewPlus mRvNews;
+    private View             head;
+    private View             mNewsHead;
+    private RecommendAdapter mRecommendAdapter;
+    private List<NewsInformation.DataBean> moreData = new ArrayList<>();
+    private View foot;
+    //信息流相关
+    private int page = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,23 +125,43 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
     }
 
     private void bottomGone() {
-        ViewGroup.LayoutParams layoutParams = mRl.getLayoutParams();
-        ViewCompat.animate(mRl).alpha(0).setDuration(1000).setListener(new MyViewPropertyAnimatorListener(){
+        ViewCompat.animate(mRl).alpha(0).setDuration(500).setListener(new MyViewPropertyAnimatorListener() {
             @Override
             public void onAnimationEnd(View view) {
                 super.onAnimationEnd(view);
                 mRl.setVisibility(View.GONE);
+                if (mRvNews.getVisibility() == View.GONE) {
+                    newsAnimation();
+                }
+
             }
         }).start();
 
-        // TODO: 2017/6/9 0009 添加信息流
+    }
 
+    private void newsAnimation() {
+        final int translationY = ScreenUtil.getScreenHeight(QQActivity.this)-ScreenUtil.getStatusHeight(QQActivity.this) - rv.getBottom();
+        Log.d("QQActivity", "translationY:" + translationY);
+        mRvNews.setTranslationY(translationY);
+        mRvNews.setVisibility(View.VISIBLE);
+        ViewCompat.animate(mRvNews).translationY(0).setDuration(500).start();
     }
 
     private RecyclerViewPlus      rv;
     private DividerItemDecoration did;
 
     private void initializeRecyclerView() {
+        BottomScrollView sv = (BottomScrollView) findViewById(R.id.sv_scanend);
+        sv.setSmoothScrollingEnabled(true);
+        //滑动到底的监听
+        sv.setOnScrollToBottomListener(new BottomScrollView.OnScrollToBottomListener() {
+            @Override
+            public void onScrollBottomListener(boolean isBottom) {
+                if (isBottom && mRl.getVisibility() == View.GONE) {
+                    getNewsInformation();
+                }
+            }
+        });
         rv = (RecyclerViewPlus) findViewById(R.id.rv_content);
         View emptyView = findViewById(R.id.v_empty);
         initEmptyView(emptyView);
@@ -155,9 +200,102 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
             }
         });
         rv.setAdapter(adapter);
-
+        initNewsRecyclerView();
     }
 
+    private void initNewsRecyclerView() {
+        mRvNews = (RecyclerViewPlus) findViewById(R.id.rv_news);
+        mRvNews.addItemDecoration(new LinearLayoutItemDecoration(C.get(), LinearLayoutItemDecoration.HORIZONTAL_LIST));
+        LinearLayoutManager layout = new LinearLayoutManager(C.get()) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        mRvNews.setLayoutManager(layout);
+
+        head = LayoutInflater.from(this).inflate(R.layout.clean_over_qq_head, mRvNews, false);
+        mNewsHead = head.findViewById(R.id.tv_news_head);
+        //更多应用推荐
+        mRecommendAdapter = new RecommendAdapter(moreData);
+        mRecommendAdapter.addHeaderView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
+            @Override
+            protected View onCreateView(ViewGroup parent) {
+                return head;
+            }
+        });
+
+        if (NetworkUtils.isNetworkAvailable(C.get())) {
+            foot = LayoutInflater.from(C.get()).inflate(R.layout.recycler_view_layout_progress, rv, false);
+            mNewsHead.setVisibility(View.VISIBLE);
+        } else {
+            RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DisplayUtil.dip2px(C.get(), 6));
+            foot = new View(this);
+            foot.setLayoutParams(lp);
+            foot.setBackgroundColor(Color.TRANSPARENT);
+
+            mNewsHead.setVisibility(View.GONE);
+        }
+
+        mRecommendAdapter.addFooterView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
+            @Override
+            protected View onCreateView(ViewGroup parent) {
+
+                return foot;
+            }
+        });
+
+        mRecommendAdapter.setRecyclerListListener(new RecyclerViewClickListener() {
+            @Override
+            public void onClick(View v, int position) {
+                if (position >= moreData.size())
+                    return;
+
+                NewsInformation.DataBean info = moreData.get(position);
+                String news_url = info.getNews_url();
+
+                Intent intent = new Intent(QQActivity.this, WebHtmlActivity.class);
+                intent.putExtra("html", news_url);
+                intent.putExtra("flag", 10);
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void selectState(long selectSize, boolean flag) {
+
+            }
+        });
+
+        mRvNews.setAdapter(mRecommendAdapter);
+        getNewsInformation();
+    }
+
+    //网络获取新闻数据
+    private void getNewsInformation() {
+        Map<String, String> infosPamarms = ConvertParamsUtils.getInstatnce().getParamsTwo("type", "all", "p", String.valueOf(page++));
+
+        RetrofitService.getInstance().githubApi.createInfomationsTwo(infosPamarms).enqueue(new Callback<NewsInformation>() {
+            @Override
+            public void onResponse(Call<NewsInformation> call, Response<NewsInformation> response) {
+                if (response.raw().body() != null) {
+                    NewsInformation newsInformation = response.body();
+                    int count = newsInformation.getCount();
+                    mRecommendAdapter.setTotalCount(count);
+                    List<NewsInformation.DataBean> data = newsInformation.getData();
+                    Log.d(TAG, "onResponse: data:" + data);
+
+                    moreData.addAll(data);
+                    mRecommendAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NewsInformation> call, Throwable t) {
+            }
+        });
+
+    }
 
     private void navigationOther(int position) {
         if (mPresenter != null) {
@@ -380,9 +518,10 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                Log.d("QQActivity", "adapter.getContentItemCount():" + adapter.getContentItemCount());
                 if (!(adapter.getContentItemViewType(0) == QQConstants.QQ_TYPE_DEFALUT)) {
                     bottomGone();
-                } else if (mPresenter.get(0).getCurrentSize() > 0) {
+                } else if (adapter.getContentItemCount() > 0 && mPresenter.get(0).getCurrentSize() > 0) {
                     mRl.setVisibility(View.VISIBLE);
                 }
             }
