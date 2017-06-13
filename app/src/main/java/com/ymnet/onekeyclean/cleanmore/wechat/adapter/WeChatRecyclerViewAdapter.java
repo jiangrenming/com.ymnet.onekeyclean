@@ -56,16 +56,6 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
 
     @Override
     public ContentViewHolder onCreateContentView(ViewGroup parent, int viewType) {
-       /* if (WeChatConstants.WECHAT_TYPE_DEFALUT == viewType) {
-            View view = LayoutInflater.from(C.get()).inflate(R.layout.cardview_default, parent, false);
-            return new InnerViewHolderDefalut(view, mRecyclerClickListener);
-        } else if (WeChatConstants.WECHAT_TYPE_VOICE == viewType) {
-            View view = LayoutInflater.from(C.get()).inflate(R.layout.cardview_voice, parent, false);
-            return new InnerViewHolderVoice(view, mRecyclerClickListener);
-        } else if (WeChatConstants.WECAHT_TYPE_PIC == viewType) {
-            View view = LayoutInflater.from(C.get()).inflate(R.layout.cardview_pic, parent, false);
-            return new InnerViewHolderPic(view, mRecyclerClickListener);
-        }*/
         if (WeChatConstants.WECHAT_TYPE_DEFALUT== viewType) {
             View view = LayoutInflater.from(C.get()).inflate(R.layout.clean_over_item_defalut, parent, false);
             return new InnerViewHolderStandard(view, mRecyclerClickListener);
@@ -73,7 +63,6 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
             View view = LayoutInflater.from(C.get()).inflate(R.layout.clean_over_item, parent, false);
             return new InnerViewHolderOther(view, mRecyclerClickListener);
         }
-//        return null;
     }
 
     @Override
@@ -90,7 +79,6 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
     public void onBindContentViewHolder(ContentViewHolder h, int position) {
         if (h != null && h instanceof InnerViewHolder) {
             InnerViewHolder holder = (InnerViewHolder) h;
-            //?
             WeChatFileType chatFile = content.get(position);
             if (chatFile == null) return;
             holder.position = position;
@@ -108,17 +96,6 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
                 } else if (holder instanceof InnerViewHolderOther) {
                     configViewHolderOther((InnerViewHolderOther) holder, chatFile);
                 }
-
-                /*//微信文件
-                if (holder instanceof InnerViewHolderDefalut) {
-                    configViewHolderDefault((InnerViewHolderDefalut) holder, chatFile);
-                //微信音频
-                } else if (holder instanceof InnerViewHolderVoice) {
-                    configViewHolderVoice((InnerViewHolderVoice) holder, chatFile);
-                //微信图片
-                } else if (holder instanceof InnerViewHolderPic) {
-                    configViewHolderPic((InnerViewHolderPic) holder, chatFile);
-                }*/
 
             } else {
                 //扫描中
@@ -160,10 +137,6 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
             holder.tv_trust_size.setText(FormatUtils.formatFileSize(chatFile.getScanOldSize()));
         }
 
-        /*if (mIsRemove) {
-            holder.itemView.setVisibility(View.GONE);
-            notifyDataSetChanged();
-        }*/
     }
 
     private void configViewHolderPic(InnerViewHolderPic holder, WeChatFileType chatFile) {
@@ -192,7 +165,6 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
                  * 不用处理holder的状态 这里不可能复用
                  */
                 if (paths.size() > 2) {
-//                    holder.sdv1.setImageURI(UriUtil.parseUriOrNull("file://" + paths.get(0).path));
                     Glide.with(C.get())
                             .load("file://" + paths.get(0).path)
                             .placeholder(R.drawable.image_item_griw_default)
@@ -200,7 +172,6 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
                             .centerCrop()
                             .into(holder.sdv1);
                     checkSuffix(paths.get(0).path, holder.iv_video_play1);
-//                    holder.sdv2.setImageURI(UriUtil.parseUriOrNull("file://" + paths.get(1).path));
                     Glide.with(C.get())
                             .load("file://" + paths.get(1).path)
                             .placeholder(R.drawable.image_item_griw_default)
@@ -208,7 +179,6 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
                             .centerCrop()
                             .into(holder.sdv2);
                     checkSuffix(paths.get(1).path, holder.iv_video_play2);
-//                    holder.sdv3.setImageURI(UriUtil.parseUriOrNull("file://" + paths.get(2).path));
                     Glide.with(C.get())
                             .load("file://" + paths.get(2).path)
                             .placeholder(R.drawable.image_item_griw_default)
@@ -218,7 +188,6 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
                     checkSuffix(paths.get(2).path, holder.iv_video_play3);
 
                 } else if (paths.size() > 1) {
-//                    holder.sdv1.setImageURI(UriUtil.parseUriOrNull("file://" + paths.get(0).path));
                     Glide.with(C.get())
                             .load("file://" + paths.get(0).path)
                             .placeholder(R.drawable.image_item_griw_default)
@@ -226,7 +195,6 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
                             .centerCrop()
                             .into(holder.sdv1);
                     checkSuffix(paths.get(0).path, holder.iv_video_play1);
-//                    holder.sdv2.setImageURI(UriUtil.parseUriOrNull("file://" + paths.get(1).path));
                     Glide.with(C.get())
                             .load("file://" + paths.get(1).path)
                             .placeholder(R.drawable.image_item_griw_default)
@@ -237,7 +205,6 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
                     holder.fl3.setVisibility(View.INVISIBLE);
 
                 } else if (paths.size() > 0) {
-//                    holder.sdv1.setImageURI(UriUtil.parseUriOrNull("file://" + paths.get(0).path));
                     Glide.with(C.get())
                             .load("file://" + paths.get(0).path)
                             .placeholder(R.drawable.image_item_griw_default)
@@ -403,7 +370,6 @@ public class WeChatRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItem
         public ProgressBar pb_cleaning;
         public TextView tv_cleaning, tv_clean_size;
 
-        //        public CardView cv;
         public InnerViewHolderDefalut(View itemView, final RecyclerViewClickListener onClickListener) {
             super(itemView, onClickListener);
             tv_trust_del_result = (TextView) itemView.findViewById(R.id.tv_trust_del_result);
