@@ -176,7 +176,6 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
             mScan.setRun(true);
             mScan.startScan(false);
         }
-//        Log.d("MyHandler", "mScan:" + mScan.getTotalSelectSize() + "--" + mScan.hashCode());
     }
 
     private void initScanningFragment() {
@@ -202,9 +201,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
         btn_stop = (Button) findViewById(R.id.btn_stop);
         ani_view = findViewById(R.id.ani_view);
         TextView junk_title_txt = (TextView) findViewById(R.id.junk_title_txt);
-//        ImageView iv_clean_setting = (ImageView) findViewById(R.id.iv_clean_setting);
         junk_title_txt.setOnClickListener(this);
-//        iv_clean_setting.setOnClickListener(this);
         btn_stop.setOnClickListener(this);
         btn_stop.setTag("stop");
     }
@@ -223,12 +220,6 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
         int i = v.getId();
         if (i == R.id.junk_title_txt) {
             this.finish();
-
-           /* case R.id.iv_clean_setting:
-                Intent it = new Intent(this, CleanSetActivity.class);
-                startActivity(it);
-//                StatisticSpec.sendEvent(StatisticEventContants.clean_setting);
-                break;*/
         } else if (i == R.id.btn_stop) {
             if (v.getTag() == null) {
                 return;
@@ -267,19 +258,6 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
                 }
             }
         });
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        /*if (mScan != null) {
-            datas = mScan.getDatas();
-            if (datas == null || datas.size() == 0) {
-                Log.d(TAG, "onStop: 结束界面");
-                finish();
-            }
-        }*/
     }
 
     @Override

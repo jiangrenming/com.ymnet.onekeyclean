@@ -31,6 +31,7 @@ import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
 import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
 import com.ymnet.onekeyclean.cleanmore.junk.adapter.RecommendAdapter;
 import com.ymnet.onekeyclean.cleanmore.qq.QQDetailActivity;
+import com.ymnet.onekeyclean.cleanmore.qq.QQScanHelp;
 import com.ymnet.onekeyclean.cleanmore.qq.adapter.QQRecyclerViewAdapter;
 import com.ymnet.onekeyclean.cleanmore.qq.mode.QQContent;
 import com.ymnet.onekeyclean.cleanmore.qq.mode.QQFileType;
@@ -41,6 +42,7 @@ import com.ymnet.onekeyclean.cleanmore.utils.DisplayUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
 import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
+import com.ymnet.onekeyclean.cleanmore.utils.ToastUtil;
 import com.ymnet.onekeyclean.cleanmore.web.WebHtmlActivity;
 import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewClickListener;
 import com.ymnet.onekeyclean.cleanmore.wechat.view.BaseFragmentActivity;
@@ -140,7 +142,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
     }
 
     private void newsAnimation() {
-        final int translationY = ScreenUtil.getScreenHeight(QQActivity.this)-ScreenUtil.getStatusHeight(QQActivity.this) - rv.getBottom();
+        final int translationY = ScreenUtil.getScreenHeight(QQActivity.this) - ScreenUtil.getStatusHeight(QQActivity.this) - rv.getBottom();
         Log.d("QQActivity", "translationY:" + translationY);
         mRvNews.setTranslationY(translationY);
         mRvNews.setVisibility(View.VISIBLE);
@@ -179,6 +181,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
         //扫描手机中应用,是否有QQ.如果手机中未安装QQ该应用,就展示未发现文件界面
         if (!mPresenter.isInstallAPP()) {
             content.clear();
+            ToastUtil.showToastForShort("未检测到QQ应用");
         }
         adapter = new QQRecyclerViewAdapter(mPresenter, content, isRemove);
         adapter.addHeaderView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
@@ -412,6 +415,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
         }
     }
 
+    int count = 0;
     @Override
     public void updateData() {
         Task.UI_THREAD_EXECUTOR.execute(new Runnable() {
@@ -436,9 +440,10 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView {
                         Log.d("CleaningFragment", "value:" + value);
                         mWaveLoadingView.setProgressValue(value);
                     }
-                    if (size==0) {
-                        //todo adapter更换头布局
-
+                    if (size == 0 && QQScanHelp.getInstance().isScanFinish()&&count==0) {
+                        //todo adapter更换布局
+                        ToastUtil.showToastForShort("清空了"+count++);
+                        mPresenter.initData().clear();
                     }
                 }
             }

@@ -15,7 +15,6 @@ import com.ymnet.onekeyclean.cleanmore.wechat.view.BaseFragmentActivity;
 /**
  * Created by wangdh on 2016-05-25.
  * gmail:wangduheng26@gamil.com
- * 2345:wangdh@2345.com
  * class info: 沉浸式状态栏基类
  */
 public  class ImmersiveActivity extends BaseFragmentActivity {

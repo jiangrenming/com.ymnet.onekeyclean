@@ -23,8 +23,6 @@ import java.lang.reflect.Method;
 
 /**
  * Created by wangdh on 5/24/16.
- * gmail:wangduheng26@gamil.com
- * 2345:wangdh@2345.com
  */
 @SuppressWarnings("ResourceType")
 public class SystemBarTintManager {

@@ -9,7 +9,6 @@ import com.ymnet.onekeyclean.cleanmore.utils.C;
 
 /**
  * Created by wangduheng26 on 3/4/16.
- * android market2345 wangdh@2345.com
  */
 public class BaseLoadingActivity extends ImmersiveActivity {
     protected View fl_loading, pb_loading;
