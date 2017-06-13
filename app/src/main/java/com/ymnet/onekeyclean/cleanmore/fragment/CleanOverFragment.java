@@ -148,7 +148,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
         View rootView = getView();
         if (rootView == null)
             return;
-        BottomScrollView sv = (BottomScrollView) rootView.findViewById(R.id.sv_scanend);
+        BottomScrollView sv = (BottomScrollView) rootView.findViewById(R.id.sv_scanfinish);
         sv.setSmoothScrollingEnabled(true);
         //滑动到底的监听
         sv.setOnScrollToBottomListener(new BottomScrollView.OnScrollToBottomListener() {

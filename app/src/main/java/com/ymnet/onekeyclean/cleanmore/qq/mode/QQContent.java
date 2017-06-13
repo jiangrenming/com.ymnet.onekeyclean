@@ -76,13 +76,14 @@ public class QQContent {
     }
 
     public void filterEmpty(FilterListener listener) {
-        if (datas == null || datas.isEmpty()) return;
+        if (datas == null || datas.isEmpty())
+            return;
         Iterator<QQFileType> iterator = datas.iterator();
         while (iterator.hasNext()) {
             QQFileType next = iterator.next();
             if (next.isEmpty()) {
                 iterator.remove();
-                if(listener!=null){
+                if (listener != null) {
                     listener.removeCallback();
                 }
             }

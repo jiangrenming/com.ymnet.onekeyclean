@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <com.ymnet.onekeyclean.cleanmore.widget.BottomScrollView
-        android:id="@+id/sv_scanend"
+        android:id="@+id/sv_scanfinish"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
@@ -29,6 +29,7 @@
                 android:paddingRight="5dp">
 
                 <FrameLayout
+                    android:paddingLeft="25dp"
                     android:id="@+id/fl_idle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

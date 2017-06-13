@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 public class CleanSetSharedPreferences {
 	public static final String CLEAN_SETTING_PREFERENCE = "clean_setting_preference";
 
+	public static final String CLEAN_QQ_PREFERENCE = "clean_qq_preference";
+
 	public static final String INTERCEPTION_CHANNEL="iterception_channel";
 
 	public static final String APP_FIRST_START="app_first_start_date";
@@ -18,26 +20,29 @@ public class CleanSetSharedPreferences {
 
 	public static final String CLEAN_SIZE_SET = "clean_size_set";//设置提醒的大小
 
+
 	public static final String CLEAN_DATABASE_UPDATE_SET = "clean_database_update_set";
-	
-	
 	public static final String PREVIOUS_SCAN_SIZE="previous_scan_size";
 	public static final String CLEAN_SIZE_LAST_TIME="clean_size_last_time";//上次清理的大小
+	public static final String CLEAN_QQ_SIZE_LAST_TIME     = "clean_qq_size_last_time";//QQ上次清理大小
 	public static final String CLEAN_SIZE_TOTAL="clean_size_total";//总共清理大小
+	public static final String CLEAN_QQ_SIZE_TOTAL         = "clean_qq_size_total";//QQ总共清理大小
 	public static final String CLEAN_SIZE_TODAY="clean_size_today";//今日清理的大小
-    /**
+
+	private static final String CLEAN_WECHAT_PREFERENCE  = "clean_wechat_preference";
+	private static final String CLEAN_WECHAT_SIZE_LAST_TIME = "clean_wechat_size_last_time";
+	private static final String CLEAN_WECHAT_SIZE_TOTAL  = "clean_wechat_size_total";
+	/**
      * 清理结果缓存
      */
-    public static final String CLEAN_RESULT_CACHE="clean_result_cache";
-
-	public static final String CLEAN_DB_IS_ENCRYPT="clean_db_is_encrypt";//垃圾库是否为加密库 boolean:default false
-	public static final String CLEAN_DB_LAST_UPDATE_TIME="clean_db_last_update_time";//垃圾库上次更新时间
-
-	public static final String ALERT_TIME="alert_time";
-    private static final String CLEAN_DB_MD5 = "clean_db_md5";
+    public static final String CLEAN_RESULT_CACHE        ="clean_result_cache";
+	public static final String CLEAN_DB_IS_ENCRYPT       ="clean_db_is_encrypt";//垃圾库是否为加密库 boolean:default false
+	public static final String CLEAN_DB_LAST_UPDATE_TIME ="clean_db_last_update_time";//垃圾库上次更新时间
+	public static final String ALERT_TIME                ="alert_time";
+	private static final String CLEAN_DB_MD5             = "clean_db_md5";
 
 
-    /**
+	/**
      * 保存boolean值
      * @param context
      * @param key
@@ -108,6 +113,30 @@ public class CleanSetSharedPreferences {
 			setTodayCleanSize(context, value);
 		}
 	}
+
+	// TODO: 2017/6/13 0013 QQ
+	public static void setQQCleanLastTimeSize(Context context, long value){
+		if (context != null) {
+			SharedPreferences sp = context.getSharedPreferences(CLEAN_QQ_PREFERENCE,Context.MODE_PRIVATE);
+			//保存上次清理
+			sp.edit().putLong(CLEAN_QQ_SIZE_LAST_TIME,value).commit();
+			long history=sp.getLong(CLEAN_QQ_SIZE_TOTAL, 0);
+			sp.edit().putLong(CLEAN_QQ_SIZE_TOTAL, history+value).commit();
+			setQQTodayCleanSize(context, value);
+		}
+	}
+
+	public static void setWeChatCleanLastTimeSize(Context context, long value){
+		if (context != null) {
+			SharedPreferences sp = context.getSharedPreferences(CLEAN_WECHAT_PREFERENCE,Context.MODE_PRIVATE);
+			//保存上次清理
+			sp.edit().putLong(CLEAN_WECHAT_SIZE_LAST_TIME,value).commit();
+			long history=sp.getLong(CLEAN_WECHAT_SIZE_TOTAL, 0);
+			sp.edit().putLong(CLEAN_WECHAT_SIZE_TOTAL, history+value).commit();
+			setWeChatTodayCleanSize(context, value);
+		}
+	}
+
 	/**
 	 * 上次清理的大小
 	 * @param context
@@ -134,6 +163,24 @@ public class CleanSetSharedPreferences {
 		}
 		return flag;
 	}
+
+	// TODO: 2017/6/13 0013 QQ
+	public static long  getQQTotalCleanSize(Context context,long flag){
+		if (context != null) {
+			return context.getSharedPreferences(CLEAN_QQ_PREFERENCE,
+					Context.MODE_PRIVATE).getLong(CLEAN_QQ_SIZE_TOTAL, flag);
+		}
+		return flag;
+	}
+
+	public static long  getWeChatTotalCleanSize(Context context,long flag){
+		if (context != null) {
+			return context.getSharedPreferences(CLEAN_WECHAT_PREFERENCE,
+					Context.MODE_PRIVATE).getLong(CLEAN_WECHAT_SIZE_TOTAL, flag);
+		}
+		return flag;
+	}
+
 	public static long getTodayCleanSize(Context context,long flag){
 		if (context != null) {
 			return context.getSharedPreferences("temp",
@@ -141,6 +188,23 @@ public class CleanSetSharedPreferences {
 		}
 		return flag;
 	}
+
+	public static long getQQTodayCleanSize(Context context,long flag){
+		if (context != null) {
+			return context.getSharedPreferences("qq_temp",
+					Context.MODE_PRIVATE).getLong("qq"+getTodayString(), flag);
+		}
+		return flag;
+	}
+
+	public static long getWeChatTodayCleanSize(Context context,long flag){
+		if (context != null) {
+			return context.getSharedPreferences("wechat_temp",
+					Context.MODE_PRIVATE).getLong("wechat"+getTodayString(), flag);
+		}
+		return flag;
+	}
+
 	public static void setTodayCleanSize(Context context,long flag){
 		if (context != null) {
 			SharedPreferences sp = context.getSharedPreferences("temp",Context.MODE_PRIVATE);
@@ -151,6 +215,30 @@ public class CleanSetSharedPreferences {
 			sp.edit().putLong(getTodayString(), l+flag).commit();
 		}
 	}
+
+	public static void setQQTodayCleanSize(Context context,long flag){
+		if (context != null) {
+			SharedPreferences sp = context.getSharedPreferences("qq_temp",Context.MODE_PRIVATE);
+			long l=sp.getLong("qq"+getTodayString(), 0L);
+			if(l==0){
+				sp.edit().clear().commit();
+			}
+			sp.edit().putLong("qq"+getTodayString(), l+flag).commit();
+		}
+	}
+
+	public static void setWeChatTodayCleanSize(Context context,long flag){
+		if (context != null) {
+			SharedPreferences sp = context.getSharedPreferences("wechat_temp",Context.MODE_PRIVATE);
+			long l=sp.getLong("wechat"+getTodayString(), 0L);
+			if(l==0){
+				sp.edit().clear().commit();
+			}
+			sp.edit().putLong("wechat"+getTodayString(), l+flag).commit();
+		}
+	}
+
+
 	/**
 	 * 取得今天的日期  如2014-11-11
 	 * @return

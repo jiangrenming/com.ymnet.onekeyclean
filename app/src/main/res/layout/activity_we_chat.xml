@@ -94,9 +94,16 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <include
+   <!-- <include
         android:id="@+id/v_empty"
         layout="@layout/wechat_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ll_title"
+        android:visibility="gone"/>-->
+    <include
+        android:id="@+id/v_empty"
+        layout="@layout/activity_clean_finish"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/ll_title"

@@ -1,6 +1,7 @@
 package com.ymnet.onekeyclean.cleanmore.qq.presenter;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.ymnet.onekeyclean.R;
@@ -15,6 +16,7 @@ import com.ymnet.onekeyclean.cleanmore.qq.mode.QQPicMode;
 import com.ymnet.onekeyclean.cleanmore.qq.mode.QQReceiveMode;
 import com.ymnet.onekeyclean.cleanmore.qq.mode.QQSelectDatas;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
+import com.ymnet.onekeyclean.cleanmore.utils.CleanSetSharedPreferences;
 import com.ymnet.onekeyclean.cleanmore.utils.FileTreeUtils;
 import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
 import com.ymnet.onekeyclean.cleanmore.wechat.mode.ChangeMode;
@@ -100,6 +102,9 @@ public class QQDetailPresImpl implements QQDetailPresenter<QQPicMode> {
             @Override
             public void run() {
                 List<WareFileInfo> list = selectData.getListDatas();
+                // TODO: 2017/6/13 0013 将将要删除的文件大小存入sp
+                Log.d("QQDetailPresImpl", "删除文件" + selectData.getCurrentSize());
+                CleanSetSharedPreferences.setQQCleanLastTimeSize(C.get(), selectData.getCurrentSize());
                 for (WareFileInfo info : list) {
                     if (info.fileName == null) {
                         FileTreeUtils.simpleDeleteFile(info.path);
