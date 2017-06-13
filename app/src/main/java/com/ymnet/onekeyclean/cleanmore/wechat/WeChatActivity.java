@@ -83,18 +83,18 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
     WeChatPresenter mPresenter;
     public final static String EXTRA_ITEM_POSITION = "wechat_position";
     public final static String WECHAT_GUIDE        = "wechat_guide";
-    private WaveLoadingView mWaveLoadingView;
-    private boolean isRemove;
-    private RelativeLayout mRl;
-    private TextView mTvBtn;
+    private WaveLoadingView  mWaveLoadingView;
+    private boolean          isRemove;
+    private RelativeLayout   mRl;
+    private TextView         mTvBtn;
     private RecyclerViewPlus mRvNews;
     private RecommendAdapter mRecommendAdapter;
-    private View mNewsHead;
-    private View foot;
+    private View             mNewsHead;
+    private View             foot;
     private List<NewsInformation.DataBean> moreData = new ArrayList<>();
     //信息流相关
-    private int page = 1;
-    private View mEmptyView;
+    private int                            page     = 1;
+    private View             mEmptyView;
     private ImageView        mIv_sun;
     private ImageView        mIv_sun_center;
     private ImageView        mBlingBling;
@@ -103,10 +103,10 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
     private View             mFl_idle;
     private View             mLl_content;
     private RecyclerViewPlus mEmptyRv;
-    private View mEmptyHead;
-    private View mEmptyNewsHead;
+    private View             mEmptyHead;
+    private View             mEmptyNewsHead;
     private RecommendAdapter mEmptyRecommendAdapter;
-    private View mEmptyFoot;
+    private View             mEmptyFoot;
     private long mSuccessCleanSize = 0;
 
     @Override
@@ -213,7 +213,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
         });
 
         did = new DividerItemDecoration(this, R.drawable.recyclerview_driver_1_bg);
-//        rv.addItemDecoration(did);
+        //        rv.addItemDecoration(did);
         rv.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
 
@@ -227,7 +227,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
             content.clear();
             ToastUtil.showToastForShort("未检测到微信应用");
         }
-        adapter = new WeChatRecyclerViewAdapter(mPresenter, content,isRemove);
+        adapter = new WeChatRecyclerViewAdapter(mPresenter, content, isRemove);
         adapter.addHeaderView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
             @Override
             protected View onCreateView(ViewGroup parent) {
@@ -329,7 +329,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
         TextView desc = (TextView) mEmptyHead.findViewById(R.id.wechat_desc);
         icon.setImageResource(R.drawable.brush_features_icon);
         name.setText(R.string.tv_junk_clean);
-        //        desc.setText(R.string.);
+        desc.setText(R.string.tv_junk_desc);
         mEmptyHead.findViewById(R.id.rl_wechat).setOnClickListener(this);
         mEmptyHead.findViewById(R.id.rl_qq).setOnClickListener(this);
     }
@@ -483,7 +483,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
     }
 
     private void hideItem(int position) {
-        ViewGroup.LayoutParams layoutParams = rv.getChildAt(position+1).getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = rv.getChildAt(position + 1).getLayoutParams();
         layoutParams.height = 0;
         rv.requestLayout();
 
@@ -500,7 +500,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
                 mRl.setVisibility(View.GONE);
 
                 // TODO: 2017/6/12 0012 新闻
-                if (mRvNews.getVisibility()== View.GONE) {
+                if (mRvNews.getVisibility() == View.GONE) {
                     newsAnimation();
                 }
 
@@ -509,7 +509,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
     }
 
     private void newsAnimation() {
-        final int translationY = ScreenUtil.getScreenHeight(WeChatActivity.this)-ScreenUtil.getStatusHeight(WeChatActivity.this) - rv.getBottom();
+        final int translationY = ScreenUtil.getScreenHeight(WeChatActivity.this) - ScreenUtil.getStatusHeight(WeChatActivity.this) - rv.getBottom();
         Log.d("QQActivity", "translationY:" + translationY);
         mRvNews.setTranslationY(translationY);
         mRvNews.setVisibility(View.VISIBLE);
@@ -545,6 +545,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
     private int headHeight;
     private int count;
     private int temp;
+
     @Override
     public void updateData() {
 
@@ -794,7 +795,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
             public void run() {
                 ViewGroup.LayoutParams params = ani_view.getLayoutParams();
                 params.height = headHeight + titleHeight;
-//                ani_view.setVisibility(View.VISIBLE);
+                //                ani_view.setVisibility(View.VISIBLE);
                 ani_view.setVisibility(View.GONE);
                 ani_view.requestLayout();
 

@@ -319,7 +319,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
         TextView desc = (TextView) mEmptyHead.findViewById(R.id.qq_desc);
         icon.setImageResource(R.drawable.brush_features_icon);
         name.setText(R.string.tv_junk_clean);
-        //        desc.setText(R.string.);
+        desc.setText(R.string.tv_junk_desc);
         mEmptyHead.findViewById(R.id.rl_wechat).setOnClickListener(this);
         mEmptyHead.findViewById(R.id.rl_qq).setOnClickListener(this);
     }

@@ -195,5 +195,6 @@
     <string name="more_recommend">更多推荐</string>
     <string name="tv_junk_clean">垃圾清理</string>
     <string name="file_clean">照片,视频,安装包</string>
+    <string name="tv_junk_desc">经常清理垃圾,告别手机卡顿</string>
 
 </resources>
