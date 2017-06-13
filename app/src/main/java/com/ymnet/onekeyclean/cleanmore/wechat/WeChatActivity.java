@@ -584,7 +584,12 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
                     if (mEmptyView.getVisibility() == View.VISIBLE && temp++ == 0) {
                         String str0 = FormatUtils.formatFileSize(mSuccessCleanSize);
                         String text = getString(R.string.clean_success_size, str0);
-                        mTv_clean_success_size.setText(Util.getSpannableString(text));
+                        if (mSuccessCleanSize == 0) {
+                            mTv_clean_success_size.setText(R.string.so_beautiful);
+                            mTv_clean_success_size.setTextSize(22);
+                        } else {
+                            mTv_clean_success_size.setText(Util.getSpannableString(text));
+                        }
 
                         String str1 = FormatUtils.formatFileSize(CleanSetSharedPreferences.getWeChatTodayCleanSize(WeChatActivity.this, 0));
                         String str2 = FormatUtils.formatFileSize(CleanSetSharedPreferences.getWeChatTotalCleanSize(WeChatActivity.this, 0));
