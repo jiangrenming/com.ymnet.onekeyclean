@@ -24,7 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.commonlibrary.retrofit2service.RetrofitService;
-import com.example.commonlibrary.retrofit2service.bean.NewsInformation;
+import com.example.commonlibrary.retrofit2service.bean.WeChatNewsInformation;
 import com.example.commonlibrary.utils.ConvertParamsUtils;
 import com.example.commonlibrary.utils.NetworkUtils;
 import com.example.commonlibrary.utils.ScreenUtil;
@@ -37,7 +37,6 @@ import com.ymnet.onekeyclean.cleanmore.constants.QQConstants;
 import com.ymnet.onekeyclean.cleanmore.customview.DividerItemDecoration;
 import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
 import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
-import com.ymnet.onekeyclean.cleanmore.junk.adapter.RecommendAdapter;
 import com.ymnet.onekeyclean.cleanmore.qq.QQDetailActivity;
 import com.ymnet.onekeyclean.cleanmore.qq.QQScanHelp;
 import com.ymnet.onekeyclean.cleanmore.qq.adapter.QQRecyclerViewAdapter;
@@ -55,6 +54,7 @@ import com.ymnet.onekeyclean.cleanmore.utils.ToastUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
 import com.ymnet.onekeyclean.cleanmore.web.WebHtmlActivity;
 import com.ymnet.onekeyclean.cleanmore.wechat.WeChatActivity;
+import com.ymnet.onekeyclean.cleanmore.wechat.adapter.WeChatRecommendAdapter;
 import com.ymnet.onekeyclean.cleanmore.wechat.device.DeviceInfo;
 import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewClickListener;
 import com.ymnet.onekeyclean.cleanmore.wechat.view.BaseFragmentActivity;
@@ -89,15 +89,15 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
     private QQRecyclerViewAdapter adapter;
     private View                  ani_view;
     private String TAG = "QQActivity";
-    private WaveLoadingView  mWaveLoadingView;
-    private RelativeLayout   mRl;
-    private TextView         mTvBtn;
-    private boolean          isRemove;
-    private RecyclerViewPlus mRvNews;
-    private View             head;
-    private View             mNewsHead;
-    private RecommendAdapter mRecommendAdapter;
-    private List<NewsInformation.DataBean> moreData = new ArrayList<>();
+    private WaveLoadingView        mWaveLoadingView;
+    private RelativeLayout         mRl;
+    private TextView               mTvBtn;
+    private boolean                isRemove;
+    private RecyclerViewPlus       mRvNews;
+    private View                   head;
+    private View                   mNewsHead;
+    private WeChatRecommendAdapter mRecommendAdapter;
+    private List<WeChatNewsInformation.DataBean.ResultBean> moreData = new ArrayList<>();
     private View foot;
     //信息流相关
     private int page = 1;
@@ -110,7 +110,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
     private View             mFl_idle;
     private View             mLl_content;
     private RecyclerViewPlus mEmptyRv;
-    private RecommendAdapter mEmptyRecommendAdapter;
+    private WeChatRecommendAdapter mEmptyRecommendAdapter;
     private View             mEmptyHead;
     private View             mEmptyNewsHead;
     private View             mEmptyFoot;
@@ -261,7 +261,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
         /*//获取网络数据
         getNewsInformation();*/
 
-        mEmptyRecommendAdapter = new RecommendAdapter(moreData);//更多应用推荐
+        mEmptyRecommendAdapter = new WeChatRecommendAdapter(moreData);//更多应用推荐
         mEmptyRecommendAdapter.addHeaderView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
             @Override
             protected View onCreateView(ViewGroup parent) {
@@ -296,7 +296,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
                 if (position >= moreData.size())
                     return;
 
-                NewsInformation.DataBean info = moreData.get(position);
+                WeChatNewsInformation.DataBean.ResultBean info = moreData.get(position);
                 String news_url = info.getNews_url();
 
                 Intent intent = new Intent(QQActivity.this, WebHtmlActivity.class);
@@ -339,7 +339,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
         head = LayoutInflater.from(this).inflate(R.layout.clean_over_qq_head, mRvNews, false);
         mNewsHead = head.findViewById(R.id.tv_news_head);
         //更多应用推荐
-        mRecommendAdapter = new RecommendAdapter(moreData);
+        mRecommendAdapter = new WeChatRecommendAdapter(moreData);
         mRecommendAdapter.addHeaderView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
             @Override
             protected View onCreateView(ViewGroup parent) {
@@ -373,7 +373,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
                 if (position >= moreData.size())
                     return;
 
-                NewsInformation.DataBean info = moreData.get(position);
+                WeChatNewsInformation.DataBean.ResultBean info = moreData.get(position);
                 String news_url = info.getNews_url();
 
                 Intent intent = new Intent(QQActivity.this, WebHtmlActivity.class);
@@ -394,17 +394,17 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
     }
 
     //网络获取新闻数据
-    private void getNewsInformation(final RecommendAdapter recommendAdapter) {
+    private void getNewsInformation(final WeChatRecommendAdapter recommendAdapter) {
         Map<String, String> infosPamarms = ConvertParamsUtils.getInstatnce().getParamsTwo("type", "all", "p", String.valueOf(page++));
 
-        RetrofitService.getInstance().githubApi.createInfomationsTwo(infosPamarms).enqueue(new Callback<NewsInformation>() {
+        RetrofitService.getInstance().githubApi.createQQInformations(infosPamarms).enqueue(new Callback<WeChatNewsInformation>() {
             @Override
-            public void onResponse(Call<NewsInformation> call, Response<NewsInformation> response) {
+            public void onResponse(Call<WeChatNewsInformation> call, Response<WeChatNewsInformation> response) {
                 if (response.raw().body() != null) {
-                    NewsInformation newsInformation = response.body();
-                    int count = newsInformation.getCount();
+                    WeChatNewsInformation newsInformation = response.body();
+                    int count = newsInformation.getData().getCount();
                     recommendAdapter.setTotalCount(count);
-                    List<NewsInformation.DataBean> data = newsInformation.getData();
+                    List<WeChatNewsInformation.DataBean.ResultBean> data = newsInformation.getData().getResult();
                     Log.d(TAG, "onResponse: data:" + data);
 
                     moreData.addAll(data);
@@ -413,7 +413,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
             }
 
             @Override
-            public void onFailure(Call<NewsInformation> call, Throwable t) {
+            public void onFailure(Call<WeChatNewsInformation> call, Throwable t) {
             }
         });
 

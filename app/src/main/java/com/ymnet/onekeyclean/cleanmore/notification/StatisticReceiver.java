@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
 
-import com.example.commonlibrary.utils.NotificationUntil;
+import com.example.commonlibrary.utils.NotificationUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.killbackground.view.CleanActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
@@ -40,7 +40,7 @@ public class StatisticReceiver extends BroadcastReceiver {
             intent6.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             C.get().startActivity(intent6);
             //收起通知栏
-            NotificationUntil.collapseStatusBar(context);
+            NotificationUtil.collapseStatusBar(context);
         } else if (intent.getStringExtra(OnekeyField.KEY).equals(OnekeyField.KILLBACKGROUND)) {
             Map<String, String> m = new HashMap<>();
             m.put(OnekeyField.ONEKEYCLEAN, "手机加速");
@@ -50,7 +50,7 @@ public class StatisticReceiver extends BroadcastReceiver {
             intent7.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             C.get().startActivity(intent7);
             //收起通知栏
-            NotificationUntil.collapseStatusBar(context);
+            NotificationUtil.collapseStatusBar(context);
         }
 
 

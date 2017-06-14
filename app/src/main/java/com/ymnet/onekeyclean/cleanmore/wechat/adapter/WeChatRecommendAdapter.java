@@ -1,4 +1,4 @@
-package com.ymnet.onekeyclean.cleanmore.junk.adapter;
+package com.ymnet.onekeyclean.cleanmore.wechat.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.commonlibrary.retrofit2service.bean.NewsInformation;
+import com.example.commonlibrary.retrofit2service.bean.WeChatNewsInformation;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
 import com.ymnet.onekeyclean.cleanmore.datacenter.MarketObservable;
@@ -27,10 +27,10 @@ import java.util.List;
 /**
  * Created by MajinBuu on 5/24/17.
  */
-public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter implements MarketObserver {
+public class WeChatRecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter implements MarketObserver {
 
     private String TAG = "RecommendAdapter";
-    private List<NewsInformation.DataBean> data;
+    private List<WeChatNewsInformation.DataBean.ResultBean> data;
     private final int SINGLE_IMAGE_VIEW         = 0;
     private final int THREE_IMAGE_VIEW          = 1;
     private final int VIDEO_VIEW                = 2;
@@ -42,7 +42,7 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
     private LayoutInflater             inflater;
     private String ItemID = "item_id";
 
-    public RecommendAdapter(List<NewsInformation.DataBean> data) {
+    public WeChatRecommendAdapter(List<WeChatNewsInformation.DataBean.ResultBean> data) {
         this.data = data;
         this.inflater = (LayoutInflater) C.get().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -95,7 +95,7 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
             FootViewHolder footHolder = (FootViewHolder) holder;
         } else if (holder instanceof ThreeViewHolder) {
             ThreeViewHolder viewHolder = (ThreeViewHolder) holder;
-            NewsInformation.DataBean moreData = data.get(position);
+            WeChatNewsInformation.DataBean.ResultBean moreData = data.get(position);
 
             if (moreData != null) {
                 viewHolder.author_name.setText(moreData.getAuthor_name());
@@ -145,7 +145,7 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
 
         if (holder instanceof ThreeViewHolder) {
             ThreeViewHolder viewHolder = (ThreeViewHolder) holder;
-            NewsInformation.DataBean moreData = data.get(position);
+            WeChatNewsInformation.DataBean.ResultBean moreData = data.get(position);
             if (moreData != null) {
                 viewHolder.author_name.setTextColor(Color.parseColor("#9c9c9c"));
                 viewHolder.publish_time.setTextColor(Color.parseColor("#9c9c9c"));
@@ -165,7 +165,7 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
     /**
      * 见底时的界面
      */
-    public class FooterVisibleHolder extends RecyclerViewPlus.HeaderFooterItemAdapter.ContentViewHolder {
+    public class FooterVisibleHolder extends ContentViewHolder {
 
         public TextView txt_more;
 
@@ -183,7 +183,7 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
     /**
      * 视频界面
      */
-    public class VideoViewHolder extends RecyclerViewPlus.HeaderFooterItemAdapter.ContentViewHolder {
+    public class VideoViewHolder extends ContentViewHolder {
 
         public VideoViewHolder(View itemView) {
             super(itemView);
@@ -193,7 +193,7 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
     /**
      * 无数据时的界面
      */
-    public class EmptyViewHolder extends RecyclerViewPlus.HeaderFooterItemAdapter.ContentViewHolder {
+    public class EmptyViewHolder extends ContentViewHolder {
 
         public EmptyViewHolder(View itemView) {
             super(itemView);
@@ -203,7 +203,7 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
     /**
      * 显示3张图片的布局
      */
-    protected class ThreeViewHolder extends RecyclerViewPlus.HeaderFooterItemAdapter.ContentViewHolder {
+    protected class ThreeViewHolder extends ContentViewHolder {
 
         private ImageView img1;
         private ImageView img2;
@@ -227,7 +227,7 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
     /**
      * 显示一张图片的布局
      */
-    protected class OneImagViewHolder extends RecyclerViewPlus.HeaderFooterItemAdapter.ContentViewHolder {
+    protected class OneImagViewHolder extends ContentViewHolder {
 
         private TextView  content;
         private ImageView img;
@@ -247,7 +247,7 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
     /**
      * 到达最底部时显示的布局
      */
-    protected class FootViewHolder extends RecyclerViewPlus.HeaderFooterItemAdapter.ContentViewHolder {
+    protected class FootViewHolder extends ContentViewHolder {
 
         public ProgressBar load;
 

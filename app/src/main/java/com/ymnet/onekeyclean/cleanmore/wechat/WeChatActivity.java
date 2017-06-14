@@ -24,7 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.commonlibrary.retrofit2service.RetrofitService;
-import com.example.commonlibrary.retrofit2service.bean.NewsInformation;
+import com.example.commonlibrary.retrofit2service.bean.WeChatNewsInformation;
 import com.example.commonlibrary.utils.ConvertParamsUtils;
 import com.example.commonlibrary.utils.NetworkUtils;
 import com.example.commonlibrary.utils.ScreenUtil;
@@ -37,7 +37,6 @@ import com.ymnet.onekeyclean.cleanmore.constants.WeChatConstants;
 import com.ymnet.onekeyclean.cleanmore.customview.DividerItemDecoration;
 import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
 import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
-import com.ymnet.onekeyclean.cleanmore.junk.adapter.RecommendAdapter;
 import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.CleanSetSharedPreferences;
@@ -48,6 +47,7 @@ import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.utils.ToastUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
 import com.ymnet.onekeyclean.cleanmore.web.WebHtmlActivity;
+import com.ymnet.onekeyclean.cleanmore.wechat.adapter.WeChatRecommendAdapter;
 import com.ymnet.onekeyclean.cleanmore.wechat.adapter.WeChatRecyclerViewAdapter;
 import com.ymnet.onekeyclean.cleanmore.wechat.device.DeviceInfo;
 import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewClickListener;
@@ -83,17 +83,17 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
     WeChatPresenter mPresenter;
     public final static String EXTRA_ITEM_POSITION = "wechat_position";
     public final static String WECHAT_GUIDE        = "wechat_guide";
-    private WaveLoadingView  mWaveLoadingView;
-    private boolean          isRemove;
-    private RelativeLayout   mRl;
-    private TextView         mTvBtn;
-    private RecyclerViewPlus mRvNews;
-    private RecommendAdapter mRecommendAdapter;
-    private View             mNewsHead;
-    private View             foot;
-    private List<NewsInformation.DataBean> moreData = new ArrayList<>();
+    private WaveLoadingView        mWaveLoadingView;
+    private boolean                isRemove;
+    private RelativeLayout         mRl;
+    private TextView               mTvBtn;
+    private RecyclerViewPlus       mRvNews;
+    private WeChatRecommendAdapter mRecommendAdapter;
+    private View                   mNewsHead;
+    private View                   foot;
+    private List<WeChatNewsInformation.DataBean.ResultBean> moreData = new ArrayList<>();
     //信息流相关
-    private int                            page     = 1;
+    private int                                             page     = 1;
     private View             mEmptyView;
     private ImageView        mIv_sun;
     private ImageView        mIv_sun_center;
@@ -105,7 +105,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
     private RecyclerViewPlus mEmptyRv;
     private View             mEmptyHead;
     private View             mEmptyNewsHead;
-    private RecommendAdapter mEmptyRecommendAdapter;
+    private WeChatRecommendAdapter mEmptyRecommendAdapter;
     private View             mEmptyFoot;
     private long mSuccessCleanSize = 0;
 
@@ -270,7 +270,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
         /*//获取网络数据
         getNewsInformation();*/
 
-        mEmptyRecommendAdapter = new RecommendAdapter(moreData);//更多应用推荐
+        mEmptyRecommendAdapter = new WeChatRecommendAdapter(moreData);//更多应用推荐
         mEmptyRecommendAdapter.addHeaderView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
             @Override
             protected View onCreateView(ViewGroup parent) {
@@ -305,7 +305,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
                 if (position >= moreData.size())
                     return;
 
-                NewsInformation.DataBean info = moreData.get(position);
+                WeChatNewsInformation.DataBean.ResultBean info = moreData.get(position);
                 String news_url = info.getNews_url();
 
                 Intent intent = new Intent(WeChatActivity.this, WebHtmlActivity.class);
@@ -348,7 +348,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
         final View head = LayoutInflater.from(this).inflate(R.layout.clean_over_qq_head, mRvNews, false);
         mNewsHead = head.findViewById(R.id.tv_news_head);
         //更多应用推荐
-        mRecommendAdapter = new RecommendAdapter(moreData);
+        mRecommendAdapter = new WeChatRecommendAdapter(moreData);
         mRecommendAdapter.addHeaderView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
             @Override
             protected View onCreateView(ViewGroup parent) {
@@ -382,7 +382,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
                 if (position >= moreData.size())
                     return;
 
-                NewsInformation.DataBean info = moreData.get(position);
+                WeChatNewsInformation.DataBean.ResultBean info = moreData.get(position);
                 String news_url = info.getNews_url();
 
                 Intent intent = new Intent(WeChatActivity.this, WebHtmlActivity.class);
@@ -402,17 +402,17 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
         getNewsInformation(mRecommendAdapter);
     }
 
-    private void getNewsInformation(final RecommendAdapter recommendAdapter) {
+    private void getNewsInformation(final WeChatRecommendAdapter recommendAdapter) {
         Map<String, String> infosPamarms = ConvertParamsUtils.getInstatnce().getParamsTwo("type", "all", "p", String.valueOf(page++));
 
-        RetrofitService.getInstance().githubApi.createInfomationsTwo(infosPamarms).enqueue(new Callback<NewsInformation>() {
+        RetrofitService.getInstance().githubApi.createWeChatInformations(infosPamarms).enqueue(new Callback<WeChatNewsInformation>() {
             @Override
-            public void onResponse(Call<NewsInformation> call, Response<NewsInformation> response) {
+            public void onResponse(Call<WeChatNewsInformation> call, Response<WeChatNewsInformation> response) {
                 if (response.raw().body() != null) {
-                    NewsInformation newsInformation = response.body();
-                    int count = newsInformation.getCount();
+                    WeChatNewsInformation newsInformation = response.body();
+                    int count = newsInformation.getData().getCount();
                     recommendAdapter.setTotalCount(count);
-                    List<NewsInformation.DataBean> data = newsInformation.getData();
+                    List<WeChatNewsInformation.DataBean.ResultBean> data = newsInformation.getData().getResult();
 
                     moreData.addAll(data);
                     recommendAdapter.notifyDataSetChanged();
@@ -420,7 +420,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
             }
 
             @Override
-            public void onFailure(Call<NewsInformation> call, Throwable t) {
+            public void onFailure(Call<WeChatNewsInformation> call, Throwable t) {
             }
         });
 
