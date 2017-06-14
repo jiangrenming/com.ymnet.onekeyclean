@@ -10,8 +10,8 @@ android {
             abiFilters "armeabi"
         }
 
-//        applicationId "com.ymnet.onekeyclean"
-        applicationId "com.ymnet.onekeyclear"
+        applicationId "com.ymnet.onekeyclean"
+//        applicationId "com.ymnet.onekeyclear"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 130
@@ -86,4 +86,7 @@ dependencies {
     compile 'in.srain.cube:ultra-ptr:1.0.11'
     compile 'com.android.support:design:22.2.0'
     testCompile 'junit:junit:4.12'
+
+
+
 }

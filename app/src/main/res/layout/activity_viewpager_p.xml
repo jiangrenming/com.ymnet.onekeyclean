@@ -39,7 +39,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-   <!-- &lt;!&ndash;app:tabBackground="@drawable/selected"&ndash;&gt;
+
+  <!--  &lt;!&ndash;app:tabBackground="@drawable/selected"&ndash;&gt;
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"

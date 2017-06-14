@@ -278,8 +278,8 @@ public class CleanActivity extends Activity implements CleanView {
     private void initData() {
         mTotalMemory = getTotalMemorySize(CleanActivity.this);
         DownLoadFactory.getInstance().init(this,null, PushManager.getInstance());
+        PushManager.getInstance().init(getApplicationContext());//dont't remove
     }
-
 
     /**
      * 获取可用内存百分比

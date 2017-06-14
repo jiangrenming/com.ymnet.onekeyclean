@@ -80,6 +80,7 @@ import static com.ymnet.onekeyclean.R.id.tv_clean_success_size;
 import static com.ymnet.onekeyclean.R.id.tv_history_clean_size;
 
 
+
 public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.OnClickListener {
 
     public final static String EXTRA_ITEM_POSITION = "qq_position";
@@ -679,7 +680,6 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
 
     int count = 0;
     int temp  = 0;
-
     @Override
     public void updateData() {
         Task.UI_THREAD_EXECUTOR.execute(new Runnable() {
@@ -704,6 +704,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
                         Log.d("CleaningFragment", "value:" + value);
                         mWaveLoadingView.setProgressValue(value);
                     }
+
                     if (QQScanHelp.getInstance().isScanFinish()) {
 
                         if (mSuccessCleanSize < mPresenter.getSize()) {
@@ -730,6 +731,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
                         mTv_history_clean_size.setText(getString(R.string.today_clean_total_clean, str1, str2));
                         Log.d("QQActivity", "刷新了界面");
                         animDisplay();
+
                     }
                 }
             }
