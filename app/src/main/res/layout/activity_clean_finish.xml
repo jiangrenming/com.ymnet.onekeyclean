@@ -7,42 +7,47 @@
     android:orientation="vertical">
 
     <com.ymnet.onekeyclean.cleanmore.widget.BottomScrollView
-        android:id="@+id/sv_scanend"
-        android:splitMotionEvents="true"
-        android:scrollbars="none"
+        android:id="@+id/sv_scanfinish"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:splitMotionEvents="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <!--垃圾清理完成界面-->
-            <RelativeLayout
+
+            <LinearLayout
                 android:id="@+id/rl_show"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="10dp">
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp">
 
                 <FrameLayout
+                    android:paddingLeft="25dp"
                     android:id="@+id/fl_idle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true">
+                    android:layout_weight="1"
+                    >
 
                     <ImageView
                         android:id="@+id/iv_sun"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+
                         android:src="@drawable/clean_sun_bg"/>
 
                     <ImageView
                         android:id="@+id/iv_sun_center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+
                         android:src="@drawable/clean_sun_center_bg"/>
 
                     <ImageView
@@ -52,35 +57,41 @@
                         android:src="@drawable/bling_anim"
                         android:visibility="gone"/>
 
-                    <!--<ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/mask_blue"/>-->
                 </FrameLayout>
 
-                <TextView
-                    android:id="@+id/tv_clean_success_size"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/fl_idle"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center_horizontal"
-                    android:text="@string/clean_success_size"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/fl_idle"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_history_clean_size"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_clean_success_size"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center_horizontal"
-                    android:text="@string/clean_success_size"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"/>
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/tv_clean_success_size"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/fl_idle"
+                        android:gravity="center_horizontal"
+                        android:text="@string/clean_success_size"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_history_clean_size"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_clean_success_size"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/fl_idle"
+                        android:gravity="center_horizontal"
+                        android:text="@string/clean_success_size"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_content"
@@ -93,10 +104,7 @@
                     android:id="@+id/rv_recommend"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-                <!--<include layout="@layout/recycler_layout"
-                         android:id="@+id/rv_recommend"
-                         android:background="#9c9c9c"
-                         />-->
+
             </LinearLayout>
             <!--<FrameLayout
                 android:id="@+id/fl_morefunction"

@@ -1,6 +1,10 @@
 package com.ymnet.onekeyclean.cleanmore.wechat.presenter;
 
 
+import android.util.Log;
+
+import com.ymnet.onekeyclean.cleanmore.utils.C;
+import com.ymnet.onekeyclean.cleanmore.utils.CleanSetSharedPreferences;
 import com.ymnet.onekeyclean.cleanmore.utils.FileTreeUtils;
 import com.ymnet.onekeyclean.cleanmore.wechat.WeChatScanHelp;
 import com.ymnet.onekeyclean.cleanmore.wechat.listener.DataUpdateListener;
@@ -132,6 +136,11 @@ public class WeChatPresenterImpl implements WeChatPresenter {
             Task.BACKGROUND_EXECUTOR.execute(new Runnable() {
                 @Override
                 public void run() {
+
+                    // TODO: 2017/6/13 0013 将将要删除的文件大小存入sp
+                    Log.d("WeChatPresenterImpl", "删除文件" + fileType.getCurrentSize());
+                    CleanSetSharedPreferences.setWeChatCleanLastTimeSize(C.get(), fileType.getCurrentSize());
+
                     List<WareFileInfo> paths = ((WeChatFileDefault) fileType).getFilePaths();
                     Iterator<WareFileInfo> iterator = paths.iterator();
                     while (iterator.hasNext()) {

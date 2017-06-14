@@ -23,6 +23,7 @@
             android:textSize="14sp"/>
 
         <ImageView
+            android:scaleType="fitCenter"
             android:id="@+id/item_bitmap"
             android:layout_width="150dp"
             android:layout_height="100dp"

@@ -9,19 +9,19 @@ import com.ymnet.onekeyclean.cleanmore.wechat.view.MVPView;
 
 public interface QQMVPView extends MVPView {
 
-    public void updateData();
+    void updateData();
 
-    public void setText(String str);
+    void setText(String str);
 
-    public void hideLoading();
+    void hideLoading();
 
-    public void showLoading();
-
-
-    public void startAnim();
-
-    public void stopAnim();
+    void showLoading();
 
 
-    public void changeDivider();
+    void startAnim();
+
+    void stopAnim();
+
+
+    void changeDivider();
 }

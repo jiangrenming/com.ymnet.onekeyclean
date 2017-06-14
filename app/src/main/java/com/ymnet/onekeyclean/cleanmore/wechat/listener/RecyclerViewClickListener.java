@@ -13,5 +13,7 @@ public interface RecyclerViewClickListener {
      * @param v        The view within the RecyclerView.Adapter
      * @param position The position of the view in the adapter
      */
-    public void onClick(View v, int position);
+    void onClick(View v, int position);
+
+    void selectState(long selectSize, boolean flag);
 }

@@ -14,6 +14,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Debug;
 import android.os.Environment;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.os.RemoteException;
 import android.text.TextUtils;
 import android.util.Log;
@@ -45,6 +47,7 @@ import com.ymnet.onekeyclean.cleanmore.utils.WeChatUtil;
 import com.ymnet.onekeyclean.cleanmore.wechat.MTask;
 
 import java.io.File;
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -56,7 +59,7 @@ import java.util.Locale;
 /**
  * Created by Administrator on 2015/1/15.
  */
-public class ScanHelp {
+public class ScanHelp implements Parcelable {
     private static final String TAG = "ScanHelp";
 
     public static final long ONE_DAY_LONG = 24 * 60 * 60 * 1000;
@@ -118,8 +121,33 @@ public class ScanHelp {
     private long lastTime = 0;
 
     private ScanHelp(Context context) {
+        Log.d("MyHandler", "crate Scan:" + "--" + this.hashCode());
         this.context = context.getApplicationContext();
     }
+
+    protected ScanHelp(Parcel in) {
+        isRun = in.readByte() != 0;
+        cacheSystemSize = in.readLong();
+        cacheSize = in.readLong();
+        residualSize = in.readLong();
+        apkSize = in.readLong();
+        ramSize = in.readLong();
+        sdPath = in.readString();
+        outSdPath = in.readString();
+        lastTime = in.readLong();
+    }
+
+    public static final Creator<ScanHelp> CREATOR = new Creator<ScanHelp>() {
+        @Override
+        public ScanHelp createFromParcel(Parcel in) {
+            return new ScanHelp(in);
+        }
+
+        @Override
+        public ScanHelp[] newArray(int size) {
+            return new ScanHelp[size];
+        }
+    };
 
     public static ScanHelp getInstance(Context context) {
         if (mInstance != null) {
@@ -1419,10 +1447,28 @@ public class ScanHelp {
         }
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte((byte) (isRun ? 1 : 0));
+        dest.writeLong(cacheSystemSize);
+        dest.writeLong(cacheSize);
+        dest.writeLong(residualSize);
+        dest.writeLong(apkSize);
+        dest.writeLong(ramSize);
+        dest.writeString(sdPath);
+        dest.writeString(outSdPath);
+        dest.writeLong(lastTime);
+    }
+
     /**
      * 扫描回调接口
      */
-    public interface IScanResult {
+    public interface IScanResult extends Serializable {
         public void scanning(String path);
 
         public void scanState(int state);

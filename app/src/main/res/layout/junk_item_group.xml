@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/header_layout"
-    android:layout_width="fill_parent"
-    android:layout_height="match_parent"
-    android:background="@color/junk_bg"
-    android:orientation="vertical" 
-    android:paddingTop="5dp">
+              android:id="@+id/header_layout"
+              android:layout_width="fill_parent"
+              android:layout_height="match_parent"
+              android:background="@color/junk_bg"
+              android:orientation="vertical"
+              android:paddingTop="1dp">
 
     <RelativeLayout
         android:id="@+id/rl_group"
@@ -13,25 +13,26 @@
         android:layout_height="40.0dip"
         android:background="@drawable/junk_pinned_header_bg"
         android:paddingLeft="10.0dip"
-        android:paddingRight="7.0dip" >
-
-        <ImageView
-            android:id="@+id/header_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/junk_group_arrow_down" />
-
+        android:paddingRight="7.0dip">
+        <!--android:layout_width="150.0dip"-->
         <TextView
             android:id="@+id/header_name"
-            android:layout_width="150.0dip"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5.0dip"
-            android:layout_toRightOf="@id/header_icon"
             android:textColor="#ff666666"
-            android:textSize="14.0sp" />
+            android:textSize="12.0sp"/>
+
+        <ImageView
+            android:layout_marginLeft="5dp"
+            android:id="@+id/header_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/header_name"
+            android:src="@drawable/junk_group_arrow_down"/>
+
         <!--android:background="@drawable/num_bg"-->
         <TextView
             android:id="@+id/header_count"
@@ -46,7 +47,7 @@
             android:paddingLeft="6.5dip"
             android:paddingRight="6.5dip"
             android:textColor="@color/wechat_export_success_bg"
-            android:textSize="13.0sp" />
+            android:textSize="13.0sp"/>
 
         <ImageView
             android:id="@+id/header_check"
@@ -58,7 +59,7 @@
             android:focusable="false"
             android:scaleType="center"
             android:src="@drawable/junk_check_box_bg"
-            android:visibility="visible" />
+            android:visibility="visible"/>
     </RelativeLayout>
 
 </LinearLayout>

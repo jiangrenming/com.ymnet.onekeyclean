@@ -1,7 +1,6 @@
 package com.ymnet.onekeyclean.cleanmore.fragment;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
@@ -100,29 +99,6 @@ public class ScanningFragment extends BaseFragment {
         junk_sort_item_apk_image = view.findViewById(R.id.junk_sort_item_apk_image);
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        //        Log.i("wdh","onActivityCreated");
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        //        try {
-        //            mListener = (OnFragmentInteractionListener) activity;
-        //        } catch (ClassCastException e) {
-        //            throw new ClassCastException(activity.toString()
-        //                    + " must implement OnFragmentInteractionListener");
-        //        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        //        mListener = null;
-    }
-
     public void scanning(String path) {
         if (TextUtils.isEmpty(path)) {
             return;
@@ -148,7 +124,6 @@ public class ScanningFragment extends BaseFragment {
                 junk_sort_item_residual_progress.setVisibility(View.GONE);
                 junk_sort_item_residual_image.setVisibility(View.VISIBLE);
                 break;
-
         }
     }
 
@@ -167,7 +142,6 @@ public class ScanningFragment extends BaseFragment {
         mWaveLoadingView.setAmplitudeRatio(33);
 
         if (headView != null && drawable != null) {
-//            headView.setBackground(drawable.mutate());
             drawable.startTransition(duration);
         }
     }
@@ -183,12 +157,6 @@ public class ScanningFragment extends BaseFragment {
         }
         Log.d("CleaningFragment", "value:" + value);
         mWaveLoadingView.setProgressValue(value);
-
-       /* if (headView != null) {
-            //            ColorDrawable cd = new ColorDrawable(color);
-            //            headView.setBackgroundDrawable(cd.mutate());
-            headView.setBackgroundColor(color);
-        }*/
     }
 
     public void setScanSize(String[] array) {
@@ -217,18 +185,5 @@ public class ScanningFragment extends BaseFragment {
 
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    //    public interface OnFragmentInteractionListener {
-    //        public void onFragmentInteraction(Uri uri);
-    //    }
 
 }

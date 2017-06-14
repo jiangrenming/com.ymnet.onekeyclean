@@ -14,11 +14,17 @@ public class OnekeyField {
     /**
      * BroadcastReceiver intent key
      */
-    public static final String KEY = "key";
+    public static final String KEY         = "key";
     /**
      * BroadcastReceiver intent value
      */
-    public static final String FLASHLIGHT = "flashlight";
-    public static final String SETTINGS = "settings";
+    public static final String FLASHLIGHT  = "flashlight";
+    public static final String SETTINGS    = "settings";
+    public static final String KILLBACKGROUND    = "killbackground";
+
+    /**
+     * BroadcastReceiver scanSilver
+     */
+    public static final String SCANRESULT  = "scan_result";
 
 }

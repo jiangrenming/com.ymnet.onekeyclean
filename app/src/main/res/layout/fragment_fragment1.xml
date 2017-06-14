@@ -1,13 +1,49 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.ymnet.onekeyclean.cleanmore.fragment.testfragment.Fragment1">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ymnet.onekeyclean.cleanmore.fragment.testfragment.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.ymnet.onekeyclean.cleanmore.widget.StickyLayout
+        android:id="@+id/sticky_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"/>
+        android:orientation="vertical">
 
-</FrameLayout>
+        <View
+            android:id="@+id/v_touch_bounce"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#c0ffff00"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/sticky_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/fragment_item0"/>
+
+                <!--<com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus
+                    android:id="@+id/rv_frag_function"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />-->
+
+            </LinearLayout>
+
+            <com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus
+                android:id="@+id/sticky_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
+    </com.ymnet.onekeyclean.cleanmore.widget.StickyLayout>
+</LinearLayout>

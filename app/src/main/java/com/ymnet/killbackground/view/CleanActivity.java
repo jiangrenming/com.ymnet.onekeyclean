@@ -42,14 +42,11 @@ import com.ymnet.killbackground.view.customwidget.Wheel;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.notification.NotifyService;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
-import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
-import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.update.DownLoadFactory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Random;
 
 import static android.text.format.Formatter.formatFileSize;
 import static com.example.commonlibrary.systemmanager.SystemMemory.getAvailMemorySize;
@@ -75,6 +72,7 @@ public class CleanActivity extends Activity implements CleanView {
     private boolean isFirst      = true;
     private long    mTotalMemory = 0;
     private int temp;
+    private Random mR = new Random();
     private Handler mHandler     = new Handler(C.get().getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
@@ -104,6 +102,10 @@ public class CleanActivity extends Activity implements CleanView {
                 case 2://清理前显示的数值
                     mMemoryInfo.setText("" + mUsedMemory + "%");
                     break;
+                case 3://数值跳动
+                    mMemoryInfo.setText("" + mR.nextInt(100) + "%");
+                    mHandler.sendEmptyMessageDelayed(3, 80);
+                    break;
             }
         }
     };
@@ -112,16 +114,11 @@ public class CleanActivity extends Activity implements CleanView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clean);
-
         mCleanPresenter = new CleanPresenterImpl(this);
         initView();
         initData();
         QihooSystemUtil.openAllPermission(getApplicationContext(), "com.ymnet.apphelper");
         MobclickAgent.setScenarioType(getApplicationContext(), MobclickAgent.EScenarioType.E_UM_NORMAL);
-
-        Map<String, String> m = new HashMap<>();
-        m.put(OnekeyField.ONEKEYCLEAN, "手机加速");
-        MobclickAgent.onEvent(this, StatisticMob.STATISTIC_ID, m);
 
     }
 
@@ -142,9 +139,6 @@ public class CleanActivity extends Activity implements CleanView {
         super.onResume();
         MobclickAgent.onResume(this);
 
-        Log.d(TAG, "onResume: ");
-        Log.i("Tagg", "ggg");
-
         if (isFirst) {
             //1.球转动,圆环转动 过程当中清理缓存;
             mAnimation = AnimationUtils.loadAnimation(CleanActivity.this, R.anim.clean_anim);
@@ -163,9 +157,11 @@ public class CleanActivity extends Activity implements CleanView {
                     }
                     mMemoryInfo.setVisibility(View.VISIBLE);
                     mUsedMemory = getUsedMemoryRate();
-                    mMemoryInfo.setText("" + mUsedMemory + "%");
+//                    mMemoryInfo.setText("" + mUsedMemory + "%");
 //                    mHandler.sendEmptyMessageDelayed(2, 100);
-                    mHandler.sendEmptyMessage(2);
+                    //开始数字跳动
+                    mHandler.sendEmptyMessage(3);
+//                    mHandler.sendEmptyMessage(2);
 
                     //吸入软件整体动画结合展示(个个软件图标暂未展示)
                     mWheel = (Wheel) findViewById(R.id.wheel_iv);
@@ -413,13 +409,14 @@ public class CleanActivity extends Activity implements CleanView {
         //展开动画
 
         mRotateImage.setVisibility(View.INVISIBLE);
-        mMemoryInfo.setVisibility(View.INVISIBLE);
-
         mDetermine.setScaleX(0);
         mDetermine.setScaleY(0);
         mDetermine.setVisibility(View.VISIBLE);
         int time;
         if (isBest) {
+            //显示当前值
+            mHandler.removeMessages(3);
+            mHandler.sendEmptyMessage(2);
             time = 800;
         } else {
             time = 300;
@@ -432,6 +429,7 @@ public class CleanActivity extends Activity implements CleanView {
                     @Override
                     public void onAnimationStart(View view) {
                         super.onAnimationStart(view);
+                        mMemoryInfo.setVisibility(View.INVISIBLE);
                         Log.i(TAG, "onAnimationStart: " + SystemClock.currentThreadTimeMillis());
                     }
 
@@ -482,7 +480,9 @@ public class CleanActivity extends Activity implements CleanView {
                     mCount = 3;
                 }
                 Log.d(TAG, "run: 清理百分比 " + mCount);
-
+                //停止数字跳动,显示正确值
+                mHandler.removeMessages(3);
+                mHandler.sendEmptyMessage(2);
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -498,6 +498,7 @@ public class CleanActivity extends Activity implements CleanView {
                             String content = String.format(sAgeFormat, formatFileSize(CleanActivity.this, cleanMem), mCount);
                             showToast(content);
                         }
+
                         mHandler.sendEmptyMessageDelayed(0, 300);
                     }
                 }, 400);

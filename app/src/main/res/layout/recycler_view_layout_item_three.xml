@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:padding="10dp"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp"
+              android:paddingTop="10dp"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:background="@drawable/dialog_btn_background_selector"
@@ -31,9 +33,9 @@
 
             <ImageView
                 android:id="@+id/item_bitmap_1"
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:scaleType="centerInside"
+                android:scaleType="fitCenter"
                 android:src="@mipmap/icon_launcher"/>
         </LinearLayout>
 
@@ -46,9 +48,9 @@
 
             <ImageView
                 android:id="@+id/item_bitmap_2"
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:scaleType="centerInside"
+                android:scaleType="fitCenter"
                 android:src="@mipmap/icon_launcher"/>
         </LinearLayout>
 
@@ -61,9 +63,9 @@
 
             <ImageView
                 android:id="@+id/item_bitmap_3"
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:scaleType="centerInside"
+                android:scaleType="fitCenter"
                 android:src="@mipmap/icon_launcher"/>
         </LinearLayout>
     </LinearLayout>

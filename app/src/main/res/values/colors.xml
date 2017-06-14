@@ -62,4 +62,9 @@
     <color name="wave_color">#4ca6ff</color>
     <color name="main_green_new">#11BA53</color>
     <color name="checked">#9c9c9c</color>
+
+    <color name="blue_progress">#1affffff</color>
+    <color name="progress_bg">#3097fd</color>
+    <color name="blue_normal">#3097fd</color>
+    <color name="blue_pressed">#aaF2F6FB</color>
 </resources>

@@ -5,55 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/rl_wechat"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@drawable/dialog_btn_background_selector"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp">
-
-        <ImageView
-            android:id="@+id/wechat_icon"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/wechat_features_icon"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="12dp"
-            android:src="@drawable/setting_arrow"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@+id/wechat_icon"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/wechat_features"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/managementfragment_wechat_clean"
-                android:textColor="@color/gray20"
-                android:textSize="17sp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@string/wechat_statistics_data_small"
-                android:textColor="@color/gray40"
-                android:textSize="14sp"/>
-        </LinearLayout>
-
-    </RelativeLayout>
+    <include layout="@layout/clean_over_item_body"/>
 
     <RelativeLayout
         android:id="@+id/rl_qq"
@@ -96,6 +48,7 @@
                 android:textSize="17sp"/>
 
             <TextView
+                android:id="@+id/qq_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -107,6 +60,7 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/tv_news_head"
         android:drawableLeft="@drawable/magazine"
         android:drawablePadding="5dp"
         android:layout_width="match_parent"

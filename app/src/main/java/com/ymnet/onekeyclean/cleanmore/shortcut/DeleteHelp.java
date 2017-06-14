@@ -23,8 +23,8 @@ import java.util.List;
  */
 public class DeleteHelp {
 
-
-    private static String[] notCleanPackages = {"com.android.lockscreen2345", "com.service.usbhelper.service.HelperService"};
+    // TODO: 2017/6/12 0012 修改了不清理的进程包名
+    private static String[] notCleanPackages = {"com.yenet.tylauncher", "com.service.usbhelper.service.HelperService"};
 
     public static void killBackgroundProcess(Context context, List<JunkChild> childs) {
         if (context == null || childs == null || childs.size() == 0) {
