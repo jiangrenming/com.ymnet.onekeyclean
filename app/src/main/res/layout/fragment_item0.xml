@@ -37,18 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:orientation="vertical">
-            <!--<RelativeLayout
-                android:id="@+id/rl_head_clear"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@color/blue_normal"
-                android:visibility="gone">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:src="@drawable/clean_over_clear"/>
-            </RelativeLayout>-->
             <RelativeLayout
                 android:id="@+id/ll_number"
                 android:layout_width="match_parent"
@@ -113,23 +102,10 @@
                     android:textSize="18sp"/>
 
             </LinearLayout>
-            <!--<TextView
-                            android:id="@+id/tv_ram_prompt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:background="@drawable/management_btn_clean_bg"
-                            android:gravity="center"
-                            android:paddingBottom="10dp"
-                            android:paddingLeft="25dp"
-                            android:paddingRight="25dp"
-                            android:paddingTop="10dp"
-                            android:text="扫描中..."
-                            android:textColor="@color/white"
-                            android:textSize="16dp"/>-->
+
             <com.ymnet.onekeyclean.cleanmore.widget.ProgressButton
                 android:id="@+id/pb_ram_prompt"
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@drawable/management_btn_clean_bg"
@@ -141,7 +117,7 @@
                 android:text="扫描中.."
                 android:textColor="@color/white"
                 android:textSize="16dp"
-                app:progressColor="#44F2F6FB"/>
+                app:progressColor="#60a9ee"/>
 
         </LinearLayout>
 

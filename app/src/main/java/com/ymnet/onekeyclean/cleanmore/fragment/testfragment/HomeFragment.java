@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.TextView;
 
 import com.example.commonlibrary.utils.ToastUtil;
 import com.ymnet.killbackground.utils.Run;
@@ -95,9 +96,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
     private int                         mWaveHeight;
     private WeakReference<HomeFragment> theFragment;
     private Handler mHandler = new MyHandler(this);
-    private View mStickyHead;
-    private View mRlHeadClear;
-    private View mLlNumber;
+    private View     mStickyHead;
+    private View     mRlHeadClear;
+    private View     mLlNumber;
+    private TextView mTvCleanDesc;
 
     class MyHandler extends Handler {
 
@@ -191,6 +193,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
         mLlNumber.setVisibility(View.GONE);
         mRlHeadClear.setVisibility(View.VISIBLE);
 
+        mWave.cancelAnimation();
+        mWave.setVisibility(View.GONE);
+        mTvCleanDesc.setText(R.string.so_clear);
+        mProgressButton.setText(R.string.done);
+
+//        mProgressButton.setBackgroundColor(Color.parseColor("#56A4EE"));
     }
 
     @Override
@@ -213,6 +221,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
         mRlHomeHead = view.findViewById(R.id.rl_home_head);
         mLlNumber = view.findViewById(R.id.ll_number);
         mRlHeadClear= view.findViewById(R.id.ll_clean_down);
+
+        mTvCleanDesc= (TextView) view.findViewById(R.id.tv_clean_down);
 
         mStickLayout = (StickyLayout) view.findViewById(R.id.sticky_layout);
         mStickLayout.setOnGiveUpTouchEventListener(this);
@@ -264,11 +274,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.canScrollVertically(1);
 
-       /* for (int i = 0; i < mRecyclerView.getChildCount(); i++) {
-            ViewCompat.animate(mRecyclerView.getChildAt(i)).scaleY(0.8f).setDuration(500).start();
-
-        }*/
-
         tv_size = (SGTextView) view.findViewById(R.id.tv_homehead_size);
         tv_unit = (SGTextView) view.findViewById(R.id.tv_homehead_unit);
         mWave = (WaveLoadingView) view.findViewById(R.id.wlv_home);
@@ -282,7 +287,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
 
             @Override
             public void onStop() {
-                //                mProgressButton.setTag("scanStop");
+
                 mProgressButton.setText("停止扫描,立即清理");
             }
 
@@ -311,6 +316,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
 
                 break;
             case 1:
+                Log.d("HomeFragment", "微信条专题");
                 C.get().startActivity(new Intent(C.get(), WeChatActivity.class));
                 break;
             case 2:
@@ -356,6 +362,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
     @Override
     public void onDetach() {
         super.onDetach();
+
+        if (mWave != null) {
+            mWave.cancelAnimation();
+        }
     }
 
     @Override
@@ -438,7 +448,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                         mProgressButton.setTag("scanFinish");
                         CleanFragmentInfo.progressButtonState = "scanFinish";
                         mProgressButton.setProgress(100);
-                        mProgressButton.setText("立刻清理2");
+                        mProgressButton.setText("立刻清理");
 
                         datas = mScan.getDatas();
                         if (datas == null || datas.size() == 0) {

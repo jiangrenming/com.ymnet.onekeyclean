@@ -64,7 +64,7 @@
     <color name="checked">#9c9c9c</color>
 
     <color name="blue_progress">#1affffff</color>
-    <color name="progress_bg">#3097fd</color>
+    <color name="progress_bg">#60a9ee</color>
     <color name="blue_normal">#3097fd</color>
     <color name="blue_pressed">#aaF2F6FB</color>
 </resources>

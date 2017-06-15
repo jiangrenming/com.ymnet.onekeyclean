@@ -12,6 +12,8 @@ import android.widget.Button;
 
 import com.ymnet.onekeyclean.R;
 
+import static com.ymnet.onekeyclean.R.color.progress_bg;
+
 /**
  * Created by MajinBuu on 2017/6/1 0001.
  *
@@ -85,7 +87,7 @@ public class ProgressButton extends Button {
             mProgressDrawable.setColor(progressColor);
 
             // 获取进度条背景颜色属性值
-            int defaultProgressBgColor = getResources().getColor(R.color.progress_bg);
+            int defaultProgressBgColor = getResources().getColor(progress_bg);
             int progressBgColor = attr.getColor(R.styleable.ProgressButton_progressBgColor,defaultProgressBgColor);
             // 设置进度条背景Drawable的颜色
             mProgressDrawableBg.setColor(progressBgColor);
@@ -222,7 +224,9 @@ public class ProgressButton extends Button {
                 (GradientDrawable) getResources().getDrawable(R.drawable.rect_normal).mutate();// 修改时就不会影响其它drawable对象的状态
         drawableNormal.setCornerRadius(cornerRadius); // 设置圆角半径
 
-        int defaultNormal =  getResources().getColor(R.color.blue_normal);
+//        int defaultNormal =  getResources().getColor(R.color.blue_normal);
+        // TODO: 2017/6/15 0015 按钮颜色 修改这里
+        int defaultNormal =  getResources().getColor(R.color.progress_bg);
         int colorNormal =  attr.getColor(R.styleable.ProgressButton_buttonNormalColor,defaultNormal);
         drawableNormal.setColor(colorNormal);//设置颜色
 

@@ -171,6 +171,14 @@ public class ScanningFragment extends BaseFragment {
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+        if (mWaveLoadingView != null) {
+            mWaveLoadingView.cancelAnimation();
+        }
+    }
+
+    @Override
     public void setSupportTag(String tag) {
 
     }
