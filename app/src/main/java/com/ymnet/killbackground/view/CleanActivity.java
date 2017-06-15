@@ -477,7 +477,7 @@ public class CleanActivity extends Activity implements CleanView {
                 mCount = (int) (Math.abs(cleanMem * 100) / mTotalMemory + 0.5f);
                 Log.d(TAG, "onAnimationEnd: mSize: " + "/内存总量:" + mTotalMemory + "/清理量:" + cleanMem + "/清理百分比:" + mCount);
                 if (mCount == 0) {
-                    mCount = 5;
+                    mCount = 10;
                 }
                 Log.d(TAG, "run: 清理百分比 " + mCount);
                 //停止数字跳动,显示正确值
