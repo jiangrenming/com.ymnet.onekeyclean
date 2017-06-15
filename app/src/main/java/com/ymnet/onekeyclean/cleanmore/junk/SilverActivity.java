@@ -7,6 +7,7 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -154,12 +155,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
     }
 
     private void initScan() {
-       /* if (mScan != null) {
-            mScan.setiScanResult(null);
-            mScan.setRun(false);
-            mScan.close();
-            mScan = null;
-        }*/
+
         if (checkHasCleanCache()) {
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -169,12 +165,19 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
                 }
             }, 1000);
         } else {
-            SQLiteDatabase db = new ClearManager(this).openClearDatabase();
             mScan = ScanHelp.getInstance(this);
-            mScan.setDb(db);
-            mScan.setiScanResult(this);
-            mScan.setRun(true);
-            mScan.startScan(false);
+            Log.d("SilverActivity", "mScan.hashCode():" + mScan.hashCode());
+            if (!mScan.isScanned()) {
+                SQLiteDatabase db = new ClearManager(this).openClearDatabase();
+                mScan.setDb(db);
+                mScan.setiScanResult(this);
+                mScan.setRun(true);
+                mScan.startScan(false);
+            } else {
+                // TODO: 2017/6/15 0015  显示清理结果界面
+                scanState(ScanState.SCAN_ALL_END);
+            }
+
         }
     }
 

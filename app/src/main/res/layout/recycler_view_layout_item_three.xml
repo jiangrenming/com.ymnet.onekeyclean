@@ -34,8 +34,8 @@
             <ImageView
                 android:id="@+id/item_bitmap_1"
                 android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:scaleType="fitCenter"
+                android:layout_height="66dp"
+                android:scaleType="fitXY"
                 android:src="@mipmap/icon_launcher"/>
         </LinearLayout>
 
@@ -49,8 +49,8 @@
             <ImageView
                 android:id="@+id/item_bitmap_2"
                 android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:scaleType="fitCenter"
+                android:layout_height="66dp"
+                android:scaleType="fitXY"
                 android:src="@mipmap/icon_launcher"/>
         </LinearLayout>
 
@@ -64,8 +64,8 @@
             <ImageView
                 android:id="@+id/item_bitmap_3"
                 android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:scaleType="fitCenter"
+                android:layout_height="66dp"
+                android:scaleType="fitXY"
                 android:src="@mipmap/icon_launcher"/>
         </LinearLayout>
     </LinearLayout>

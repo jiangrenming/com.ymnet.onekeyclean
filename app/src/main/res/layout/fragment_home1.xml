@@ -31,12 +31,6 @@
 
                 <include layout="@layout/fragment_item0"/>
 
-                <!--<com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus
-                    android:id="@+id/rv_frag_function"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />-->
-
             </LinearLayout>
 
             <com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus
