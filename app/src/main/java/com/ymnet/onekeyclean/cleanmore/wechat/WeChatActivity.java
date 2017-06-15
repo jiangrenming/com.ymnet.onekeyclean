@@ -94,20 +94,22 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
     private List<WeChatNewsInformation.DataBean.ResultBean> moreData = new ArrayList<>();
     //信息流相关
     private int                                             page     = 1;
-    private View             mEmptyView;
-    private ImageView        mIv_sun;
-    private ImageView        mIv_sun_center;
-    private ImageView        mBlingBling;
-    private TextView         mTv_clean_success_size;
-    private TextView         mTv_history_clean_size;
-    private View             mFl_idle;
-    private View             mLl_content;
-    private RecyclerViewPlus mEmptyRv;
-    private View             mEmptyHead;
-    private View             mEmptyNewsHead;
+    private View                   mEmptyView;
+    private ImageView              mIv_sun;
+    private ImageView              mIv_sun_center;
+    private ImageView              mBlingBling;
+    private TextView               mTv_clean_success_size;
+    private TextView               mTv_history_clean_size;
+    private View                   mFl_idle;
+    private View                   mLl_content;
+    private RecyclerViewPlus       mEmptyRv;
+    private View                   mEmptyHead;
+    private View                   mEmptyNewsHead;
     private WeChatRecommendAdapter mEmptyRecommendAdapter;
-    private View             mEmptyFoot;
-    private long mSuccessCleanSize = 0;
+    private View                   mEmptyFoot;
+    private long                      mSuccessCleanSize = 0;
+    private HashMap<Integer, Boolean> removeMap         = new HashMap<>();
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +126,8 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
         initializeRecyclerView();
         initBottom();
         ani_view = findViewById(R.id.ani_view);
+        //         removeMap.put(0, true);
+
     }
 
     /**
@@ -243,8 +247,66 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
             }
 
             @Override
-            public void selectState(long selectSize, boolean flag) {
-                mTvBtn.setEnabled(flag);
+            public void selectState(long selectSize, boolean flag, int position) {
+                /*mTvBtn.setEnabled(flag);*/
+            }
+
+            @Override
+            public void selectButton(Map<Integer, Boolean> weChatInfos, int position) {
+                Log.i("postion", position + "/wec=" + weChatInfos.size());
+                if (adapter.getContentItemCount() >= 2) {
+                    if (adapter.getContentItemViewType(1) != WeChatConstants.WECHAT_TYPE_DEFALUT) {
+                        if (weChatInfos.get(position)) {
+                            mTvBtn.setEnabled(true);
+                        } else {
+                            mTvBtn.setEnabled(false);
+                        }
+                        // TODO: 2017/6/14
+                        if (weChatInfos.get(position)) {
+                            removeMap.put(position, true);
+                        } else {
+                            removeMap.put(position, false);
+                        }
+                    } else {
+                        for (int i = 0; i < weChatInfos.size(); i++) {
+                            if (weChatInfos.get(i)) {
+                                mTvBtn.setEnabled(true);
+
+                                break;
+                            } else {
+                                mTvBtn.setEnabled(false);
+                            }
+                        }
+                        // TODO: 2017/6/14
+                        for (int i = 0; i < weChatInfos.size(); i++) {
+                            if (weChatInfos.get(i)) {
+                                removeMap.put(i, true);
+                            } else {
+                                removeMap.put(i, false);
+                            }
+                        }
+                    }
+                } else {
+                    for (int i = 0; i < weChatInfos.size(); i++) {
+                        if (weChatInfos.get(i)) {
+                            mTvBtn.setEnabled(true);
+
+                            break;
+                        } else {
+                            mTvBtn.setEnabled(false);
+                        }
+                    }
+                    // TODO: 2017/6/14
+                    for (int i = 0; i < weChatInfos.size(); i++) {
+                        if (weChatInfos.get(i)) {
+                            removeMap.put(i, true);
+                        } else {
+                            removeMap.put(i, false);
+                        }
+                    }
+                }
+
+
             }
         });
         rv.setAdapter(adapter);
@@ -316,7 +378,12 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
             }
 
             @Override
-            public void selectState(long selectSize, boolean flag) {
+            public void selectState(long selectSize, boolean flag, int position) {
+
+            }
+
+            @Override
+            public void selectButton(Map<Integer, Boolean> weChatInfos, int position) {
 
             }
         });
@@ -393,7 +460,12 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
             }
 
             @Override
-            public void selectState(long selectSize, boolean flag) {
+            public void selectState(long selectSize, boolean flag, int position) {
+
+            }
+
+            @Override
+            public void selectButton(Map<Integer, Boolean> weChatInfos, int position) {
 
             }
         });
@@ -463,20 +535,55 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
     }
 
     private void initBottom() {
+        /*if (adapter.getContentItemViewType(1) == WeChatConstants.WECHAT_TYPE_DEFALUT) {
+            removeMap.put(0, true);
+            removeMap.put(1, true);
+        } else if (adapter.getContentItemViewType(0) == WeChatConstants.WECHAT_TYPE_DEFALUT) {
+            removeMap.put(0, true);
+        }*/
         mRl = (RelativeLayout) findViewById(R.id.rl_wechat_btn);
         mTvBtn = (TextView) findViewById(R.id.btn_bottom_delete);
         mTvBtn.setEnabled(true);
         mTvBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((adapter.getContentItemViewType(0) == WeChatConstants.WECHAT_TYPE_DEFALUT)) {
+                // TODO: 2017/6/14 0014
+                int count2 = 0;
+               /* if ((adapter.getContentItemViewType(0) == WeChatConstants.WECHAT_TYPE_DEFALUT)) {
                     navigationOther(0);
                     hideItem(0);
                 }
                 if ((adapter.getContentItemViewType(1) == WeChatConstants.WECHAT_TYPE_DEFALUT)) {
                     navigationOther(1);
                     hideItem(1);
+                }*/
+                // TODO: 2017/6/14
+                Log.d("WeChatActivity", "removeMap.size():" + removeMap.size());
+                if (removeMap.size() != 0) {
+                    if (removeMap.size() == 1) {
+                        if (removeMap.get(position)) {
+                            navigationOther(0);
+                            hideItem(0);
+                            bottomGone();
+                        }
+                    }
+                    if (removeMap.size() == 2) {
+                        for (int i = 0; i < removeMap.size(); i++) {
+                            if (removeMap.get(i)) {
+                                navigationOther(i);
+                                hideItem(i);
+                            }
+                            bottomGone();
+                        }
+                    }
+
+
                 }
+                if (adapter.getContentItemViewType(0) != WeChatConstants.WECHAT_TYPE_DEFALUT) {
+                    bottomGone();
+                    isRemove = true;
+                }
+
                 adapter.notifyDataSetChanged();
             }
         });
@@ -487,9 +594,6 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
         layoutParams.height = 0;
         rv.requestLayout();
 
-        bottomGone();
-        isRemove = true;
-
     }
 
     private void bottomGone() {
@@ -499,7 +603,6 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
                 super.onAnimationEnd(view);
                 mRl.setVisibility(View.GONE);
 
-                // TODO: 2017/6/12 0012 新闻
                 if (mRvNews.getVisibility() == View.GONE) {
                     newsAnimation();
                 }
@@ -579,7 +682,6 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
 
                     }
                     if (size == 0 && WeChatScanHelp.getInstance().isScanFinish() && count++ == 0) {
-                        //todo adapter更换布局
                         mPresenter.initData().clear();
                     }
                     if (mEmptyView.getVisibility() == View.VISIBLE && temp++ == 0) {
@@ -612,7 +714,7 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
                 //                StatisticSpec.sendEvent(type.getsE());
                 if (WeChatFileType.DELETE_DEFAULT == type.getDeleteStatus()) {
                     if (type.getType() == WeChatConstants.WECHAT_TYPE_DEFALUT) {
-                        Log.d("QQActivity", "删除文件" + mPresenter.getSize());
+                        Log.d("WeChatActivity", "删除文件" + mPresenter.getSize());
                         // TODO: 2017/6/13 0013 存入sp
                         CleanSetSharedPreferences.setWeChatCleanLastTimeSize(C.get(), mPresenter.getSize());
                         mPresenter.remove(position);
@@ -722,18 +824,12 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
     private AnimatorSet initAnimSet() {
         FragmentActivity context = this;
         AnimatorSet animSet = new AnimatorSet();
-        Animator anim = AnimatorInflater.loadAnimator(context,
-                R.animator.anim_clean_complete);
-        Animator anim2 = AnimatorInflater.loadAnimator(context,
-                R.animator.anim_clean_complete_center);// 透明度+缩放动画
-        Animator anim3 = AnimatorInflater.loadAnimator(context,
-                R.animator.anim_clean_complete_alpha);
-        Animator anim4 = AnimatorInflater.loadAnimator(context,
-                R.animator.anim_clean_complete_alpha);// 透明度动画
-        Animator anim5 = AnimatorInflater.loadAnimator(context,
-                R.animator.high_light_translate);// 高亮平移
-        Animator anim7 = AnimatorInflater.loadAnimator(context,
-                R.animator.from_buttom_to_top);// Button下往上移
+        Animator anim = AnimatorInflater.loadAnimator(context, R.animator.anim_clean_complete);
+        Animator anim2 = AnimatorInflater.loadAnimator(context, R.animator.anim_clean_complete_center);// 透明度+缩放动画
+        Animator anim3 = AnimatorInflater.loadAnimator(context, R.animator.anim_clean_complete_alpha);
+        Animator anim4 = AnimatorInflater.loadAnimator(context, R.animator.anim_clean_complete_alpha);// 透明度动画
+        Animator anim5 = AnimatorInflater.loadAnimator(context, R.animator.high_light_translate);// 高亮平移
+        Animator anim7 = AnimatorInflater.loadAnimator(context, R.animator.from_buttom_to_top);// Button下往上移
         anim2.setDuration(800);
         anim3.setDuration(500);
         anim4.setDuration(800);
@@ -854,6 +950,12 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
     @Override
     public void showError() {
 
+    }
+
+    @Override
+    public void select(int i) {
+        this.position = i;
+        removeMap.put(i, true);
     }
 
     @Override

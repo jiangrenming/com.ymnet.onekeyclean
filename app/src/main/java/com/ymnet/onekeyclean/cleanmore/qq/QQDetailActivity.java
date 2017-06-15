@@ -444,4 +444,9 @@ public class QQDetailActivity extends ImmersiveActivity implements QQDetailMvpVi
             }
         });
     }
+
+    @Override
+    public void select(int i) {
+
+    }
 }

@@ -216,12 +216,14 @@ public class NotifyService extends Service implements Serializable {
     private void changeFlashLightColor(boolean status) {
         if (status) {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_open);
-
+            remoteViews.setTextColor(R.id.tv_flashlight, Color.parseColor("#1B98D9"));
             //PhoneModel.matchModel("8681", "SM-", "OPPO"/*, "HUAWEI"*/,/*"ONEPLUS",*/"Le", "M5"/*,"Coolpad"*/)
         } else if (mDarkNotificationTheme) {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_white);
+            remoteViews.setTextColor(R.id.tv_flashlight, Color.parseColor("#545352"));
         } else {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight);
+            remoteViews.setTextColor(R.id.tv_flashlight, Color.parseColor("#545352"));
         }
         mNotificationManager.notify(ID, mNotification);
 

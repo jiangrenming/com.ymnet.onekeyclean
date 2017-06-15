@@ -234,8 +234,13 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
             }
 
             @Override
-            public void selectState(long selectSize, boolean flag) {
+            public void selectState(long selectSize, boolean flag, int position) {
                 mTvBtn.setEnabled(flag);
+            }
+
+            @Override
+            public void selectButton(Map<Integer, Boolean> weChatInfos,int position) {
+
             }
         });
         rv.setAdapter(adapter);
@@ -307,7 +312,12 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
             }
 
             @Override
-            public void selectState(long selectSize, boolean flag) {
+            public void selectState(long selectSize, boolean flag, int position) {
+
+            }
+
+            @Override
+            public void selectButton(Map<Integer, Boolean> weChatInfos,int position) {
 
             }
         });
@@ -384,7 +394,12 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
             }
 
             @Override
-            public void selectState(long selectSize, boolean flag) {
+            public void selectState(long selectSize, boolean flag, int position) {
+
+            }
+
+            @Override
+            public void selectButton(Map<Integer, Boolean> weChatInfos,int position) {
 
             }
         });
@@ -833,6 +848,11 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
 
     @Override
     public void showError() {
+
+    }
+
+    @Override
+    public void select(int i) {
 
     }
 

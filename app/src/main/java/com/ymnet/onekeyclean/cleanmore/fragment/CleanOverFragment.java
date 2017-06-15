@@ -342,7 +342,12 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
             }
 
             @Override
-            public void selectState(long selectSize, boolean flag) {
+            public void selectState(long selectSize, boolean flag, int position) {
+
+            }
+
+            @Override
+            public void selectButton(Map<Integer, Boolean> weChatInfos,int position) {
 
             }
         });

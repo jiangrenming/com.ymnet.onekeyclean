@@ -420,6 +420,11 @@ public class WeChatDetailActivity extends ImmersiveActivity implements WeChatDet
         });
     }
 
+    @Override
+    public void select(int i) {
+
+    }
+
 
     public void showExceedLimit(final String message) {
         Task.UI_THREAD_EXECUTOR.execute(new Runnable() {
