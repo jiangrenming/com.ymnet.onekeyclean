@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -63,12 +64,20 @@ public class NotificationUtil {
     }
 
     private static boolean isSimilarColor(int baseColor, int color) {
+        Log.d("NotificationUtil", "color:" + color);
         int simpleBaseColor=baseColor|0xff000000;
         int simpleColor=color|0xff000000;
         int baseRed=Color.red(simpleBaseColor)-Color.red(simpleColor);
         int baseGreen=Color.green(simpleBaseColor)-Color.green(simpleColor);
         int baseBlue=Color.blue(simpleBaseColor)-Color.blue(simpleColor);
         double value=Math.sqrt(baseRed*baseRed+baseGreen*baseGreen+baseBlue*baseBlue);
+        Log.d("NotificationUtil", "value:" + value);
+
+        int red = (0xFF0000 & color) >>> 16;
+        int green = (0xFF00 & color) >>> 8;
+        int blue = color & 0xFF;
+        double colorValue = (int) (0.3D * red + 0.59D * green + 0.11D * blue);
+        Log.d("NotificationUtil", "colorValue:" + colorValue);
         if (value<180.0) {
             return true;
         }

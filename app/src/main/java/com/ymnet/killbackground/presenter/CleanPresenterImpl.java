@@ -77,7 +77,8 @@ public class CleanPresenterImpl implements CleanPresenter {
         boolean canClean = System.currentTimeMillis() - lastCleanTime > 1000 * 30;
 
         long afterMem = SystemMemory.getAvailMemorySize(context);//清理后的内存占用
-        long cleanMem = Math.abs(afterMem - beforeMem)*20;
+
+        long cleanMem = Math.abs(afterMem - beforeMem);
 
         boolean valueChange = true;
         if (visible) {
