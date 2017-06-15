@@ -58,6 +58,7 @@ public class ScanFinishFragment extends BaseFragment {
     private View                                    headView;
     private Resources                               resources;
     private WaveLoadingView                         mWaveLoadingView;
+    private ExpandableListViewAdapter mAdapter;
 
     public void setDatas(List<JunkGroup> datas) {
         this.datas = datas;
@@ -91,8 +92,8 @@ public class ScanFinishFragment extends BaseFragment {
         elv_scan_result = (FloatingGroupExpandableListView) view.findViewById(R.id.elv_scan_result);
         if (datas != null && datas.size() > 0) {
             elv_scan_result.addHeaderView(headView);
-            ExpandableListViewAdapter adapter = new ExpandableListViewAdapter(getActivity(), datas, handler);
-            WrapperExpandableListAdapter wrapperAdapter = new WrapperExpandableListAdapter(adapter);
+            mAdapter = new ExpandableListViewAdapter(getActivity(), datas, handler);
+            WrapperExpandableListAdapter wrapperAdapter = new WrapperExpandableListAdapter(mAdapter);
             elv_scan_result.setAdapter(wrapperAdapter);
             elv_scan_result.setOnGroupClickListener(listener);
             int expandIndex = 0;
@@ -195,7 +196,7 @@ public class ScanFinishFragment extends BaseFragment {
     }
     private TextView tv_proposal_clean;
 
-    private void initHeadView(View headView) {
+    private void initHeadView(View headView) {// TODO: 2017/6/15 0015
         TextView tv_scan_progress = (TextView) headView.findViewById(R.id.tv_scan_progress);
         tv_proposal_clean = (TextView) headView.findViewById(R.id.tv_proposal_clean);
         //清理垃圾大数字120dp

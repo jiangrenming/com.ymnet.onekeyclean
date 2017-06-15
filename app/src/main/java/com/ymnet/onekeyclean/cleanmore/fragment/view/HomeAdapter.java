@@ -10,6 +10,7 @@ import com.example.commonlibrary.systemmanager.SystemMemory;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
+import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewClickListener;
 
 import static com.example.commonlibrary.systemmanager.SystemMemory.getAvailMemorySize;
 
@@ -20,11 +21,13 @@ import static com.example.commonlibrary.systemmanager.SystemMemory.getAvailMemor
  * @overView ${todo}.
  */
 
-public class HomeAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter implements View.OnClickListener {
+public class HomeAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter {
 
     private Context      mContext;
     private RecyclerInfo mData;
-
+    private View mItem;
+    private RecyclerViewClickListener mRecyclerViewClickListener;
+    private int position;
 
     public HomeAdapter(Context context, RecyclerInfo recyclerInfo) {
         this.mContext = context;
@@ -36,8 +39,13 @@ public class HomeAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter implem
         return mData.FunctionTitle.length;
     }
 
+    public void setRecyclerListListener(RecyclerViewClickListener recyclerViewClickListener) {
+        this.mRecyclerViewClickListener = recyclerViewClickListener;
+    }
+
     @Override
-    protected void onBindContentViewHolder(ContentViewHolder holder, int position) {
+    protected void onBindContentViewHolder(ContentViewHolder holder, final int position) {
+        this.position = position;
         if (holder instanceof FunctionHolder) {
             FunctionHolder mHolder = (FunctionHolder) holder;
             mHolder.mIcon.setImageResource(mData.FunctionDrawable[position]);
@@ -49,50 +57,21 @@ public class HomeAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter implem
             } else {
                 mHolder.mDesc.setText(C.get().getString(mData.FunctionDesc[position]));
             }
-        } /*else if (holder instanceof FunctionHeadHolder) {
-            FunctionHeadHolder headHolder = (FunctionHeadHolder) holder;
-            String strSize = mData.sizeAndUnit[0];
-            String strUnit = mData.sizeAndUnit[1];
 
-            headHolder.size.setText(strSize);
-            headHolder.unit.setText(strUnit);
-            headHolder.wave.setProgressValue(mData.waveLevel);
-            headHolder.progressButton.setOnClickListener(this);
-        }*/
+        }
     }
 
     @Override
     public ContentViewHolder onCreateContentView(ViewGroup parent, int viewType) {
-      /*  if (viewType == 0) {
-            View view = View.inflate(mContext, R.layout.fragment_item0, null);
-            return new FunctionHeadHolder(view);
-
-        } else if (viewType == 1) {
-            View view = View.inflate(mContext, R.layout.function_home_item_layout, null);
-            return new FunctionHolder(view);
-        }
-        return null;*/
         View view = View.inflate(mContext, R.layout.function_home_item_layout, null);
-        return new FunctionHolder(view);
-    }
+        mItem= view.findViewById(R.id.rl_home_item);
 
-    @Override
-    public void onClick(View v) {
-
+        return new FunctionHolder(view, mRecyclerViewClickListener);
     }
 
     private int getUsedMemory() {
         return 100-(int) (100 * ((float) getAvailMemorySize(C.get()) / SystemMemory.getTotalMemorySize(C.get())));
     }
-
-    /*@Override
-    public int getItemViewType(int position) {
-        if (mData.FunctionTitle[position].equals("#")) {
-            return 0;
-        } else {
-            return 1;
-        }
-    }*/
 
     @Override
     public long getItemId(int position) {
@@ -104,34 +83,18 @@ public class HomeAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter implem
         private TextView  mDesc;
         private TextView  mTitle;
 
-        public FunctionHolder(View itemView) {
+        public FunctionHolder(final View itemView, final RecyclerViewClickListener onClickListener) {
             super(itemView);
             mIcon = (ImageView) itemView.findViewById(R.id.function_icon);
             mDesc = (TextView) itemView.findViewById(R.id.tv_function_desc);
             mTitle = (TextView) itemView.findViewById(R.id.tv_function_title);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickListener.onClick(itemView,position);
+                }
+            });
         }
     }
 
-   /* private class FunctionHeadHolder extends RecyclerViewPlus.HeaderFooterItemAdapter.ContentViewHolder {
-
-        private SGTextView      size;
-        private SGTextView      unit;
-        private WaveLoadingView wave;
-        private ProgressButton  progressButton;
-
-        public FunctionHeadHolder(View itemView) {
-            super(itemView);
-            size = (SGTextView) itemView.findViewById(R.id.tv_homehead_size);
-            unit = (SGTextView) itemView.findViewById(R.id.tv_homehead_unit);
-            wave = (WaveLoadingView) itemView.findViewById(R.id.wlv_home);
-            progressButton = (ProgressButton) itemView.findViewById(R.id.pb_ram_prompt);
-
-        }
-
-    }*/
-
-//    public  void setData(RecyclerInfo infos){
-//        this.mData = infos;
-//        this.notifyDataSetChanged();
-//    }
 }

@@ -37,11 +37,14 @@ import com.ymnet.onekeyclean.cleanmore.junk.mode.JunkChild;
 import com.ymnet.onekeyclean.cleanmore.junk.mode.JunkChildCache;
 import com.ymnet.onekeyclean.cleanmore.junk.mode.JunkChildCacheOfChild;
 import com.ymnet.onekeyclean.cleanmore.junk.mode.JunkGroup;
+import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
 import com.ymnet.onekeyclean.cleanmore.service.BackgroundDoSomethingService;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.CleanSetSharedPreferences;
 import com.ymnet.onekeyclean.cleanmore.utils.DisplayUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
+import com.ymnet.onekeyclean.cleanmore.wechat.WeChatActivity;
+import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewClickListener;
 import com.ymnet.onekeyclean.cleanmore.widget.LinearLayoutItemDecoration;
 import com.ymnet.onekeyclean.cleanmore.widget.ProgressButton;
 import com.ymnet.onekeyclean.cleanmore.widget.SGTextView;
@@ -51,6 +54,7 @@ import com.ymnet.onekeyclean.cleanmore.widget.WaveLoadingView;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.example.commonlibrary.utils.ToastUtil.showShort;
 
@@ -92,6 +96,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
     private WeakReference<HomeFragment> theFragment;
     private Handler mHandler = new MyHandler(this);
     private View mStickyHead;
+    private View mRlHeadClear;
+    private View mLlNumber;
 
     class MyHandler extends Handler {
 
@@ -104,7 +110,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0x11:
-//                    startCleanAnimation();
+                    //                    startCleanAnimation();
                     //跳转界面,执行清理动画
                     if (mScan != null) {
                         mScan.setRun(false);
@@ -112,10 +118,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                     }
                     Intent intent = new Intent(getContext(), SilverActivity.class);
                     intent.putExtra("state", "scanFi");
-//                    Bundle bundle = new Bundle();
+                    //                    Bundle bundle = new Bundle();
                     Log.d("MyHandler", "mScan:" + mScan.getTotalSelectSize() + "--" + mScan.hashCode());
-//                    bundle.putParcelable(OnekeyField.SCANRESULT, mScan);
-//                    intent.putExtras(bundle);
+                    //                    bundle.putParcelable(OnekeyField.SCANRESULT, mScan);
+                    //                    intent.putExtras(bundle);
                     startActivity(intent);
                     break;
             }
@@ -164,8 +170,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                 @Override
                 public void run() {
                     selectSize = CleanOverFragment.HAS_CLEAN_CACHE;
-                    // TODO: 2017/6/2 0002 展示清理结果动画
+                    // TODO: 2017/6/2 0002 展示清理结果界面
                     //                    startCleanOverActivity();
+                    cleanOverHead();
                 }
             }, 1000);
         } else {
@@ -175,14 +182,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
             mScan.setiScanResult(this);
             mScan.setRun(true);
             mScan.startScan(false);
+            mScan.hadScan(true);
         }
+
+    }
+
+    private void cleanOverHead() {
+        mLlNumber.setVisibility(View.GONE);
+        mRlHeadClear.setVisibility(View.VISIBLE);
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_fragment1, container, false);
+        View view = inflater.inflate(R.layout.fragment_home1, container, false);
         initView(view);
 
         if (DataCenterObserver.get(C.get()).isRefreshCleanActivity()) {
@@ -197,6 +211,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
         mStickyHead = view.findViewById(R.id.sticky_header);
         mHeadContent = view.findViewById(R.id.ll_head_content);
         mRlHomeHead = view.findViewById(R.id.rl_home_head);
+        mLlNumber = view.findViewById(R.id.ll_number);
+        mRlHeadClear= view.findViewById(R.id.ll_clean_down);
 
         mStickLayout = (StickyLayout) view.findViewById(R.id.sticky_layout);
         mStickLayout.setOnGiveUpTouchEventListener(this);
@@ -207,7 +223,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
             @Override
             public void notifyChange(float scale) {
 
-//                setWaveHeight(scale,layoutParams);
+                //                setWaveHeight(scale,layoutParams);
                 setHeadContentSize(scale);
             }
         });
@@ -229,7 +245,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                 return foot;
             }
         });
+        mAdapter.setRecyclerListListener(new RecyclerViewClickListener() {
+            @Override
+            public void onClick(View v, int position) {
+                recyclerViewOnClick(v, position);
+            }
 
+            @Override
+            public void selectState(long selectSize, boolean flag, int position) {
+
+            }
+
+            @Override
+            public void selectButton(Map<Integer, Boolean> weChatInfos, int position) {
+
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.canScrollVertically(1);
 
@@ -273,49 +304,31 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
 
     }
 
+    private void recyclerViewOnClick(View v, int position) {
+
+        switch (position) {
+            case 0:
+
+                break;
+            case 1:
+                C.get().startActivity(new Intent(C.get(), WeChatActivity.class));
+                break;
+            case 2:
+                C.get().startActivity(new Intent(C.get(), QQActivity.class));
+                break;
+        }
+
+    }
+
     /**
      * head缩放动画
      */
     private void setHeadContentSize(float scale) {
-        Log.d("HomeFragment", "拉伸 缩放动画:" + scale);
         if (mHeadContent.getMeasuredHeight() < mWaveHeight) {
             mHeadContent.setScaleX(scale);
             mHeadContent.setScaleY(scale);
         }
     }
-
-    private void setWaveHeight(float scale, ViewGroup.LayoutParams layoutParams) {
-        layoutParams.height = (int) (mWaveHeight * scale);
-        mStickyHead.setLayoutParams(layoutParams);
-        mStickyHead.requestLayout();
-
-    }
-
-    /**
-     * 根据滑动间距重新给view布局
-     */
-    /*private void relayoutView(float distanceY, final int measuredHeight) {
-
-        int percent = (int) (100 * (measuredHeight - distanceY + 0.5f) / measuredHeight + 0.5f);
-        Log.d("HomeFragment", "percent:" + percent);
-        ValueAnimator valueAnimator = ValueAnimator.ofFloat(100, percent);
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float animatedValue = (float) animation.getAnimatedValue();
-                Log.d("HomeFragment", "animatedValue:" + animatedValue);
-                layoutParams.height = ((int) (animatedValue + 0.5f) * measuredHeight / 100);
-                mRlHomeHead.setLayoutParams(layoutParams);
-                //                mRlHomeHead.requestLayout();
-                mRlHomeHead.requestFocus();
-            }
-        });
-        //        valueAnimator.setDuration(10);
-        valueAnimator.start();
-        *//*if (valueAnimator != null && valueAnimator.isRunning()) {
-            mRlHomeHead.computeScroll();
-        }*//*
-    }*/
 
     private void initData() {
         if (CleanFragmentInfo.progressButtonState == null || CleanFragmentInfo.displayValue == 0) {
@@ -436,6 +449,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                         } else {
                             ScanFinishFragment scanFinishF = ScanFinishFragment.newInstance();
                             long dataSize = mScan.getTotalSize();
+                            Log.d("HomeFragment", dataSize / 1024 / 1024 + "");
                             scanFinishF.setDatas(datas);
                             scanFinishF.setDataSize(dataSize);
                             needSave = true;
@@ -468,6 +482,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
     @Override
     public boolean giveUpTouchEvent(MotionEvent event) {
         if (mRecyclerView.getScrollY() == 0) {

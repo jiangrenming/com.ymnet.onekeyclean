@@ -118,7 +118,8 @@ public class ScanHelp implements Parcelable {
     private ClearManager clearManager;
 
 
-    private long lastTime = 0;
+    private long    lastTime = 0;
+    private boolean mHadScan = false;
 
     private ScanHelp(Context context) {
         Log.d("MyHandler", "crate Scan:" + "--" + this.hashCode());
@@ -150,10 +151,17 @@ public class ScanHelp implements Parcelable {
     };
 
     public static ScanHelp getInstance(Context context) {
-        if (mInstance != null) {
+        /*if (mInstance != null) {
             mInstance = null;
         }
-        mInstance = new ScanHelp(context);
+        mInstance = new ScanHelp(context);*/
+        if (mInstance == null) {
+            synchronized (ScanHelp.class) {
+                if (mInstance == null) {
+                    mInstance = new ScanHelp(context);
+                }
+            }
+        }
         return mInstance;
     }
 
@@ -246,7 +254,7 @@ public class ScanHelp implements Parcelable {
     }
 
     public long getTotalSize() {
-        Log.d(TAG, "cacheSystemSize:"+FormatUtils.formatFileSize(cacheSystemSize) +"/cacheSize:"+FormatUtils.formatFileSize(cacheSize)+"/residualSize :"+FormatUtils.formatFileSize(cacheSystemSize)+"/apkSize :"+FormatUtils.formatFileSize(apkSize)+"/ramSize:" +FormatUtils.formatFileSize(ramSize));
+        Log.d(TAG, "cacheSystemSize:" + FormatUtils.formatFileSize(cacheSystemSize) + "/cacheSize:" + FormatUtils.formatFileSize(cacheSize) + "/residualSize :" + FormatUtils.formatFileSize(cacheSystemSize) + "/apkSize :" + FormatUtils.formatFileSize(apkSize) + "/ramSize:" + FormatUtils.formatFileSize(ramSize));
         return cacheSystemSize + cacheSize + residualSize + apkSize + ramSize;
     }
 
@@ -1084,8 +1092,8 @@ public class ScanHelp implements Parcelable {
             if (file.isFile()) {
                 String name_s = file.getName();
                 String path = file.getAbsolutePath();
-                System.out.println("path:"+path);
-                try{
+                System.out.println("path:" + path);
+                try {
                     if (name_s.toLowerCase(Locale.getDefault()).endsWith(".apk") && checkOneKeyCleanFiler(path)) {
                         long size = file.length();
                         apkSize = apkSize + size;
@@ -1110,8 +1118,8 @@ public class ScanHelp implements Parcelable {
                         }
                     }
 
-                }catch (Exception e){
-                    Log.i("Tagv",e.toString());
+                } catch (Exception e) {
+                    Log.i("Tagv", e.toString());
 
                 }
 
@@ -1465,12 +1473,20 @@ public class ScanHelp implements Parcelable {
         dest.writeLong(lastTime);
     }
 
+    public void hadScan(boolean b) {
+        this.mHadScan = b;
+    }
+
+    public boolean isScanned() {
+        return mHadScan;
+    }
+
     /**
      * 扫描回调接口
      */
     public interface IScanResult extends Serializable {
-        public void scanning(String path);
+        void scanning(String path);
 
-        public void scanState(int state);
+        void scanState(int state);
     }
 }
