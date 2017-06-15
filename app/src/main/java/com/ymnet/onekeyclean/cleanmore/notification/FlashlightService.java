@@ -10,7 +10,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.commonlibrary.utils.NotificationUntil;
+import com.example.commonlibrary.utils.NotificationUtil;
 import com.example.commonlibrary.utils.PhoneModel;
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
@@ -47,7 +47,7 @@ public class FlashlightService extends Service {
         if (model) {
             Log.d(TAG, "onStartCommand: 需要收起通知栏的机型");
             //收起通知栏
-            NotificationUntil.collapseStatusBar(this);
+            NotificationUtil.collapseStatusBar(this);
             //            ToastUtil.showToastForShort("请先获取系统权限");
         }
         try {

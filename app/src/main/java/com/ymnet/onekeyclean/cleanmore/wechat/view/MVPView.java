@@ -7,4 +7,5 @@ public interface MVPView {
 
     public void showError();
 
+    void select(int i);
 }

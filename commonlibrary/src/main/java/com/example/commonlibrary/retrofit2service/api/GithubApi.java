@@ -3,6 +3,7 @@ package com.example.commonlibrary.retrofit2service.api;
 
 import com.example.commonlibrary.retrofit2service.bean.InformationResult;
 import com.example.commonlibrary.retrofit2service.bean.NewsInformation;
+import com.example.commonlibrary.retrofit2service.bean.WeChatNewsInformation;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -57,4 +58,12 @@ public interface GithubApi {
     @FormUrlEncoded
     @POST("api/app/getNews")
     Call<NewsInformation> createInfomationsTwo(@FieldMap Map<String, String> value);
+
+    @FormUrlEncoded
+    @POST("api/app/getWeixinClearNews")
+    Call<WeChatNewsInformation> createWeChatInformations(@FieldMap Map<String, String> value);
+
+    @FormUrlEncoded
+    @POST("api/app/getQQClearNews")
+    Call<WeChatNewsInformation> createQQInformations(@FieldMap Map<String, String> value);
 }

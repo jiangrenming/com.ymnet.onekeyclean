@@ -440,7 +440,7 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
                         selectSize = size;
                     }
                     notifyDataSetChanged();
-                    onClickListener.selectState(selectSize, !flag);
+                    onClickListener.selectState(selectSize, !flag, position);
                     flag = !flag;
 
                 }

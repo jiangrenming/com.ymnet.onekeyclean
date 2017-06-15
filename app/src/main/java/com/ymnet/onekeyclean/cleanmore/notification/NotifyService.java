@@ -18,6 +18,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import com.example.commonlibrary.utils.NotificationUtil;
 import com.example.commonlibrary.utils.PhoneModel;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
@@ -83,6 +84,7 @@ public class NotifyService extends Service implements Serializable {
             }
         }
     };
+    private boolean mDarkNotificationTheme;
 
     public NotifyService() {
 
@@ -124,10 +126,10 @@ public class NotifyService extends Service implements Serializable {
         RemoteViews remoteViews = null;
         remoteViews = getRemoteViews();
         //奇酷手机更换图标为白色
-
-        if (PhoneModel.matchModel("8681", "SM-", "OPPO", "HUAWEI",/*"ONEPLUS",*/"Le", "M5"/*,"Coolpad"*/)) {
-
-            System.out.println("---------------androidModel:奇酷,一加,OPPO,奇酷,华为");
+        mDarkNotificationTheme = NotificationUtil.isDarkNotificationTheme(C.get());
+        Log.d(TAG, "darkNotificationTheme:dark-" + mDarkNotificationTheme);
+        if (mDarkNotificationTheme) {
+            //白色图标
             remoteViews.setImageViewResource(R.id.iv_head, R.mipmap.onekeyclean_white);
             remoteViews.setImageViewResource(R.id.iv_wechat, R.mipmap.wechat_white);
             remoteViews.setImageViewResource(R.id.iv_qq, R.mipmap.qq_white);
@@ -142,6 +144,9 @@ public class NotifyService extends Service implements Serializable {
             remoteViews.setTextColor(R.id.tv_flashlight, Color.parseColor("#ffffff"));
             remoteViews.setTextColor(R.id.tv_setting, Color.parseColor("#ffffff"));
         }
+        /*if (PhoneModel.matchModel("8681", "SM-", "OPPO"*//*, "HUAWEI"*//*,*//*"ONEPLUS",*//*"Le", "M5"*//*,"Coolpad"*//*)) {
+            System.out.println("---------------androidModel:奇酷,一加,OPPO,奇酷,华为");
+        }*/
 
         //        remoteViews.setTextViewTextSize(R.id.tv_head, TypedValue.COMPLEX_UNIT_SP, 5f);
 
@@ -211,12 +216,14 @@ public class NotifyService extends Service implements Serializable {
     private void changeFlashLightColor(boolean status) {
         if (status) {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_open);
-
-        } else if (PhoneModel.matchModel("8681", "SM-", "OPPO", "HUAWEI",/*"ONEPLUS",*/"Le", "M5"/*,"Coolpad"*/)) {
-
+            remoteViews.setTextColor(R.id.tv_flashlight, Color.parseColor("#1B98D9"));
+            //PhoneModel.matchModel("8681", "SM-", "OPPO"/*, "HUAWEI"*/,/*"ONEPLUS",*/"Le", "M5"/*,"Coolpad"*/)
+        } else if (mDarkNotificationTheme) {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_white);
+            remoteViews.setTextColor(R.id.tv_flashlight, Color.parseColor("#545352"));
         } else {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight);
+            remoteViews.setTextColor(R.id.tv_flashlight, Color.parseColor("#545352"));
         }
         mNotificationManager.notify(ID, mNotification);
 

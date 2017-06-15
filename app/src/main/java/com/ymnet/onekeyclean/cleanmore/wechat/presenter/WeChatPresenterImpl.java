@@ -72,9 +72,35 @@ public class WeChatPresenterImpl implements WeChatPresenter {
         content.filterEmpty(new WeChatContent.FilterListener() {
             @Override
             public void removeCallback() {
-                if (mvpView != null) mvpView.updateData();
+                if (mvpView != null)
+                    mvpView.updateData();
             }
         });
+        //        Log.d("WeChatPresenterImpl", content.get(0).getFileName());
+
+
+            if (content.length() > 1&&content.get(1) != null) {
+                if ("朋友圈缓存".equals(content.get(1).getFileName())) {
+                    //选中0,1
+                    mvpView.select(0);
+                    mvpView.select(1);
+                }
+                if ("朋友圈缓存".equals(content.get(0).getFileName())) {
+                    //选中1
+                    mvpView.select(1);
+                }
+                if ("运行文件".equals(content.get(0).getFileName())) {
+                    //选中0
+                    mvpView.select(0);
+                }
+            } else if (content.length() >0&&"朋友圈缓存".equals(content.get(0).getFileName())) {
+                //选中1
+                mvpView.select(1);
+            } else if (content.length() >0&&"运行文件".equals(content.get(0).getFileName())) {
+                //选中0
+                mvpView.select(0);
+            }
+
         if (mvpView != null) {
             mvpView.changeDivider();
             mvpView.updateData();
@@ -128,9 +154,9 @@ public class WeChatPresenterImpl implements WeChatPresenter {
 
     private void deletePaths(int position) {
         final WeChatFileType fileType = scanHelp.get(position);
-        if(fileType==null||fileType.isEmpty()||!(fileType instanceof WeChatFileDefault)){
+        if (fileType == null || fileType.isEmpty() || !(fileType instanceof WeChatFileDefault)) {
             mvpView.hideLoading();
-        }else{
+        } else {
             final long toBeDeleteSize = fileType.getCurrentSize();
             fileType.setDeleteStatus(WeChatFileType.DELETE_ING);
             Task.BACKGROUND_EXECUTOR.execute(new Runnable() {
