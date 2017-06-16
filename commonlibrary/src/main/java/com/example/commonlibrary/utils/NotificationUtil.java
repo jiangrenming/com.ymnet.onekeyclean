@@ -39,7 +39,7 @@ public class NotificationUtil {
             collapse.invoke(statusBarManager);
         } catch (Exception localException) {
             localException.printStackTrace();
-            MobclickAgent.reportError(context, localException.toString());
+            MobclickAgent.reportError(context, localException.fillInStackTrace());
         }
     }
 

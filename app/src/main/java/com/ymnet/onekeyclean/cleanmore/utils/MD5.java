@@ -72,7 +72,7 @@ public class MD5 {
                 try {
                     is.close();
                 } catch (IOException e) {
-                    MobclickAgent.reportError(C.get(), e.toString());
+                    MobclickAgent.reportError(C.get(), e.fillInStackTrace());
                 }
             }
         }else return null;

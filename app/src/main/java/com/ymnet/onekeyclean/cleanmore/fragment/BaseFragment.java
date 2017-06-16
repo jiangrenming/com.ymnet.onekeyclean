@@ -117,7 +117,7 @@ public abstract class BaseFragment extends Fragment {
         try {
             checkView();
         } catch (Exception e) {
-            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.fragment.BaseFragment:" + e.toString());
+            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
             Log.e(pb_tag, "checkView is exception");
             return;
         }
@@ -132,7 +132,7 @@ public abstract class BaseFragment extends Fragment {
             checkView();
         } catch (Exception e) {
             Log.e(pb_tag, "checkView is exception");
-            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.fragment.BaseFragment:" + e.toString());
+            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
             return;
         }
         fl_loading.setVisibility(View.VISIBLE);
@@ -146,7 +146,7 @@ public abstract class BaseFragment extends Fragment {
             checkView();
         } catch (Exception e) {
             Log.e(pb_tag, "checkView is exception");
-            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.fragment.BaseFragment:" + e.toString());
+            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
             return;
         }
         fl_loading.setVisibility(View.GONE);
@@ -166,7 +166,7 @@ public abstract class BaseFragment extends Fragment {
             checkView();
         } catch (Exception e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.fragment.BaseFragment:" + e.toString());
+            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
             return;
         }
         btn_retry.setOnClickListener(li);

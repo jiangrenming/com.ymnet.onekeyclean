@@ -19,7 +19,7 @@ public class SecurityAppInfo {
             System.loadLibrary("appinfo");
         } catch (Exception e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.onekeyclean.cleanmore.utils.SecurityAppInfo:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
         }
     }
 

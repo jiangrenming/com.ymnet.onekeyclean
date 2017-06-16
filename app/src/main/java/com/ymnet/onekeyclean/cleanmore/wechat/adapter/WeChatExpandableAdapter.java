@@ -72,7 +72,7 @@ public class WeChatExpandableAdapter extends BaseExpandableListAdapter implement
             List<WareFileInfo> list = modes.get(groupPosition).getContent();
             return list == null ? 0 : (int) Math.ceil((list.size() / 3.0));
         } catch (Exception e) {
-            MobclickAgent.reportError(C.get(),"com.ymnet.onekeyclean.cleanmore.wechat.adapter.WeChatExpandableAdapter:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
             return 0;
         }
 
@@ -168,7 +168,8 @@ public class WeChatExpandableAdapter extends BaseExpandableListAdapter implement
             itemDatas[1] = content.get(childPosition + 1);
             itemDatas[2] = content.get(childPosition + 2);
         } catch (IndexOutOfBoundsException iobe) {
-            MobclickAgent.reportError(C.get(),"com.ymnet.onekeyclean.cleanmore.wechat.adapter.WeChatExpandableAdapter:"+iobe.toString());
+            iobe.printStackTrace();
+            MobclickAgent.reportError(C.get(),iobe.fillInStackTrace());
         }
 
 

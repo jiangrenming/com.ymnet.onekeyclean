@@ -124,11 +124,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                     Log.d("MyHandler", "mScan:" + mScan.getTotalSelectSize() + "--" + mScan.hashCode());
                     //                    bundle.putParcelable(OnekeyField.SCANRESULT, mScan);
                     //                    intent.putExtras(bundle);
-                    startActivity(intent);
+//                    startActivity(intent);
+                    startActivityForResult(intent, 12);
                     break;
             }
         }
     }
+
+
 
     public HomeFragment() {
     }
@@ -161,12 +164,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
     }
 
     private void initScan() {
-        if (mScan != null) {
+        /*if (mScan != null) {
             mScan.setiScanResult(null);
             mScan.setRun(false);
             mScan.close();
             mScan = null;
-        }
+        }*/
         if (checkHasCleanCache()) {
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -197,8 +200,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
         mWave.setVisibility(View.GONE);
         mTvCleanDesc.setText(R.string.so_clear);
         mProgressButton.setText(R.string.done);
+        mProgressButton.setTag("cleanFinish");
+        mProgressButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("HomeFragment", "更换界面");
 
-//        mProgressButton.setBackgroundColor(Color.parseColor("#56A4EE"));
+            }
+        });
+
+        //        mProgressButton.setBackgroundColor(Color.parseColor("#56A4EE"));
     }
 
     @Override
@@ -220,9 +231,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
         mHeadContent = view.findViewById(R.id.ll_head_content);
         mRlHomeHead = view.findViewById(R.id.rl_home_head);
         mLlNumber = view.findViewById(R.id.ll_number);
-        mRlHeadClear= view.findViewById(R.id.ll_clean_down);
+        mRlHeadClear = view.findViewById(R.id.ll_clean_down);
 
-        mTvCleanDesc= (TextView) view.findViewById(R.id.tv_clean_down);
+        mTvCleanDesc = (TextView) view.findViewById(R.id.tv_clean_down);
 
         mStickLayout = (StickyLayout) view.findViewById(R.id.sticky_layout);
         mStickLayout.setOnGiveUpTouchEventListener(this);
@@ -309,8 +320,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
 
     }
 
-    private void recyclerViewOnClick(View v, int position) {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("HomeFragment", "requestCode:" + requestCode);
+        if (requestCode == 12) {
+            initScan();
+        }
+    }
 
+    private void recyclerViewOnClick(View v, int position) {
+        Log.d("HomeFragment", "position:" + position);
         switch (position) {
             case 0:
 
@@ -346,7 +366,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
             mProgressButton.setText("立刻清理2");
         } else if (CleanFragmentInfo.progressButtonState.equals("empty")) {
             mProgressButton.setTag("empty");
-            mProgressButton.setText("真干净");
+            mProgressButton.setText("真干净");//垃圾扫描
         }
 
         String[] sizeAndUnit = FormatUtils.getFileSizeAndUnit(CleanFragmentInfo.displayValue);
@@ -394,6 +414,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                     if (mScan != null && mScan.isRun()) {
                         mScan.setRun(false);
                     }
+                } else if ("cleanFinish".equals(mProgressButton.getTag().toString())) {
+                    Log.d("HomeFragment", "更换界面重新扫描");
+
                 }
                 break;
         }

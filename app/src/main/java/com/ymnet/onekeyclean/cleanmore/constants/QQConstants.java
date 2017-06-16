@@ -5,6 +5,11 @@ package com.ymnet.onekeyclean.cleanmore.constants;
  */
 //QQ扫描路径
 public interface QQConstants {
+
+    //QQactivity的状态
+    String ACTIVITY_STOP = "stop";
+    String ACTIVITY_RESUME = "resume";
+
     String BASE_PATH = "/Tencent/MobileQQ/";
 
     String CHAT_COMMON_PATH = BASE_PATH;

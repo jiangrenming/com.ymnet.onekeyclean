@@ -1,6 +1,7 @@
 package com.ymnet.onekeyclean.cleanmore.fragment.view;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -27,7 +28,7 @@ public class HomeAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter {
     private RecyclerInfo mData;
     private View mItem;
     private RecyclerViewClickListener mRecyclerViewClickListener;
-    private int position;
+//    private int position;
 
     public HomeAdapter(Context context, RecyclerInfo recyclerInfo) {
         this.mContext = context;
@@ -44,8 +45,7 @@ public class HomeAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter {
     }
 
     @Override
-    protected void onBindContentViewHolder(ContentViewHolder holder, final int position) {
-        this.position = position;
+    protected void onBindContentViewHolder(final ContentViewHolder holder, final int position) {
         if (holder instanceof FunctionHolder) {
             FunctionHolder mHolder = (FunctionHolder) holder;
             mHolder.mIcon.setImageResource(mData.FunctionDrawable[position]);
@@ -57,7 +57,13 @@ public class HomeAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter {
             } else {
                 mHolder.mDesc.setText(C.get().getString(mData.FunctionDesc[position]));
             }
-
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("HomeFragment", "点击");
+                    mRecyclerViewClickListener.onClick(((FunctionHolder) holder).itemView,position);
+                }
+            });
         }
     }
 
@@ -66,7 +72,7 @@ public class HomeAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter {
         View view = View.inflate(mContext, R.layout.function_home_item_layout, null);
         mItem= view.findViewById(R.id.rl_home_item);
 
-        return new FunctionHolder(view, mRecyclerViewClickListener);
+        return new FunctionHolder(view);
     }
 
     private int getUsedMemory() {
@@ -83,17 +89,12 @@ public class HomeAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter {
         private TextView  mDesc;
         private TextView  mTitle;
 
-        public FunctionHolder(final View itemView, final RecyclerViewClickListener onClickListener) {
+        public FunctionHolder(final View itemView ) {
             super(itemView);
             mIcon = (ImageView) itemView.findViewById(R.id.function_icon);
             mDesc = (TextView) itemView.findViewById(R.id.tv_function_desc);
             mTitle = (TextView) itemView.findViewById(R.id.tv_function_title);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onClickListener.onClick(itemView,position);
-                }
-            });
+
         }
     }
 

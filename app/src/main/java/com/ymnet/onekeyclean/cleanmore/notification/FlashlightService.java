@@ -95,7 +95,7 @@ public class FlashlightService extends Service {
             }
 
         } catch (Exception e) {
-            MobclickAgent.reportError(C.get(), e.toString());
+            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
             e.printStackTrace();
         }
 
@@ -133,7 +133,7 @@ public class FlashlightService extends Service {
         } catch (Exception e) {
             e.printStackTrace();
             Log.d(TAG, "flashlightUtils: " + e.toString());
-            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.notification.FlashlightService:flashlightUtils:" + e.toString());
+            MobclickAgent.reportError(C.get(),  e.fillInStackTrace());
         } finally {
             Intent intent3 = new Intent();
             try {

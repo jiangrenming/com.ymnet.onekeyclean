@@ -316,7 +316,7 @@ public class WeChatScanHelp {
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.onekeyclean.cleanmore.wechat.WeChatScanHelp:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
         }
     }
 

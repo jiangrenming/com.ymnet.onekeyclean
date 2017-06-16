@@ -115,6 +115,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
     private View             mEmptyNewsHead;
     private View             mEmptyFoot;
     private long mSuccessCleanSize = 0;
+    private static String ActivityState = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -307,6 +308,8 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
                 Intent intent = new Intent(QQActivity.this, WebHtmlActivity.class);
                 intent.putExtra("html", news_url);
                 intent.putExtra("flag", 10);
+                intent.putExtra(OnekeyField.CLEAN_NEWS, "QQ清理新闻");
+
                 startActivity(intent);
 
             }
@@ -389,6 +392,8 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
                 Intent intent = new Intent(QQActivity.this, WebHtmlActivity.class);
                 intent.putExtra("html", news_url);
                 intent.putExtra("flag", 10);
+                intent.putExtra(OnekeyField.CLEAN_NEWS, "QQ清理新闻");
+
                 startActivity(intent);
 
             }
@@ -474,11 +479,16 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
         }
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        QQActivity.ActivityState = QQConstants.ACTIVITY_STOP;
     }
 
     private SGTextView tv_size, tv_unit;

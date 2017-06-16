@@ -47,7 +47,6 @@ import java.util.jar.JarFile;
 /**
  * Created by Administrator on 2016/9/19.
  */
-@Deprecated
 public class PushManager implements ExternalInterface {
 
     public static final String TAG = "PushManager";
@@ -128,7 +127,7 @@ public class PushManager implements ExternalInterface {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+                    MobclickAgent.reportError(C.get(),e.fillInStackTrace());
                 }
             } else if (Intent.ACTION_PACKAGE_REMOVED.equals(action)) {
 
@@ -164,7 +163,7 @@ public class PushManager implements ExternalInterface {
             mContext.getContentResolver().unregisterContentObserver(mDownloadChangeObserver);
         } catch (Exception e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
         }
     }
 
@@ -215,7 +214,7 @@ public class PushManager implements ExternalInterface {
             }, 10000);
         } catch (Exception e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
 
 //            String key = PushJsonDataParse.getInstallNotifyKey(packageName, sig, version + "");
 //            //Bug 1.2.3
@@ -238,7 +237,7 @@ public class PushManager implements ExternalInterface {
                     context.startActivity(intent);
                 } catch (Exception e2) {
                     e2.printStackTrace();
-                    MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+                    MobclickAgent.reportError(C.get(),e.fillInStackTrace());
                 }
             }
         }
@@ -259,7 +258,7 @@ public class PushManager implements ExternalInterface {
                 file = new File(new URI(fileUri.toString()));
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
-                MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+                MobclickAgent.reportError(C.get(),e.fillInStackTrace());
                 file = new File(getRealPathFromURI(context, fileUri));
                 //修改bug ：在HUAWEI EVA-AL10中下载成功通过id得到的fileUri不准确导致安装界面直接自动关闭
                 fileUri = Uri.fromFile(file);
@@ -267,7 +266,7 @@ public class PushManager implements ExternalInterface {
             downloadingApkFlagPath = file.getAbsolutePath() + FileUtilsSdk.COMMONSDK_TEMP_FILE_SUFFIX;
         } catch (Exception e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
             downloadingApkFlagPath = PushManager.getInstance().getDownloadedAppPath(context,pkgName) + FileUtilsSdk.COMMONSDK_TEMP_FILE_SUFFIX;
             return false;
         } finally {
@@ -287,13 +286,13 @@ public class PushManager implements ExternalInterface {
             downloadManager.openDownloadedFile(reference);
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e1.toString());
+            MobclickAgent.reportError(C.get(),e1.fillInStackTrace());
             if (!(file != null && file.exists())) {
                 return false;
             }
         } catch (NullPointerException e2) {
             e2.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e2.toString());
+            MobclickAgent.reportError(C.get(),e2.fillInStackTrace());
             return false;
         }
 
@@ -380,7 +379,7 @@ public class PushManager implements ExternalInterface {
 
         } catch (Exception e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
             return;
         }
         long downloadReference = addDownloadsEnqueueSafely(downloadManager, context, request);
@@ -393,7 +392,7 @@ public class PushManager implements ExternalInterface {
                 downloadedAppTempFile.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
-                MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+                MobclickAgent.reportError(C.get(),e.fillInStackTrace());
             }
         }
         downloadRefPut(downloadReference, packageName);
@@ -449,7 +448,7 @@ public class PushManager implements ExternalInterface {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
         }
         return defaultValue;
     }
@@ -482,7 +481,7 @@ public class PushManager implements ExternalInterface {
             info = context.getPackageManager().getApplicationInfo(packageName, 0);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
             return false;
         }
 
@@ -506,10 +505,10 @@ public class PushManager implements ExternalInterface {
             }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
         } catch (Exception e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
         }
         return installedAppSignatures;
     }
@@ -524,13 +523,13 @@ public class PushManager implements ExternalInterface {
             return str;
         } catch (CertificateException e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
         } catch (NoSuchAlgorithmException e) {
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
         }
         return null;
     }
@@ -568,7 +567,7 @@ public class PushManager implements ExternalInterface {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+ex.toString());
+            MobclickAgent.reportError(C.get(),ex.fillInStackTrace());
         } finally {
             if (jarFile != null) {
                 jarFile.close();
@@ -586,10 +585,10 @@ public class PushManager implements ExternalInterface {
             return je != null ? je.getCertificates() : null;
         } catch (IOException e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
         } catch (Exception e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
         }
         return null;
     }
@@ -603,9 +602,9 @@ public class PushManager implements ExternalInterface {
             }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
         } catch (Exception e) {
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
             e.printStackTrace();
         }
         return INVALID_APP_VERSION_CODE;
@@ -665,7 +664,7 @@ public class PushManager implements ExternalInterface {
                     progress = bytesDL * 1f / fileSize * 1f;
                 } catch (Exception e) {
                     e.printStackTrace();
-                    MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+                    MobclickAgent.reportError(C.get(),e.fillInStackTrace());
                 }
                 switch (status) {
                     case DownloadManager.STATUS_PAUSED:
@@ -684,7 +683,7 @@ public class PushManager implements ExternalInterface {
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
         }
 
     }
@@ -699,7 +698,7 @@ public class PushManager implements ExternalInterface {
             sDownloadRef.put(key, pkg);
         } catch (Exception e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
         }
     }
 
@@ -708,7 +707,7 @@ public class PushManager implements ExternalInterface {
             sDownloadRef.remove(key);
         } catch (Exception e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
         }
     }
 
@@ -776,7 +775,7 @@ public class PushManager implements ExternalInterface {
             return downloadReference;
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.download.PushManager:"+e.toString());
+            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
             String sysDownloadsPkg = "com.android.providers.downloads";
             final Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

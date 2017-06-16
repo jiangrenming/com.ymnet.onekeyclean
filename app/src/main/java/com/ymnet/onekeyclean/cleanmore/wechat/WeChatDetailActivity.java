@@ -283,7 +283,7 @@ public class WeChatDetailActivity extends ImmersiveActivity implements WeChatDet
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    MobclickAgent.reportError(WeChatDetailActivity.this,e.toString());
+                    MobclickAgent.reportError(WeChatDetailActivity.this,e.fillInStackTrace());
                 }
             }
         });

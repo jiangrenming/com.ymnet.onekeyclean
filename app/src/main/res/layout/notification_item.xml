@@ -16,7 +16,7 @@
             android:id="@+id/iv_gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/onekeyclean"/>
+            android:src="@drawable/onekeyclean"/>
 
         <TextView
             android:layout_marginTop="3dp"
@@ -41,37 +41,11 @@
             android:id="@+id/iv_head"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:src="@mipmap/onekeyclean"/>
+            android:src="@drawable/onekeyclean"/>
 
         <TextView
             android:layout_marginTop="3dp"
             android:id="@+id/tv_head"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="手机加速"
-            android:textColor="#545352"
-            android:textSize="10sp"/>
-    </LinearLayout>
-    <!--勿删!手机适配,第二个imageview图标大小不受控的解决方法-->
-    <LinearLayout
-        android:id="@+id/ll_gone2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:visibility="gone"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/iv_gone2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/onekeyclean"/>
-
-        <TextView
-            android:layout_marginTop="3dp"
-            android:id="@+id/tv_gone2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -92,8 +66,7 @@
             android:id="@+id/iv_deep"
             android:layout_width="22dp"
             android:layout_height="22dp"
-            android:src="@mipmap/brush"/>
-
+            android:src="@drawable/brush"/>
         <TextView
             android:layout_marginTop="8dp"
             android:id="@+id/tv_deep"
@@ -117,7 +90,7 @@
             android:id="@+id/iv_wechat"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@mipmap/wechat"/>
+            android:src="@drawable/wechat_notification"/>
 
         <TextView
             android:layout_marginTop="6dp"
@@ -142,7 +115,7 @@
             android:id="@+id/iv_qq"
             android:layout_width="22dp"
             android:layout_height="22dp"
-            android:src="@mipmap/qq"/>
+            android:src="@drawable/qq"/>
 
         <TextView
             android:layout_marginTop="8dp"
@@ -166,7 +139,7 @@
             android:id="@+id/iv_flashlight"
             android:layout_width="22dp"
             android:layout_height="22dp"
-            android:src="@mipmap/flashlight"/>
+            android:src="@drawable/flashlight"/>
 
         <TextView
             android:layout_marginTop="8dp"
@@ -190,7 +163,7 @@
             android:id="@+id/iv_setting"
             android:layout_width="22dp"
             android:layout_height="22dp"
-            android:src="@mipmap/setting"/>
+            android:src="@drawable/setting"/>
 
         <TextView
             android:layout_marginTop="8dp"

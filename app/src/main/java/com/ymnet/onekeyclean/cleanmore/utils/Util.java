@@ -411,7 +411,7 @@ public class Util {
             y = context.getResources().getDimensionPixelSize(x);
         } catch (Exception e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(), e.toString());
+            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
         }
         return y;
     }
