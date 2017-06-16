@@ -257,16 +257,12 @@ public class PushManager implements ExternalInterface {
             try {
                 file = new File(new URI(fileUri.toString()));
             } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-                MobclickAgent.reportError(C.get(),e.fillInStackTrace());
                 file = new File(getRealPathFromURI(context, fileUri));
                 //修改bug ：在HUAWEI EVA-AL10中下载成功通过id得到的fileUri不准确导致安装界面直接自动关闭
                 fileUri = Uri.fromFile(file);
             }
             downloadingApkFlagPath = file.getAbsolutePath() + FileUtilsSdk.COMMONSDK_TEMP_FILE_SUFFIX;
         } catch (Exception e) {
-            e.printStackTrace();
-            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
             downloadingApkFlagPath = PushManager.getInstance().getDownloadedAppPath(context,pkgName) + FileUtilsSdk.COMMONSDK_TEMP_FILE_SUFFIX;
             return false;
         } finally {
@@ -286,7 +282,6 @@ public class PushManager implements ExternalInterface {
             downloadManager.openDownloadedFile(reference);
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
-            MobclickAgent.reportError(C.get(),e1.fillInStackTrace());
             if (!(file != null && file.exists())) {
                 return false;
             }
@@ -774,8 +769,6 @@ public class PushManager implements ExternalInterface {
             downloadReference = downloadManager.enqueue(request);
             return downloadReference;
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
             String sysDownloadsPkg = "com.android.providers.downloads";
             final Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
