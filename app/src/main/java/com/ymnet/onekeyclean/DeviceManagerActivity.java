@@ -20,7 +20,7 @@ import java.lang.ref.WeakReference;
  *
  * @overView 供外部调用-开启任务管理器
  */
-
+// TODO: 2017/6/16 0016
 public class DeviceManagerActivity extends Activity {
 
     private static DevicePolicyManager mDPM;
