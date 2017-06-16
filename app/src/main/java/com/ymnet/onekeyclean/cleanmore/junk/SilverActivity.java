@@ -326,9 +326,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
                 if (currentDrawable == null) {
                     currentDrawable = blue2Green1;
                     fragment.scanColor(blue2Green2, transitionAnimationDuration);
-//                    rl_page_title.setBackground(blue2Green1);
                     blue2Green1.startTransition(transitionAnimationDuration);
-//                    blue2Green2.startTransition(transitionAnimationDuration);
                 }
 
             } else if (size <= 75 * ByteConstants.MB) {
@@ -344,22 +342,15 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
                 if (currentDrawable == null || currentDrawable == green2Orange1 || currentDrawable == blue2Green1) {
                     currentDrawable = orange2Red1;
                     fragment.scanColor(orange2Red1, transitionAnimationDuration);
-//                    rl_page_title.setBackground(orange2Red2);
                     orange2Red2.startTransition(transitionAnimationDuration);
                 }
             }
         } else {
             if (size <= 10 * ByteConstants.MB) {
-                // 绿色
-//                rl_page_title.setBackgroundColor(resources.getColor(R.color.clean_bg_green));
                 fragment.scanColor(resources.getColor(R.color.clean_bg_green));
             } else if (size <= 75 * ByteConstants.MB) {
-                // 橙色
-//                rl_page_title.setBackgroundColor(resources.getColor(R.color.clean_bg_orange));
                 fragment.scanColor(resources.getColor(R.color.clean_bg_orange));
             } else {
-                // 红色
-//                rl_page_title.setBackgroundColor(resources.getColor(R.color.clean_bg_red));
                 fragment.scanColor(resources.getColor(R.color.clean_bg_red));
             }
         }

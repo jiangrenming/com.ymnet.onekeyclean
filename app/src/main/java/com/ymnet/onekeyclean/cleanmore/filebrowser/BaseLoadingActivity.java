@@ -18,7 +18,7 @@ public class BaseLoadingActivity extends ImmersiveActivity {
             checkLoadingView();
         } catch (Exception e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.filebrowser.BaseLoadingActivity:" + e.toString());
+            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
             return;
         }
         fl_loading.setVisibility(View.VISIBLE);
@@ -30,7 +30,7 @@ public class BaseLoadingActivity extends ImmersiveActivity {
             checkLoadingView();
         } catch (Exception e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.filebrowser.BaseLoadingActivity:" + e.toString());
+            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
             return;
         }
         fl_loading.setVisibility(View.GONE);

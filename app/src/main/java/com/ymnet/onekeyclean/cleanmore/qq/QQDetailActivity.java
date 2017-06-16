@@ -309,7 +309,7 @@ public class QQDetailActivity extends ImmersiveActivity implements QQDetailMvpVi
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    MobclickAgent.reportError(C.get(),"com.ymnet.onekeyclean.cleanmore.qq.QQDetailActivity:"+e.toString());
+                    MobclickAgent.reportError(C.get(),e.fillInStackTrace());
                 }
             }
         });

@@ -373,8 +373,9 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
                 Intent intent = new Intent(WeChatActivity.this, WebHtmlActivity.class);
                 intent.putExtra("html", news_url);
                 intent.putExtra("flag", 10);
-                startActivity(intent);
+                intent.putExtra(OnekeyField.CLEAN_NEWS, "微信清理新闻");
 
+                startActivity(intent);
             }
 
             @Override
@@ -455,6 +456,8 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
                 Intent intent = new Intent(WeChatActivity.this, WebHtmlActivity.class);
                 intent.putExtra("html", news_url);
                 intent.putExtra("flag", 10);
+                intent.putExtra(OnekeyField.CLEAN_NEWS, "微信清理新闻");
+
                 startActivity(intent);
 
             }

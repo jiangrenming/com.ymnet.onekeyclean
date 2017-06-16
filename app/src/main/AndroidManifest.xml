@@ -294,6 +294,21 @@
 
         <activity android:name=".cleanmore.ViewpagerP">
         </activity>
+        <!--供外部开启任务管理器的activity-->
+        <activity
+            android:name=".DeviceManagerActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

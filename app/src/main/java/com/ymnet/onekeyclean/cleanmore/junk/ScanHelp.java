@@ -691,7 +691,7 @@ public class ScanHelp implements Parcelable {
                             cache.icon = icon;
                         } catch (PackageManager.NameNotFoundException e) {
                             e.printStackTrace();
-                            MobclickAgent.reportError(C.get(), e.toString());
+                            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
                         }
                         cacheDatas.add(cache);
                     }

@@ -8,4 +8,5 @@ package com.ymnet.onekeyclean.cleanmore.utils;
 
 public class StatisticMob {
     public static final String STATISTIC_ID = "clean";
+    public static final String STATISTIC_NEWS_ID = "news";
 }

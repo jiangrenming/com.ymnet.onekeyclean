@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.SslErrorHandler;
@@ -19,6 +20,11 @@ import android.widget.ImageView;
 
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
+import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jrm on 2017-5-5.
@@ -53,9 +59,14 @@ public class WebHtmlActivity extends Activity {
 
             //获取本地推广浏览器
             JumpUtil.getInstance().getWebAddresss(this);
-
+            //统计
+            String stringExtra = getIntent().getStringExtra(OnekeyField.CLEAN_NEWS);
+            Log.d("WebHtmlActivity", stringExtra);
+            Map<String, String> m = new HashMap<>();
+            m.put(OnekeyField.CLEAN_NEWS, stringExtra);
+            MobclickAgent.onEvent(this, StatisticMob.STATISTIC_NEWS_ID, m);
         } catch (Exception e) {
-            MobclickAgent.reportError(this, "没有webview,"+e.toString());
+            MobclickAgent.reportError(this, "没有webview,"+e.fillInStackTrace());
             finish();
         }
 
@@ -158,5 +169,17 @@ public class WebHtmlActivity extends Activity {
             return true;
         }
         return super.onKeyDown(keyCode, event);//退出整个应用程序
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
     }
 }

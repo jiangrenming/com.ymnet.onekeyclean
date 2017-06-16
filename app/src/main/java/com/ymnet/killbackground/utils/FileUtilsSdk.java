@@ -84,7 +84,7 @@ public class FileUtilsSdk {
 				file.createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
-				MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.utils.FileUtilsSdk:"+e.toString());
+				MobclickAgent.reportError(C.get(),e.fillInStackTrace());
 			}
 		}
 		return file;
@@ -223,7 +223,7 @@ public class FileUtilsSdk {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				MobclickAgent.reportError(mContext,e.toString());
+				MobclickAgent.reportError(mContext,e.fillInStackTrace());
 			}
 		}
 		return false;
@@ -292,7 +292,7 @@ public class FileUtilsSdk {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				MobclickAgent.reportError(mContext,"com.ymnet.killbackground.utils.FileUtilsSdk"+e.toString());
+				MobclickAgent.reportError(mContext,e.fillInStackTrace());
 			}
 		}
 		return file;
@@ -367,7 +367,7 @@ public class FileUtilsSdk {
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.utils.FileUtilsSdk:"+ex.toString());
+			MobclickAgent.reportError(C.get(),ex.fillInStackTrace());
 			return -1;
 		}
 	}
@@ -421,7 +421,7 @@ public class FileUtilsSdk {
 			}
 		} catch (IOException e) {
 			result = false;
-			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.utils.FileUtilsSdk:"+e.toString());
+			MobclickAgent.reportError(C.get(),e.fillInStackTrace());
 		}
 		return result;
 	}
@@ -443,7 +443,7 @@ public class FileUtilsSdk {
 			}
 			return true;
 		} catch (IOException e) {
-			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.utils.FileUtilsSdk:"+e.toString());
+			MobclickAgent.reportError(C.get(),e.fillInStackTrace());
 			return false;
 		}
 	}
@@ -466,7 +466,7 @@ public class FileUtilsSdk {
             }
         } catch (Exception e) {
             e.printStackTrace();
-			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.utils.FileUtilsSdk:"+e.toString());
+			MobclickAgent.reportError(C.get(),e.fillInStackTrace());
         }
         return fileContent;
 
@@ -481,7 +481,7 @@ public class FileUtilsSdk {
             appinfo = context.getApplicationInfo();
         } catch (Exception e) {
             e.printStackTrace();
-			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.utils.FileUtilsSdk:"+e.toString());
+			MobclickAgent.reportError(C.get(),e.fillInStackTrace());
             return jsonData;
         }
         String sourceDir = appinfo.sourceDir;
@@ -509,14 +509,14 @@ public class FileUtilsSdk {
             }
         } catch (IOException e) {
             e.printStackTrace();
-			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.utils.FileUtilsSdk:"+e.toString());
+			MobclickAgent.reportError(C.get(),e.fillInStackTrace());
         } finally {
             if (zipfile != null) {
                 try {
                     zipfile.close();
                 } catch (IOException e) {
                     e.printStackTrace();
-					MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.utils.FileUtilsSdk:"+e.toString());
+					MobclickAgent.reportError(C.get(),e.fillInStackTrace());
                 }
             }
         }
@@ -577,7 +577,7 @@ public class FileUtilsSdk {
 			return readTextFile(input, max, ellipsis);
 		} catch (Exception e) {
 			e.printStackTrace();
-			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.utils.FileUtilsSdk:"+e.toString());
+			MobclickAgent.reportError(C.get(),e.fillInStackTrace());
 			return null;
 		}
 	}
@@ -617,7 +617,7 @@ public class FileUtilsSdk {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.utils.FileUtilsSdk:"+e.toString());
+			MobclickAgent.reportError(C.get(),e.fillInStackTrace());
 		}
 	}
 

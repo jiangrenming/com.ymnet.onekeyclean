@@ -46,7 +46,7 @@ public class BaseApplication extends Application {
                         sChannel = appInfo.metaData.getString("UMENG_CHANNEL");
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
-                        MobclickAgent.reportError(C.get(),"com.ymnet.onekeyclean.cleanmore.wechat.BaseApplication:"+e.toString());
+                        MobclickAgent.reportError(C.get(),e.fillInStackTrace());
                     }
                 }
             }

@@ -35,6 +35,7 @@ import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.CleanSetSharedPreferences;
 import com.ymnet.onekeyclean.cleanmore.utils.DisplayUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
+import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
 import com.ymnet.onekeyclean.cleanmore.web.WebHtmlActivity;
 import com.ymnet.onekeyclean.cleanmore.wechat.WeChatActivity;
@@ -337,6 +338,8 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
                 Intent intent = new Intent(getActivity(), WebHtmlActivity.class);
                 intent.putExtra("html", news_url);
                 intent.putExtra("flag", 10);
+                intent.putExtra(OnekeyField.CLEAN_NEWS, "垃圾清理新闻");
+
                 startActivity(intent);
 
             }

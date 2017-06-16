@@ -12,6 +12,10 @@ public class OnekeyField {
      */
     public static final String ONEKEYCLEAN = "一键清理";
     /**
+     * statistics-news-key
+     */
+    public static final String CLEAN_NEWS = "一键清理新闻";
+    /**
      * BroadcastReceiver intent key
      */
     public static final String KEY         = "key";

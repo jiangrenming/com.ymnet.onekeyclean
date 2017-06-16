@@ -141,7 +141,7 @@ public class ApplicationUtils {
             String changBefore = URLEncoder.encode(str, "gbk");
             return changBefore;
         } catch (Exception ex) {
-            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.common.ApplicationUtils:" + ex.toString());
+            MobclickAgent.reportError(C.get(),  ex.fillInStackTrace());
             return str;
         }
     }
@@ -162,7 +162,7 @@ public class ApplicationUtils {
 
             return stringinfo;
         } catch (Exception ex) {
-            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.common.ApplicationUtils:" + ex.toString());
+            MobclickAgent.reportError(C.get(),  ex.fillInStackTrace());
             return str;
         }
     }
@@ -200,7 +200,7 @@ public class ApplicationUtils {
                     sb.append(line).append("\n");
                 }
             } catch (IOException e) {
-                MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.common.ApplicationUtils:" + e.toString());
+                MobclickAgent.reportError(C.get(), e.fillInStackTrace());
                 Log.w("ApplicationUtils", String.format("Unable to load resource %s: %s", resourceId, e.getMessage()));
             } finally {
                 StreamUtil.closeInputStream(is);
@@ -264,7 +264,7 @@ public class ApplicationUtils {
 
         } catch (Exception e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.common.ApplicationUtils:" + e.toString());
+            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
             return "0";
         }
         return nFileLength + "";
@@ -285,7 +285,7 @@ public class ApplicationUtils {
             return MIME;
         } catch (Exception e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.common.ApplicationUtils:" + e.toString());
+            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
             return "";
         }
     }
@@ -307,7 +307,7 @@ public class ApplicationUtils {
             nFileLength = httpConnection.getContentLength();
         } catch (Exception e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.common.ApplicationUtils:" + e.toString());
+            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
             return "未知";
         }
         return Formatter.formatFileSize(mContext, nFileLength);
@@ -661,7 +661,7 @@ public class ApplicationUtils {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.common.ApplicationUtils:" + ex.toString());
+            MobclickAgent.reportError(C.get(),  ex.fillInStackTrace());
         }
         return tmpdatestr;
     }
@@ -683,7 +683,7 @@ public class ApplicationUtils {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.common.ApplicationUtils:" + ex.toString());
+            MobclickAgent.reportError(C.get(),  ex.fillInStackTrace());
         }
         return tmpdatestr;
     }
@@ -741,13 +741,13 @@ public class ApplicationUtils {
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.common.ApplicationUtils:" + e.toString());
+            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
         } catch (IOException e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.common.ApplicationUtils:" + e.toString());
+            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
         } catch (Exception e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(), "com.ymnet.onekeyclean.cleanmore.common.ApplicationUtils:" + e.toString());
+            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
         }
         return null;
     }

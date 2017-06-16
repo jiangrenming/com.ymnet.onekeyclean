@@ -16,7 +16,6 @@
 
 package com.ymnet.killbackground;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -45,31 +44,11 @@ public final class Utilities {
 				pm.getPackageInfo(pkgName, PackageManager.GET_ACTIVITIES);
 				installed = true;
 			} catch (PackageManager.NameNotFoundException e) {
-				MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.Utilities:"+e.toString());
 				installed = false;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.Utilities:"+e.toString());
-		}
-		return installed;
-	}
-
-	//是否安装
-	public static boolean isAppInstalled(Context context, ComponentName cn) {
-		boolean installed = false;
-		try {
-			PackageManager pm = context.getPackageManager();
-			try {
-				pm.getActivityInfo(cn, PackageManager.GET_ACTIVITIES);
-				installed = true;
-			} catch (PackageManager.NameNotFoundException e) {
-				installed = false;
-				MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.Utilities:"+e.toString());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.Utilities:"+e.toString());
+			MobclickAgent.reportError(C.get(),e.fillInStackTrace());
 		}
 		return installed;
 	}
@@ -94,7 +73,7 @@ public final class Utilities {
 				hasSimaCard = true;
 			}
 		}catch (Exception ex){
-			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.Utilities:"+ex.toString());
+			MobclickAgent.reportError(C.get(),ex.fillInStackTrace());
 		}
 		return hasSimaCard;
 	}
@@ -115,7 +94,7 @@ public final class Utilities {
 			return channel;
 		} catch (PackageManager.NameNotFoundException e) {
 			e.printStackTrace();
-			MobclickAgent.reportError(C.get(),"com.ymnet.killbackground.Utilities:"+e.toString());
+			MobclickAgent.reportError(C.get(),e.fillInStackTrace());
 			return null;
 		}
 	}

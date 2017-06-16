@@ -21,11 +21,11 @@ import android.widget.RemoteViews;
 import com.example.commonlibrary.utils.NotificationUtil;
 import com.example.commonlibrary.utils.PhoneModel;
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.ViewpagerP;
 import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
 import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
-import com.ymnet.onekeyclean.cleanmore.wechat.WeChatActivity;
 
 import java.io.Serializable;
 
@@ -130,12 +130,13 @@ public class NotifyService extends Service implements Serializable {
         Log.d(TAG, "darkNotificationTheme:dark-" + mDarkNotificationTheme);
         if (mDarkNotificationTheme) {
             //白色图标
-            remoteViews.setImageViewResource(R.id.iv_head, R.mipmap.onekeyclean_white);
-            remoteViews.setImageViewResource(R.id.iv_wechat, R.mipmap.wechat_white);
-            remoteViews.setImageViewResource(R.id.iv_qq, R.mipmap.qq_white);
-            remoteViews.setImageViewResource(R.id.iv_deep, R.mipmap.brush_white);
-            remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_white);
-            remoteViews.setImageViewResource(R.id.iv_setting, R.mipmap.setting_white);
+            remoteViews.setImageViewResource(R.id.iv_head, R.drawable.onekeyclean_white);
+            remoteViews.setImageViewResource(R.id.iv_wechat, R.drawable.wechat_white);
+            remoteViews.setImageViewResource(R.id.iv_qq, R.drawable.qq_white);
+            remoteViews.setImageViewResource(R.id.iv_deep, R.drawable.brush_white);
+//            remoteViews.setImageViewResource(R.id.iv_deep, R.drawable.qq_white);
+            remoteViews.setImageViewResource(R.id.iv_flashlight, R.drawable.flashlight_white);
+            remoteViews.setImageViewResource(R.id.iv_setting, R.drawable.setting_white);
             /*下面这种或者这种remoteViews.setInt(R.id.tv_head, "setTextColor", Color.parseColor("#ffffff"));*/
             remoteViews.setTextColor(R.id.tv_head, Color.parseColor("#ffffff"));
             remoteViews.setTextColor(R.id.tv_wechat, Color.parseColor("#ffffff"));
@@ -158,8 +159,8 @@ public class NotifyService extends Service implements Serializable {
         remoteViews.setOnClickPendingIntent(R.id.ll_head, pendingIntent);
 
         //微信清理
-        Intent intent3 = new Intent(C.get(), WeChatActivity.class);
-//        Intent intent3 = new Intent(C.get(), ViewpagerP.class);
+//        Intent intent3 = new Intent(C.get(), WeChatActivity.class);
+        Intent intent3 = new Intent(C.get(), ViewpagerP.class);
 
         intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent1 = PendingIntent.getActivity(C.get(), REQUEST_CODE02, intent3, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -215,14 +216,14 @@ public class NotifyService extends Service implements Serializable {
 
     private void changeFlashLightColor(boolean status) {
         if (status) {
-            remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_open);
+            remoteViews.setImageViewResource(R.id.iv_flashlight, R.drawable.flashlight_open);
             remoteViews.setTextColor(R.id.tv_flashlight, Color.parseColor("#1B98D9"));
             //PhoneModel.matchModel("8681", "SM-", "OPPO"/*, "HUAWEI"*/,/*"ONEPLUS",*/"Le", "M5"/*,"Coolpad"*/)
         } else if (mDarkNotificationTheme) {
-            remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight_white);
-            remoteViews.setTextColor(R.id.tv_flashlight, Color.parseColor("#545352"));
+            remoteViews.setImageViewResource(R.id.iv_flashlight, R.drawable.flashlight_white);
+            remoteViews.setTextColor(R.id.tv_flashlight, Color.WHITE);
         } else {
-            remoteViews.setImageViewResource(R.id.iv_flashlight, R.mipmap.flashlight);
+            remoteViews.setImageViewResource(R.id.iv_flashlight, R.drawable.flashlight);
             remoteViews.setTextColor(R.id.tv_flashlight, Color.parseColor("#545352"));
         }
         mNotificationManager.notify(ID, mNotification);
@@ -231,7 +232,7 @@ public class NotifyService extends Service implements Serializable {
 
     public Notification getNotification(NotificationCompat.Builder mBuilder, RemoteViews remoteViews) {
 
-        return mBuilder.setSmallIcon(R.mipmap.onekeyclean)
+        return mBuilder.setSmallIcon(R.drawable.onekeyclean)
                 .setTicker("一键清理为您服务")/*.setContentTitle("常驻测试2").setContentText("常驻通知:去不掉我的3")*/
                 .setContent(remoteViews)
                 .setContentIntent(getDefalutIntent(0))

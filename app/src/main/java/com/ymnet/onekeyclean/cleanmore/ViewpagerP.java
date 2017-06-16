@@ -1,6 +1,7 @@
 package com.ymnet.onekeyclean.cleanmore;
 
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -95,5 +96,12 @@ public class ViewpagerP extends FragmentActivity implements HomeFragment.OnFragm
         public CharSequence getPageTitle(int position) {
             return mTitles[position];
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // TODO: 2017/6/16 0016 再传递数据给对应的fragment
+
     }
 }
