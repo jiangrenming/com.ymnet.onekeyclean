@@ -21,11 +21,11 @@ import android.widget.RemoteViews;
 import com.example.commonlibrary.utils.NotificationUtil;
 import com.example.commonlibrary.utils.PhoneModel;
 import com.ymnet.onekeyclean.R;
-import com.ymnet.onekeyclean.cleanmore.ViewpagerP;
 import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
 import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
+import com.ymnet.onekeyclean.cleanmore.wechat.WeChatActivity;
 
 import java.io.Serializable;
 
@@ -159,8 +159,8 @@ public class NotifyService extends Service implements Serializable {
         remoteViews.setOnClickPendingIntent(R.id.ll_head, pendingIntent);
 
         //微信清理
-//        Intent intent3 = new Intent(C.get(), WeChatActivity.class);
-        Intent intent3 = new Intent(C.get(), ViewpagerP.class);
+        Intent intent3 = new Intent(C.get(), WeChatActivity.class);
+//        Intent intent3 = new Intent(C.get(), ViewpagerP.class);
 
         intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent1 = PendingIntent.getActivity(C.get(), REQUEST_CODE02, intent3, PendingIntent.FLAG_UPDATE_CURRENT);
