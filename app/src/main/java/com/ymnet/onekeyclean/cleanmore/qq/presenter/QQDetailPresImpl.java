@@ -102,7 +102,7 @@ public class QQDetailPresImpl implements QQDetailPresenter<QQPicMode> {
             @Override
             public void run() {
                 List<WareFileInfo> list = selectData.getListDatas();
-                // TODO: 2017/6/13 0013 将将要删除的文件大小存入sp
+
                 Log.d("QQDetailPresImpl", "删除文件" + selectData.getCurrentSize());
                 CleanSetSharedPreferences.setQQCleanLastTimeSize(C.get(), selectData.getCurrentSize());
                 for (WareFileInfo info : list) {

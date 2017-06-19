@@ -198,5 +198,7 @@
     <string name="tv_junk_desc">经常清理垃圾,告别手机卡顿</string>
     <string name="so_clear">手机已经很干净了</string>
     <string name="done">完成</string>
+    <string name="keep_habit">经常清理手机，告别手机卡顿</string>
+    <string name="scan_again">重新扫描</string>
 
 </resources>

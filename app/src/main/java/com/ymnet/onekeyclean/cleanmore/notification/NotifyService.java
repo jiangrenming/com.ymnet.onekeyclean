@@ -21,11 +21,11 @@ import android.widget.RemoteViews;
 import com.example.commonlibrary.utils.NotificationUtil;
 import com.example.commonlibrary.utils.PhoneModel;
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.ViewpagerP;
 import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
 import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
-import com.ymnet.onekeyclean.cleanmore.wechat.WeChatActivity;
 
 import java.io.Serializable;
 
@@ -134,7 +134,7 @@ public class NotifyService extends Service implements Serializable {
             remoteViews.setImageViewResource(R.id.iv_wechat, R.drawable.wechat_white);
             remoteViews.setImageViewResource(R.id.iv_qq, R.drawable.qq_white);
             remoteViews.setImageViewResource(R.id.iv_deep, R.drawable.brush_white);
-//            remoteViews.setImageViewResource(R.id.iv_deep, R.drawable.qq_white);
+            //            remoteViews.setImageViewResource(R.id.iv_deep, R.drawable.qq_white);
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.drawable.flashlight_white);
             remoteViews.setImageViewResource(R.id.iv_setting, R.drawable.setting_white);
             /*下面这种或者这种remoteViews.setInt(R.id.tv_head, "setTextColor", Color.parseColor("#ffffff"));*/
@@ -149,9 +149,6 @@ public class NotifyService extends Service implements Serializable {
             System.out.println("---------------androidModel:奇酷,一加,OPPO,奇酷,华为");
         }*/
 
-        //        remoteViews.setTextViewTextSize(R.id.tv_head, TypedValue.COMPLEX_UNIT_SP, 5f);
-
-
         //一键加速
         Intent intent2 = new Intent(C.get(), StatisticReceiver.class);
         intent2.putExtra(OnekeyField.KEY, OnekeyField.KILLBACKGROUND);
@@ -159,8 +156,10 @@ public class NotifyService extends Service implements Serializable {
         remoteViews.setOnClickPendingIntent(R.id.ll_head, pendingIntent);
 
         //微信清理
-        Intent intent3 = new Intent(C.get(), WeChatActivity.class);
-//        Intent intent3 = new Intent(C.get(), ViewpagerP.class);
+        //        Intent intent3 = new Intent(C.get(), WeChatActivity.class);
+        Intent intent3 = new Intent(C.get(), ViewpagerP.class);
+//        Intent intent3 = new Intent(C.get(), DeviceManagerReceiver.class);
+
 
         intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent1 = PendingIntent.getActivity(C.get(), REQUEST_CODE02, intent3, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -192,7 +191,7 @@ public class NotifyService extends Service implements Serializable {
         remoteViews.setOnClickPendingIntent(R.id.ll_flashlight, pendingIntent7);
 
         //系统设置
-        Intent intent6 = new Intent(this, StatisticReceiver.class);
+                Intent intent6 = new Intent(this, StatisticReceiver.class);
 
         intent6.putExtra(OnekeyField.KEY, OnekeyField.SETTINGS);
         PendingIntent pendingIntent6 = PendingIntent.getBroadcast(C.get(), REQUEST_CODE06, intent6, PendingIntent.FLAG_UPDATE_CURRENT);

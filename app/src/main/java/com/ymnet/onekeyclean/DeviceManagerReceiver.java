@@ -21,22 +21,23 @@ import java.lang.ref.WeakReference;
  * @overView 供外部调用-开启任务管理器
  */
 // TODO: 2017/6/16 0016
-public class DeviceManagerActivity extends Activity {
+public class DeviceManagerReceiver extends Activity {
 
     private static DevicePolicyManager mDPM;
     private static ComponentName       mAdminName;
 
-    private Handler mHandler = new MyHandler(this);
+   private Handler mHandler = new MyHandler(this);
 
     private static class MyHandler extends Handler {
-        WeakReference<DeviceManagerActivity> theActivity;
-        public MyHandler(DeviceManagerActivity activityForPCService) {
+        WeakReference<DeviceManagerReceiver> theActivity;
+
+        public MyHandler(DeviceManagerReceiver activityForPCService) {
             theActivity = new WeakReference<>(activityForPCService);
         }
 
         @Override
         public void dispatchMessage(Message msg) {
-            DeviceManagerActivity activity = theActivity.get();
+            DeviceManagerReceiver activity = theActivity.get();
             if (msg.what == 1 && activity != null) {
                 activity.finish();
             }
@@ -47,21 +48,30 @@ public class DeviceManagerActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.d("DeviceManagerActivity", "DeviceManagerActivity started");
-//                openDeviceManager();
-//        mHandler.sendEmptyMessageDelayed(1, 2000);
+        Log.d("DeviceManagerReceiver", "DeviceManagerReceiver started");
+        openDeviceManager();
+        finish();
+        //        mHandler.sendEmptyMessageDelayed(1, 2000);
     }
 
-    public static void openDeviceManager(){
+   /* @Override
+    public void onReceive(Context context, Intent intent) {
+        Log.d("DeviceManagerReceiver", "DeviceManagerReceiver started");
+        openDeviceManager();
+    }*/
+
+    public static void openDeviceManager() {
 
         try {
             // Initiate DevicePolicyManager.
             mDPM = (DevicePolicyManager) C.get().getSystemService(Context.DEVICE_POLICY_SERVICE);
             // Set DeviceAdminDemo Receiver for active the component with
             // different option
-            mAdminName = new ComponentName(C.get(), DeviceManagerActivity.class);
+            mAdminName = new ComponentName(C.get(), DeviceManagerReceiver.class);
+//            mAdminName = new ComponentName(C.get(), CleanActivity.class);
 
             if (!mDPM.isAdminActive(mAdminName)) {
+                Log.d("DeviceManagerReceiver", "active");
                 // try to become active
                 Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
                 intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mAdminName);
@@ -71,12 +81,13 @@ public class DeviceManagerActivity extends Activity {
             } else {
                 // Already is a device administrator, can do security operations
                 // now.
+                Log.d("DeviceManagerReceiver", "已激活");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
+            Log.d("DeviceManagerReceiver", e.toString());
+            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
         }
 
     }
-
 }

@@ -110,7 +110,7 @@
 
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.autofocus"/>
-
+    <uses-permission android:name="android.permission.BIND_DEVICE_ADMIN"/>
     <!-- account authenticator -->
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES"/>
@@ -156,12 +156,12 @@
         <activity
             android:name=".cleanmore.wechat.WeChatActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleInstance"
+            android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/Activity_Translate_Theme"/>
         <activity
             android:name=".cleanmore.junk.SilverActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/Activity_Translate_Theme"/>
         <activity
@@ -181,7 +181,7 @@
         <activity
             android:name=".cleanmore.qq.activity.QQActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleInstance"
+            android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/Activity_Translate_Theme">
         </activity>
@@ -296,16 +296,15 @@
         </activity>
         <!--供外部开启任务管理器的activity-->
         <activity
-            android:name=".DeviceManagerActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:name=".DeviceManagerReceiver"
             android:excludeFromRecents="true"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="adjustPan">
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <!--<meta-data android:name="android.app.device_admin"-->
+                       <!--android:resource="@xml/my_admin" />-->
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
             </intent-filter>
         </activity>
 

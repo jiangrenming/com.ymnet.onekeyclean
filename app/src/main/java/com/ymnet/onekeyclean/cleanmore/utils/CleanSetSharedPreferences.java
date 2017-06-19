@@ -6,6 +6,10 @@ import android.content.SharedPreferences;
 public class CleanSetSharedPreferences {
 	public static final String CLEAN_SETTING_PREFERENCE = "clean_setting_preference";
 
+	public static final String PROGRESS_BUTTON_STATE = "progress_button_state";
+
+	public static final String BUTTON_STATE = "button_state";
+
 	public static final String CLEAN_QQ_PREFERENCE = "clean_qq_preference";
 
 	public static final String INTERCEPTION_CHANNEL="iterception_channel";
@@ -98,6 +102,28 @@ public class CleanSetSharedPreferences {
 					Context.MODE_PRIVATE).edit().putInt(key, value).commit();
 		}
 	}
+
+	/**
+	 * 进度按钮的状态
+     */
+	public static void setPBState(Context context, String key, String value) {
+		if (context != null) {
+			context.getSharedPreferences(PROGRESS_BUTTON_STATE,
+					Context.MODE_PRIVATE).edit().putString(key, value).commit();
+		}
+	}
+
+	/**
+	 * 进度按钮的状态
+     */
+	public static String getPBState(Context context, String key , String defValue) {
+		if (context != null) {
+			return context.getSharedPreferences(PROGRESS_BUTTON_STATE,
+					Context.MODE_PRIVATE).getString(key, defValue);
+		}
+		return defValue;
+	}
+
 	/**
 	 * 保存上次清理大小 历史清理小大累加  判断有没有今日清理  有则累加 没有则清理文件后重新写入
 	 * @param context

@@ -59,14 +59,6 @@ public class AppsInfoHandler {
 
     private ArrayList<String> mLianMengApk;
 
-//    private HashMap<String, App> mUpdateApps = new LinkedHashMap<String, App>();
-
-//    private HashMap<String, App> mDeprecatedApps = new HashMap<String, App>();
-
-//    private HashMap<String, App> mIgnoreUpdateApps = new HashMap<String, App>();
-
-//    private UpdateAppsListController listController;
-
     /**
      * FIXME The apps upgrade number
      */

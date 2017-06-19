@@ -67,4 +67,5 @@
     <color name="progress_bg">#60a9ee</color>
     <color name="blue_normal">#3097fd</color>
     <color name="blue_pressed">#aaF2F6FB</color>
+    <color name="tranwhite">#33FFFFFF</color>
 </resources>
