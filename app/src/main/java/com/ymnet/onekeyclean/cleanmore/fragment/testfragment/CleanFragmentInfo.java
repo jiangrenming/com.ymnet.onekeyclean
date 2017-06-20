@@ -17,4 +17,5 @@ public class CleanFragmentInfo {
     public static int ACTIVITY_RESULT_CLEAN = 8;
     public static int ACTIVITY_RESULT_NO_CLEAN = 7;
 
+    public static String START_PAGE = "startpage";
 }

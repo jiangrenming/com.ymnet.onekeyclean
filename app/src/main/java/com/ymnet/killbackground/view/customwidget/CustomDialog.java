@@ -10,15 +10,13 @@ import android.view.WindowManager.LayoutParams;
 
 import com.ymnet.onekeyclean.R;
 
-
 /**
  * @author Maj1nBuu
- * @data 2017/6/19 22:00.
- * @overView ${TODO}
+ * @data 2017/6/20 09:33.
+ * @overView 自定义dialog
  */
 
 public class CustomDialog extends Dialog {
-
 
     public CustomDialog(Context context) {
         super(context, R.style.custom_dialog_style);

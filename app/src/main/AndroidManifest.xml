@@ -110,6 +110,7 @@
 
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.autofocus"/>
+
     <uses-permission android:name="android.permission.BIND_DEVICE_ADMIN"/>
     <!-- account authenticator -->
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
@@ -292,7 +293,9 @@
             android:exported="true">
         </receiver>
 
-        <activity android:name=".cleanmore.HomeActivity">
+        <activity
+            android:name=".cleanmore.HomeActivity"
+            android:launchMode="singleTop">
         </activity>
         <!--供外部开启任务管理器的activity-->
         <activity
@@ -301,7 +304,7 @@
             android:exported="true"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
             <!--<meta-data android:name="android.app.device_admin"-->
-                       <!--android:resource="@xml/my_admin" />-->
+            <!--android:resource="@xml/my_admin" />-->
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>

@@ -70,7 +70,7 @@ public class HomeActivity extends FragmentActivity implements HomeFragment.OnFra
 
     public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
-        private String[] mTitles = new String[]{"首页", "发现", "进货单", "我的"};
+        private String[] mTitles = new String[]{"首页", "发现", "常用", "我的"};
 
 
         public MyFragmentPagerAdapter(FragmentManager fm) {
@@ -93,7 +93,8 @@ public class HomeActivity extends FragmentActivity implements HomeFragment.OnFra
 
         @Override
         public int getCount() {
-            return mTitles.length;
+//            return mTitles.length;
+            return 1;
         }
 
         //ViewPager与TabLayout绑定后，这里获取到PageTitle就是Tab的Text
