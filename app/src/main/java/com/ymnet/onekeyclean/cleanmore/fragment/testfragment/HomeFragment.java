@@ -19,7 +19,6 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.commonlibrary.utils.ToastUtil;
 import com.ymnet.killbackground.utils.Run;
 import com.ymnet.killbackground.view.CleanActivity;
 import com.ymnet.onekeyclean.R;
@@ -57,11 +56,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import retrofit2.http.HEAD;
-
-import static com.example.commonlibrary.utils.ToastUtil.showShort;
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -371,7 +365,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
     private void recyclerViewOnClick(View v, int position) {
         switch (position) {
             case 0:
-                startActivityForResult(new Intent(C.get(), CleanActivity.class),CLEAN_CODE);
+                Intent intent = new Intent(C.get(), CleanActivity.class);
+                startActivityForResult(intent,CLEAN_CODE);
                 break;
             case 1:
                 C.get().startActivity(new Intent(C.get(), WeChatActivity.class));
@@ -460,7 +455,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
         Run.onMain(new Runnable() {
             @Override
             public void run() {
-                mProgressButton.setTag("scanStop");
+                mProgressButton.setTag(SCAN_STOP);
                 CleanSetSharedPreferences.setPBState(C.get(), CleanSetSharedPreferences.BUTTON_STATE, SCAN_STOP);
                 setScanSize();
             }
@@ -479,23 +474,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
 
                     case ScanState.SCANING_SYSTEM_CACHE_END:
                         mProgressButton.setProgress(20);
-                        showShort(C.get(), "扫描1结束");
                         break;
                     case ScanState.SCAN_RAM_END:
                         mProgressButton.setProgress(40);
-                        showShort(C.get(), "扫描2结束");
                         break;
                     case ScanState.SCANING_APP_CACHE_END:
                         mProgressButton.setProgress(60);
-                        showShort(C.get(), "扫描3结束");
                         break;
                     case ScanState.SCANING_RESIDUAL_END:
                         mProgressButton.setProgress(80);
-                        showShort(C.get(), "扫描4结束");
                         break;
                     case ScanState.SCANING_APK_FILE_END:
                         mProgressButton.setProgress(90);
-                        showShort(C.get(), "扫描5结束");
                         break;
                     case ScanState.SCAN_ALL_END:
                         Log.d("HomeFragment", "scanFinish这里scanFinish");
@@ -505,25 +495,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                         mProgressButton.setText("立刻清理");
 
                         datas = mScan.getDatas();
-                        Log.d(TAG, "datas:" + datas);
                         if (datas == null || datas.size() == 0) {
-                            //todo 清理完成展示界面
                             cleanOverHead();
                             mProgressButton.setText("清理完成");
                             mProgressButton.setTag(SCAN_AGAIN);
-                            showShort(C.get(), "清理完成展示界面");
+//                            showShort(C.get(), "清理完成界面展示");
                         } else {
                             ScanFinishFragment scanFinishF = ScanFinishFragment.newInstance();
                             long dataSize = mScan.getTotalSize();
-                            Log.d("HomeFragment", dataSize / 1024 / 1024 + "");
                             scanFinishF.setDatas(datas);
                             scanFinishF.setDataSize(dataSize);
                             needSave = true;
-                            ToastUtil.showShort(C.get(), "扫描6结束");
                         }
                         break;
                     case ScanState.SCANING_PATH:
-                        showShort(C.get(), "扫描中123456");
                         break;
                     default:
                         break;

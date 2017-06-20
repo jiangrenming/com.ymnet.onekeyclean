@@ -28,7 +28,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.commonlibrary.utils.DensityUtil;
 import com.example.commonlibrary.utils.ScreenUtil;
@@ -639,10 +638,8 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
             case R.id.rl_clean_result:
             case R.id.rl_leaninto_home:
                 //结束本界面(动画),跳转
-                startActivity(new Intent(CleanActivity.this, HomeActivity.class));
-                Toast.makeText(CleanActivity.this, "进入主界面", Toast.LENGTH_SHORT).show();
                 finishDialogAndMyself();
-
+                startActivity(new Intent(CleanActivity.this, HomeActivity.class));
                 break;
         }
     }
