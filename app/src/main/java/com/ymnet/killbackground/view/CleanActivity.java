@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +15,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +28,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.commonlibrary.utils.DensityUtil;
 import com.example.commonlibrary.utils.ScreenUtil;
@@ -38,8 +41,12 @@ import com.ymnet.killbackground.download.PushManager;
 import com.ymnet.killbackground.presenter.CleanPresenter;
 import com.ymnet.killbackground.presenter.CleanPresenterImpl;
 import com.ymnet.killbackground.utils.Run;
+import com.ymnet.killbackground.view.customwidget.CustomDialog;
 import com.ymnet.killbackground.view.customwidget.Wheel;
 import com.ymnet.onekeyclean.R;
+
+import com.ymnet.onekeyclean.cleanmore.HomeActivity;
+
 import com.ymnet.onekeyclean.cleanmore.notification.NotifyService;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.update.DownLoadFactory;
@@ -48,13 +55,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import retrofit2.http.HEAD;
-
 import static android.text.format.Formatter.formatFileSize;
 import static com.example.commonlibrary.systemmanager.SystemMemory.getAvailMemorySize;
 import static com.example.commonlibrary.systemmanager.SystemMemory.getTotalMemorySize;
 
-public class CleanActivity extends Activity implements CleanView {
+public class CleanActivity extends Activity implements CleanView, View.OnClickListener {
+
     private static final String TAG = "CleanActivity";
     private ImageView            mRotateImage;
     private ObjectAnimator       mOa1;
@@ -75,7 +81,10 @@ public class CleanActivity extends Activity implements CleanView {
     private long    mTotalMemory = 0;
     private int temp;
     private Random mR = new Random();
-    private Handler mHandler     = new Handler(C.get().getMainLooper()) {
+    private CustomDialog   mCustomDialog;
+    private RelativeLayout mRl_clean_result;
+    private RelativeLayout mRl_leaninto_home;
+    private Handler mHandler = new Handler(C.get().getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -83,7 +92,7 @@ public class CleanActivity extends Activity implements CleanView {
                 //数字动态显示清理量
                 case 0:
                     if (mCount >= 0 && valueChange) {
-                        if(temp < mCount) {
+                        if (temp < mCount) {
                             mMemoryInfo.setText("" + (mUsedMemory - ++temp) + "%");
                             mHandler.sendEmptyMessageDelayed(0, 200);
                         }
@@ -111,6 +120,7 @@ public class CleanActivity extends Activity implements CleanView {
             }
         }
     };
+    private TextView mTv_clean_result;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -159,11 +169,11 @@ public class CleanActivity extends Activity implements CleanView {
                     }
                     mMemoryInfo.setVisibility(View.VISIBLE);
                     mUsedMemory = getUsedMemoryRate();
-//                    mMemoryInfo.setText("" + mUsedMemory + "%");
-//                    mHandler.sendEmptyMessageDelayed(2, 100);
+                    //                    mMemoryInfo.setText("" + mUsedMemory + "%");
+                    //                    mHandler.sendEmptyMessageDelayed(2, 100);
                     //开始数字跳动
                     mHandler.sendEmptyMessage(3);
-//                    mHandler.sendEmptyMessage(2);
+                    //                    mHandler.sendEmptyMessage(2);
 
                     //吸入软件整体动画结合展示(个个软件图标暂未展示)
                     mWheel = (Wheel) findViewById(R.id.wheel_iv);
@@ -279,7 +289,7 @@ public class CleanActivity extends Activity implements CleanView {
 
     private void initData() {
         mTotalMemory = getTotalMemorySize(CleanActivity.this);
-        DownLoadFactory.getInstance().init(this,null, PushManager.getInstance());
+        DownLoadFactory.getInstance().init(this, null, PushManager.getInstance());
         PushManager.getInstance().init(getApplicationContext());//dont't remove
     }
 
@@ -438,8 +448,12 @@ public class CleanActivity extends Activity implements CleanView {
                     @Override
                     public void onAnimationEnd(View view) {
                         super.onAnimationEnd(view);
-                        //展开动画
-                        openAnimation();
+                       /* //展开动画
+                        openAnimation();*/
+                        //清理球消失
+                        ballGone();
+                        //弹出清理结束界面
+                        cleanResult();
 
                         if (isBest) {
                             //停止旋转动画
@@ -458,6 +472,95 @@ public class CleanActivity extends Activity implements CleanView {
         DownLoadFactory.getInstance().getInsideInterface().updateApp();
     }
 
+    /**
+     * 加速球消失动画
+     */
+    private void ballGone() {
+        ViewCompat.animate(mRelativeLayout).scaleX(0).scaleY(0).setDuration(500).setListener(new MyViewPropertyAnimatorListener() {
+            @Override
+            public void onAnimationEnd(View view) {
+                super.onAnimationEnd(view);
+                mRelativeLayout.setVisibility(View.GONE);
+            }
+        }).start();
+    }
+
+    private void cleanResult() {
+        //创建dialog
+        initDialog();
+    }
+
+    private void initDialog() {
+
+        if (mCustomDialog != null) {
+            mCustomDialog.dismiss();
+            mCustomDialog = null;
+        }
+
+        mCustomDialog = new CustomDialog(this);
+        mCustomDialog.show();
+
+        mTv_clean_result = (TextView) mCustomDialog.findViewById(R.id.tv_clean_result);
+        mRl_clean_result = (RelativeLayout) mCustomDialog.findViewById(R.id.rl_clean_result);
+        mRl_leaninto_home = (RelativeLayout) mCustomDialog.findViewById(R.id.rl_leaninto_home);
+        ImageView arrow_result = (ImageView) mCustomDialog.findViewById(R.id.iv_arrow_result);
+        ImageView arrow_head2 = (ImageView) mCustomDialog.findViewById(R.id.iv_arrow_head2);
+        ImageView arrow_foot = (ImageView) mCustomDialog.findViewById(R.id.iv_arrow_foot);
+        gifAnim(arrow_result);
+        gifAnim(arrow_head2);
+        gifAnim(arrow_foot);
+        mRl_clean_result.setOnClickListener(this);
+        mRl_leaninto_home.setOnClickListener(this);
+        mTv_clean_result.setText(showToast);
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ViewCompat.animate(mRl_clean_result).rotationY(180).alpha(0).setDuration(500).setListener(new ViewPropertyAnimatorListener() {
+                    @Override
+                    public void onAnimationStart(View view) {
+                        mRl_leaninto_home.setRotationY(-180);
+                        mRl_leaninto_home.setVisibility(View.VISIBLE);
+                        ViewCompat.animate(mRl_leaninto_home).rotationY(0).setDuration(500).start();
+                    }
+
+                    @Override
+                    public void onAnimationEnd(View view) {
+                        mRl_clean_result.setVisibility(View.GONE);
+                        mHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                finishDialogAndMyself();
+                            }
+                        }, 3000);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(View view) {
+
+                    }
+                }).start();
+            }
+        }, 3000);
+    }
+
+    private void gifAnim(ImageView imageView) {
+        AnimationDrawable animationDrawable = (AnimationDrawable) imageView.getDrawable();
+        if (animationDrawable.isRunning()) {
+            animationDrawable.stop();
+        }
+        animationDrawable.start();
+    }
+
+    private void finishDialogAndMyself() {
+        if (mCustomDialog != null) {
+            mCustomDialog.dismiss();
+            mCustomDialog = null;
+        }
+        finish();
+    }
+
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void getIconAndShow(final long cleanMem) {
@@ -474,12 +577,12 @@ public class CleanActivity extends Activity implements CleanView {
                 final List<ResolveInfo> appList = packageManager.queryIntentActivities(intent, 0);
 
                 //当前手机剩余内存百分比
-//                mUsedMemory = getUsedMemoryRate();
+                //                mUsedMemory = getUsedMemoryRate();
 
                 mCount = (int) (Math.abs(cleanMem * 100) / mTotalMemory + 0.5f);
                 Log.d(TAG, "onAnimationEnd: mSize: " + "/内存总量:" + mTotalMemory + "/清理量:" + cleanMem + "/清理百分比:" + mCount);
                 if (mCount == 0) {
-                    mCount = 10;
+                    mCount = 3;
                 }
                 Log.d(TAG, "run: 清理百分比 " + mCount);
                 //停止数字跳动,显示正确值
@@ -530,4 +633,17 @@ public class CleanActivity extends Activity implements CleanView {
         this.valueChange = valueChange;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.rl_clean_result:
+            case R.id.rl_leaninto_home:
+                //结束本界面(动画),跳转
+                startActivity(new Intent(CleanActivity.this, HomeActivity.class));
+                Toast.makeText(CleanActivity.this, "进入主界面", Toast.LENGTH_SHORT).show();
+                finishDialogAndMyself();
+
+                break;
+        }
+    }
 }

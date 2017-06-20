@@ -171,7 +171,6 @@ public class StickyLayout extends LinearLayout {
         return intercepted != 0 && mIsSticky;
     }
 
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (!mIsSticky) {

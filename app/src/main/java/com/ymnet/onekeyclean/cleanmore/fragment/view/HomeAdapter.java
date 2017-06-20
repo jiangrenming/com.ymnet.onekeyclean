@@ -28,7 +28,6 @@ public class HomeAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter {
     private RecyclerInfo mData;
     private View mItem;
     private RecyclerViewClickListener mRecyclerViewClickListener;
-//    private int position;
 
     public HomeAdapter(Context context, RecyclerInfo recyclerInfo) {
         this.mContext = context;

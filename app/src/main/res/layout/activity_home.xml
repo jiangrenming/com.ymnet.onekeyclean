@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="#fff"
     android:orientation="vertical"
-    tools:context="com.ymnet.onekeyclean.cleanmore.ViewpagerP">
+    tools:context="com.ymnet.onekeyclean.cleanmore.HomeActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

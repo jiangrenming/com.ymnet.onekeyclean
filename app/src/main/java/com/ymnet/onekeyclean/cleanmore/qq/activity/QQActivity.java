@@ -448,7 +448,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
                 if (QQFileType.DELETE_DEFAULT == type.getDeleteStatus()) {
                     if (type.getType() == QQConstants.QQ_TYPE_DEFALUT) {
                         Log.d("QQActivity", "删除文件" + mPresenter.getSize());
-                        // TODO: 2017/6/13 0013 存入sp
+
                         CleanSetSharedPreferences.setQQCleanLastTimeSize(C.get(), mPresenter.getSize());
                         mPresenter.remove(position);
                     } else {
@@ -738,7 +738,7 @@ public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.
 
                     }
                     if (size == 0 && QQScanHelp.getInstance().isScanFinish() && count++ == 0) {
-                        //todo adapter更换布局
+
                         mPresenter.initData().clear();
                     }
                     if (mEmptyView.getVisibility() == View.VISIBLE && temp++ == 0) {

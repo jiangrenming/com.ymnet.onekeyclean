@@ -169,7 +169,8 @@ public class WeChatExpandableAdapter extends BaseExpandableListAdapter implement
             itemDatas[2] = content.get(childPosition + 2);
         } catch (IndexOutOfBoundsException iobe) {
             iobe.printStackTrace();
-            MobclickAgent.reportError(C.get(),iobe.fillInStackTrace());
+            // TODO: 2017/6/16 0016 提交代码再打开
+            //            MobclickAgent.reportError(C.get(),iobe.fillInStackTrace());
         }
 
 

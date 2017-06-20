@@ -127,8 +127,7 @@
                 android:text="扫描中.."
                 android:textColor="@color/white"
                 android:textSize="16dp"
-                app:progressColor="#60a9ee"/>
-
+                app:progressColor="#33FFFFFF"/>
         </LinearLayout>
 
     </RelativeLayout>

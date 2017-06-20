@@ -23,6 +23,7 @@ import com.ymnet.onekeyclean.cleanmore.datacenter.DataCenterObserver;
 import com.ymnet.onekeyclean.cleanmore.fragment.CleanOverFragment;
 import com.ymnet.onekeyclean.cleanmore.fragment.ScanningFragment;
 import com.ymnet.onekeyclean.cleanmore.fragment.fragmentcontroller.SingleDisplayFragmentController;
+import com.ymnet.onekeyclean.cleanmore.fragment.testfragment.CleanFragmentInfo;
 import com.ymnet.onekeyclean.cleanmore.junk.clearstrategy.ClearManager;
 import com.ymnet.onekeyclean.cleanmore.junk.mode.CleaningFragment;
 import com.ymnet.onekeyclean.cleanmore.junk.mode.InstalledAppAndRAM;
@@ -48,10 +49,10 @@ import java.util.Map;
 public class SilverActivity extends BaseFragmentActivity implements View.OnClickListener, ScanHelp.IScanResult, ScanFinishFragment.OnScanFinishFragmentInteractionListener, CleaningFragment.OnCleanFragmentEndListener {
     private String TAG = "SilverActivity";
     private RelativeLayout rl_page_title;
-    private Button btn_stop;
-    private View ani_view;
-    private static final String scanningFragmentTag="scanning";
-    private ScanHelp mScan;
+    private Button         btn_stop;
+    private View           ani_view;
+    private static final String scanningFragmentTag = "scanning";
+    private ScanHelp  mScan;
     private Resources resources;
     private boolean needSave = false;
 
@@ -59,7 +60,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
     private List<JunkGroup>    datas;
     /**
      * 必须用两个相同的动画，一个的话两个view颜色更新不同步
-      */
+     */
     private TransitionDrawable blue2Green1;
     private TransitionDrawable green2Orange1;
     private TransitionDrawable orange2Red1;
@@ -68,7 +69,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
     private TransitionDrawable orange2Red2;
     private TransitionDrawable currentDrawable;
     private int transitionAnimationDuration = 1000;
-    private int from = -1;//1为来自管理,2为微信
+    private int from                        = -1;//1为来自管理,2为微信
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,27 +80,16 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
         m.put(OnekeyField.ONEKEYCLEAN, "垃圾清理");
         MobclickAgent.onEvent(this, StatisticMob.STATISTIC_ID, m);
 
+        //startactivityresult
+        setResult(CleanFragmentInfo.ACTIVITY_RESULT_NO_CLEAN);
         resources = getResources();
         initDrawable();
         initView();
         initScanningFragment();
 
-//        Bundle bundle = getIntent().getExtras();
-//        ScanHelp scanHelp = (ScanHelp) bundle.get(OnekeyField.SCANRESULT);
-//        if (scanHelp != null) {
-//            mScan = scanHelp;
-//            SQLiteDatabase db = new ClearManager(this).openClearDatabase();
-//            mScan = ScanHelp.getInstance(this);
-//            mScan.getDb();
-//            mScan.setiScanResult(this);
-//            mScan.setRun(false);
-//            mScan.setRun(true);
-//            mScan.startScan(false);
-//        } else {
-
-            initScan();
-            from = getIntent().getIntExtra("from",-1);
-//        }
+        initScan();
+        from = getIntent().getIntExtra("from", -1);
+        //        }
 
     }
 
@@ -186,18 +176,19 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_content, scanningF, scanningFragmentTag).commit();
         //扫描动画
         // TODO: 2017/5/24 0024 删
-//        ani_view.setVisibility(View.VISIBLE);
+        //        ani_view.setVisibility(View.VISIBLE);
         ani_view.setVisibility(View.GONE);
         TweenAnimationUtils.startScanTranslateAnimation(this, ani_view);
     }
 
-    private ScanningFragment getScanningFragment(){
+    private ScanningFragment getScanningFragment() {
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(scanningFragmentTag);
-        if(fragment!=null){
+        if (fragment != null) {
             return (ScanningFragment) fragment;
         }
         return null;
     }
+
     private void initView() {
 
         rl_page_title = (RelativeLayout) findViewById(R.id.rl_page_title);
@@ -238,6 +229,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
                     return;
                 }
                 selectSize = mScan.getTotalSelectSize();
+                Log.d("SilverActivity", "selectSize:" + selectSize);
                 CleaningFragment cleaningF = CleaningFragment.newInstance();
                 cleaningF.setCleanFragmentData(cleanFragmentDatas, selectSize);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fl_content, cleaningF).commitAllowingStateLoss();
@@ -250,12 +242,13 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
 
     @Override
     public void scanning(final String path) {
-        if (isFinishing()) return;
+        if (isFinishing())
+            return;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 ScanningFragment fragment = getScanningFragment();
-                if(fragment!=null){
+                if (fragment != null) {
                     fragment.scanning(path);
                     setScanSize();
                 }
@@ -266,7 +259,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
     @Override
     public void scanState(final int state) {
 
-        if (isFinishing()||getSupportFragmentManager().isDestroyed()) {
+        if (isFinishing() || getSupportFragmentManager().isDestroyed()) {
             return;
         }
         runOnUiThread(new Runnable() {
@@ -282,6 +275,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
                         } else {
                             ScanFinishFragment scanFinishF = ScanFinishFragment.newInstance();
                             long dataSize = mScan.getTotalSize();
+                            Log.d("SilverActivity", "dataSize:" + dataSize);
                             scanFinishF.setDatas(datas);
                             scanFinishF.setDataSize(dataSize);
                             getSupportFragmentManager().beginTransaction().replace(R.id.fl_content, scanFinishF).commitAllowingStateLoss();
@@ -308,7 +302,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
             long size = mScan.getTotalSize();
             String[] sizeAndUnit = FormatUtils.getFileSizeAndUnit(size);
             ScanningFragment fragment = getScanningFragment();
-            if(fragment!=null){
+            if (fragment != null) {
                 fragment.setScanSize(sizeAndUnit);
                 updateHeadColor(size);
             }
@@ -319,7 +313,8 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
     private void updateHeadColor(long size) {
 
         ScanningFragment fragment = getScanningFragment();
-        if(fragment==null)return;
+        if (fragment == null)
+            return;
         if (android.os.Build.VERSION.SDK_INT >= 16) {
             if (size <= 10 * ByteConstants.MB) {
                 // 绿色
@@ -334,7 +329,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
                 if (currentDrawable == null || currentDrawable == blue2Green1) {
                     currentDrawable = green2Orange1;
                     fragment.scanColor(green2Orange1, transitionAnimationDuration);
-//                    rl_page_title.setBackground(green2Orange2);
+                    //                    rl_page_title.setBackground(green2Orange2);
                     green2Orange2.startTransition(transitionAnimationDuration);
                 }
             } else {
@@ -368,7 +363,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
     }
 
     /**
-     *  ScanFinish界面数据选中大小发生改变后的 回掉
+     * ScanFinish界面数据选中大小发生改变后的 回掉
      * 主要用来更新activity界面下面的清理按钮的显示
      */
     @Override
@@ -452,6 +447,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
     /**
      * CleanFragment回掉
      * 改变activity标题栏的颜色 跟listview头部颜色同步
+     *
      * @param size
      */
     @Override
@@ -474,9 +470,12 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
     //清理结束
     private void startCleanOverActivity() {
 
-        if (isFinishing()||getSupportFragmentManager().isDestroyed()) {
+        if (isFinishing() || getSupportFragmentManager().isDestroyed()) {
             return;
         }
+        //startactivityresult
+        setResult(CleanFragmentInfo.ACTIVITY_RESULT_CLEAN);
+
         if (View.VISIBLE == ani_view.getVisibility()) {
             ani_view.clearAnimation();
             ani_view.setVisibility(View.GONE);
@@ -499,6 +498,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
 
     /**
      * 检查清理缓存 不通过的话直接做一秒钟的动画效果进去结果页面  显示未发现垃圾
+     *
      * @return
      */
     private boolean checkHasCleanCache() {
@@ -507,8 +507,8 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
         boolean hasUpdate = DataCenterObserver.get(C.get()).isRefreshCleanActivity();
         /**
          *  最后的清理时间小于3分钟并且上次是全部清理的 并且3分钟内白名单项没有发生改变
-          */
-        if (lastTime <= 3 * TimeConstants.MINUTE&& hasCache && !hasUpdate) {
+         */
+        if (lastTime <= 3 * TimeConstants.MINUTE && hasCache && !hasUpdate) {
             return true;
         } else {
             DataCenterObserver.get(C.get()).setRefreshCleanActivity(false);
@@ -519,7 +519,7 @@ public class SilverActivity extends BaseFragmentActivity implements View.OnClick
 
     public static class CleanDataModeEvent {
         public List<JunkGroup> datas;
-        public long selectSize;
+        public long            selectSize;
 
         public CleanDataModeEvent(List<JunkGroup> datas, long selectSize) {
             this.datas = datas;

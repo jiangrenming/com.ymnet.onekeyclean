@@ -8,6 +8,13 @@ package com.ymnet.onekeyclean.cleanmore.fragment.testfragment;
 
 public class CleanFragmentInfo {
 
-    public static String progressButtonState;
-    public static long displayValue;
+//    public static String progressButtonState;
+//    public static long displayValue;
+
+
+    public static String PB_SCANSTOP = "scanstop";
+
+    public static int ACTIVITY_RESULT_CLEAN = 8;
+    public static int ACTIVITY_RESULT_NO_CLEAN = 7;
+
 }

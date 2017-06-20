@@ -126,7 +126,6 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
         initializeRecyclerView();
         initBottom();
         ani_view = findViewById(R.id.ani_view);
-        //         removeMap.put(0, true);
 
     }
 
@@ -258,20 +257,16 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
                     if (adapter.getContentItemViewType(1) != WeChatConstants.WECHAT_TYPE_DEFALUT) {
                         if (weChatInfos.get(position)) {
                             mTvBtn.setEnabled(true);
-                        } else {
-                            mTvBtn.setEnabled(false);
-                        }
-                        // TODO: 2017/6/14
-                        if (weChatInfos.get(position)) {
                             removeMap.put(position, true);
                         } else {
+                            mTvBtn.setEnabled(false);
                             removeMap.put(position, false);
                         }
+
                     } else {
                         for (int i = 0; i < weChatInfos.size(); i++) {
                             if (weChatInfos.get(i)) {
                                 mTvBtn.setEnabled(true);
-
                                 break;
                             } else {
                                 mTvBtn.setEnabled(false);
@@ -290,7 +285,6 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
                     for (int i = 0; i < weChatInfos.size(); i++) {
                         if (weChatInfos.get(i)) {
                             mTvBtn.setEnabled(true);
-
                             break;
                         } else {
                             mTvBtn.setEnabled(false);
@@ -502,16 +496,6 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
     }
 
     private void initEmptyView() {
-       /* View btn = emptyView.findViewById(R.id.btn);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //                StartCleanActUtil.startCleanActivity(WeChatActivity.this);
-                WeChatActivity.this.finish();
-                Intent intent = new Intent(WeChatActivity.this, SilverActivity.class);
-                startActivity(intent);
-            }
-        });*/
         mIv_sun = (ImageView) mEmptyView.findViewById(R.id.iv_sun);
         mIv_sun_center = (ImageView) mEmptyView.findViewById(iv_sun_center);
 
@@ -538,29 +522,14 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
     }
 
     private void initBottom() {
-        /*if (adapter.getContentItemViewType(1) == WeChatConstants.WECHAT_TYPE_DEFALUT) {
-            removeMap.put(0, true);
-            removeMap.put(1, true);
-        } else if (adapter.getContentItemViewType(0) == WeChatConstants.WECHAT_TYPE_DEFALUT) {
-            removeMap.put(0, true);
-        }*/
         mRl = (RelativeLayout) findViewById(R.id.rl_wechat_btn);
         mTvBtn = (TextView) findViewById(R.id.btn_bottom_delete);
         mTvBtn.setEnabled(true);
         mTvBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2017/6/14 0014
-                int count2 = 0;
-               /* if ((adapter.getContentItemViewType(0) == WeChatConstants.WECHAT_TYPE_DEFALUT)) {
-                    navigationOther(0);
-                    hideItem(0);
-                }
-                if ((adapter.getContentItemViewType(1) == WeChatConstants.WECHAT_TYPE_DEFALUT)) {
-                    navigationOther(1);
-                    hideItem(1);
-                }*/
                 // TODO: 2017/6/14
+                int count = 0;
                 Log.d("WeChatActivity", "removeMap.size():" + removeMap.size());
                 if (removeMap.size() != 0) {
                     if (removeMap.size() == 1) {
@@ -575,11 +544,14 @@ public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpVie
                             if (removeMap.get(i)) {
                                 navigationOther(i);
                                 hideItem(i);
+                                count++;
                             }
+
+                        }
+                        if (count == removeMap.size()) {
                             bottomGone();
                         }
                     }
-
 
                 }
                 if (adapter.getContentItemViewType(0) != WeChatConstants.WECHAT_TYPE_DEFALUT) {

@@ -594,75 +594,7 @@ public class ScanHelp implements Parcelable {
                         filePathCursor.close();
                         return;
                     }
-                    /*String filePath = ClearManager.decrptString(filePathCursor.getString(filePathCursor.getColumnIndex("encrypted_file_path")));
-                    if (checkTrust(Util.getRootPath() + filePath)) {
-                        continue;
-                    }*/
-                    String filename = ClearManager.decrptString(filePathCursor.getString(filePathCursor.getColumnIndex("encrypted_file_desp")));
-                    String fileTip = ClearManager.decrptString(filePathCursor.getString(filePathCursor.getColumnIndex("encrypted_file_tip")));
-                    int proposal = filePathCursor.getInt(filePathCursor.getColumnIndex("proposal"));
                     tip = ClearManager.decrptString(filePathCursor.getString(filePathCursor.getColumnIndex("encrypted_tip")));
-                   /* if (WeiXin_PackageName.equals(app.packageName)) {
-                        if (filePath.contains(WeiXin_Match) && mm_path_matchs != null && mm_path_matchs.size() > 0) {
-                            for (int i = 0; i < mm_path_matchs.size(); i++) {
-                                String path = mm_path_matchs.get(i);
-                                String newFilePath = filePath.replace(WeiXin_Match, path);
-                                long fileSize = getPathFileSize(sdPath + File.separator + newFilePath);
-                                size += fileSize;
-                                if (onlySize == false && fileSize > 0) {
-                                    JunkChildCacheOfChild cacheChild = new JunkChildCacheOfChild();
-                                    cacheChild.type = JunkChildCacheOfChild.APP_CACHE;
-                                    cacheChild.fileTip = fileTip;
-                                    cacheChild.select = proposal;
-                                    cacheChild.size = fileSize;
-                                    if (mm_path_matchs.size() == 1) {
-                                        cacheChild.name = filename;
-                                    } else {
-                                        cacheChild.name = filename + "(" + (i + 1) + ")";
-                                    }
-                                    Drawable icon = pm.getApplicationIcon(pm.getPackageArchiveInfo(filePath, 0).applicationInfo);
-                                    cacheChild.icon = icon;
-                                    System.out.println("值------6:" + icon);
-                                    cacheChild.packageName = app.packageName;
-                                    cacheChild.path = sdPath + File.separator + newFilePath;
-                                    result.add(cacheChild);
-                                }
-                            }
-                            continue;
-                        }
-
-                    }*/
-                    /*if (checkPathExistNotContainFolder(sdPath, filePath)) {
-                        filePath = sdPath + filePath;
-                    } else if (!TextUtils.isEmpty(outSdPath) && checkPathExistNotContainFolder(outSdPath, filePath)) {
-                        filePath = outSdPath + filePath;
-                    } else {
-                        continue;
-                    }
-
-                    long fileSize = getPathFileSize(filePath);
-                    if (fileSize == 0) {
-                        continue;
-                    }
-                    size += fileSize;
-                    if (onlySize == false) {
-                        JunkChildCacheOfChild cacheChild = new JunkChildCacheOfChild();
-                        cacheChild.type = JunkChildCacheOfChild.APP_CACHE;
-                        cacheChild.fileTip = fileTip;
-                        cacheChild.select = proposal;
-                        cacheChild.size = fileSize;
-                        cacheChild.name = filename;
-                        cacheChild.packageName = app.packageName;
-                        //不能加
-                        *//*Drawable icon = pm.getApplicationIcon(pm.getPackageArchiveInfo(filePath, 0).applicationInfo);
-                        cacheChild.icon = icon;
-                        System.out.println("值------7:" + icon);
-                        System.out.println("值------8:" + cacheChild.toString());*//*
-                        cacheChild.path = filePath;
-                        result.add(cacheChild);
-                    }*/
-
-
                 }
 
                 if (filePathCursor != null) {
@@ -856,14 +788,6 @@ public class ScanHelp implements Parcelable {
                         residual.size = size;
                         residual.select = 1;
                         residual.packageName = packageName;
-                        /*try {
-                            Drawable icon = pm.getApplicationIcon(pm.getApplicationInfo(packageName, 0));
-                            residual.icon = icon;
-                            System.out.println("值------:"+icon);
-                        } catch (PackageManager.NameNotFoundException e) {
-                            System.out.println("值------:崩溃了");
-                            e.printStackTrace();
-                        }*/
                         residualDatas.add(residual);
                     }
                 }
@@ -1378,37 +1302,6 @@ public class ScanHelp implements Parcelable {
             return fileSizes;
         }
     }
-
-    //    private Drawable getFileIcon(File fileDir) {
-    //        if (fileDir == null || !fileDir.exists()) {
-    //            return null;
-    //        } else if (fileDir.isDirectory()) {
-    //            File[] fileList = fileDir.listFiles();
-    //            if (fileList != null) {
-    //                PackageManager pm = context.getPackageManager();
-    //                for (File file : fileList) {
-    //                    PackageInfo pkgInfo = pm.getPackageArchiveInfo(file.getAbsolutePath(), PackageManager.GET_ACTIVITIES);
-    //                    if (pkgInfo != null) {
-    //                        ApplicationInfo appInfo = pkgInfo.applicationInfo;
-    //                         /* 必须加这两句，不然下面icon获取是default icon而不是应用包的icon */
-    //                        appInfo.sourceDir = file.getAbsolutePath();
-    //                        appInfo.publicSourceDir = file.getAbsolutePath();
-    //                        String appName = pm.getApplicationLabel(appInfo).toString();// 得到应用名
-    //                        String packageName = appInfo.packageName; // 得到包名
-    //                        //                        String version = pkgInfo.versionName; // 得到版本信息
-    //                         /* icon1和icon2其实是一样的 */
-    //                        Drawable icon1 = pm.getApplicationIcon(appInfo);// 得到图标信息
-    //                        Drawable icon2 = appInfo.loadIcon(pm);
-    //                        String pkgInfoStr = String.format("PackageName:%s, Vesion: %s, AppName: %s", packageName, version, appName);
-    //                        Log.i(TAG, String.format("PkgInfo: %s", pkgInfoStr));
-    //                        return icon1;
-    //                    }
-    //                }
-    //            }
-    //        }
-    //
-    //        return null;
-    //    }
 
     private long getFileFolderTotalSize(File fileDir) {
         long totalSize = 0;
