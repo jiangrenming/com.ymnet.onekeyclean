@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.commonlibrary.utils.ToastUtil;
@@ -40,7 +41,6 @@ import com.ymnet.onekeyclean.cleanmore.junk.mode.JunkChildCache;
 import com.ymnet.onekeyclean.cleanmore.junk.mode.JunkChildCacheOfChild;
 import com.ymnet.onekeyclean.cleanmore.junk.mode.JunkGroup;
 import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
-import com.ymnet.onekeyclean.cleanmore.service.BackgroundDoSomethingService;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.CleanSetSharedPreferences;
 import com.ymnet.onekeyclean.cleanmore.utils.DisplayUtil;
@@ -70,7 +70,9 @@ import static com.example.commonlibrary.utils.ToastUtil.showShort;
  */
 public class HomeFragment extends Fragment implements View.OnClickListener, ScanHelp.IScanResult, StickyLayout.OnGiveUpTouchEventListener {
 
-    private String TAG = "HomeFragment";
+    private static final int CLEAN_CODE    = 13;
+    private static final int SILVER_CODE   = 12;
+    private String TAG                     = "HomeFragment";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private ScanHelp        mScan;
@@ -107,6 +109,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
     private static final String SCAN_AGAIN    = "scanAgain";
     private static final String SCANNING   = "scanning";
     private Handler mHandler = new MyHandler(this);
+    private ImageView mIvCleanDown;
 
     class MyHandler extends Handler {
 
@@ -128,7 +131,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                     Intent intent = new Intent(getContext(), SilverActivity.class);
                     intent.putExtra("state", "scanFi");
                     Log.d("MyHandler", "mScan:" + mScan.getTotalSelectSize() + "--" + mScan.hashCode());
-                    startActivityForResult(intent, 12);
+                    startActivityForResult(intent, SILVER_CODE);
                     mHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -142,9 +145,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
             }
         }
     }
-
-
-
 
     public HomeFragment() {
     }
@@ -222,14 +222,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
         if (mProgressButton.getTag().equals(CLEAN_FINISH)) {
             mTvCleanDesc.setText(R.string.so_clear);
             mProgressButton.setText(R.string.done);
+            mIvCleanDown.setImageResource(R.drawable.clean_over_scanagain);
             mProgressButton.setTag(SCAN_AGAIN);
         } else if (mProgressButton.getTag().equals(SCAN_AGAIN)) {
             mTvCleanDesc.setText(R.string.keep_habit);
             mProgressButton.setText(R.string.scan_again);
+            mIvCleanDown.setImageResource(R.drawable.clean_over_clear);
             mProgressButton.setTag(SCANNING);
         } else if (mProgressButton.getTag().equals(SCANNING)) {
             mTvCleanDesc.setText(R.string.keep_habit);
             mProgressButton.setText(R.string.scan_again);
+            mIvCleanDown.setImageResource(R.drawable.clean_over_clear);
             mProgressButton.setTag(SCANNING);
         }
     }
@@ -247,7 +250,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
         }
 
         initScan();
-//        initData();
         return view;
     }
 
@@ -257,7 +259,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
         mRlHomeHead = view.findViewById(R.id.rl_home_head);
         mLlNumber = view.findViewById(R.id.ll_number);
         mRlHeadClear = view.findViewById(R.id.ll_clean_down);
-
+        mIvCleanDown = (ImageView) view.findViewById(R.id.iv_clean_down);
         mTvCleanDesc = (TextView) view.findViewById(R.id.tv_clean_down);
 
         mStickLayout = (StickyLayout) view.findViewById(R.id.sticky_layout);
@@ -347,7 +349,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 12) {
+        if (requestCode == SILVER_CODE) {
             //如果清理了
             if (resultCode == CleanFragmentInfo.ACTIVITY_RESULT_CLEAN) {
                 CleanSetSharedPreferences.setPBState(C.get(), CleanSetSharedPreferences.BUTTON_STATE, CLEAN_FINISH);
@@ -357,17 +359,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
             }
             initScan();
 
+        } else if (requestCode == CLEAN_CODE) {
+            Log.d("HomeFragment", "一键加速传回");
+            mAdapter.notifyDataSetChanged();
         }
     }
 
     private void recyclerViewOnClick(View v, int position) {
         switch (position) {
             case 0:
-                C.get().startActivity(new Intent(C.get(), CleanActivity.class));
-                mAdapter.notifyDataSetChanged();
+                startActivityForResult(new Intent(C.get(), CleanActivity.class),CLEAN_CODE);
                 break;
             case 1:
-                Log.d("HomeFragment", "微信条专题");
                 C.get().startActivity(new Intent(C.get(), WeChatActivity.class));
                 break;
             case 2:
@@ -385,26 +388,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
             mHeadContent.setScaleX(scale);
             mHeadContent.setScaleY(scale);
         }
-    }
-
-    private void initData() {
-        /*Log.d("HomeFragment", "初始化:" + CleanFragmentInfo.progressButtonState);
-        if (CleanFragmentInfo.progressButtonState.equals("scanFinish")) {
-            mProgressButton.setTag("scanFinish");
-            mProgressButton.setText("立刻清理2");
-        } else if (CleanFragmentInfo.progressButtonState.equals("empty")) {
-            mProgressButton.setTag("empty");
-            mProgressButton.setText("真干净");//垃圾扫描
-        }*/
-
-        /*String[] sizeAndUnit = FormatUtils.getFileSizeAndUnit(CleanFragmentInfo.displayValue);
-        String strSize = sizeAndUnit[0];
-        String strUnit = sizeAndUnit[1];
-
-        tv_size.setText(strSize);
-        tv_unit.setText(strUnit);
-        updateWaveLevel(CleanFragmentInfo.displayValue);
-        mAdapter.notifyDataSetChanged();*/
     }
 
     @Override
@@ -522,7 +505,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                         Log.d(TAG, "datas:" + datas);
                         if (datas == null || datas.size() == 0) {
                             //todo 清理完成展示界面
-                            // startCleanOverActivity();
+                            cleanOverHead();
                             mProgressButton.setText("清理完成");
                             mProgressButton.setTag(SCAN_AGAIN);
                             showShort(C.get(), "清理完成展示界面");
@@ -547,19 +530,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
         });
     }
 
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
@@ -672,57 +643,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
             }
         }
         return data;
-    }
-
-    private void startCleanAnimation() {
-
-        mWave.startAnimation();
-
-        JunkChild junkChild = mJunkChildDatas.get(0);
-        updateCleanProgress(junkChild);
-        mJunkChildDatas.remove(0);
-        //                mHandler.sendEmptyMessageDelayed(0x11, 100);
-        if (mJunkChildDatas.size() == 0) {
-            mProgressButton.setText("清理完成");
-            Log.d("HomeFragment", "empty这里赋值");
-            mProgressButton.setTag("empty");
-            onCleanEnd();
-        }
-
-    }
-
-    public void onCleanEnd() {
-        DataCenterObserver.get(C.get()).setCleanData(new SilverActivity.CleanDataModeEvent(datas, selectSize));
-        BackgroundDoSomethingService.startActionFoo(C.get(), "", "");
-        displayClear();
-    }
-
-    private void displayClear() {
-        showShort(C.get(), "真干净");
-        // TODO: 2017/6/2 0002 清理动画效果
-    }
-
-    private void updateCleanProgress(JunkChild junkChild) {
-        if (junkChild == null) {
-            return;
-        }
-        mJunkChildSize -= junkChild.size;
-        setCleaningSize(mJunkChildSize);
-        updateWaveLevel(mJunkChildSize);
-        mAdapter.notifyDataSetChanged();
-    }
-
-    /**
-     * 设置头部显示的文字
-     *
-     * @param size
-     */
-    private void setCleaningSize(long size) {
-        String[] fileSizeAndUnit = FormatUtils.getFileSizeAndUnit(size);
-        if (fileSizeAndUnit != null && fileSizeAndUnit.length == 2) {
-            tv_size.setText(fileSizeAndUnit[0]);
-            tv_unit.setText(fileSizeAndUnit[1]);
-        }
     }
 
     @Override

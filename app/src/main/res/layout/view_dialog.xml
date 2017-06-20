@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/ll_dialog"
+              android:layout_width="250dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:background="@drawable/dialog_bg_shape"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        >
+
+        <RelativeLayout
+            android:id="@+id/rl_clean_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:id="@+id/tv_clean_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="@string/toast_clean_result"
+                android:textColor="#3097fd"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:id="@+id/iv_arrow_result"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/flash_arrow_grey_anim"
+                />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/rl_leaninto_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_head2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/leadinto_home"
+                    android:textColor="#3097fd"
+                    android:textSize="14sp"/>
+
+                <ImageView
+                    android:id="@+id/iv_arrow_head2"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/flash_arrow_grey_anim"
+                    />
+            </RelativeLayout>
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_bottom_bg_shape"
+        android:gravity="center"
+        android:padding="10dp"
+        >
+        <!--        android:background="#99000000"-->
+        <TextView
+            android:id="@+id/tv_foot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="center_vertical"
+            android:text="@string/more_news"
+            android:textColor="#fff"
+            android:textSize="14sp"/>
+
+        <ImageView
+            android:id="@+id/iv_arrow_foot"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/flash_arrow_white_anim"/>
+    </RelativeLayout>
+</LinearLayout>

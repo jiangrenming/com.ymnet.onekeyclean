@@ -292,7 +292,7 @@
             android:exported="true">
         </receiver>
 
-        <activity android:name=".cleanmore.ViewpagerP">
+        <activity android:name=".cleanmore.HomeActivity">
         </activity>
         <!--供外部开启任务管理器的activity-->
         <activity

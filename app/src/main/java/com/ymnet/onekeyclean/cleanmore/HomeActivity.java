@@ -18,17 +18,17 @@ import com.ymnet.onekeyclean.cleanmore.fragment.testfragment.Fragment4;
 import com.ymnet.onekeyclean.cleanmore.fragment.testfragment.HomeFragment;
 
 
-public class ViewpagerP extends FragmentActivity implements HomeFragment.OnFragmentInteractionListener, Fragment2.OnFragmentInteractionListener,Fragment3.OnFragmentInteractionListener,Fragment4.OnFragmentInteractionListener{
+public class HomeActivity extends FragmentActivity implements HomeFragment.OnFragmentInteractionListener, Fragment2.OnFragmentInteractionListener, Fragment3.OnFragmentInteractionListener, Fragment4.OnFragmentInteractionListener {
 
-    private ViewPager mViewPager;
-    private TabLayout mTabLayout;
+    private ViewPager              mViewPager;
+    private TabLayout              mTabLayout;
     private MyFragmentPagerAdapter myFragmentPagerAdapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_viewpager_p);
+        setContentView(R.layout.activity_home);
         initView();
     }
 
@@ -79,14 +79,14 @@ public class ViewpagerP extends FragmentActivity implements HomeFragment.OnFragm
 
         @Override
         public Fragment getItem(int position) {
-
-            if (position == 1) {
+            //勿删,之后的其他界面
+            /*if (position == 1) {
                 return new Fragment2();
             } else if (position == 2) {
                 return new Fragment3();
             } else if (position == 3) {
                 return new Fragment4();
-            }
+            }*/
             return new HomeFragment();
 
         }
