@@ -122,6 +122,7 @@
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
 
     <application
         android:name=".MarketApplication"
@@ -237,7 +238,6 @@
             android:exported="true">
         </service>
         <service android:name=".cleanmore.service.BackgroundDoSomethingService"/>
-
         <service
             android:name=".cleanmore.notification.AssistantServiceHelper"
             android:enabled="true"
@@ -297,20 +297,38 @@
             android:name=".cleanmore.HomeActivity"
             android:launchMode="singleTop">
         </activity>
-        <!--供外部开启任务管理器的activity-->
+        <!-- 供外部开启任务管理器的activity -->
         <activity
             android:name=".DeviceManagerReceiver"
             android:excludeFromRecents="true"
             android:exported="true"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
-            <!--<meta-data android:name="android.app.device_admin"-->
-            <!--android:resource="@xml/my_admin" />-->
+
+            <!-- <meta-data android:name="android.app.device_admin" -->
+            <!-- android:resource="@xml/my_admin" /> -->
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
+
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
             </intent-filter>
         </activity>
+        <activity android:name=".cleanmore.uninstall.activity.UninstallActivity">
+        </activity>
 
+       <receiver android:name=".cleanmore.uninstall.model.AppInstallReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".cleanmore.uninstall.fragment.UninstallFragment$AppUninstallReceiver">
+            <intent-filter>
+                <action android:name="uninstall_app"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

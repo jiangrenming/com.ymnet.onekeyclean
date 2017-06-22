@@ -70,7 +70,7 @@
     <string name="dialog_filedelete_local">同时删除本地文件</string>
     <string name="confir_delete_count_file">确认删除%1$d个文件</string>
     <string name="yes_zh">确定</string>
-    <string name="download_deleting">正在清空记录，请稍候…</string>
+    <string name="download_deleting">正在执行，请稍候…</string>
     <string name="exporting">正在导出</string>
     <string name="wechat_export_success_tip">已成功导出%1$d个文件，您可以通过下面路径找到这些文件</string>
     <string name="wechat_export_error_tip">%1$d个文件导出失败，请注意查看</string>

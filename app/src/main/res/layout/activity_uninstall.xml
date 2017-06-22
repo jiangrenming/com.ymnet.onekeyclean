@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_more_function"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+   <!-- <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/main_blue_new1">
+
+        <TextView
+            android:id="@+id/tv_morefunction_title"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:drawablePadding="0.0dip"
+            android:gravity="center"
+            android:shadowColor="#39000000"
+            android:shadowDx="0.0"
+            android:shadowDy="6.0"
+            android:shadowRadius="6.0"
+            android:singleLine="true"
+            android:text="应用卸载"
+            android:textColor="@color/white"
+            android:textSize="17dp"/>
+    </RelativeLayout>-->
+    <include
+        android:id="@+id/ll_title"
+        layout="@layout/junk_title_layout"/>
+    <FrameLayout
+        android:id="@+id/fl_uninstall"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

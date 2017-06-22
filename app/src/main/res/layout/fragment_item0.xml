@@ -37,13 +37,12 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:orientation="vertical">
-
+            <!--android:visibility="gone"-->
             <RelativeLayout
                 android:id="@+id/ll_number"
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
+                android:layout_height="220dp"
                 android:gravity="center"
-                android:paddingBottom="25dp"
                 >
 
                 <com.ymnet.onekeyclean.cleanmore.widget.SGTextView
@@ -73,6 +72,7 @@
 
 
             </RelativeLayout>
+            <!--android:visibility="gone"-->
             <LinearLayout
                 android:visibility="gone"
                 android:layout_gravity="center"
@@ -89,7 +89,6 @@
                     android:layout_height="150dp"
                     android:layout_marginTop="25dp"
                     android:src="@drawable/clean_over_clear"/>
-                <!--android:src="@drawable/clean_over_scanagain"-->
                 <TextView
                     android:id="@+id/tv_clean_down"
                     android:layout_width="wrap_content"

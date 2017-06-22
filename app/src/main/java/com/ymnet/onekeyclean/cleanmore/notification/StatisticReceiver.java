@@ -53,6 +53,5 @@ public class StatisticReceiver extends BroadcastReceiver {
             NotificationUtil.collapseStatusBar(context);
         }
 
-
     }
 }

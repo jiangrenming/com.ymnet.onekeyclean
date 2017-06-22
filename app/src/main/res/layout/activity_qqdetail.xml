@@ -7,21 +7,21 @@
 
     <include
         android:id="@+id/rl_title"
-        layout="@layout/titlebar" />
+        layout="@layout/titlebar"/>
 
     <include
         android:id="@+id/vs_tip"
         layout="@layout/q_tip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_title" />
+        android:layout_below="@+id/rl_title"/>
 
     <include
-    android:id="@+id/ll_bottom"
-    layout="@layout/wechat_detail_button"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true" />
+        android:id="@+id/ll_bottom"
+        layout="@layout/wechat_detail_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
 
     <ExpandableListView
         android:id="@+id/elv"
@@ -29,16 +29,16 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/ll_bottom"
         android:layout_below="@+id/vs_tip"
+        android:background="#f0f0f0"
         android:cacheColorHint="@color/transparent"
+        android:childDivider="#f0f0f0"
         android:divider="#f0f0f0"
         android:dividerHeight="3dip"
-        android:childDivider="#f0f0f0"
         android:fadingEdge="none"
-        android:background="#f0f0f0"
         android:footerDividersEnabled="false"
         android:groupIndicator="@null"
         android:headerDividersEnabled="false"
         android:listSelector="@color/transparent"
         android:overScrollMode="never"
-        android:scrollbars="none" />
+        android:scrollbars="none"/>
 </RelativeLayout>
