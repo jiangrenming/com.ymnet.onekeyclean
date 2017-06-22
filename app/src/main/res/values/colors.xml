@@ -68,4 +68,5 @@
     <color name="blue_normal">#3097fd</color>
     <color name="blue_pressed">#aaF2F6FB</color>
     <color name="tranwhite">#33FFFFFF</color>
+    <color name="tranwhitecc">#ccFFFFFF</color>
 </resources>

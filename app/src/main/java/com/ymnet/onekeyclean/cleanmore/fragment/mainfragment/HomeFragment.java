@@ -1,4 +1,4 @@
-package com.ymnet.onekeyclean.cleanmore.fragment.testfragment;
+package com.ymnet.onekeyclean.cleanmore.fragment.mainfragment;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.ymnet.killbackground.utils.Run;
 import com.ymnet.killbackground.view.CleanActivity;
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.uninstall.activity.UninstallActivity;
 import com.ymnet.onekeyclean.cleanmore.constants.ByteConstants;
 import com.ymnet.onekeyclean.cleanmore.constants.ScanState;
 import com.ymnet.onekeyclean.cleanmore.constants.TimeConstants;
@@ -363,6 +364,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
     }
 
     private void recyclerViewOnClick(View v, int position) {
+//        mScan.setRun(false);
         switch (position) {
             case 0:
                 Intent intent = new Intent(C.get(), CleanActivity.class);
@@ -373,6 +375,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                 break;
             case 2:
                 C.get().startActivity(new Intent(C.get(), QQActivity.class));
+                break;
+            case 3:
+                C.get().startActivity(new Intent(C.get(),UninstallActivity.class));
                 break;
         }
 
@@ -497,6 +502,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                         datas = mScan.getDatas();
                         if (datas == null || datas.size() == 0) {
                             cleanOverHead();
+                            mWave.setProgressValue(0);
+                            tv_size.setText(String.valueOf(0));
                             mProgressButton.setText("清理完成");
                             mProgressButton.setTag(SCAN_AGAIN);
 //                            showShort(C.get(), "清理完成界面展示");

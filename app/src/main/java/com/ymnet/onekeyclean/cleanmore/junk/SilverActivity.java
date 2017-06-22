@@ -23,7 +23,7 @@ import com.ymnet.onekeyclean.cleanmore.datacenter.DataCenterObserver;
 import com.ymnet.onekeyclean.cleanmore.fragment.CleanOverFragment;
 import com.ymnet.onekeyclean.cleanmore.fragment.ScanningFragment;
 import com.ymnet.onekeyclean.cleanmore.fragment.fragmentcontroller.SingleDisplayFragmentController;
-import com.ymnet.onekeyclean.cleanmore.fragment.testfragment.CleanFragmentInfo;
+import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.CleanFragmentInfo;
 import com.ymnet.onekeyclean.cleanmore.junk.clearstrategy.ClearManager;
 import com.ymnet.onekeyclean.cleanmore.junk.mode.CleaningFragment;
 import com.ymnet.onekeyclean.cleanmore.junk.mode.InstalledAppAndRAM;

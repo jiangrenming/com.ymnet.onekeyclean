@@ -3,6 +3,8 @@ package com.ymnet.onekeyclean.cleanmore.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -65,6 +67,7 @@ public class LinearLayoutItemDecoration extends RecyclerView.ItemDecoration{
             final int top = child.getBottom() + params.bottomMargin;
             final int bottom = top + mDivider.getIntrinsicHeight();
             mDivider.setBounds(left, top, right, bottom);
+            mDivider.setColorFilter(Color.parseColor("#F8F8F8"), PorterDuff.Mode.SRC);
             mDivider.draw(c);
         }
     }
@@ -85,6 +88,7 @@ public class LinearLayoutItemDecoration extends RecyclerView.ItemDecoration{
             mDivider.draw(c);
         }
     }
+
 
     //由于Divider也有长宽高，每一个Item需要向下或者向右偏移
     @Override
