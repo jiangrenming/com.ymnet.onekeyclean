@@ -45,6 +45,7 @@
                 android:layout_height="164dp"
                 android:src="@drawable/bottom_adorn"/>
             <!--@drawable/timg2-->
+
         </LinearLayout>
     </com.ymnet.onekeyclean.cleanmore.widget.StickyLayout>
 </LinearLayout>

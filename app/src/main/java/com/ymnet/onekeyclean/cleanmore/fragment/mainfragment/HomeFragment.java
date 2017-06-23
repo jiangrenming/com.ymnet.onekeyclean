@@ -287,6 +287,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                 foot.setLayoutParams(lp);
                 foot.setBackgroundColor(Color.TRANSPARENT);
                 return foot;*//*
+
             }
         });*/
         mAdapter.setRecyclerListListener(new RecyclerViewClickListener() {
