@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -145,16 +144,8 @@ public class FileBigImageActivity extends BaseFragmentActivity implements OnClic
     }
 
     private void initData() {
-        int currentIndex = getIntent().getIntExtra("index", 0);
-        ArrayList<String> names = FileControl.getInstance(this).getAllPicDirNames();
-        String curDirName = "unkown";
-        if (names != null && currentIndex < names.size()) {
-            curDirName = names.get(currentIndex);
-            mInfos = FileControl.getInstance(this).getAllPicMap().get(curDirName);
-        }
-        Rect outRect = new Rect();
-        getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
-        adapter = new BigImageAdapter(C.get(), mInfos, outRect,curDirName);
+        mInfos = (ArrayList<FileInfo>)getIntent().getSerializableExtra("infos");
+        adapter = new BigImageAdapter(C.get(), mInfos);
         adapter.setChangeListerer(showFootAndHead);
         mViewPager.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -284,7 +275,7 @@ public class FileBigImageActivity extends BaseFragmentActivity implements OnClic
 
             @Override
             protected Boolean doInBackground(Void... params) {
-                if (mInfos !=null && currentPosition < mInfos.size()) {
+                if (mInfos != null && currentPosition < mInfos.size()) {
                     return FileBrowserUtil.deleteImage(FileBigImageActivity.this, mInfos.get(currentPosition).fileId,
                             mInfos.get(currentPosition).filePath, FileCategoryHelper.FileCategory.Picture);
                 }
@@ -303,12 +294,9 @@ public class FileBigImageActivity extends BaseFragmentActivity implements OnClic
                 }
 
                 if (mInfos != null && result) {
-                    setResult(0, getIntent().putExtra("isDelete", true));
-
                     mInfos.remove(currentPosition);
-
                     showToast(getString(R.string.delete_success));
-
+                    setResult(0, getIntent().putExtra("infos", mInfos));
                     if (mInfos.size() == 0) {
                         adapter.notifyDataSetChanged();
                         finish();

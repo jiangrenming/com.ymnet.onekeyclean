@@ -128,7 +128,7 @@ public class FileSortHelper
     
     private int longToCompareInt(long result)
     {
-        return result > 0 ? 1 : (result < 0 ? -1 : 0);
+        return result > 0 ? -1 : (result < 0 ? 1 : 0);
     }
     
     private Comparator cmpType = new FileComparator()

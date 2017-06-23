@@ -4,28 +4,27 @@
     android:id="@+id/fl_loading"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:padding="8dp">
 
     <!-- 进度条 -->
 
-    <!--<ProgressBar-->
-        <!--android:id="@+id/progressbar"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:indeterminateDrawable="@drawable/my_progress_style"-->
-        <!--android:indeterminateOnly="true"-->
-        <!--android:padding="3dp"-->
-        <!--android:visibility="gone" />-->
-    <!-- wheel since v3.6-->
-    <com.ymnet.onekeyclean.cleanmore.customview.CircularProgress
+    <ProgressBar
         android:id="@+id/pb_loading"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        app:borderWidth="2.5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"/>
+        android:indeterminateDrawable="@drawable/my_progress_style"
+        android:indeterminateOnly="true"
+        android:padding="3dp" />
+    <!-- wheel since v3.6-->
+    <!--<com.ymnet.onekeyclean.cleanmore.customview.CircularProgress-->
+    <!--android:id="@+id/pb_loading"-->
+    <!--android:layout_width="55dp"-->
+    <!--android:layout_height="55dp"-->
+    <!--app:borderWidth="2.5dp"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:visibility="gone"/>-->
     <LinearLayout
         android:id="@+id/ll_loaded_fail"
         android:layout_width="match_parent"
@@ -47,9 +46,9 @@
 
         <Button
             android:id="@+id/btn_retry"
-            android:layout_marginTop="20dp"
             android:layout_width="96dp"
             android:layout_height="34dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/no_install_btn_bg"
             android:text="@string/try_refresh"
             android:textColor="@color/diaglog_text_color"

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/top_menu"
+        layout="@layout/file_management_base_top_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <include
+        android:id="@+id/bottom_delete"
+        layout="@layout/file_management_base_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ducuments_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_delete"
+        android:layout_below="@+id/top_menu"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/no_data"
+        layout="@layout/file_management_base_no_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/fl_loading"
+        layout="@layout/fragment_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/top_menu" />
+
+</RelativeLayout>

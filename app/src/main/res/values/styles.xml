@@ -2,7 +2,7 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="@android:style/Theme.Light.NoTitleBar">
-    <!--<style name="AppTheme" parent="@android:style/Theme.Black.NoTitleBar">-->
+        <!--<style name="AppTheme" parent="@android:style/Theme.Black.NoTitleBar">-->
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:background">@null</item>
         <item name="android:colorBackground">@null</item>
@@ -31,7 +31,7 @@
     </style>
 
     <style name="fullscreenTheme" parent="AppTheme">
-      <!--  <item name="android:windowFullscreen">true</item>-->
+        <!--  <item name="android:windowFullscreen">true</item>-->
         <item name="android:windowNoTitle">true</item>
     </style>
 
@@ -172,6 +172,7 @@
         <item name="android:taskToBackEnterAnimation">@style/translate_activity_in_out</item>
         <item name="android:taskToBackExitAnimation">@style/translate_activity_in_out</item>
     </style>
+
     <style name="translate_activity_in_out">
         <item name="android:activityOpenEnterAnimation">@anim/translate_activity_in</item>
         <item name="android:activityOpenExitAnimation">@anim/translate_activity_out</item>
@@ -236,9 +237,30 @@
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowAnimationStyle">@style/custom_dialog_animation</item>
     </style>
+
     <style name="custom_dialog_animation">
         <item name="android:windowEnterAnimation">@anim/input_method_enter</item>
         <item name="android:windowExitAnimation">@anim/input_method_exit</item>
+    </style>
+
+    <style name="File_Item_Checkbox">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">#00000000</item>
+        <item name="android:button">@null</item>
+        <item name="android:drawablePadding">0dp</item>
+        <item name="android:drawableRight">@drawable/file_management_cb_music_checked_selector</item>
+        <item name="android:paddingRight">20dp</item>
+    </style>
+
+    <style name="File_Item_Image">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">#00000000</item>
+        <item name="android:button">@null</item>
+        <item name="android:drawablePadding">0dp</item>
+        <item name="android:drawableRight">@drawable/file_management_cb_music_checked_selector</item>
+        <item name="android:paddingRight">20dp</item>
     </style>
 
 </resources>

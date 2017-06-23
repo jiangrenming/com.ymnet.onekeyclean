@@ -28,6 +28,7 @@ import com.ymnet.onekeyclean.cleanmore.constants.TimeConstants;
 import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
 import com.ymnet.onekeyclean.cleanmore.datacenter.DataCenterObserver;
 import com.ymnet.onekeyclean.cleanmore.fragment.CleanOverFragment;
+import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.FileManagerActivity;
 import com.ymnet.onekeyclean.cleanmore.fragment.view.HomeAdapter;
 import com.ymnet.onekeyclean.cleanmore.fragment.view.RecyclerInfo;
 import com.ymnet.onekeyclean.cleanmore.junk.ScanFinishFragment;
@@ -373,6 +374,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                 break;
             case 2:
                 C.get().startActivity(new Intent(C.get(), QQActivity.class));
+                break;
+            case 4:
+                Intent file = new Intent(C.get(), FileManagerActivity.class);
+                file.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                C.get().startActivity(file);
                 break;
         }
 

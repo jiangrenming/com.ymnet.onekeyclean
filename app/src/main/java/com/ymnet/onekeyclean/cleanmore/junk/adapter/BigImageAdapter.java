@@ -1,8 +1,6 @@
 package com.ymnet.onekeyclean.cleanmore.junk.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Rect;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,27 +19,15 @@ import java.util.ArrayList;
 
 
 public class BigImageAdapter extends PagerAdapter {
-    private String tag = getClass().getSimpleName();
     private Context mContext;
 
     private ArrayList<FileInfo> mInfos;
 
     private ShowHideListerer listerer;
 
-    private Rect      rect;
-    private Resources resources;
-    private String    dirName;
-
-    public BigImageAdapter(Context context, ArrayList<FileInfo> infos, Rect outRect, String dirName) {
+    public BigImageAdapter(Context context, ArrayList<FileInfo> infos) {
         this.mContext = context;
         this.mInfos = infos;
-        this.rect = outRect;
-        this.dirName = dirName;
-        resources = mContext.getResources();
-    }
-
-    public String getDirName() {
-        return dirName;
     }
 
     @Override

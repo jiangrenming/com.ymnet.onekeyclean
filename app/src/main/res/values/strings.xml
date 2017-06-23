@@ -33,7 +33,7 @@
     <string name="chat_voice_info">聊天语音，包括个人和群消息</string>
     <string name="chat_video_info">聊天产生的视频及预览图，包括个人和群消息</string>
     <string name="export">导出</string>
-    <string name="file_delete">删除</string>
+    <string name="file_delete">删除(%s)</string>
     <string name="wechat_voice_tip"> 由于微信对聊天语音进行了加密,无法播放,请谨慎删除</string>
 
     <!-- fileBrowser -->
@@ -70,7 +70,7 @@
     <string name="dialog_filedelete_local">同时删除本地文件</string>
     <string name="confir_delete_count_file">确认删除%1$d个文件</string>
     <string name="yes_zh">确定</string>
-    <string name="download_deleting">正在清空记录，请稍候…</string>
+    <string name="download_deleting">正在删除文件，请稍候…</string>
     <string name="exporting">正在导出</string>
     <string name="wechat_export_success_tip">已成功导出%1$d个文件，您可以通过下面路径找到这些文件</string>
     <string name="wechat_export_error_tip">%1$d个文件导出失败，请注意查看</string>
@@ -203,5 +203,18 @@
     <string name="done">完成</string>
     <string name="keep_habit">经常清理手机，告别手机卡顿</string>
     <string name="scan_again">重新扫描</string>
+
+    <string name="documents_clean">大文件清理</string>
+    <string name="documents_clean_dec">清理大于10M的文件</string>
+    <string name="picture_clean">相册清理</string>
+    <string name="picture_clean_dec">清理质量不佳的图片</string>
+    <string name="video_clean">视频清理</string>
+    <string name="video_clean_dec">清理不喜欢的歌曲</string>
+    <string name="music_clean">音乐清理</string>
+    <string name="music_clean_dec">清理不再观看的视频</string>
+    <string name="apk_clean">安装包清理</string>
+    <string name="apk_clean_dec">清理手机中无用的安装包</string>
+    <string name="zip_clean">压缩包清理</string>
+    <string name="zip_clean_dec">清理多余的压缩包</string>
 
 </resources>

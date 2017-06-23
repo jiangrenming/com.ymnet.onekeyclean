@@ -355,6 +355,41 @@ public class FileBrowserUtil {
         }
     }
 
+    public static void openFile(Context context, FileInfo info) {
+        switch (info.fc) {
+            case Doc:
+                FileBrowserUtil.openFile(context,info.filePath, info.mimeType);
+                break;
+            case Picture:
+                break;
+            case Music:
+                FileBrowserUtil.openFile(context,info.filePath, info.mimeType);
+                break;
+            case Video:
+                FileBrowserUtil.openFile(context,info.filePath, info.mimeType);
+                break;
+            case Apk:
+                File file = new File(info.filePath);
+                Intent i = new Intent();
+                String uriStr = "file://" + file.getAbsolutePath();
+                i.setAction(Intent.ACTION_VIEW);
+                i.setDataAndType(Uri.parse(uriStr), "application/vnd.android.package-archive");
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                if (!context.getPackageManager().queryIntentActivities(i, 0).isEmpty()) {
+                    try {
+                        context.startActivity(i);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case Zip:
+                FileBrowserUtil.openFile(context,info.filePath, info.mimeType);
+                break;
+        }
+    }
+
     public static void openFile(Context context, String path, String type) {
         try {
             File file = new File(path);
@@ -481,7 +516,7 @@ public class FileBrowserUtil {
         appInfo.publicSourceDir = info.filePath;
 
         info.appName = pm.getApplicationLabel(appInfo).toString();
-
+        info.drawable = appInfo.loadIcon(pm);
     }
 
    /* public static DownloadAppInfo getApkInfo(Context context, String apkPath) {

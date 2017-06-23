@@ -17,7 +17,6 @@ import com.ymnet.onekeyclean.cleanmore.datacenter.MediaTypeForCamera;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileCategoryHelper.FileCategory;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileSortHelper.SortMethod;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.bean.FileInfo;
-import com.ymnet.onekeyclean.cleanmore.utils.FileTreeUtils;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
 import com.ymnet.onekeyclean.cleanmore.wechat.MTask;
 
@@ -41,7 +40,7 @@ public class FileControl extends MarketObservable {
         isUserStop = userStop;
     }
 
-    private boolean isUserStop =false;
+    private boolean isUserStop = false;
     private FileCategoryHelper categoryHelper;
 
     private static volatile FileControl instance = null;
@@ -51,6 +50,8 @@ public class FileControl extends MarketObservable {
     private long allPicSize;
 
     private HashMap<String, ArrayList<FileInfo>> allPicsMap;
+
+    private ArrayList<FileInfo> allPicsList;
 
     private ArrayList<String> allPicDirNames;
 
@@ -115,7 +116,7 @@ public class FileControl extends MarketObservable {
      * @param count 删除的项数
      * @param size  删除的大小
      */
-    public void notifyDataChange( FileCategory fc, int count, long size) {
+    public void notifyDataChange(FileCategory fc, int count, long size) {
         if (mCategoryInfo != null) {
             CategoryInfo info = mCategoryInfo.get(fc);
             if (info == null) {
@@ -230,10 +231,6 @@ public class FileControl extends MarketObservable {
             // 遍历需求
             if (files != null) {
                 for (int i = 0; i < files.length; i++) {
-                    if (FileTreeUtils.isFileDirOver10(files[i])) {
-                        continue;
-                    }
-
                     if (files[i].isDirectory()) {
                         if (files[i].getCanonicalPath().equals(files[i].getAbsolutePath())) {
                             listSortFilesInPhoneDisk(files[i]);
@@ -244,14 +241,17 @@ public class FileControl extends MarketObservable {
                         FileInfo fileInfo = getFileInfo(files[i].getPath());
                         if (fileInfo != null) {
                             if (suffix.equals("apk")) {
+                                fileInfo.fc = FileCategory.Apk;
                                 apkList.add(fileInfo);
                                 apkSize += files[i].length();
                                 scanNum += 1;
                             } else if (suffix.equals("zip") || suffix.equals("rar") || suffix.equals("iso") || suffix.equals("7z")) {
+                                fileInfo.fc = FileCategory.Zip;
                                 zipList.add(fileInfo);
                                 zipSize += files[i].length();
                                 scanNum += 1;
                             } else if ((FileBrowserUtil.isText(suffix))) {
+                                fileInfo.fc = FileCategory.Doc;
                                 docList.add(fileInfo);
                                 docSize += files[i].length();
                                 scanNum += 1;
@@ -308,7 +308,7 @@ public class FileControl extends MarketObservable {
                     File[] files = file.listFiles();
                     if (files != null) {
                         for (File file1 : files) {
-                            if(isUserStop)return;
+                            if (isUserStop) return;
                             if (file1.isDirectory()) {
                                 getWXPic(file1);
                             } else {
@@ -334,7 +334,6 @@ public class FileControl extends MarketObservable {
                 if (wx == null) {
                     wx = new ArrayList<FileInfo>();
                     allPicsMap.put(FileBrowserUtil.PIC_DIR_WX, wx);
-
                     int index = allPicDirNames.indexOf(FileBrowserUtil.PIC_DIR_QQ);
                     if (index == -1) {
                         index = allPicDirNames.indexOf(FileBrowserUtil.PIC_DIR_SCREENSHOTS);
@@ -353,6 +352,7 @@ public class FileControl extends MarketObservable {
                 allPicSize = allPicSize + fileInfo.fileSize;
 
                 wx.add(fileInfo);
+                allPicsList.add(fileInfo);
             }
         }
     }
@@ -397,6 +397,10 @@ public class FileControl extends MarketObservable {
             allPicsMap = new HashMap<String, ArrayList<FileInfo>>();
         }
 
+        if (allPicsList == null) {
+            allPicsList = new ArrayList<FileInfo>();
+        }
+
         if (allPicDirNames == null) {
             allPicDirNames = new ArrayList<String>();
         }
@@ -420,7 +424,7 @@ public class FileControl extends MarketObservable {
             c.moveToPosition(-1);
             while (c.moveToNext()) {
                 // String bulketID = c.getString(id);
-                if(isUserStop)break;
+                if (isUserStop) break;
                 String bulketName = c.getString(dirNameIndex);
                 String path = c.getString(pathIndex);
                 int fileId = c.getInt(idd);
@@ -444,7 +448,7 @@ public class FileControl extends MarketObservable {
                 info.fileSize = filesize;
                 info.filePath = path;
                 info.mimeType = mimeType;
-
+                info.fc = FileCategory.Picture;
                 allPicCount++;
                 allPicSize = allPicSize + filesize;
 
@@ -482,6 +486,7 @@ public class FileControl extends MarketObservable {
 
                     other.add(info);
                 }
+                allPicsList.add(info);
             }
             c.close();
 
@@ -520,6 +525,11 @@ public class FileControl extends MarketObservable {
         }
 
         return allPicsMap;
+    }
+
+    public ArrayList<FileInfo> getAllPicList() {
+        getAllPic(context, SortMethod.date);
+        return allPicsList;
     }
 
     public ArrayList<String> getAllPicDirNames() {
@@ -568,15 +578,11 @@ public class FileControl extends MarketObservable {
                 info.fileSize = c.getLong(size);
                 info.mimeType = c.getString(mine);
                 info.filePath = path;
-
+                info.fc = FileCategory.Music;
                 list.add(info);
 
             }
-
-            try {
-                c.close();
-            } catch (Exception e) {
-            }
+            c.close();
         }
         return list;
     }
@@ -606,6 +612,7 @@ public class FileControl extends MarketObservable {
                 info.fileSize = c.getLong(size);
                 info.mimeType = c.getString(mine);
                 info.filePath = c.getString(data);
+                info.fc = FileCategory.Video;
                 list.add(info);
             }
             c.close();
@@ -614,14 +621,17 @@ public class FileControl extends MarketObservable {
     }
 
     public ArrayList<FileInfo> getAllDoc(SortMethod sort) {
+        refreshMediaCategory2();
         return docList;
     }
 
     public ArrayList<FileInfo> getAllApk(SortMethod sort) {
+        refreshMediaCategory2();
         return apkList;
     }
 
     public ArrayList<FileInfo> getAllZip(SortMethod sort) {
+        refreshMediaCategory2();
         return zipList;
     }
 
@@ -691,7 +701,7 @@ public class FileControl extends MarketObservable {
 
     public void close() {
         isRun = false;
-        isUserStop=false;
+        isUserStop = false;
         deleteObservers();
         instance = null;
     }

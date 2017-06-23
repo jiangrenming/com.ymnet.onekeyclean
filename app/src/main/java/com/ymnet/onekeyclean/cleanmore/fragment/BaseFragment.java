@@ -4,13 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
-import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.customview.CircularProgress;
-import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.wechat.component.HasComponent;
 
 
@@ -114,62 +111,28 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void showLoading() {
-        try {
-            checkView();
-        } catch (Exception e) {
-            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
-            Log.e(pb_tag, "checkView is exception");
-            return;
-        }
-        fl_loading.setVisibility(View.VISIBLE);
-        pb_loading.setVisibility(View.VISIBLE);
-        ll_loaded_fail.setVisibility(View.GONE);
-        btn_retry.setVisibility(View.GONE);
+        if (fl_loading != null) fl_loading.setVisibility(View.VISIBLE);
+        if (pb_loading != null) pb_loading.setVisibility(View.VISIBLE);
+        if (ll_loaded_fail != null) ll_loaded_fail.setVisibility(View.GONE);
+        if (btn_retry != null) btn_retry.setVisibility(View.GONE);
     }
 
     protected void showLoadFail() {
-        try {
-            checkView();
-        } catch (Exception e) {
-            Log.e(pb_tag, "checkView is exception");
-            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
-            return;
-        }
-        fl_loading.setVisibility(View.VISIBLE);
-        pb_loading.setVisibility(View.GONE);
-        ll_loaded_fail.setVisibility(View.VISIBLE);
-        btn_retry.setVisibility(View.VISIBLE);
+        if (fl_loading != null) fl_loading.setVisibility(View.VISIBLE);
+        if (pb_loading != null) pb_loading.setVisibility(View.GONE);
+        if (ll_loaded_fail != null) ll_loaded_fail.setVisibility(View.VISIBLE);
+        if (btn_retry != null) btn_retry.setVisibility(View.VISIBLE);
     }
 
     public void hideLoading() {
-        try {
-            checkView();
-        } catch (Exception e) {
-            Log.e(pb_tag, "checkView is exception");
-            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
-            return;
-        }
-        fl_loading.setVisibility(View.GONE);
-        pb_loading.setVisibility(View.GONE);
-        ll_loaded_fail.setVisibility(View.GONE);
-        btn_retry.setVisibility(View.GONE);
-    }
-
-    private void checkView() throws Exception {
-        if (fl_loading == null || pb_loading == null || ll_loaded_fail == null || btn_retry == null) {
-            throw new IllegalArgumentException("loading view has null");
-        }
+        if (fl_loading != null) fl_loading.setVisibility(View.GONE);
+        if (pb_loading != null) pb_loading.setVisibility(View.GONE);
+        if (ll_loaded_fail != null) ll_loaded_fail.setVisibility(View.GONE);
+        if (btn_retry != null) btn_retry.setVisibility(View.GONE);
     }
 
     protected void setRetryListener(View.OnClickListener li) {
-        try {
-            checkView();
-        } catch (Exception e) {
-            e.printStackTrace();
-            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
-            return;
-        }
-        btn_retry.setOnClickListener(li);
+        if (btn_retry != null) btn_retry.setOnClickListener(li);
     }
 
     /**

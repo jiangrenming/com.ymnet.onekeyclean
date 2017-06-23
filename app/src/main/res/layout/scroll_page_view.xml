@@ -7,7 +7,7 @@
     android:gravity="center"
     android:orientation="vertical" >
 
-    <com.example.umengnet.filebrowser.PhotoView
+    <com.ymnet.onekeyclean.cleanmore.filebrowser.PhotoView
         android:scaleType="fitCenter" 
         android:id="@+id/photoview"
         android:layout_width="fill_parent"
@@ -20,7 +20,4 @@
         android:layout_gravity="center"
         android:indeterminateDrawable="@drawable/my_progress_style"
         android:indeterminateOnly="true"/>
-
-
-
 </FrameLayout>

@@ -17,4 +17,8 @@
 
     <dimen name="corner_radius">5dp</dimen>
     <dimen name="default_48dp">48dp</dimen>
+    
+    <dimen name="file_item_image_width">50dip</dimen>
+    <dimen name="file_item_image_height">@dimen/file_item_image_width</dimen>
+    <dimen name="file_video_image_width">90dip</dimen>
 </resources>
