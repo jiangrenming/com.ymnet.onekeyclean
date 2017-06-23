@@ -201,7 +201,8 @@ public class ScanHelp implements Parcelable {
     public synchronized void startScan(final boolean flag) {
         NotificationManager2345 manager = NotificationManager2345.getInstance(context);
         manager.cancelNotification(NotificationManager2345.NOTIFI_CLAEAN_2345);
-        MTask.BACKGROUND_EXECUTOR.execute(new Runnable() {
+//        MTask.BACKGROUND_EXECUTOR.execute(new Runnable() {
+        MTask.sExecutor.execute(new Runnable() {
 
             @Override
             public void run() {

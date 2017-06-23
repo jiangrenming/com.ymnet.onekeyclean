@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,8 +25,9 @@ import android.view.ViewGroup;
 
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.fragment.BaseFragment;
-import com.ymnet.onekeyclean.cleanmore.temp.AsyncTaskwdh;
+import com.ymnet.onekeyclean.cleanmore.junk.ScanHelp;
 import com.ymnet.onekeyclean.cleanmore.uninstall.model.AppInfo;
+import com.ymnet.onekeyclean.cleanmore.uninstall.model.UninstallCallback;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 
 import java.lang.reflect.Method;
@@ -39,18 +41,23 @@ import java.util.List;
  */
 
 public class EmptyFragment extends BaseFragment {
-    private List<String> mIgnoreList= new ArrayList<>();
-    private Handler mHandler = new Handler();
+    private List<String> mIgnoreList = new ArrayList<>();
+    private Handler      mHandler    = new Handler();
     private PackageManager    mPackageManager;
     private List<PackageInfo> installedPackages;
     private List<AppInfo> mAppInfoList = new ArrayList<>();
     private List<String>  mPkgNameList = new ArrayList<>();
-    private boolean isExecutedUninstall;
-    private View    mProgressBar;
+    private boolean           isExecutedUninstall;
+    private View              mProgressBar;
+    private UninstallCallback mUninstallCallback;
 
     public static EmptyFragment newInstance() {
         EmptyFragment fragment = new EmptyFragment();
         return fragment;
+    }
+
+    public void getMessage(UninstallCallback uninstallCallback) {
+        this.mUninstallCallback = uninstallCallback;
     }
 
     @Nullable
@@ -81,13 +88,15 @@ public class EmptyFragment extends BaseFragment {
             mPkgNameList.clear();
         }
 
-        AsyncTaskwdh<Void, Void, Void> task = new AsyncTaskwdh<Void, Void, Void>() {
+        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
             @Override
             protected void onPreExecute() {
             }
 
             @Override
             protected Void doInBackground(Void... params) {
+                android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_FOREGROUND);
+
                 for (int i = 0; i < installedPackages.size(); i++) {
 
                     if ((installedPackages.get(i).applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {//非系统应用
@@ -101,6 +110,8 @@ public class EmptyFragment extends BaseFragment {
 
                     }
                 }
+                while (ScanHelp.getInstance(C.get()).isRun()) {
+                }//勿删!
                 Log.d("EmptyFragment", mAppInfoList.toString());
                 return null;
             }
@@ -110,6 +121,9 @@ public class EmptyFragment extends BaseFragment {
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+
+                        mUninstallCallback.getMessage(mAppInfoList);
+
                         FragmentManager fm = getFragmentManager();
                         FragmentTransaction ft = fm.beginTransaction();
                         UninstallFragment uf = UninstallFragment.newInstance();
@@ -121,14 +135,14 @@ public class EmptyFragment extends BaseFragment {
                         //                        ft.addToBackStack(null);
                         ft.commit();
                     }
-                }, 1500);
-
+                }, 500);
             }
 
         };
 
         task.execute(new Void[]{});
     }
+
 
     private void getPkgSize(final PackageInfo packageInfo, final AppInfo info) {
 

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.ImmersiveActivity;
 import com.ymnet.onekeyclean.cleanmore.animation.TweenAnimationUtils;
 import com.ymnet.onekeyclean.cleanmore.constants.ByteConstants;
 import com.ymnet.onekeyclean.cleanmore.constants.ScanState;
@@ -38,7 +39,6 @@ import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
 import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
-import com.ymnet.onekeyclean.cleanmore.wechat.view.BaseFragmentActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class SilverActivity extends BaseFragmentActivity implements View.OnClickListener, ScanHelp.IScanResult, ScanFinishFragment.OnScanFinishFragmentInteractionListener, CleaningFragment.OnCleanFragmentEndListener {
+public class SilverActivity extends ImmersiveActivity implements View.OnClickListener, ScanHelp.IScanResult, ScanFinishFragment.OnScanFinishFragmentInteractionListener, CleaningFragment.OnCleanFragmentEndListener {
     private String TAG = "SilverActivity";
     private RelativeLayout rl_page_title;
     private Button         btn_stop;
