@@ -638,6 +638,26 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
                 finishDialogAndMyself();
                 startActivity(new Intent(CleanActivity.this, HomeActivity.class));
                 break;
+            case R.id.rl_morefunction:
+                //前提步骤:// TODO: 2017/6/23 0023  
+                /**
+                 * 1.加速球点击时,网络请求数据
+                 * 2.网络数据为空:展示界面时展示默认布局
+                 *   网络数据有 : 判断数据是否和之前的一致 :1.一致-展示的数据为sharedperference存储顺序位置position
+                 *                                       2.不一致,删除旧数据,存入新数据,展示的数据为position=0开始执行
+                 */
+                //根据请求的数据类型展示界面类型
+                /**
+                 * 0.无网络数据:默认布局
+                 * 1.type==web:
+                 * 2.type==download:
+                 */
+                //点击事件
+                /**
+                 * 1.type==web:跳转用浏览器打开web_url
+                 * 2.type==download:跳转用浏览器打开news_url
+                 */
+                break;
         }
     }
 }

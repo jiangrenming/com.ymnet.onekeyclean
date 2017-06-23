@@ -158,12 +158,12 @@
         <activity
             android:name=".cleanmore.wechat.WeChatActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:launchMode="standard"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Activity_Translate_Theme"/>
         <activity
             android:name=".cleanmore.junk.SilverActivity"
-            android:launchMode="standard"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Activity_Translate_Theme"/>
         <activity
@@ -183,7 +183,7 @@
         <activity
             android:name=".cleanmore.qq.activity.QQActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:launchMode="standard"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Activity_Translate_Theme">
         </activity>

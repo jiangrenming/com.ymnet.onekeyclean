@@ -9,6 +9,11 @@ import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.ImmersiveActivity;
 import com.ymnet.onekeyclean.cleanmore.uninstall.fragment.EmptyFragment;
 import com.ymnet.onekeyclean.cleanmore.uninstall.fragment.UninstallFragment;
+import com.ymnet.onekeyclean.cleanmore.uninstall.model.AppInfo;
+import com.ymnet.onekeyclean.cleanmore.uninstall.model.UninstallCallback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by MajinBuu on 2017/6/21 0021.
@@ -18,10 +23,12 @@ import com.ymnet.onekeyclean.cleanmore.uninstall.fragment.UninstallFragment;
 public class UninstallActivity extends ImmersiveActivity {
 
     private static final String uninstallFragmentTag = "uninstall";
+    private List<AppInfo> mAppInfo = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_uninstall);
+
         initToolbar();
         initFragment();
     }
@@ -40,6 +47,18 @@ public class UninstallActivity extends ImmersiveActivity {
     private void initFragment() {
         EmptyFragment loadingF = EmptyFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_uninstall, loadingF, uninstallFragmentTag).commit();
+
+
+        loadingF.getMessage(new UninstallCallback() {
+            @Override
+            public void getMessage(List<AppInfo> appInfo) {
+                mAppInfo = appInfo;
+            }
+        });
+    }
+
+    public List<AppInfo> getAppInfo() {
+        return mAppInfo;
     }
 
     private UninstallFragment getScanningFragment() {

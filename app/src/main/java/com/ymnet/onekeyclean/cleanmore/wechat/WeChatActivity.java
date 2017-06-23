@@ -32,6 +32,7 @@ import com.nineoldandroids.view.ViewHelper;
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.killbackground.customlistener.MyViewPropertyAnimatorListener;
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.ImmersiveActivity;
 import com.ymnet.onekeyclean.cleanmore.animation.TweenAnimationUtils;
 import com.ymnet.onekeyclean.cleanmore.constants.WeChatConstants;
 import com.ymnet.onekeyclean.cleanmore.customview.DividerItemDecoration;
@@ -55,7 +56,6 @@ import com.ymnet.onekeyclean.cleanmore.wechat.mode.WeChatContent;
 import com.ymnet.onekeyclean.cleanmore.wechat.mode.WeChatFileType;
 import com.ymnet.onekeyclean.cleanmore.wechat.presenter.WeChatPresenter;
 import com.ymnet.onekeyclean.cleanmore.wechat.presenter.WeChatPresenterImpl;
-import com.ymnet.onekeyclean.cleanmore.wechat.view.BaseFragmentActivity;
 import com.ymnet.onekeyclean.cleanmore.wechat.view.WeChatMvpView;
 import com.ymnet.onekeyclean.cleanmore.widget.BottomScrollView;
 import com.ymnet.onekeyclean.cleanmore.widget.LinearLayoutItemDecoration;
@@ -79,7 +79,7 @@ import static com.ymnet.onekeyclean.R.id.tv_clean_success_size;
 import static com.ymnet.onekeyclean.R.id.tv_history_clean_size;
 
 
-public class WeChatActivity extends BaseFragmentActivity implements WeChatMvpView, View.OnClickListener {
+public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, View.OnClickListener {
     WeChatPresenter mPresenter;
     public final static String EXTRA_ITEM_POSITION = "wechat_position";
     public final static String WECHAT_GUIDE        = "wechat_guide";

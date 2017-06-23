@@ -17,6 +17,7 @@ import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
 import com.ymnet.onekeyclean.cleanmore.fragment.BaseFragment;
 import com.ymnet.onekeyclean.cleanmore.temp.AsyncTaskwdh;
+import com.ymnet.onekeyclean.cleanmore.uninstall.activity.UninstallActivity;
 import com.ymnet.onekeyclean.cleanmore.uninstall.adapter.InstalledAppAdapter;
 import com.ymnet.onekeyclean.cleanmore.uninstall.model.AppInfo;
 import com.ymnet.onekeyclean.cleanmore.uninstall.model.UninstallClickListener;
@@ -51,13 +52,6 @@ public class UninstallFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ArrayList<AppInfo> appInfoList = getArguments().getParcelableArrayList("appInfoList");
-        if (appInfoList == null) {
-            throw new NullPointerException("扫描数据为null");
-        }
-        Log.d("UninstallFragment", "传来的值appInfoList:" + appInfoList);
-        mAppInfoList.clear();
-        mAppInfoList.addAll(appInfoList);
 
         mReceiver = new AppUninstallReceiver();
         IntentFilter filter = new IntentFilter();
@@ -65,6 +59,23 @@ public class UninstallFragment extends BaseFragment {
         filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
         getActivity().registerReceiver(mReceiver, filter);
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        /*ArrayList<AppInfo> appInfoList = getArguments().getParcelableArrayList("appInfoList");
+        if (appInfoList == null) {
+            throw new NullPointerException("扫描数据为null");
+        }
+        Log.d("UninstallFragment", "传来的值appInfoList:" + appInfoList);
+        mAppInfoList.clear();
+
+        mAppInfoList.addAll(appInfoList);*/
+        // TODO: 2017/6/22 0022  
+        List<AppInfo> appInfo = ((UninstallActivity) getActivity()).getAppInfo();
+//        Log.d("UninstallFragment", "appInfo:" + appInfo);
+        mAppInfoList = appInfo;
     }
 
     public static class AppUninstallReceiver extends BroadcastReceiver {
@@ -106,6 +117,7 @@ public class UninstallFragment extends BaseFragment {
 
         });
         mAdapter.notifyDataSetChanged();
+
     }
 
     public static int mPosition;

@@ -2,14 +2,12 @@ package com.ymnet.onekeyclean.cleanmore.fragment.mainfragment;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,7 +20,6 @@ import android.widget.TextView;
 import com.ymnet.killbackground.utils.Run;
 import com.ymnet.killbackground.view.CleanActivity;
 import com.ymnet.onekeyclean.R;
-import com.ymnet.onekeyclean.cleanmore.uninstall.activity.UninstallActivity;
 import com.ymnet.onekeyclean.cleanmore.constants.ByteConstants;
 import com.ymnet.onekeyclean.cleanmore.constants.ScanState;
 import com.ymnet.onekeyclean.cleanmore.constants.TimeConstants;
@@ -41,9 +38,9 @@ import com.ymnet.onekeyclean.cleanmore.junk.mode.JunkChildCache;
 import com.ymnet.onekeyclean.cleanmore.junk.mode.JunkChildCacheOfChild;
 import com.ymnet.onekeyclean.cleanmore.junk.mode.JunkGroup;
 import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
+import com.ymnet.onekeyclean.cleanmore.uninstall.activity.UninstallActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.CleanSetSharedPreferences;
-import com.ymnet.onekeyclean.cleanmore.utils.DisplayUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
 import com.ymnet.onekeyclean.cleanmore.wechat.WeChatActivity;
 import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewClickListener;
@@ -68,19 +65,19 @@ import java.util.Map;
  */
 public class HomeFragment extends Fragment implements View.OnClickListener, ScanHelp.IScanResult, StickyLayout.OnGiveUpTouchEventListener {
 
-    private static final int CLEAN_CODE    = 13;
-    private static final int SILVER_CODE   = 12;
-    private String TAG                     = "HomeFragment";
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private ScanHelp        mScan;
+    private static final int    CLEAN_CODE  = 13;
+    private static final int    SILVER_CODE = 12;
+    private              String TAG         = "HomeFragment";
+    private static final String ARG_PARAM1  = "param1";
+    private static final String ARG_PARAM2  = "param2";
+    private ScanHelp mScan;
 
     private long            selectSize;
     private List<JunkGroup> datas;
     private boolean needSave = false;
-    private String mParam1;
-    private String mParam2;
-    private SGTextView                  tv_size;
+    private String     mParam1;
+    private String     mParam2;
+    private SGTextView tv_size;
 
     private SGTextView                  tv_unit;
     private WaveLoadingView             mWave;
@@ -97,16 +94,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
     private StickyLayout                mStickLayout;
     private int                         mWaveHeight;
     private WeakReference<HomeFragment> theFragment;
-    private View     mStickyHead;
-    private View     mRlHeadClear;
-    private View     mLlNumber;
-    private TextView mTvCleanDesc;
-    private static final String SCAN_STOP = "scanStop";
-    private static final String SCAN_FINISH = "scanFinish";
-    private static final String CLEAN_FINISH = "cleanFinish";
-    private static final String SCAN_AGAIN    = "scanAgain";
-    private static final String SCANNING   = "scanning";
-    private Handler mHandler = new MyHandler(this);
+    private View                        mStickyHead;
+    private View                        mRlHeadClear;
+    private View                        mLlNumber;
+    private TextView                    mTvCleanDesc;
+    private static final String  SCAN_STOP    = "scanStop";
+    private static final String  SCAN_FINISH  = "scanFinish";
+    private static final String  CLEAN_FINISH = "cleanFinish";
+    private static final String  SCAN_AGAIN   = "scanAgain";
+    private static final String  SCANNING     = "scanning";
+    private              Handler mHandler     = new MyHandler(this);
     private ImageView mIvCleanDown;
 
     class MyHandler extends Handler {
@@ -184,7 +181,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                     Log.d("HomeFragment", "selectSize:" + selectSize);
                     // TODO: 2017/6/2 0002 展示三分钟内的缓存数据
                     String pbState = CleanSetSharedPreferences.getPBState(C.get(), CleanSetSharedPreferences.BUTTON_STATE, SCANNING);
-                    Log.d("HomeFragment", "当前按钮状态:"+pbState);
+                    Log.d("HomeFragment", "当前按钮状态:" + pbState);
                     mProgressButton.setTag(pbState);
                     cleanOverHead();
                 }
@@ -281,16 +278,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
         mRecyclerView.setLayoutManager(layout);
 
         mRecyclerView.addItemDecoration(new LinearLayoutItemDecoration(C.get(), LinearLayoutItemDecoration.HORIZONTAL_LIST));
-        mAdapter.addFooterView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
+       /* mAdapter.addFooterView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
             @Override
             protected View onCreateView(ViewGroup parent) {
-                RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DisplayUtil.dip2px(C.get(), 165));
+                *//*RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DisplayUtil.dip2px(C.get(), 165));
                 View foot = new View(getActivity());
                 foot.setLayoutParams(lp);
                 foot.setBackgroundColor(Color.TRANSPARENT);
-                return foot;
+                return foot;*//*
+                ImageView imageView = new ImageView(C.get());
+                imageView
+                imageView.setImageResource(R.drawable.timg2);
+                return imageView;
             }
-        });
+        });*/
         mAdapter.setRecyclerListListener(new RecyclerViewClickListener() {
             @Override
             public void onClick(View v, int position) {
@@ -364,20 +365,26 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
     }
 
     private void recyclerViewOnClick(View v, int position) {
-//        mScan.setRun(false);
+        //        mScan.setRun(false);
         switch (position) {
             case 0:
                 Intent intent = new Intent(C.get(), CleanActivity.class);
-                startActivityForResult(intent,CLEAN_CODE);
+                startActivityForResult(intent, CLEAN_CODE);
                 break;
             case 1:
-                C.get().startActivity(new Intent(C.get(), WeChatActivity.class));
+                Intent intentWeChat = new Intent(C.get(), WeChatActivity.class);
+                intentWeChat.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                C.get().startActivity(intentWeChat);
                 break;
             case 2:
-                C.get().startActivity(new Intent(C.get(), QQActivity.class));
+                Intent intentQQ = new Intent(C.get(), QQActivity.class);
+                intentQQ.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                C.get().startActivity(intentQQ);
                 break;
             case 3:
-                C.get().startActivity(new Intent(C.get(),UninstallActivity.class));
+                Intent intentUninstall = new Intent(C.get(), UninstallActivity.class);
+                intentUninstall.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                C.get().startActivity(intentUninstall);
                 break;
         }
 
@@ -405,7 +412,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.pb_ram_prompt:
+            case R.id.pb_ram_prompt://清理按钮
                 if (mProgressButton.getTag() == null) {
                     return;
                 }
@@ -446,6 +453,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                         mProgressButton.setTag(CLEAN_FINISH);
                         cleanOverHead();
                     } else {
+                        mScan.hadScan(false);
                         scan();
                     }
                 }
@@ -506,7 +514,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                             tv_size.setText(String.valueOf(0));
                             mProgressButton.setText("清理完成");
                             mProgressButton.setTag(SCAN_AGAIN);
-//                            showShort(C.get(), "清理完成界面展示");
+                            //                            showShort(C.get(), "清理完成界面展示");
                         } else {
                             ScanFinishFragment scanFinishF = ScanFinishFragment.newInstance();
                             long dataSize = mScan.getTotalSize();

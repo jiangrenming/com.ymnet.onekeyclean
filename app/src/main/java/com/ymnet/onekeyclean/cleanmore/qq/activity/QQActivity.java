@@ -32,6 +32,7 @@ import com.nineoldandroids.view.ViewHelper;
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.killbackground.customlistener.MyViewPropertyAnimatorListener;
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.ImmersiveActivity;
 import com.ymnet.onekeyclean.cleanmore.animation.TweenAnimationUtils;
 import com.ymnet.onekeyclean.cleanmore.constants.QQConstants;
 import com.ymnet.onekeyclean.cleanmore.customview.DividerItemDecoration;
@@ -57,7 +58,6 @@ import com.ymnet.onekeyclean.cleanmore.wechat.WeChatActivity;
 import com.ymnet.onekeyclean.cleanmore.wechat.adapter.WeChatRecommendAdapter;
 import com.ymnet.onekeyclean.cleanmore.wechat.device.DeviceInfo;
 import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewClickListener;
-import com.ymnet.onekeyclean.cleanmore.wechat.view.BaseFragmentActivity;
 import com.ymnet.onekeyclean.cleanmore.widget.BottomScrollView;
 import com.ymnet.onekeyclean.cleanmore.widget.LinearLayoutItemDecoration;
 import com.ymnet.onekeyclean.cleanmore.widget.SGTextView;
@@ -81,7 +81,7 @@ import static com.ymnet.onekeyclean.R.id.tv_history_clean_size;
 
 
 
-public class QQActivity extends BaseFragmentActivity implements QQMVPView, View.OnClickListener {
+public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnClickListener {
 
     public final static String EXTRA_ITEM_POSITION = "qq_position";
     public static final String QQ_FILE_TYPE        = "qq_filetype";

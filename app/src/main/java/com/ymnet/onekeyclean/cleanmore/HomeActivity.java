@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -18,12 +17,11 @@ import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.Fragment4;
 import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.HomeFragment;
 
 
-public class HomeActivity extends FragmentActivity implements HomeFragment.OnFragmentInteractionListener, Fragment2.OnFragmentInteractionListener, Fragment3.OnFragmentInteractionListener, Fragment4.OnFragmentInteractionListener {
+public class HomeActivity extends ImmersiveActivity implements HomeFragment.OnFragmentInteractionListener, Fragment2.OnFragmentInteractionListener, Fragment3.OnFragmentInteractionListener, Fragment4.OnFragmentInteractionListener {
 
     private ViewPager              mViewPager;
     private TabLayout              mTabLayout;
     private MyFragmentPagerAdapter myFragmentPagerAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -28,7 +28,7 @@
             android:shadowDy="6.0"
             android:shadowRadius="6.0"
             android:singleLine="true"
-            android:text="清理大师"
+            android:text="一键清理"
             android:textColor="@color/white"
             android:textSize="17dp"/>
     </RelativeLayout>
