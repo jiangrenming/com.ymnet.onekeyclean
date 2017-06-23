@@ -36,6 +36,7 @@
          android:visibility="gone"/>
 
     <CheckBox
+        android:layout_marginRight="10dp"
         android:id="@+id/cb_top_select_all"
         style="@style/style_wrap_fill"
         android:layout_width="48dp"

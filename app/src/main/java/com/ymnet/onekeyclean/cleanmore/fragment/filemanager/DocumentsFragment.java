@@ -71,7 +71,7 @@ public class DocumentsFragment extends BaseFragment {
         cbTopSelectAll = (CheckBox) view.findViewById(R.id.cb_top_select_all);
         bottom = view.findViewById(R.id.bottom_delete);
         btnBottomDelete = (TextView) view.findViewById(R.id.btn_bottom_delete);
-        btnBottomDelete.setText(String.format(context.getResources().getString(R.string.file_delete), Util.formatFileSizeToPic(0)));
+        btnBottomDelete.setText(String.format(context.getResources().getString(R.string.file_delete_withdata), Util.formatFileSizeToPic(0)));
         recyclerView = (RecyclerView) view.findViewById(R.id.ducuments_recyclerview);
         noData = view.findViewById(R.id.no_data);
         TextView noDocument = (TextView) noData.findViewById(R.id.tv_no_data);
@@ -183,7 +183,7 @@ public class DocumentsFragment extends BaseFragment {
             }
         }
         btnBottomDelete.setEnabled(deleteMap.size() != 0);
-        btnBottomDelete.setText(String.format(context.getResources().getString(R.string.file_delete), Util.formatFileSizeToPic(size)));
+        btnBottomDelete.setText(String.format(context.getResources().getString(R.string.file_delete_withdata), Util.formatFileSizeToPic(size)));
         cbTopSelectAll.setText(cbTopSelectAll.isChecked() ? "取消" : "全选");
 
         if (deleteMap.size() == 0) {

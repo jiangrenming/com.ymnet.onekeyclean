@@ -267,10 +267,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
             @Override
             public void notifyChange(float scale) {
 
-                //                setWaveHeight(scale,layoutParams);
                 setHeadContentSize(scale);
             }
         });
+
         mRecyclerView = (RecyclerViewPlus) view.findViewById(R.id.sticky_content);
         mRecyclerInfo = new RecyclerInfo();
         mAdapter = new HomeAdapter(C.get(), mRecyclerInfo);
@@ -287,10 +287,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                 foot.setLayoutParams(lp);
                 foot.setBackgroundColor(Color.TRANSPARENT);
                 return foot;*//*
-                ImageView imageView = new ImageView(C.get());
-                imageView
-                imageView.setImageResource(R.drawable.timg2);
-                return imageView;
             }
         });*/
         mAdapter.setRecyclerListListener(new RecyclerViewClickListener() {
@@ -311,6 +307,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
         });
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.canScrollVertically(1);
+
 
         tv_size = (SGTextView) view.findViewById(R.id.tv_homehead_size);
         tv_unit = (SGTextView) view.findViewById(R.id.tv_homehead_unit);

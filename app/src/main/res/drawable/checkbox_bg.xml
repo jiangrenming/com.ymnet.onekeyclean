@@ -3,6 +3,7 @@
 
     <!--<item android:drawable="@drawable/item_check_for_pic" android:state_selected="true" />-->
     <item android:drawable="@drawable/junk_scan_status_finish" android:state_selected="true" />
+    <item android:drawable="@drawable/junk_scan_status_finish" android:state_checked="true" />
     <!--<item android:drawable="@drawable/item_notcheck_for_pic2" />-->
     <item android:drawable="@drawable/ring" />
 

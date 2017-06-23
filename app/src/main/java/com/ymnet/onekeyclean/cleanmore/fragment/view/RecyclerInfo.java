@@ -11,7 +11,7 @@ import com.ymnet.onekeyclean.R;
 public class RecyclerInfo {
 
     public String[] FunctionTitle = {"手机加速","微信清理","QQ清理","应用卸载","文件清理"};
-    public int[] FunctionDrawable = {R.mipmap.icon_launcher,R.drawable.wechat_features_icon, R.drawable.qq_features_icon,R.drawable.setting_icon, R.drawable.file_features_icon};
+    public int[] FunctionDrawable = {R.drawable.rocket_home,R.drawable.wechat_home, R.drawable.qq_home,R.drawable.setting_home, R.drawable.clearfile_home};
     public int[] FunctionDesc = {R.string.used_memory,R.string.wechat_statistics_data_small,R.string.qq_statistics_data_small,R.string.uninstall_app_data,R.string.file_clean};
 
 //    public String[] sizeAndUnit={"0","MB"};

@@ -249,7 +249,7 @@
         <item name="android:background">#00000000</item>
         <item name="android:button">@null</item>
         <item name="android:drawablePadding">0dp</item>
-        <item name="android:drawableRight">@drawable/file_management_cb_music_checked_selector</item>
+        <item name="android:drawableRight">@drawable/checkbox_bg</item>
         <item name="android:paddingRight">20dp</item>
     </style>
 

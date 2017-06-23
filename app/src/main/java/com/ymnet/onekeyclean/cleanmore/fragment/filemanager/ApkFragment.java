@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +72,7 @@ public class ApkFragment extends BaseFragment {
         cbTopSelectAll = (CheckBox) view.findViewById(R.id.cb_top_select_all);
         bottom = view.findViewById(R.id.bottom_delete);
         btnBottomDelete = (TextView) view.findViewById(R.id.btn_bottom_delete);
-        btnBottomDelete.setText(String.format(context.getResources().getString(R.string.file_delete), Util.formatFileSizeToPic(0)));
+        btnBottomDelete.setText(String.format(context.getResources().getString(R.string.file_delete_withdata), Util.formatFileSizeToPic(0)));
         recyclerView = (RecyclerView) view.findViewById(R.id.ducuments_recyclerview);
         noData = view.findViewById(R.id.no_data);
         TextView noDocument = (TextView) noData.findViewById(R.id.tv_no_data);
@@ -129,7 +130,7 @@ public class ApkFragment extends BaseFragment {
                 if (infos != null && mInfos != null) {
                     mInfos.clear();
                     mInfos.addAll(infos);
-
+                    Log.d("ApkFragment", mInfos.toString());
                     FileSortHelper helper = new FileSortHelper();
                     Collections.sort(mInfos, helper.getComParator(SortMethod.size));
                 }
@@ -170,7 +171,7 @@ public class ApkFragment extends BaseFragment {
             }
         }
         btnBottomDelete.setEnabled(deleteMap.size() != 0);
-        btnBottomDelete.setText(String.format(context.getResources().getString(R.string.file_delete), Util.formatFileSizeToPic(size)));
+        btnBottomDelete.setText(String.format(context.getResources().getString(R.string.file_delete_withdata), Util.formatFileSizeToPic(size)));
         cbTopSelectAll.setText(cbTopSelectAll.isChecked() ? "取消" : "全选");
 
         if (deleteMap.size() == 0) {

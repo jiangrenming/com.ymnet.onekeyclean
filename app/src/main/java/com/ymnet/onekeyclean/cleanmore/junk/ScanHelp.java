@@ -1052,10 +1052,10 @@ public class ScanHelp implements Parcelable {
                 if (isRun == false) {
                     return;
                 }
-                if (FileTreeUtils.isFileDirOver(file, SCAN_FILE_OVER)) {
+                /*if (FileTreeUtils.isFileDirOver(file, SCAN_FILE_OVER)) {
                     //深度判断
                     return;
-                }
+                }*/
                 File[] files = file.listFiles();
                 if (files != null && files.length > 0) {
                     for (File file_str : files) {

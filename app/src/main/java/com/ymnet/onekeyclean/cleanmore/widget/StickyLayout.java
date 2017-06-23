@@ -171,6 +171,7 @@ public class StickyLayout extends LinearLayout {
         return intercepted != 0 && mIsSticky;
     }
 
+    private int mDeltaY;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (!mIsSticky) {
@@ -189,6 +190,7 @@ public class StickyLayout extends LinearLayout {
             case MotionEvent.ACTION_MOVE: {
                 int deltaX = x - mLastX;
                 int deltaY = y - mLastY;
+                mDeltaY = deltaY;
                 mHeaderHeight += deltaY;
                 if (flagScroll == START && deltaY > 0) {
                    /* if (viewBounce != null) {
@@ -213,7 +215,7 @@ public class StickyLayout extends LinearLayout {
                 }
                 // 这里做了下判断，当松开手的时候，会自动向两边滑动，具体向哪边滑，要看当前所处的位置
                 int destHeight = 0;
-                if (mHeaderHeight <= mOriginalHeaderHeight * 0.5) {
+                if (mDeltaY<0) {
                     destHeight = 0;
                     mStatus = STATUS_COLLAPSED;
                 } else {

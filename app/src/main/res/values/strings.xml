@@ -33,7 +33,9 @@
     <string name="chat_voice_info">聊天语音，包括个人和群消息</string>
     <string name="chat_video_info">聊天产生的视频及预览图，包括个人和群消息</string>
     <string name="export">导出</string>
-    <string name="file_delete">删除(%s)</string>
+    <string name="file_delete">删除</string>
+    <string name="file_delete_withdata">删除(%s)</string>
+    <string name="file_delete_nodata">删除</string>
     <string name="wechat_voice_tip"> 由于微信对聊天语音进行了加密,无法播放,请谨慎删除</string>
 
     <!-- fileBrowser -->
@@ -143,7 +145,7 @@
     <string name="so_beautiful">手机已经很干净了</string>
     <string name="today_clean_total_clean">今日清理: %1$s\n历史清理: %2$s</string>
     <string name="wechat_statistics_data_small">定期清理微信,释放更多空间</string>
-    <string name="file_manager">文件管理</string>
+    <string name="file_manager">文件清理</string>
     <string name="file_features_directions">整理文件,释放更多空间</string>
     <string name="file_category_count_default">读取中…</string>
     <string name="select_all">全选</string>
@@ -197,7 +199,7 @@
     <string name="qq_statistics_data_small">定期清理QQ,释放更多空间</string>
     <string name="more_recommend">更多推荐</string>
     <string name="tv_junk_clean">垃圾清理</string>
-    <string name="file_clean">照片,视频,安装包</string>
+    <string name="file_clean">大文件,照片,音乐,视频,安装包,压缩包</string>
     <string name="tv_junk_desc">经常清理垃圾,告别手机卡顿</string>
     <string name="so_clear">手机已经很干净了</string>
     <string name="done">完成</string>
