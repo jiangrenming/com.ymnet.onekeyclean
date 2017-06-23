@@ -41,7 +41,9 @@
             android:layout_height="300dp"
             android:gravity="center"
             android:orientation="vertical">
+
             <!--android:visibility="gone"-->
+
             <RelativeLayout
                 android:id="@+id/ll_number"
                 android:layout_width="match_parent"
@@ -73,9 +75,8 @@
                     android:textColor="@color/white"
                     android:textSize="17dp"
                     />
-
-
             </RelativeLayout>
+
             <!--android:visibility="gone"-->
             <LinearLayout
                 android:id="@+id/ll_clean_down"

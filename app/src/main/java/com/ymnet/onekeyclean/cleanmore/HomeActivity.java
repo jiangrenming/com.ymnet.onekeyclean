@@ -60,7 +60,6 @@ public class HomeActivity extends ImmersiveActivity implements HomeFragment.OnFr
 
     }
 
-
     @Override
     public void onFragmentInteraction(Uri uri) {
 
@@ -69,7 +68,6 @@ public class HomeActivity extends ImmersiveActivity implements HomeFragment.OnFr
     public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
         private String[] mTitles = new String[]{"首页", "发现", "常用", "我的"};
-
 
         public MyFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -86,7 +84,6 @@ public class HomeActivity extends ImmersiveActivity implements HomeFragment.OnFr
                 return new Fragment4();
             }*/
             return new HomeFragment();
-
         }
 
         @Override

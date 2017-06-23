@@ -159,7 +159,6 @@ public class NotifyService extends Service implements Serializable {
                 Intent intent3 = new Intent(C.get(), WeChatActivity.class);
 //        Intent intent3 = new Intent(C.get(), DeviceManagerReceiver.class);
 
-
         intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent1 = PendingIntent.getActivity(C.get(), REQUEST_CODE02, intent3, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_wechat, pendingIntent1);

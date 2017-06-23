@@ -43,7 +43,9 @@ import com.ymnet.killbackground.utils.Run;
 import com.ymnet.killbackground.view.customwidget.CustomDialog;
 import com.ymnet.killbackground.view.customwidget.Wheel;
 import com.ymnet.onekeyclean.R;
+
 import com.ymnet.onekeyclean.cleanmore.HomeActivity;
+
 import com.ymnet.onekeyclean.cleanmore.notification.NotifyService;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.update.DownLoadFactory;
@@ -57,6 +59,7 @@ import static com.example.commonlibrary.systemmanager.SystemMemory.getAvailMemor
 import static com.example.commonlibrary.systemmanager.SystemMemory.getTotalMemorySize;
 
 public class CleanActivity extends Activity implements CleanView, View.OnClickListener {
+
     private static final String TAG = "CleanActivity";
     private ImageView            mRotateImage;
     private ObjectAnimator       mOa1;

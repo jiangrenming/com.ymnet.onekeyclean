@@ -54,7 +54,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -230,6 +229,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
             mIvCleanDown.setImageResource(R.drawable.clean_over_clear);
             mProgressButton.setTag(SCANNING);
         }
+
     }
 
     @Override

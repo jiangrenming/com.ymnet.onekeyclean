@@ -15,6 +15,8 @@ import com.ymnet.onekeyclean.cleanmore.utils.C;
 
 import java.lang.ref.WeakReference;
 
+import static com.ymnet.apphelper.BaiduApp.app;
+
 /**
  * Created by MajinBuu on 2017/6/16 0016.
  *
