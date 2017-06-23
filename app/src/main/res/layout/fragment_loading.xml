@@ -15,8 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:indeterminateDrawable="@drawable/my_progress_style"
-        android:indeterminateOnly="true"
-        android:padding="3dp" />
+        android:indeterminateOnly="true" />
     <!-- wheel since v3.6-->
     <!--<com.ymnet.onekeyclean.cleanmore.customview.CircularProgress-->
     <!--android:id="@+id/pb_loading"-->

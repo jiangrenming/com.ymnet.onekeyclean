@@ -240,8 +240,8 @@ public class ProgressButton extends Button {
                 (GradientDrawable) getResources().getDrawable(R.drawable.rect_pressed).mutate();// 修改时就不会影响其它drawable对象的状态
         drawablePressed.setCornerRadius(cornerRadius);// 设置圆角半径
 
-//        int defaultPressed = getResources().getColor(R.color.blue_pressed);
-        int defaultPressed = getResources().getColor(R.color.fenlei_02);
+        int defaultPressed = getResources().getColor(R.color.progress_bg);
+//        int defaultPressed = getResources().getColor(R.color.fenlei_02);
         int colorPressed = attr.getColor(R.styleable.ProgressButton_buttonPressedColor,defaultPressed);
         drawablePressed.setColor(colorPressed);//设置颜色
 

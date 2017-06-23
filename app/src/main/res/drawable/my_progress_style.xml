@@ -1,6 +1,6 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item android:drawable="@drawable/loading_logo"/>
+    <!--<item android:drawable="@drawable/loading_logo"/>-->
     <item>
         <rotate
             android:fromDegrees="0"
@@ -11,7 +11,7 @@
             <bitmap
                 android:antialias="true"
                 android:filter="true"
-                android:src="@drawable/loading_bg" />
+                android:src="@drawable/loading" />
         </rotate>
     </item>
 

@@ -12,10 +12,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.ymnet.onekeyclean.R;
-import com.ymnet.onekeyclean.cleanmore.fragment.testfragment.Fragment2;
-import com.ymnet.onekeyclean.cleanmore.fragment.testfragment.Fragment3;
-import com.ymnet.onekeyclean.cleanmore.fragment.testfragment.Fragment4;
-import com.ymnet.onekeyclean.cleanmore.fragment.testfragment.HomeFragment;
+import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.Fragment2;
+import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.Fragment3;
+import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.Fragment4;
+import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.HomeFragment;
 
 
 public class HomeActivity extends FragmentActivity implements HomeFragment.OnFragmentInteractionListener, Fragment2.OnFragmentInteractionListener, Fragment3.OnFragmentInteractionListener, Fragment4.OnFragmentInteractionListener {
