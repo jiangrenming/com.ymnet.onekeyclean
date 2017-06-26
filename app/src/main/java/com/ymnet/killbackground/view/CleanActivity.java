@@ -43,9 +43,7 @@ import com.ymnet.killbackground.utils.Run;
 import com.ymnet.killbackground.view.customwidget.CustomDialog;
 import com.ymnet.killbackground.view.customwidget.Wheel;
 import com.ymnet.onekeyclean.R;
-
 import com.ymnet.onekeyclean.cleanmore.HomeActivity;
-
 import com.ymnet.onekeyclean.cleanmore.notification.NotifyService;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.update.DownLoadFactory;
@@ -60,7 +58,7 @@ import static com.example.commonlibrary.systemmanager.SystemMemory.getTotalMemor
 
 public class CleanActivity extends Activity implements CleanView, View.OnClickListener {
 
-    private static final String TAG = "CleanActivity";
+    private static final String TAG         = "CleanActivity";
     private ImageView            mRotateImage;
     private ObjectAnimator       mOa1;
     private TextView             mMemoryInfo;
@@ -83,6 +81,10 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
     private CustomDialog   mCustomDialog;
     private RelativeLayout mRl_clean_result;
     private RelativeLayout mRl_leaninto_home;
+    private int mLayoutType;
+    private static final int LAYOUT_DEFAULT = 0;
+    private static final int LAYOUT_NEWS = 1;
+    private static final int LAYOUT_DOWNLOAD = 2;
     private Handler mHandler = new Handler(C.get().getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
@@ -120,6 +122,7 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
         }
     };
     private TextView mTv_clean_result;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -290,6 +293,26 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
         mTotalMemory = getTotalMemorySize(CleanActivity.this);
         DownLoadFactory.getInstance().init(this, null, PushManager.getInstance());
         PushManager.getInstance().init(getApplicationContext());//dont't remove
+//        initNetData();
+    }
+
+    private void initNetData() {
+        /**
+         * 1.加速球点击时,网络请求数据
+         * 2.网络数据为空:展示界面时展示默认布局
+         *   网络数据有 : 判断数据是否和之前的一致 :1.一致-展示的数据为sharedperference存储顺序位置position
+         *                                       2.不一致,删除旧数据,存入新数据,展示的数据为position=0开始执行
+         */
+        //网络获取数据空/失败
+        this.mLayoutType = LAYOUT_DEFAULT;
+
+        //获取的数据类型为news
+        this.mLayoutType = LAYOUT_NEWS;
+        //获取的数据类型为download
+        this.mLayoutType=LAYOUT_DOWNLOAD;
+        //获取sp文件,如果无-建 , 有-一致 ...
+//        SharedPreferencesUtil.
+//        ss
     }
 
     /**
@@ -511,7 +534,17 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
         mRl_clean_result.setOnClickListener(this);
         mRl_leaninto_home.setOnClickListener(this);
         mTv_clean_result.setText(showToast);
+       /* if (this.mLayoutType == LAYOUT_DEFAULT) {
+            //默认布局,不翻转
 
+        } else {
+            //有网络数据类型,翻转
+
+            if (this.mLayoutType == LAYOUT_DOWNLOAD) {
+                TextView tv_foot = (TextView) mCustomDialog.findViewById(R.id.tv_foot);
+//                tv_foot.setText(R.string.download_foot);
+            }
+        }*/
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -641,26 +674,26 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
                 finishDialogAndMyself();
                 startActivity(new Intent(CleanActivity.this, HomeActivity.class));
                 break;
-            case R.id.rl_morefunction:
+            /*case R.id.rl_morefunction:ss
                 //前提步骤:// TODO: 2017/6/23 0023  
-                /**
+                *//**
                  * 1.加速球点击时,网络请求数据
                  * 2.网络数据为空:展示界面时展示默认布局
                  *   网络数据有 : 判断数据是否和之前的一致 :1.一致-展示的数据为sharedperference存储顺序位置position
                  *                                       2.不一致,删除旧数据,存入新数据,展示的数据为position=0开始执行
-                 */
+                 *//*
                 //根据请求的数据类型展示界面类型
-                /**
+                *//**
                  * 0.无网络数据:默认布局
                  * 1.type==web:
                  * 2.type==download:
-                 */
+                 *//*
                 //点击事件
-                /**
+                *//**
                  * 1.type==web:跳转用浏览器打开web_url
                  * 2.type==download:跳转用浏览器打开news_url
-                 */
-                break;
+                 *//*
+                break;*/
         }
     }
 }
