@@ -1,20 +1,17 @@
 package com.ymnet.onekeyclean.cleanmore.uninstall.fragment;
 
 import android.content.pm.ApplicationInfo;
-import android.content.pm.IPackageStatsObserver;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageStats;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
-import android.os.RemoteException;
+import android.os.Process;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -30,7 +27,6 @@ import com.ymnet.onekeyclean.cleanmore.uninstall.model.AppInfo;
 import com.ymnet.onekeyclean.cleanmore.uninstall.model.UninstallCallback;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,9 +66,6 @@ public class EmptyFragment extends BaseFragment {
     }
 
     private void initView() {
-        mIgnoreList.add("com.ymnet.apphelper");
-        mIgnoreList.add("com.ymnet.tylauncher");
-        mIgnoreList.add("com.ymnet.onekeyclean");
         //扫描手机安装的应用
         scanInstalledAPP();
     }
@@ -89,13 +82,14 @@ public class EmptyFragment extends BaseFragment {
         }
 
         AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
+
             @Override
             protected void onPreExecute() {
             }
 
             @Override
             protected Void doInBackground(Void... params) {
-                android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_FOREGROUND);
+                android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_AUDIO);
 
                 for (int i = 0; i < installedPackages.size(); i++) {
 
@@ -103,25 +97,34 @@ public class EmptyFragment extends BaseFragment {
                         // 获取该应用安装包的Intent，用于启动该应用
                         // info.appIntent = pm.getLaunchIntentForPackage(installedPackages.get(i).packageName);
                         AppInfo info = new AppInfo();
-
-                        getPkgSize(installedPackages.get(i), info);
-
+                        Log.d("EmptyFragment11", "i:" + i);
+//                        getPkgSize(installedPackages.get(i), info);
+                        info.appName = installedPackages.get(i).applicationInfo.loadLabel(mPackageManager).toString();
+                        info.versionName = installedPackages.get(i).versionName;
+                        info.pkgName = installedPackages.get(i).packageName;
+                        info.appIcon = drawableToBitmap(installedPackages.get(i).applicationInfo.loadIcon(mPackageManager));
+                        if (!mIgnoreList.contains(installedPackages.get(i).packageName)) {
+                            mAppInfoList.add(info);
+                        }
                     } else {//系统应用
 
                     }
                 }
+
                 while (ScanHelp.getInstance(C.get()).isRun()) {
                 }//勿删!
+
                 Log.d("EmptyFragment", mAppInfoList.toString());
                 return null;
             }
 
             @Override
             protected void onPostExecute(Void result) {
+
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-
+                        Log.d("EmptyFragment11", "i:主线程跳转");
                         mUninstallCallback.getMessage(mAppInfoList);
 
                         FragmentManager fm = getFragmentManager();
@@ -144,8 +147,7 @@ public class EmptyFragment extends BaseFragment {
     }
 
 
-    private void getPkgSize(final PackageInfo packageInfo, final AppInfo info) {
-
+    /*private void getPkgSize(final PackageInfo packageInfo, final AppInfo info) {
         Method method = null;
         try {
             method = mPackageManager.getClass().getMethod("getPackageSizeInfo", String.class, IPackageStatsObserver.class);
@@ -153,6 +155,7 @@ public class EmptyFragment extends BaseFragment {
 
                 @Override
                 public void onGetStatsCompleted(PackageStats pStats, boolean succeeded) throws RemoteException {
+
                     if (succeeded) {
                         long cacheSize1 = pStats.cacheSize;
                         long cacheSize2 = 0;
@@ -167,21 +170,24 @@ public class EmptyFragment extends BaseFragment {
                         info.versionName = packageInfo.versionName;
                         info.pkgName = packageInfo.packageName;
                         info.appIcon = drawableToBitmap(packageInfo.applicationInfo.loadIcon(mPackageManager));
+
                         //忽略名单应用不添加进集合
                         if (!mIgnoreList.contains(packageInfo.packageName)) {
                             mAppInfoList.add(info);
                             mPkgNameList.add(info.pkgName);
                         }
                         Log.d("EmptyFragment", "appInfo:" + info.toString());
+                        Log.d("EmptyFragment11", "i:反射");
                     }
 
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
+            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
         }
 
-    }
+    }*/
 
     public Bitmap drawableToBitmap(Drawable drawable) {
         int width = drawable.getIntrinsicWidth();

@@ -16,6 +16,8 @@ import android.os.SystemClock;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListener;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -29,14 +31,21 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.commonlibrary.utils.ConvertParamsUtils;
 import com.example.commonlibrary.utils.DensityUtil;
 import com.example.commonlibrary.utils.ScreenUtil;
 import com.example.commonlibrary.utils.ToastUtil;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.killbackground.QihooSystemUtil;
 import com.ymnet.killbackground.Utilities;
 import com.ymnet.killbackground.customlistener.MyViewPropertyAnimatorListener;
 import com.ymnet.killbackground.download.PushManager;
+import com.ymnet.killbackground.model.bean.CleanEntrance;
 import com.ymnet.killbackground.presenter.CleanPresenter;
 import com.ymnet.killbackground.presenter.CleanPresenterImpl;
 import com.ymnet.killbackground.utils.Run;
@@ -46,19 +55,33 @@ import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.HomeActivity;
 import com.ymnet.onekeyclean.cleanmore.notification.NotifyService;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
+import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
+import com.ymnet.onekeyclean.cleanmore.utils.SharedPreferencesUtil;
+import com.ymnet.onekeyclean.cleanmore.web.WebHtmlActivity;
+import com.ymnet.retrofit2service.RetrofitService;
 import com.ymnet.update.DownLoadFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.R.attr.order;
 import static android.text.format.Formatter.formatFileSize;
-import static com.example.commonlibrary.systemmanager.SystemMemory.getAvailMemorySize;
-import static com.example.commonlibrary.systemmanager.SystemMemory.getTotalMemorySize;
+import static com.example.commonlibrary.utils.SystemMemory.getAvailMemorySize;
+import static com.example.commonlibrary.utils.SystemMemory.getTotalMemorySize;
 
 public class CleanActivity extends Activity implements CleanView, View.OnClickListener {
 
-    private static final String TAG         = "CleanActivity";
+    private static final String TAG                             = "CleanActivity";
+    private static final String CLEANACTIVITY_NET_PREFERENCES   = "cleanactivity_net_preferences";
+    private static final String CLEANACTIVITY_ORDER_PREFERENCES = "cleanactivity_order_preferences";
+    private static final String NET_DATA                        = "net_data";
+    private static final String NET_ORDER                       = "net_order";
     private ImageView            mRotateImage;
     private ObjectAnimator       mOa1;
     private TextView             mMemoryInfo;
@@ -81,11 +104,11 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
     private CustomDialog   mCustomDialog;
     private RelativeLayout mRl_clean_result;
     private RelativeLayout mRl_leaninto_home;
-    private int mLayoutType;
-    private static final int LAYOUT_DEFAULT = 0;
-    private static final int LAYOUT_NEWS = 1;
-    private static final int LAYOUT_DOWNLOAD = 2;
-    private Handler mHandler = new Handler(C.get().getMainLooper()) {
+    private int            mLayoutType;
+    private static final int     LAYOUT_DEFAULT  = 0;
+    private static final int     LAYOUT_NEWS     = 1;
+    private static final int     LAYOUT_DOWNLOAD = 2;
+    private              Handler mHandler        = new Handler(C.get().getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -97,7 +120,6 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
                             mMemoryInfo.setText("" + (mUsedMemory - ++temp) + "%");
                             mHandler.sendEmptyMessageDelayed(0, 200);
                         }
-                        //                        mMemoryInfo.setText("" + (mUsedMemory + mCount--) + "%");
                         Log.d(TAG, "handleMessage: " + (mUsedMemory + "  " + mCount));
                     } else {
                         mMemoryInfo.setText("" + mUsedMemory + "%");
@@ -122,6 +144,11 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
         }
     };
     private TextView mTv_clean_result;
+    private int      showPosition;
+    private boolean mBingoVisible;
+    private Spanned mContent;
+    private boolean mIsBest;
+    private View mRl_morefunction;
 
 
     @Override
@@ -293,8 +320,10 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
         mTotalMemory = getTotalMemorySize(CleanActivity.this);
         DownLoadFactory.getInstance().init(this, null, PushManager.getInstance());
         PushManager.getInstance().init(getApplicationContext());//dont't remove
-//        initNetData();
+        initNetData();
     }
+
+    private List<CleanEntrance.DataBean> mNetList = new ArrayList<>();// TODO: 2017/6/26 0026 添加数据
 
     private void initNetData() {
         /**
@@ -303,16 +332,101 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
          *   网络数据有 : 判断数据是否和之前的一致 :1.一致-展示的数据为sharedperference存储顺序位置position
          *                                       2.不一致,删除旧数据,存入新数据,展示的数据为position=0开始执行
          */
-        //网络获取数据空/失败
-        this.mLayoutType = LAYOUT_DEFAULT;
+        //http://zm.youmeng.com/Api/App/getClearRecommend
+        Map<String, String> infosPamarms = ConvertParamsUtils.getInstatnce().getParamsOne("", "");
+        RetrofitService.getInstance().githubApi.createClearRecommend(infosPamarms).enqueue(new Callback<CleanEntrance>() {
+            @Override
+            public void onResponse(Call<CleanEntrance> call, Response<CleanEntrance> response) {
+                int type = response.body().getData().get(0).getType();
+                if (type == 1) {
+                    mLayoutType = LAYOUT_NEWS;
+                } else if (type == 2) {
+                    mLayoutType = LAYOUT_DOWNLOAD;
+                }
+                mNetList = response.body().getData();
+                matchSP(true);
+            }
 
-        //获取的数据类型为news
-        this.mLayoutType = LAYOUT_NEWS;
-        //获取的数据类型为download
-        this.mLayoutType=LAYOUT_DOWNLOAD;
+            @Override
+            public void onFailure(Call<CleanEntrance> call, Throwable t) {
+                //网络获取数据空/失败
+                mLayoutType = LAYOUT_DEFAULT;
+                matchSP(false);
+                Log.d(TAG, "网络获取失败");
+            }
+        });
+
+    }
+
+    private void matchSP(boolean hasNet) {
         //获取sp文件,如果无-建 , 有-一致 ...
-//        SharedPreferencesUtil.
-//        ss
+        List<CleanEntrance.DataBean> dataList = getDataList(NET_DATA);
+        if (dataList == null) {//无缓存
+            if (hasNet) {
+                setDataList(NET_DATA, mNetList);
+                showPosition = 0;
+                SharedPreferencesUtil.putIntToSharePreferences(CLEANACTIVITY_ORDER_PREFERENCES, NET_ORDER, showPosition);
+            } else {
+                //默认布局
+            }
+        } else {//有缓存
+            if (hasNet) {//有缓存,有网络
+                Log.d(TAG, "a-----"+dataList.toString());
+                Log.d(TAG, "b-----"+mNetList.toString());
+                if (dataList.toString().equals(mNetList.toString())) {//有缓存,有网络,数据类型一致
+                    int order = SharedPreferencesUtil.getIntFromSharePreferences(CLEANACTIVITY_ORDER_PREFERENCES, NET_ORDER, 0);
+                    //展示order+1条数据,并存入sp
+                    if (dataList.size() > order + 1) {
+                        showPosition = order + 1;
+                    } else {
+                        showPosition = 0;
+                    }
+                } else {//有缓存,有网络,数据类型不一致
+                    //接着展示第order+1条数据
+                    if (mNetList.size() > order + 1) {
+                        showPosition = order + 1;
+                    } else {
+                        showPosition = 0;
+                    }
+                    setDataList(NET_DATA, mNetList);
+                }
+
+            } else {//有缓存,无网络
+
+            }
+
+            SharedPreferencesUtil.putIntToSharePreferences(CLEANACTIVITY_ORDER_PREFERENCES, NET_ORDER, showPosition);
+
+        }
+    }
+
+    public List<CleanEntrance.DataBean> getDataList(String tag) {
+
+        List<CleanEntrance.DataBean> list = new ArrayList<>();
+        String jsonString = SharedPreferencesUtil.getStringFromSharePreferences(CLEANACTIVITY_NET_PREFERENCES, tag, null);
+        if (null == jsonString) {
+            return null;
+        }
+        try {
+            Gson gson = new Gson();
+            JsonArray arry = new JsonParser().parse(jsonString).getAsJsonArray();
+            for (JsonElement jsonElement : arry) {
+                list.add(gson.fromJson(jsonElement, CleanEntrance.DataBean.class));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    private void setDataList(String tag, List list) {
+        if (null == list || list.size() <= 0)
+            return;
+
+        Gson gson = new Gson();
+        //转换成json数据，再保存
+        String strJson = gson.toJson(list);
+        SharedPreferencesUtil.putStringToSharePreferences(CLEANACTIVITY_NET_PREFERENCES, tag, strJson);
     }
 
     /**
@@ -522,58 +636,94 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
         mCustomDialog = new CustomDialog(this);
         mCustomDialog.show();
 
+        //根据请求的数据类型展示界面类型
+        /**
+         * 0.无网络数据:默认布局
+         * 1.type==web:
+         * 2.type==download:
+         */
+        if (this.mLayoutType == LAYOUT_DEFAULT) {
+            //默认布局,不翻转
+            mCustomDialog.getWindow().setContentView(R.layout.view_dialog_defalut);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    finishDialogAndMyself();
+                }
+            }, 3000);
+        } else {
+            //有网络数据类型,翻转
+            if (this.mLayoutType == LAYOUT_NEWS) {
+                mCustomDialog.getWindow().setContentView(R.layout.view_dialog_news);
+                TextView tv_foot = (TextView) mCustomDialog.findViewById(R.id.tv_foot);
+                ImageView iv_foot = (ImageView) mCustomDialog.findViewById(R.id.iv_foot);
+                tv_foot.setText(mNetList.get(showPosition).getTitle());
+                Glide.with(C.get()).load(mNetList.get(showPosition).getIcon()).placeholder(R.drawable.pic_holder).error(R.drawable.pic_error).into(iv_foot);
+            }
+            if (this.mLayoutType == LAYOUT_DOWNLOAD) {
+                //                mCustomDialog.getWindow().setContentView(R.layout.xxx);
+                TextView tv_foot = (TextView) mCustomDialog.findViewById(R.id.tv_foot);
+                //                tv_foot.setText(R.string.download_foot);
+            }
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ViewCompat.animate(mRl_clean_result).rotationY(180).alpha(0).setDuration(500).setListener(new ViewPropertyAnimatorListener() {
+                        @Override
+                        public void onAnimationStart(View view) {
+                            mRl_leaninto_home.setRotationY(-180);
+                            mRl_leaninto_home.setVisibility(View.VISIBLE);
+                            ViewCompat.animate(mRl_leaninto_home).rotationY(0).setDuration(500).start();
+                        }
+
+                        @Override
+                        public void onAnimationEnd(View view) {
+                            mRl_clean_result.setVisibility(View.GONE);
+                            mHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    finishDialogAndMyself();
+                                }
+                            }, 3000);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(View view) {
+
+                        }
+                    }).start();
+                }
+            }, 3000);
+            ImageView arrow_foot = (ImageView) mCustomDialog.findViewById(R.id.iv_arrow_foot);
+            gifAnim(arrow_foot);
+        }
+
         mTv_clean_result = (TextView) mCustomDialog.findViewById(R.id.tv_clean_result);
+        View iv_bingo = mCustomDialog.findViewById(R.id.iv_bingo);
         mRl_clean_result = (RelativeLayout) mCustomDialog.findViewById(R.id.rl_clean_result);
         mRl_leaninto_home = (RelativeLayout) mCustomDialog.findViewById(R.id.rl_leaninto_home);
         ImageView arrow_result = (ImageView) mCustomDialog.findViewById(R.id.iv_arrow_result);
         ImageView arrow_head2 = (ImageView) mCustomDialog.findViewById(R.id.iv_arrow_head2);
-        ImageView arrow_foot = (ImageView) mCustomDialog.findViewById(R.id.iv_arrow_foot);
         gifAnim(arrow_result);
         gifAnim(arrow_head2);
-        gifAnim(arrow_foot);
         mRl_clean_result.setOnClickListener(this);
         mRl_leaninto_home.setOnClickListener(this);
-        mTv_clean_result.setText(showToast);
-       /* if (this.mLayoutType == LAYOUT_DEFAULT) {
-            //默认布局,不翻转
+        if (mLayoutType != LAYOUT_DEFAULT) {
+            mRl_morefunction = mCustomDialog.findViewById(R.id.rl_morefunction);
+            mRl_morefunction.setOnClickListener(this);
+        }
 
+        if (mIsBest) {
+            mTv_clean_result.setText(showToast);
         } else {
-            //有网络数据类型,翻转
+            mTv_clean_result.setText(mContent);
+        }
 
-            if (this.mLayoutType == LAYOUT_DOWNLOAD) {
-                TextView tv_foot = (TextView) mCustomDialog.findViewById(R.id.tv_foot);
-//                tv_foot.setText(R.string.download_foot);
-            }
-        }*/
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ViewCompat.animate(mRl_clean_result).rotationY(180).alpha(0).setDuration(500).setListener(new ViewPropertyAnimatorListener() {
-                    @Override
-                    public void onAnimationStart(View view) {
-                        mRl_leaninto_home.setRotationY(-180);
-                        mRl_leaninto_home.setVisibility(View.VISIBLE);
-                        ViewCompat.animate(mRl_leaninto_home).rotationY(0).setDuration(500).start();
-                    }
-
-                    @Override
-                    public void onAnimationEnd(View view) {
-                        mRl_clean_result.setVisibility(View.GONE);
-                        mHandler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                finishDialogAndMyself();
-                            }
-                        }, 3000);
-                    }
-
-                    @Override
-                    public void onAnimationCancel(View view) {
-
-                    }
-                }).start();
-            }
-        }, 3000);
+        if (mBingoVisible) {
+            iv_bingo.setVisibility(View.VISIBLE);
+        } else {
+            iv_bingo.setVisibility(View.GONE);
+        }
     }
 
     private void gifAnim(ImageView imageView) {
@@ -631,9 +781,14 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
                                 playAnimation(cleanAppLists.get(i), 120 * i, false);
                             }
                             //toast展示为用户清理的内存
-                            String sAgeFormat = CleanActivity.this.getResources().getString(R.string.toast_clean_result);
-                            String content = String.format(sAgeFormat, formatFileSize(CleanActivity.this, cleanMem), mCount);
-                            showToast(content);
+//                            String sAgeFormat = CleanActivity.this.getResources().getString(R.string.toast_clean_result);
+//                            String content = String.format(sAgeFormat, formatFileSize(CleanActivity.this, cleanMem), mCount);
+                            Spanned spanned = Html.fromHtml(CleanActivity.this.getResources().getString(R.string.toast_clean_result, formatFileSize(CleanActivity.this, cleanMem), mCount));
+//                            TextView content = new TextView(getApplicationContext());
+//                            content.setText(spanned);
+//                            content.setText(Html.fromHtml(CleanActivity.this.getBaseContext().getResources().getString(R.string.a_content,"abc","bcd")));
+//                            showToast(content);
+                            mContent = spanned;
                         }
 
                         mHandler.sendEmptyMessageDelayed(0, 300);
@@ -646,11 +801,13 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
 
     @Override
     public void bestState(final boolean isBest) {
+        mIsBest = isBest;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Log.i(TAG, "run: " + SystemClock.currentThreadTimeMillis());
                 bingoAnimation(isBest);
+                mBingoVisible = isBest;
             }
         });
     }
@@ -666,6 +823,11 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rl_clean_result:
@@ -674,26 +836,40 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
                 finishDialogAndMyself();
                 startActivity(new Intent(CleanActivity.this, HomeActivity.class));
                 break;
-            /*case R.id.rl_morefunction:ss
+            case R.id.rl_morefunction:
+
                 //前提步骤:// TODO: 2017/6/23 0023  
-                *//**
+                /**
                  * 1.加速球点击时,网络请求数据
                  * 2.网络数据为空:展示界面时展示默认布局
                  *   网络数据有 : 判断数据是否和之前的一致 :1.一致-展示的数据为sharedperference存储顺序位置position
                  *                                       2.不一致,删除旧数据,存入新数据,展示的数据为position=0开始执行
-                 *//*
+                 */
                 //根据请求的数据类型展示界面类型
-                *//**
+                /**
                  * 0.无网络数据:默认布局
                  * 1.type==web:
                  * 2.type==download:
-                 *//*
+                 */
                 //点击事件
-                *//**
+                /**
                  * 1.type==web:跳转用浏览器打开web_url
                  * 2.type==download:跳转用浏览器打开news_url
-                 *//*
-                break;*/
+                 */
+                finishDialogAndMyself();
+                Log.d(TAG, "mLayoutType:" + mLayoutType);
+                if (mLayoutType == LAYOUT_DEFAULT) {
+                    finishDialogAndMyself();
+                    startActivity(new Intent(CleanActivity.this, HomeActivity.class));
+                } else if (mLayoutType == LAYOUT_NEWS) {
+                    Intent intent = new Intent(CleanActivity.this, WebHtmlActivity.class);
+                    intent.putExtra("html", mNetList.get(showPosition).getUrl());
+                    intent.putExtra("flag", 10);
+                    intent.putExtra(OnekeyField.CLEAN_NEWS, "引导新闻");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+                break;
         }
     }
 }

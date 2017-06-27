@@ -23,8 +23,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.commonlibrary.retrofit2service.RetrofitService;
-import com.example.commonlibrary.retrofit2service.bean.WeChatNewsInformation;
+import com.ymnet.retrofit2service.RetrofitService;
+import com.ymnet.retrofit2service.bean.WeChatNewsInformation;
 import com.example.commonlibrary.utils.ConvertParamsUtils;
 import com.example.commonlibrary.utils.NetworkUtils;
 import com.example.commonlibrary.utils.ScreenUtil;

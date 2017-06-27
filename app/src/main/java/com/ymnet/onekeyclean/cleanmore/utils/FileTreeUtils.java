@@ -180,12 +180,21 @@ public class FileTreeUtils {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            try {
-                out.close();
-                in.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
         return false;
     }

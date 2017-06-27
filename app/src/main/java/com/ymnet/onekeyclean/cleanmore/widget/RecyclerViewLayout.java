@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.commonlibrary.retrofit2service.bean.InformationResult;
+import com.ymnet.retrofit2service.bean.InformationResult;
 import com.example.commonlibrary.utils.NetworkUtils;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.utils.ToastUtil;

@@ -1,9 +1,10 @@
-package com.example.commonlibrary.retrofit2service.api;
+package com.ymnet.retrofit2service.api;
 
 
-import com.example.commonlibrary.retrofit2service.bean.InformationResult;
-import com.example.commonlibrary.retrofit2service.bean.NewsInformation;
-import com.example.commonlibrary.retrofit2service.bean.WeChatNewsInformation;
+import com.ymnet.killbackground.model.bean.CleanEntrance;
+import com.ymnet.retrofit2service.bean.InformationResult;
+import com.ymnet.retrofit2service.bean.NewsInformation;
+import com.ymnet.retrofit2service.bean.WeChatNewsInformation;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -66,4 +67,8 @@ public interface GithubApi {
     @FormUrlEncoded
     @POST("api/app/getQQClearNews")
     Call<WeChatNewsInformation> createQQInformations(@FieldMap Map<String, String> value);
+
+    @FormUrlEncoded
+    @POST("api/app/getClearRecommend")
+    Call<CleanEntrance> createClearRecommend(@FieldMap Map<String, String> value);
 }

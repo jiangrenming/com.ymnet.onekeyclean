@@ -187,8 +187,9 @@
     <string name="qq_go_clean">查看管理</string>
 
     <string name="toast_bean_best">已清理至最佳状态</string>
-    <string name="toast_clean_result">释放%1$s内存 \n性能提升%2$d%%</string>
-    <string name="leadinto_home">释放更多空间\n深度清理</string>
+    <string name="toast_clean_result"><![CDATA[释放 <font color=\"#ff0000\">%1$s</font>内存 性能提升<font color=\"#ff0000\">%2$d%%</font>]]></string>
+    <!--<string name="toast_clean_result">释放%1$s内存 性能提升%2$d%%</string>-->
+    <string name="leadinto_home">释放更多空间 深度清理</string>
     <string name="more_news">更多热点资讯\n立即查看</string>
     <string name="used_memory">内存使用%1$d%%</string>
     <string name="device_admin_label">一键清理</string>

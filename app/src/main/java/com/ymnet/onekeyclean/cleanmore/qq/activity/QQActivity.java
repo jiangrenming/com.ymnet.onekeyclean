@@ -1,8 +1,6 @@
 package com.ymnet.onekeyclean.cleanmore.qq.activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
@@ -23,11 +21,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.commonlibrary.retrofit2service.RetrofitService;
-import com.example.commonlibrary.retrofit2service.bean.WeChatNewsInformation;
-import com.example.commonlibrary.utils.ConvertParamsUtils;
 import com.example.commonlibrary.utils.NetworkUtils;
 import com.example.commonlibrary.utils.ScreenUtil;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorInflater;
+import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.view.ViewHelper;
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.killbackground.customlistener.MyViewPropertyAnimatorListener;
@@ -62,6 +60,8 @@ import com.ymnet.onekeyclean.cleanmore.widget.BottomScrollView;
 import com.ymnet.onekeyclean.cleanmore.widget.LinearLayoutItemDecoration;
 import com.ymnet.onekeyclean.cleanmore.widget.SGTextView;
 import com.ymnet.onekeyclean.cleanmore.widget.WaveLoadingView;
+import com.ymnet.retrofit2service.RetrofitService;
+import com.ymnet.retrofit2service.bean.WeChatNewsInformation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,14 +72,10 @@ import bolts.Task;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import utils.ConvertParamsUtils;
 
 import static com.ymnet.onekeyclean.R.id.fl_idle;
-import static com.ymnet.onekeyclean.R.id.iv_sun_center;
 import static com.ymnet.onekeyclean.R.id.ll_content;
-import static com.ymnet.onekeyclean.R.id.tv_clean_success_size;
-import static com.ymnet.onekeyclean.R.id.tv_history_clean_size;
-
-
 
 public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnClickListener {
 
@@ -101,18 +97,18 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
     private View foot;
     //信息流相关
     private int page = 1;
-    private ImageView        mIv_sun;
-    private ImageView        mIv_sun_center;
-    private ImageView        mBlingBling;
-    private TextView         mTv_clean_success_size;
-    private TextView         mTv_history_clean_size;
-    private View             mEmptyView;
-    private View             mFl_idle;
-    private View             mLl_content;
-    private RecyclerViewPlus mEmptyRv;
+    private ImageView              mIv_sun;
+    private ImageView              mIv_sun_center;
+    private ImageView              mBlingBling;
+    private TextView               mTv_clean_success_size;
+    private TextView               mTv_history_clean_size;
+    private View                   mEmptyView;
+    private View                   mFl_idle;
+    private View                   mLl_content;
+    private RecyclerViewPlus       mEmptyRv;
     private WeChatRecommendAdapter mEmptyRecommendAdapter;
-    private View             mEmptyHead;
-    private View             mEmptyNewsHead;
+    private View                   mEmptyHead;
+    private View                   mEmptyNewsHead;
     private View             mEmptyFoot;
     private long mSuccessCleanSize = 0;
     private static String ActivityState = null;
@@ -529,13 +525,13 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
         });*/
 
         mIv_sun = (ImageView) mEmptyView.findViewById(R.id.iv_sun);
-        mIv_sun_center = (ImageView) mEmptyView.findViewById(iv_sun_center);
+        mIv_sun_center = (ImageView) mEmptyView.findViewById(R.id.iv_sun_center);
 
         mBlingBling = (ImageView) mEmptyView.findViewById(R.id.iv_blingbling);
         mBlingBling.setImageResource(R.drawable.bling_anim);
 
-        mTv_clean_success_size = (TextView) mEmptyView.findViewById(tv_clean_success_size);
-        mTv_history_clean_size = (TextView) mEmptyView.findViewById(tv_history_clean_size);
+        mTv_clean_success_size = (TextView) mEmptyView.findViewById(R.id.tv_clean_success_size);
+        mTv_history_clean_size = (TextView) mEmptyView.findViewById(R.id.tv_history_clean_size);
         mFl_idle = mEmptyView.findViewById(fl_idle);
         mLl_content = mEmptyView.findViewById(ll_content);
         mEmptyRv = (RecyclerViewPlus) mEmptyView.findViewById(R.id.rv_recommend);

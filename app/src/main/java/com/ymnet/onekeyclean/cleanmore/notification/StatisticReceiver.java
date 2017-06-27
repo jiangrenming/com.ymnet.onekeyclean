@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
 
-import com.example.commonlibrary.utils.NotificationUtil;
+import com.ymnet.onekeyclean.cleanmore.utils.NotificationUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.killbackground.view.CleanActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;

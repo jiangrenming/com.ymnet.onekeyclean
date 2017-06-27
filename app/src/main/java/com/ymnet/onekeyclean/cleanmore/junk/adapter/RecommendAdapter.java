@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.commonlibrary.retrofit2service.bean.NewsInformation;
+import com.ymnet.retrofit2service.bean.NewsInformation;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
 import com.ymnet.onekeyclean.cleanmore.datacenter.MarketObservable;

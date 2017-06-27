@@ -1,4 +1,4 @@
-package com.example.commonlibrary.retrofit2service.bean;
+package com.ymnet.retrofit2service.bean;
 
 import java.io.Serializable;
 import java.util.List;

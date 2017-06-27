@@ -1,4 +1,4 @@
-package com.example.commonlibrary.systemmanager;
+package com.example.commonlibrary.utils;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.MemoryInfo;

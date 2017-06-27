@@ -10,7 +10,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.commonlibrary.utils.NotificationUtil;
+import com.ymnet.onekeyclean.cleanmore.utils.NotificationUtil;
 import com.example.commonlibrary.utils.PhoneModel;
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.cleanmore.utils.C;

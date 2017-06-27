@@ -20,7 +20,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
@@ -34,17 +34,27 @@
             </LinearLayout>
 
             <com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus
-                android:overScrollMode="never"
                 android:id="@+id/sticky_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:overScrollMode="never"
                 />
-            <ImageView
-                android:scaleType="centerCrop"
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="164dp"
-                android:src="@drawable/bottom_adorn"/>
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="164dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bottom_adorn"/>
+            </LinearLayout>
             <!--@drawable/timg2-->
+            <!--android:layout_height="164dp"-->
 
         </LinearLayout>
     </com.ymnet.onekeyclean.cleanmore.widget.StickyLayout>

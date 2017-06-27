@@ -18,7 +18,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import com.example.commonlibrary.utils.NotificationUtil;
+import com.ymnet.onekeyclean.cleanmore.utils.NotificationUtil;
 import com.example.commonlibrary.utils.PhoneModel;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;

@@ -1,12 +1,12 @@
 package com.ymnet.onekeyclean.cleanmore.fragment.filemanager;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.ImmersiveActivity;
 import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.base.BaseFragment;
 import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.base.FileManagerListener;
 
@@ -14,7 +14,7 @@ import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.base.FileManagerList
  * Created by Administrator on 2017/4/1.
  */
 
-public class FileManagerActivity extends FragmentActivity implements FileManagerListener {
+public class FileManagerActivity extends ImmersiveActivity implements FileManagerListener {
     private FragmentManager mFM;
 
     @Override

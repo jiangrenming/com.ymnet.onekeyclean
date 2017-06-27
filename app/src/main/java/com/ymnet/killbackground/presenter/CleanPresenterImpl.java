@@ -4,7 +4,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Build;
 
-import com.example.commonlibrary.systemmanager.SystemMemory;
+import com.example.commonlibrary.utils.SystemMemory;
 import com.example.commonlibrary.utils.ShareDataUtils;
 import com.wenming.library.processutil.AndroidProcess;
 import com.wenming.library.processutil.ProcessManager;

@@ -21,8 +21,8 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.commonlibrary.retrofit2service.RetrofitService;
-import com.example.commonlibrary.retrofit2service.bean.NewsInformation;
+import com.ymnet.retrofit2service.RetrofitService;
+import com.ymnet.retrofit2service.bean.NewsInformation;
 import com.example.commonlibrary.utils.ConvertParamsUtils;
 import com.example.commonlibrary.utils.NetworkUtils;
 import com.nineoldandroids.view.ViewHelper;

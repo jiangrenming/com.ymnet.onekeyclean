@@ -66,6 +66,7 @@ public class WebHtmlActivity extends Activity {
             m.put(OnekeyField.CLEAN_NEWS, stringExtra);
             MobclickAgent.onEvent(this, StatisticMob.STATISTIC_NEWS_ID, m);
         } catch (Exception e) {
+            e.printStackTrace();
             MobclickAgent.reportError(this, "没有webview,"+e.fillInStackTrace());
             finish();
         }

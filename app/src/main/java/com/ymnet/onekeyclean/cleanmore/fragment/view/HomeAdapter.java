@@ -7,13 +7,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.commonlibrary.systemmanager.SystemMemory;
+import com.example.commonlibrary.utils.SystemMemory;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewClickListener;
 
-import static com.example.commonlibrary.systemmanager.SystemMemory.getAvailMemorySize;
+import static com.example.commonlibrary.utils.SystemMemory.getAvailMemorySize;
 
 
 /**

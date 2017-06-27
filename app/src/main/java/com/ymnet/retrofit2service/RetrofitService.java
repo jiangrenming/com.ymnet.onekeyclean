@@ -1,10 +1,10 @@
-package com.example.commonlibrary.retrofit2service;
+package com.ymnet.retrofit2service;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.example.commonlibrary.retrofit2service.api.GithubApi;
+import com.ymnet.retrofit2service.api.GithubApi;
 
 import java.util.Map;
 

@@ -5,7 +5,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.wechat.activity.SystemBarTintManager;
@@ -67,7 +66,7 @@ public  class ImmersiveActivity extends BaseFragmentActivity {
 
     private void initWindow() {
         if (isAfterKitkat()) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             tintManager = new SystemBarTintManager(this);
             tintManager.setStatusBarTintColor(getResources().getColor(R.color.main_blue_new));
             tintManager.setStatusBarTintEnabled(true);
