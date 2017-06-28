@@ -57,7 +57,6 @@ import com.ymnet.onekeyclean.cleanmore.notification.NotifyService;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
 import com.ymnet.onekeyclean.cleanmore.utils.SharedPreferencesUtil;
-import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.web.WebHtmlActivity;
 import com.ymnet.retrofit2service.RetrofitService;
 import com.ymnet.update.DownLoadFactory;
@@ -147,10 +146,10 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
     };
     private TextView mTv_clean_result;
     private int      showPosition;
-    private boolean mBingoVisible;
-    private Spanned mContent;
-    private boolean mIsBest;
-    private View mRl_morefunction;
+    private boolean  mBingoVisible;
+    private Spanned  mContent;
+    private boolean  mIsBest;
+    private View     mRl_morefunction;
 
 
     @Override
@@ -160,16 +159,12 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
         mCleanPresenter = new CleanPresenterImpl(this);
 
         String onekeyclean = getIntent().getStringExtra(OnekeyField.ONEKEYCLEAN);
-        String statistic_home_id = getIntent().getStringExtra(StatisticMob.STATISTIC_HOME_ID);
-        String statistic_id = getIntent().getStringExtra(StatisticMob.STATISTIC_ID);
-        Map<String, String> m = new HashMap<>();
-        m.put(OnekeyField.ONEKEYCLEAN, "手机加速");
+        String statistic_id = getIntent().getStringExtra(OnekeyField.STATISTICS_KEY);
         if (onekeyclean != null) {
-            if (onekeyclean.equals("home")) {
-                MobclickAgent.onEvent(this, statistic_home_id, m);
-            } else if (onekeyclean.equals("notifymanager")){
-                MobclickAgent.onEvent(this, statistic_id, m);
-            }
+            Log.d(TAG, statistic_id);
+            Map<String, String> m = new HashMap<>();
+            m.put(OnekeyField.ONEKEYCLEAN, "手机加速");
+            MobclickAgent.onEvent(this, statistic_id, m);
         }
 
         initView();
@@ -387,8 +382,8 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
             }
         } else {//有缓存
             if (hasNet) {//有缓存,有网络
-                Log.d(TAG, "a-----"+dataList.toString());
-                Log.d(TAG, "b-----"+mNetList.toString());
+                Log.d(TAG, "a-----" + dataList.toString());
+                Log.d(TAG, "b-----" + mNetList.toString());
                 if (dataList.toString().equals(mNetList.toString())) {//有缓存,有网络,数据类型一致
                     int order = SharedPreferencesUtil.getIntFromSharePreferences(CLEANACTIVITY_ORDER_PREFERENCES, NET_ORDER, 0);
                     //展示order+1条数据,并存入sp

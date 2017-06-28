@@ -33,16 +33,7 @@ public class CustomDialog extends Dialog {
         getWindow().setFlags(LayoutParams.FLAG_NOT_TOUCH_MODAL, LayoutParams.FLAG_NOT_TOUCH_MODAL);
         getWindow().setFlags(LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH, LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
         setContentView(R.layout.view_dialog);
-/*
-        setOnShowListener(new OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
-                mLinearLayout.setVisibility(View.VISIBLE);
-                //1.dialog布局可见
-                //2.dialog动画类型
-                start(Effectstype.RotateBottom);
-            }
-        });*/
+
     }
 
     @Override

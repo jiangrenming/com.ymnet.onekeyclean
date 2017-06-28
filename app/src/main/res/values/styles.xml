@@ -237,8 +237,7 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@style/custom_dialog_animation</item>
     </style>
-    <!--<item name="android:windowBackground">@drawable/panel_background</item>-->
-    <!--<item name="android:windowBackground">@android:color/transparent</item>-->
+
     <style name="custom_dialog_animation">
         <item name="android:windowEnterAnimation">@anim/input_method_enter</item>
         <item name="android:windowExitAnimation">@anim/input_method_exit</item>
