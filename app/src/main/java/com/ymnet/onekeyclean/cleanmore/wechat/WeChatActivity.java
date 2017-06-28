@@ -116,9 +116,13 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_we_chat);
 
-        Map<String, String> m = new HashMap<>();
-        m.put(OnekeyField.ONEKEYCLEAN, "微信清理");
-        MobclickAgent.onEvent(this, StatisticMob.STATISTIC_ID, m);
+        String stringExtra = getIntent().getStringExtra(OnekeyField.ONEKEYCLEAN);
+        String statistics_key = getIntent().getStringExtra(OnekeyField.STATISTICS_KEY);
+        if (stringExtra != null) {
+            Map<String, String> m = new HashMap<>();
+            m.put(OnekeyField.ONEKEYCLEAN, stringExtra);
+            MobclickAgent.onEvent(this, statistics_key, m);
+        }
 
         C.setContext(getApplication());
         mPresenter = new WeChatPresenterImpl(this);
@@ -937,10 +941,16 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rl_wechat:
-                startActivity(new Intent(this, SilverActivity.class));
+                Intent intent1 = new Intent(this, SilverActivity.class);
+                intent1.putExtra(OnekeyField.ONEKEYCLEAN, "");
+                intent1.putExtra(OnekeyField.STATISTICS_KEY, "");
+                startActivity(intent1);
                 break;
             case R.id.rl_qq:
-                startActivity(new Intent(this, QQActivity.class));
+                Intent intent = new Intent(this, QQActivity.class);
+                intent.putExtra(OnekeyField.ONEKEYCLEAN, "");
+                intent.putExtra(OnekeyField.STATISTICS_KEY, "");
+                startActivity(intent);
                 break;
         }
     }

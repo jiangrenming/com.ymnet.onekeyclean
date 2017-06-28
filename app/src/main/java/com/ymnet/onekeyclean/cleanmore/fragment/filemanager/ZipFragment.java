@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileBrowserUtil;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileCategoryHelper;
@@ -23,6 +24,9 @@ import com.ymnet.onekeyclean.cleanmore.filebrowser.bean.FileInfo;
 import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.adapter.FileItemAdapter;
 import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.base.BaseFragment;
 import com.ymnet.onekeyclean.cleanmore.temp.AsyncTaskwdh;
+import com.ymnet.onekeyclean.cleanmore.utils.C;
+import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
+import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
 import com.ymnet.onekeyclean.cleanmore.wechat.DialogFactory;
 import com.ymnet.onekeyclean.cleanmore.widget.LinearLayoutItemDecoration;
@@ -52,6 +56,20 @@ public class ZipFragment extends BaseFragment {
     private RecyclerView recyclerView;
     private FileItemAdapter adapter;
     private ArrayList<FileInfo> mInfos;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Map<String, String> m = new HashMap<>();
+        m.put(OnekeyField.FileCLEAN, "压缩包清理");
+        MobclickAgent.onEvent(C.get(), StatisticMob.STATISTIC_FILECLEAN_ID, m);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(C.get());
+    }
 
     @Nullable
     @Override
@@ -171,7 +189,7 @@ public class ZipFragment extends BaseFragment {
             }
         }
         btnBottomDelete.setEnabled(deleteMap.size() != 0);
-        btnBottomDelete.setText(String.format(context.getResources().getString(R.string.file_delete), Util.formatFileSizeToPic(size)));
+        btnBottomDelete.setText(String.format(context.getResources().getString(R.string.file_delete_withdata), Util.formatFileSizeToPic(size)));
         cbTopSelectAll.setText(cbTopSelectAll.isChecked() ? "取消" : "全选");
         if (deleteMap.size() == 0) {
             tvTopTitle.setText(R.string.zip_clean);

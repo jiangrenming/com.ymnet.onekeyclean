@@ -57,11 +57,13 @@ import com.ymnet.onekeyclean.cleanmore.notification.NotifyService;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
 import com.ymnet.onekeyclean.cleanmore.utils.SharedPreferencesUtil;
+import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.web.WebHtmlActivity;
 import com.ymnet.retrofit2service.RetrofitService;
 import com.ymnet.update.DownLoadFactory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -156,6 +158,20 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clean);
         mCleanPresenter = new CleanPresenterImpl(this);
+
+        String onekeyclean = getIntent().getStringExtra(OnekeyField.ONEKEYCLEAN);
+        String statistic_home_id = getIntent().getStringExtra(StatisticMob.STATISTIC_HOME_ID);
+        String statistic_id = getIntent().getStringExtra(StatisticMob.STATISTIC_ID);
+        Map<String, String> m = new HashMap<>();
+        m.put(OnekeyField.ONEKEYCLEAN, "手机加速");
+        if (onekeyclean != null) {
+            if (onekeyclean.equals("home")) {
+                MobclickAgent.onEvent(this, statistic_home_id, m);
+            } else if (onekeyclean.equals("notifymanager")){
+                MobclickAgent.onEvent(this, statistic_id, m);
+            }
+        }
+
         initView();
         initData();
         QihooSystemUtil.openAllPermission(getApplicationContext(), "com.ymnet.apphelper");
@@ -555,7 +571,6 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
     private void bingoAnimation(final Boolean isBest) {
         //对勾动画开启
         //展开动画
-
         mRotateImage.setVisibility(View.INVISIBLE);
         mDetermine.setScaleX(0);
         mDetermine.setScaleY(0);
@@ -780,14 +795,8 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
                             } else {
                                 playAnimation(cleanAppLists.get(i), 120 * i, false);
                             }
-                            //toast展示为用户清理的内存
-//                            String sAgeFormat = CleanActivity.this.getResources().getString(R.string.toast_clean_result);
-//                            String content = String.format(sAgeFormat, formatFileSize(CleanActivity.this, cleanMem), mCount);
+                            //展示为用户清理的内存
                             Spanned spanned = Html.fromHtml(CleanActivity.this.getResources().getString(R.string.toast_clean_result, formatFileSize(CleanActivity.this, cleanMem), mCount));
-//                            TextView content = new TextView(getApplicationContext());
-//                            content.setText(spanned);
-//                            content.setText(Html.fromHtml(CleanActivity.this.getBaseContext().getResources().getString(R.string.a_content,"abc","bcd")));
-//                            showToast(content);
                             mContent = spanned;
                         }
 
@@ -837,20 +846,6 @@ public class CleanActivity extends Activity implements CleanView, View.OnClickLi
                 startActivity(new Intent(CleanActivity.this, HomeActivity.class));
                 break;
             case R.id.rl_morefunction:
-
-                //前提步骤:// TODO: 2017/6/23 0023  
-                /**
-                 * 1.加速球点击时,网络请求数据
-                 * 2.网络数据为空:展示界面时展示默认布局
-                 *   网络数据有 : 判断数据是否和之前的一致 :1.一致-展示的数据为sharedperference存储顺序位置position
-                 *                                       2.不一致,删除旧数据,存入新数据,展示的数据为position=0开始执行
-                 */
-                //根据请求的数据类型展示界面类型
-                /**
-                 * 0.无网络数据:默认布局
-                 * 1.type==web:
-                 * 2.type==download:
-                 */
                 //点击事件
                 /**
                  * 1.type==web:跳转用浏览器打开web_url

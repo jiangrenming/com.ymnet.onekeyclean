@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/ll_dialog"
-              android:layout_width="250dp"
-              android:layout_height="wrap_content"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
               android:layout_gravity="center"
-              android:background="@drawable/dialog_bg_shape"
+              android:gravity="center"
               android:orientation="vertical">
-
+    <!--android:background="@drawable/dialog_bg_shape"-->
 
     <RelativeLayout
         android:id="@+id/rl_clean_result"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_width="280dp"
+        android:layout_height="72dp"
+        android:background="@drawable/dialog_bg_shape"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="10dp"
@@ -19,27 +20,34 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <ImageView
+            <RelativeLayout
                 android:id="@+id/iv_bingo"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginRight="5dp"
-                android:src="@drawable/bingo_white"
-                android:visibility="gone"/>
+                android:gravity="center"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/bingo_white"
+                    />
+            </RelativeLayout>
 
             <TextView
-                android:gravity="center_vertical"
                 android:id="@+id/tv_clean_result"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_marginLeft="5dp"
+                android:gravity="center_vertical"
                 android:text="@string/toast_clean_result"
                 android:textColor="#fff"
-                android:textSize="14sp"/>
+                android:textSize="16sp"/>
             <!--android:textColor="#3097fd"-->
 
         </LinearLayout>
@@ -49,28 +57,28 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
             android:src="@drawable/flash_arrow_white_anim"
             />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_leaninto_home"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_width="280dp"
+        android:layout_height="72dp"
         android:background="@drawable/dialog_bottom_bg_shape"
         android:gravity="center_vertical"
         android:padding="10dp">
 
         <TextView
-            android:gravity="center_vertical"
             android:id="@+id/tv_head2"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
+            android:gravity="center_vertical"
             android:text="@string/leadinto_home"
             android:textColor="#3097fd"
-            android:textSize="14sp"/>
+            android:textSize="16sp"/>
 
         <ImageView
             android:id="@+id/iv_arrow_head2"

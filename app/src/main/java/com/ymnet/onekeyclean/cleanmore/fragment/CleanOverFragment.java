@@ -379,10 +379,14 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
         int i = v.getId();
         if (i == R.id.rl_wechat) {
             it = new Intent(getActivity(), WeChatActivity.class);
+            it.putExtra(OnekeyField.ONEKEYCLEAN, "");
+            it.putExtra(OnekeyField.STATISTICS_KEY, "");
             startActivity(it);
             delayedFinish();
         } else if (i == R.id.rl_qq) {
             it = new Intent(getActivity(), QQActivity.class);
+            it.putExtra(OnekeyField.ONEKEYCLEAN, "");
+            it.putExtra(OnekeyField.STATISTICS_KEY, "");
             startActivity(it);
             delayedFinish();
         } else if (i == R.id.footer_more) {

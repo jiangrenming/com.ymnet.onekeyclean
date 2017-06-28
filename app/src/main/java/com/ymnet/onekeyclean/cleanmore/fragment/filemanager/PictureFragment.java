@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileBigImageActivity;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileBrowserUtil;
@@ -26,6 +27,9 @@ import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.adapter.FileItemAdap
 import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.base.BaseFragment;
 import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.base.FileManagerInfo;
 import com.ymnet.onekeyclean.cleanmore.temp.AsyncTaskwdh;
+import com.ymnet.onekeyclean.cleanmore.utils.C;
+import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
+import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
 import com.ymnet.onekeyclean.cleanmore.wechat.DialogFactory;
 
@@ -56,6 +60,14 @@ public class PictureFragment extends BaseFragment {
     private ArrayList<FileInfo> mInfos;
     protected static final int REQUESTCODE_IMAGE = 1;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Map<String, String> m = new HashMap<>();
+        m.put(OnekeyField.FileCLEAN, "相册清理");
+        MobclickAgent.onEvent(C.get(), StatisticMob.STATISTIC_FILECLEAN_ID, m);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,6 +77,12 @@ public class PictureFragment extends BaseFragment {
         initData(context);
         initListener(context, view);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(C.get());
     }
 
     private void initView(Context context, View view) {

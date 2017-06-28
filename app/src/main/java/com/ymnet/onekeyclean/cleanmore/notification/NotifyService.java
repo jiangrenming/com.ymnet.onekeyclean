@@ -18,13 +18,14 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import com.ymnet.onekeyclean.cleanmore.utils.NotificationUtil;
 import com.example.commonlibrary.utils.PhoneModel;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
 import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
+import com.ymnet.onekeyclean.cleanmore.utils.NotificationUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
+import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.wechat.WeChatActivity;
 
 import java.io.Serializable;
@@ -145,9 +146,6 @@ public class NotifyService extends Service implements Serializable {
             remoteViews.setTextColor(R.id.tv_flashlight, Color.parseColor("#ffffff"));
             remoteViews.setTextColor(R.id.tv_setting, Color.parseColor("#ffffff"));
         }
-        /*if (PhoneModel.matchModel("8681", "SM-", "OPPO"*//*, "HUAWEI"*//*,*//*"ONEPLUS",*//*"Le", "M5"*//*,"Coolpad"*//*)) {
-            System.out.println("---------------androidModel:奇酷,一加,OPPO,奇酷,华为");
-        }*/
 
         //一键加速
         Intent intent2 = new Intent(C.get(), StatisticReceiver.class);
@@ -160,17 +158,23 @@ public class NotifyService extends Service implements Serializable {
 //        Intent intent3 = new Intent(C.get(), DeviceManagerReceiver.class);
 
         intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent3.putExtra(OnekeyField.ONEKEYCLEAN, "微信清理");
+        intent3.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_ID);
         PendingIntent pendingIntent1 = PendingIntent.getActivity(C.get(), REQUEST_CODE02, intent3, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_wechat, pendingIntent1);
 
         //QQ清理
         Intent intent4 = new Intent(C.get(), QQActivity.class);
         intent4.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent4.putExtra(OnekeyField.ONEKEYCLEAN, "QQ清理");
+        intent4.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_ID);
         PendingIntent pendingIntent4 = PendingIntent.getActivity(C.get(), REQUEST_CODE03, intent4, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_qq, pendingIntent4);
 
         //垃圾清理
         Intent intent5 = new Intent(C.get(), SilverActivity.class);
+        intent5.putExtra(OnekeyField.ONEKEYCLEAN, "垃圾清理");
+        intent5.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_ID);
         intent5.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent5 = PendingIntent.getActivity(C.get(), REQUEST_CODE04, intent5, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_deep, pendingIntent5);
@@ -189,7 +193,7 @@ public class NotifyService extends Service implements Serializable {
         remoteViews.setOnClickPendingIntent(R.id.ll_flashlight, pendingIntent7);
 
         //系统设置
-                Intent intent6 = new Intent(this, StatisticReceiver.class);
+        Intent intent6 = new Intent(this, StatisticReceiver.class);
 
         intent6.putExtra(OnekeyField.KEY, OnekeyField.SETTINGS);
         PendingIntent pendingIntent6 = PendingIntent.getBroadcast(C.get(), REQUEST_CODE06, intent6, PendingIntent.FLAG_UPDATE_CURRENT);

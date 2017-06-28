@@ -37,7 +37,6 @@ import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.CleanSetSharedPreferences;
 import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
-import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
 
 import java.util.ArrayList;
@@ -76,10 +75,13 @@ public class SilverActivity extends ImmersiveActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_silver);
 
-        Map<String, String> m = new HashMap<>();
-        m.put(OnekeyField.ONEKEYCLEAN, "垃圾清理");
-        MobclickAgent.onEvent(this, StatisticMob.STATISTIC_ID, m);
-
+        String stringExtra = getIntent().getStringExtra(OnekeyField.ONEKEYCLEAN);
+        String statistics_key = getIntent().getStringExtra(OnekeyField.STATISTICS_KEY);
+        if (stringExtra != null) {
+            Map<String, String> m = new HashMap<>();
+            m.put(OnekeyField.ONEKEYCLEAN, stringExtra);
+            MobclickAgent.onEvent(this, statistics_key, m);
+        }
         //startactivityresult
         setResult(CleanFragmentInfo.ACTIVITY_RESULT_NO_CLEAN);
         resources = getResources();

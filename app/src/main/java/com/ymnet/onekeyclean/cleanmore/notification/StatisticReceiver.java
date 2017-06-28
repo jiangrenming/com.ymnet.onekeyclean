@@ -42,11 +42,9 @@ public class StatisticReceiver extends BroadcastReceiver {
             //收起通知栏
             NotificationUtil.collapseStatusBar(context);
         } else if (intent.getStringExtra(OnekeyField.KEY).equals(OnekeyField.KILLBACKGROUND)) {
-            Map<String, String> m = new HashMap<>();
-            m.put(OnekeyField.ONEKEYCLEAN, "手机加速");
-            MobclickAgent.onEvent(C.get(),StatisticMob.STATISTIC_ID,m);
-
             Intent intent7 = new Intent(context, CleanActivity.class);
+            intent7.putExtra(OnekeyField.ONEKEYCLEAN, "notifymanager");
+            intent7.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_ID);
             intent7.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             C.get().startActivity(intent7);
             //收起通知栏

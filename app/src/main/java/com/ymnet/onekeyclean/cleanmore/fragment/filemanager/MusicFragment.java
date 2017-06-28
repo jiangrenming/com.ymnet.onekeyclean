@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileBrowserUtil;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileCategoryHelper;
@@ -22,6 +23,9 @@ import com.ymnet.onekeyclean.cleanmore.filebrowser.bean.FileInfo;
 import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.adapter.FileItemAdapter;
 import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.base.BaseFragment;
 import com.ymnet.onekeyclean.cleanmore.temp.AsyncTaskwdh;
+import com.ymnet.onekeyclean.cleanmore.utils.C;
+import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
+import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
 import com.ymnet.onekeyclean.cleanmore.wechat.DialogFactory;
 import com.ymnet.onekeyclean.cleanmore.widget.LinearLayoutItemDecoration;
@@ -52,6 +56,14 @@ public class MusicFragment extends BaseFragment {
     private FileItemAdapter adapter;
     private ArrayList<FileInfo> mInfos;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Map<String, String> m = new HashMap<>();
+        m.put(OnekeyField.FileCLEAN, "音乐清理");
+        MobclickAgent.onEvent(C.get(), StatisticMob.STATISTIC_FILECLEAN_ID, m);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,6 +73,12 @@ public class MusicFragment extends BaseFragment {
         initData(context);
         initListener(context, view);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(C.get());
     }
 
     private void initView(Context context, View view) {

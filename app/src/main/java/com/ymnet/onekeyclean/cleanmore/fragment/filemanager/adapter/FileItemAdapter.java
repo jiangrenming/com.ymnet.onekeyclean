@@ -190,9 +190,6 @@ public class FileItemAdapter extends RecyclerView.Adapter {
 
             Glide.with(mContext)
                     .load("file://" + mInfos.get(position).filePath)
-                    .placeholder(R.drawable.image_item_griw_default)
-                    .error(R.drawable.image_item_griw_default)
-                    .centerCrop()
                     .into(mHolder.picturePic);
 
             if (TextUtils.isEmpty(mInfos.get(position).mimeType)) {

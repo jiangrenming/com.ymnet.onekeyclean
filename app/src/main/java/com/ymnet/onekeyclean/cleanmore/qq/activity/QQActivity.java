@@ -109,18 +109,22 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
     private WeChatRecommendAdapter mEmptyRecommendAdapter;
     private View                   mEmptyHead;
     private View                   mEmptyNewsHead;
-    private View             mEmptyFoot;
-    private long mSuccessCleanSize = 0;
-    private static String ActivityState = null;
+    private View                   mEmptyFoot;
+    private        long   mSuccessCleanSize = 0;
+    private static String ActivityState     = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qq);
 
-        Map<String, String> m = new HashMap<>();
-        m.put(OnekeyField.ONEKEYCLEAN, "QQ清理");
-        MobclickAgent.onEvent(this, StatisticMob.STATISTIC_ID, m);
+        String stringExtra = getIntent().getStringExtra(OnekeyField.ONEKEYCLEAN);
+        String statistics_key = getIntent().getStringExtra(OnekeyField.STATISTICS_KEY);
+        if (stringExtra != null) {
+            Map<String, String> m = new HashMap<>();
+            m.put(OnekeyField.ONEKEYCLEAN, stringExtra);
+            MobclickAgent.onEvent(this, statistics_key, m);
+        }
 
         C.setContext(getApplication());
         mPresenter = new QQPresenterImpl(this);
@@ -236,7 +240,7 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
             }
 
             @Override
-            public void selectButton(Map<Integer, Boolean> weChatInfos,int position) {
+            public void selectButton(Map<Integer, Boolean> weChatInfos, int position) {
 
             }
         });
@@ -316,7 +320,7 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
             }
 
             @Override
-            public void selectButton(Map<Integer, Boolean> weChatInfos,int position) {
+            public void selectButton(Map<Integer, Boolean> weChatInfos, int position) {
 
             }
         });
@@ -400,7 +404,7 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
             }
 
             @Override
-            public void selectButton(Map<Integer, Boolean> weChatInfos,int position) {
+            public void selectButton(Map<Integer, Boolean> weChatInfos, int position) {
 
             }
         });
@@ -514,15 +518,6 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
     }
 
     private void initEmptyView() {
-       /* View btn = emptyView.findViewById(R.id.btn);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                QQActivity.this.finish();
-                Intent intent = new Intent(QQActivity.this, SilverActivity.class);
-                startActivity(intent);
-            }
-        });*/
 
         mIv_sun = (ImageView) mEmptyView.findViewById(R.id.iv_sun);
         mIv_sun_center = (ImageView) mEmptyView.findViewById(R.id.iv_sun_center);
@@ -569,7 +564,7 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
                 Log.d("CleanOverFragment", "fl_idle.getMeasuredWidth():" + mFl_idle.getMeasuredWidth());
                 mFl_idle.setTranslationX(width / 2 - mFl_idle.getMeasuredWidth() / 2);
 
-                mFl_idle.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                mFl_idle.getViewTreeObserver().removeGlobalOnLayoutListener(this);
             }
         });
         //星星闪烁动画
@@ -701,6 +696,7 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
 
     int count = 0;
     int temp  = 0;
+
     @Override
     public void updateData() {
         Task.UI_THREAD_EXECUTOR.execute(new Runnable() {

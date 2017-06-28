@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/ll_dialog"
-              android:layout_width="250dp"
-              android:layout_height="wrap_content"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
               android:layout_gravity="center"
-              android:background="@drawable/dialog_bg_shape"
+              android:gravity="center"
               android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:padding="10dp"
+        android:background="@drawable/dialog_bg_shape"
         >
 
         <RelativeLayout
@@ -26,8 +27,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="@string/toast_clean_result"
-                android:textColor="#3097fd"
-                android:textSize="14sp"/>
+                android:textColor="#fff"
+                android:textSize="16sp"/>
 
             <ImageView
                 android:id="@+id/iv_arrow_result"
@@ -35,12 +36,12 @@
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/flash_arrow_grey_anim"
+                android:src="@drawable/flash_arrow_white_anim"
                 />
         </RelativeLayout>
 
         <FrameLayout
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content">
 
             <RelativeLayout
@@ -56,8 +57,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:text="@string/leadinto_home"
-                    android:textColor="#3097fd"
-                    android:textSize="14sp"/>
+                    android:textColor="#fff"
+                    android:textSize="16sp"/>
 
                 <ImageView
                     android:id="@+id/iv_arrow_head2"
@@ -65,7 +66,7 @@
                     android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/flash_arrow_grey_anim"
+                    android:src="@drawable/flash_arrow_white_anim"
                     />
             </RelativeLayout>
 
@@ -76,7 +77,7 @@
 
     <RelativeLayout
         android:id="@+id/rl_morefunction"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:background="@drawable/dialog_bottom_bg_shape"
         android:gravity="center"
@@ -90,8 +91,8 @@
             android:layout_marginLeft="5dp"
             android:gravity="center_vertical"
             android:text="@string/more_news"
-            android:textColor="#fff"
-            android:textSize="14sp"/>
+            android:textColor="#3097fd"
+            android:textSize="16sp"/>
 
         <ImageView
             android:id="@+id/iv_arrow_foot"
@@ -99,6 +100,6 @@
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/flash_arrow_white_anim"/>
+            android:src="@drawable/flash_arrow_grey_anim"/>
     </RelativeLayout>
 </LinearLayout>

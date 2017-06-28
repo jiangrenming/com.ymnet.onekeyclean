@@ -330,6 +330,7 @@ public class FileControl extends MarketObservable {
         if (FileBrowserUtil.isPic(suffix)) {
             FileInfo fileInfo = getFileInfo(path);
             if (fileInfo != null) {
+                fileInfo.fc = FileCategory.Picture;
                 ArrayList<FileInfo> wx = allPicsMap.get(FileBrowserUtil.PIC_DIR_WX);
                 if (wx == null) {
                     wx = new ArrayList<FileInfo>();

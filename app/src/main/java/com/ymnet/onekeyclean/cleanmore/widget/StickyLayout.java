@@ -223,7 +223,7 @@ public class StickyLayout extends LinearLayout {
                     mStatus = STATUS_EXPANDED;
                 }
                 // 慢慢滑向终点
-                this.smoothSetHeaderHeight(mHeaderHeight, destHeight, 500);
+                this.smoothSetHeaderHeight(mHeaderHeight, destHeight, 1200);
                 break;
             }
             default:
@@ -288,6 +288,8 @@ public class StickyLayout extends LinearLayout {
     }
 
     public void setHeaderHeight(int height) {
+        setAlphaDegree(height);
+
         if (!mInitDataSucceed) {
             initData();
         }
@@ -329,6 +331,12 @@ public class StickyLayout extends LinearLayout {
                 Log.e(TAG, "null LayoutParams when setHeaderHeight");
             }
         }
+    }
+
+    private void setAlphaDegree(int height) {
+        float value = (float) (height) / mOriginalHeaderHeight;
+        Log.d(TAG, "value:" + value);
+        ivPelletFloatingLayer.setAlpha(value);
     }
 
     public int getHeaderHeight() {

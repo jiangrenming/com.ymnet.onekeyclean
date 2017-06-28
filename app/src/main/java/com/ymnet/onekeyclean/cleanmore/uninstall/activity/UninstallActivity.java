@@ -5,15 +5,19 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.ImmersiveActivity;
 import com.ymnet.onekeyclean.cleanmore.uninstall.fragment.EmptyFragment;
 import com.ymnet.onekeyclean.cleanmore.uninstall.fragment.UninstallFragment;
 import com.ymnet.onekeyclean.cleanmore.uninstall.model.AppInfo;
 import com.ymnet.onekeyclean.cleanmore.uninstall.model.UninstallCallback;
+import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by MajinBuu on 2017/6/21 0021.
@@ -28,6 +32,14 @@ public class UninstallActivity extends ImmersiveActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_uninstall);
+
+        String stringExtra = getIntent().getStringExtra(OnekeyField.ONEKEYCLEAN);
+        String statistics_key = getIntent().getStringExtra(OnekeyField.STATISTICS_KEY);
+        if (stringExtra != null) {
+            Map<String, String> m = new HashMap<>();
+            m.put(OnekeyField.ONEKEYCLEAN, stringExtra);
+            MobclickAgent.onEvent(this, statistics_key, m);
+        }
 
         initToolbar();
         initFragment();
@@ -67,5 +79,11 @@ public class UninstallActivity extends ImmersiveActivity {
             return (UninstallFragment) fragment;
         }
         return null;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
     }
 }

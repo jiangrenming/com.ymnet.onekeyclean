@@ -10,11 +10,11 @@
         android:id="@+id/rl_home_head"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/main_blue_new1"
-        android:gravity="center"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/main_blue_new1"
+        android:gravity="center">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -38,91 +38,91 @@
         <LinearLayout
             android:id="@+id/ll_head_content"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
 
             <!--android:visibility="gone"-->
 
-            <RelativeLayout
-                android:id="@+id/ll_number"
-                android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:gravity="center"
-                >
+                <RelativeLayout
+                    android:id="@+id/ll_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:gravity="center"
+                    >
 
-                <com.ymnet.onekeyclean.cleanmore.widget.SGTextView
-                    android:id="@+id/tv_homehead_size"
+                    <com.ymnet.onekeyclean.cleanmore.widget.SGTextView
+                        android:id="@+id/tv_homehead_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="15dp"
+                        android:text="@string/sgtextview_show"
+                        android:textColor="@color/white"
+                        android:textSize="100dp"
+                        />
+
+                    <com.ymnet.onekeyclean.cleanmore.widget.SGTextView
+                        android:id="@+id/tv_homehead_unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/tv_homehead_size"
+                        android:layout_marginBottom="25dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/tv_homehead_size"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="15dp"
+                        android:text="@string/sgtextview_kb"
+                        android:textColor="@color/white"
+                        android:textSize="17dp"
+                        />
+                </RelativeLayout>
+
+                <!--android:visibility="gone"-->
+                <LinearLayout
+                    android:id="@+id/ll_clean_down"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="15dp"
-                    android:text="@string/sgtextview_show"
-                    android:textColor="@color/white"
-                    android:textSize="100dp"
-                    />
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    >
 
-                <com.ymnet.onekeyclean.cleanmore.widget.SGTextView
-                    android:id="@+id/tv_homehead_unit"
-                    android:layout_width="wrap_content"
+                    <ImageView
+                        android:id="@+id/iv_clean_down"
+                        android:layout_width="130dp"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="25dp"
+                        android:src="@drawable/clean_over_clear"/>
+
+                    <TextView
+                        android:id="@+id/tv_clean_down"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/iv_cleanddd"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="经常清理垃圾"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"/>
+
+                </LinearLayout>
+                <!--120dp-->
+                <com.ymnet.onekeyclean.cleanmore.widget.ProgressButton
+                    android:id="@+id/pb_ram_prompt"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/tv_homehead_size"
-                    android:layout_marginBottom="25dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/tv_homehead_size"
+                    android:background="@drawable/management_btn_clean_bg"
+                    android:gravity="center"
                     android:paddingBottom="10dp"
-                    android:paddingTop="15dp"
-                    android:text="@string/sgtextview_kb"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="25dp"
+                    android:paddingTop="10dp"
+                    android:text="扫描中.."
                     android:textColor="@color/white"
-                    android:textSize="17dp"
-                    />
-            </RelativeLayout>
+                    android:textSize="16dp"
+                    app:progressColor="#33FFFFFF"/>
 
-            <!--android:visibility="gone"-->
-            <LinearLayout
-                android:id="@+id/ll_clean_down"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:visibility="gone"
-                >
-
-                <ImageView
-                    android:id="@+id/iv_clean_down"
-                    android:layout_width="130dp"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="25dp"
-                    android:src="@drawable/clean_over_clear"/>
-
-                <TextView
-                    android:id="@+id/tv_clean_down"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/iv_cleanddd"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="经常清理垃圾"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"/>
-
-            </LinearLayout>
-            <!--120dp-->
-            <com.ymnet.onekeyclean.cleanmore.widget.ProgressButton
-                android:id="@+id/pb_ram_prompt"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/management_btn_clean_bg"
-                android:gravity="center"
-                android:paddingBottom="10dp"
-                android:paddingLeft="25dp"
-                android:paddingRight="25dp"
-                android:paddingTop="10dp"
-                android:text="扫描中.."
-                android:textColor="@color/white"
-                android:textSize="16dp"
-                app:progressColor="#33FFFFFF"/>
         </LinearLayout>
 
     </RelativeLayout>

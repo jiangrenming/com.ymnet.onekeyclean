@@ -15,7 +15,6 @@ import android.os.Process;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,8 +103,6 @@ public class EmptyFragment extends BaseFragment {
                         // 获取该应用安装包的Intent，用于启动该应用
                         // info.appIntent = pm.getLaunchIntentForPackage(installedPackages.get(i).packageName);
                         AppInfo info = new AppInfo();
-                        Log.d("EmptyFragment11", "i:" + i);
-//                        getPkgSize(installedPackages.get(i), info);
                         info.appName = installedPackages.get(i).applicationInfo.loadLabel(mPackageManager).toString();
                         info.versionName = installedPackages.get(i).versionName;
                         info.pkgName = installedPackages.get(i).packageName;
@@ -121,7 +118,6 @@ public class EmptyFragment extends BaseFragment {
                 while (ScanHelp.getInstance(C.get()).isRun()) {
                 }//勿删!
 
-                Log.d("EmptyFragment", mAppInfoList.toString());
                 return null;
             }
 
@@ -131,7 +127,6 @@ public class EmptyFragment extends BaseFragment {
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d("EmptyFragment11", "i:主线程跳转");
                         mUninstallCallback.getMessage(mAppInfoList);
 
                         FragmentManager fm = getFragmentManager();
@@ -152,49 +147,6 @@ public class EmptyFragment extends BaseFragment {
 
         task.execute(new Void[]{});
     }
-
-
-    /*private void getPkgSize(final PackageInfo packageInfo, final AppInfo info) {
-        Method method = null;
-        try {
-            method = mPackageManager.getClass().getMethod("getPackageSizeInfo", String.class, IPackageStatsObserver.class);
-            method.invoke(mPackageManager, packageInfo.packageName, new IPackageStatsObserver.Stub() {
-
-                @Override
-                public void onGetStatsCompleted(PackageStats pStats, boolean succeeded) throws RemoteException {
-
-                    if (succeeded) {
-                        long cacheSize1 = pStats.cacheSize;
-                        long cacheSize2 = 0;
-                        long cacheSize3 = pStats.codeSize;
-                        if (Build.VERSION.SDK_INT >= 11) {
-                            cacheSize2 = pStats.externalCacheSize;
-                        }
-                        long cacheSize = cacheSize1 + cacheSize2 + cacheSize3;
-
-                        info.size = cacheSize;
-                        info.appName = packageInfo.applicationInfo.loadLabel(mPackageManager).toString();
-                        info.versionName = packageInfo.versionName;
-                        info.pkgName = packageInfo.packageName;
-                        info.appIcon = drawableToBitmap(packageInfo.applicationInfo.loadIcon(mPackageManager));
-
-                        //忽略名单应用不添加进集合
-                        if (!mIgnoreList.contains(packageInfo.packageName)) {
-                            mAppInfoList.add(info);
-                            mPkgNameList.add(info.pkgName);
-                        }
-                        Log.d("EmptyFragment", "appInfo:" + info.toString());
-                        Log.d("EmptyFragment11", "i:反射");
-                    }
-
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
-        }
-
-    }*/
 
     public Bitmap drawableToBitmap(Drawable drawable) {
         int width = drawable.getIntrinsicWidth();
