@@ -24,6 +24,7 @@ import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.fragment.BaseFragment;
 import com.ymnet.onekeyclean.cleanmore.junk.ScanHelp;
 import com.ymnet.onekeyclean.cleanmore.uninstall.model.AppInfo;
+import com.ymnet.onekeyclean.cleanmore.uninstall.model.IgnoreInfo;
 import com.ymnet.onekeyclean.cleanmore.uninstall.model.UninstallCallback;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 
@@ -54,6 +55,12 @@ public class EmptyFragment extends BaseFragment {
 
     public void getMessage(UninstallCallback uninstallCallback) {
         this.mUninstallCallback = uninstallCallback;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mIgnoreList = IgnoreInfo.newInstance().getList();
     }
 
     @Nullable
