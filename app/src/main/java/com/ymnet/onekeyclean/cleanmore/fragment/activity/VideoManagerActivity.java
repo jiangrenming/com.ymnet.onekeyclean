@@ -1,28 +1,23 @@
-package com.ymnet.onekeyclean.cleanmore.fragment.filemanager;
+package com.ymnet.onekeyclean.cleanmore.fragment.activity;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.ImmersiveActivity;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileBrowserUtil;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileCategoryHelper;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileControl;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileSortHelper;
-import com.ymnet.onekeyclean.cleanmore.filebrowser.FileSortHelper.SortMethod;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.bean.FileInfo;
 import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.adapter.FileItemAdapter;
-import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.base.BaseFragment;
 import com.ymnet.onekeyclean.cleanmore.temp.AsyncTaskwdh;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
@@ -37,32 +32,35 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-/**
- * Created by Administrator on 2017/6/21.
- */
+public class VideoManagerActivity extends ImmersiveActivity implements View.OnClickListener {
 
-public class ZipFragment extends BaseFragment {
-
-    protected View fl_loading;
-    protected View pb_loading;
-    private TextView tvTopTitle;
-    private CheckBox cbTopSelectAll;
-    private View bottom;
-    private TextView btnBottomDelete;
-    private View noData;
-    private Map<Integer, FileInfo> deleteMap;
-    private Dialog dialogDelete;
-    private Dialog dlgDeleteWaiting;
-    private RecyclerView recyclerView;
-    private FileItemAdapter adapter;
-    private ArrayList<FileInfo> mInfos;
+    protected View                   fl_loading;
+    protected View                   pb_loading;
+    private   TextView               tvTopTitle;
+    private   CheckBox               cbTopSelectAll;
+    private   View                   bottom;
+    private   TextView               btnBottomDelete;
+    private   View                   noData;
+    private   Map<Integer, FileInfo> deleteMap;
+    private   Dialog                 dialogDelete;
+    private   Dialog                 dlgDeleteWaiting;
+    private   RecyclerView           recyclerView;
+    private   FileItemAdapter        adapter;
+    private   ArrayList<FileInfo>    mInfos;
+    private   View                   mBack;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.documents_fragment_item);
+
         Map<String, String> m = new HashMap<>();
-        m.put(OnekeyField.FileCLEAN, "压缩包清理");
+        m.put(OnekeyField.FileCLEAN, "视频清理");
         MobclickAgent.onEvent(C.get(), StatisticMob.STATISTIC_FILECLEAN_ID, m);
+
+        initView(C.get());
+        initData(C.get());
+        initListener(C.get());
     }
 
     @Override
@@ -71,31 +69,21 @@ public class ZipFragment extends BaseFragment {
         MobclickAgent.onResume(C.get());
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.documents_fragment_item, container, false);
-        Context context = getActivity();
-        initView(context, view);
-        initData(context);
-        initListener(context, view);
-        return view;
-    }
-
-    private void initView(Context context, View view) {
-        fl_loading = view.findViewById(R.id.fl_loading);
-        pb_loading = view.findViewById(R.id.pb_loading);
-        tvTopTitle = (TextView) view.findViewById(R.id.tv_base_title);
-        tvTopTitle.setText(R.string.zip_clean);
-        cbTopSelectAll = (CheckBox) view.findViewById(R.id.cb_top_select_all);
-        bottom = view.findViewById(R.id.bottom_delete);
-        btnBottomDelete = (TextView) view.findViewById(R.id.btn_bottom_delete);
+    private void initView(Context context) {
+        fl_loading = findViewById(R.id.fl_loading);
+        pb_loading = findViewById(R.id.pb_loading);
+        mBack = findViewById(R.id.iv_top_back);
+        tvTopTitle = (TextView) findViewById(R.id.tv_base_title);
+        tvTopTitle.setText(R.string.video_clean);
+        cbTopSelectAll = (CheckBox) findViewById(R.id.cb_top_select_all);
+        bottom = findViewById(R.id.bottom_delete);
+        btnBottomDelete = (TextView) findViewById(R.id.btn_bottom_delete);
         btnBottomDelete.setText(String.format(context.getResources().getString(R.string.file_delete_withdata), Util.formatFileSizeToPic(0)));
-        recyclerView = (RecyclerView) view.findViewById(R.id.ducuments_recyclerview);
-        noData = view.findViewById(R.id.no_data);
+        recyclerView = (RecyclerView) findViewById(R.id.ducuments_recyclerview);
+        noData = findViewById(R.id.no_data);
         TextView noDocument = (TextView) noData.findViewById(R.id.tv_no_data);
         noDocument.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.file_type_document, 0, 0);
-        noDocument.setText(R.string.zip_dir_empty);
+        noDocument.setText(R.string.video_dir_empty);
         mInfos = new ArrayList<FileInfo>();
         deleteMap = new HashMap<Integer, FileInfo>();
         adapter = new FileItemAdapter(context, mInfos, deleteMap);
@@ -104,7 +92,8 @@ public class ZipFragment extends BaseFragment {
         recyclerView.setAdapter(adapter);
     }
 
-    private void initListener(final Context context, View view) {
+    private void initListener(final Context context) {
+        mBack.setOnClickListener(this);
         btnBottomDelete.setOnClickListener(this);
         cbTopSelectAll.setOnClickListener(this);
         cbTopSelectAll.setVisibility(View.VISIBLE);
@@ -132,7 +121,7 @@ public class ZipFragment extends BaseFragment {
         });
     }
 
-    private void initData(Context context) {
+    private void initData(final Context context) {
         final FileControl fc = FileControl.getInstance(context);
         AsyncTaskwdh<Void, Void, Void> task = new AsyncTaskwdh<Void, Void, Void>() {
 
@@ -143,15 +132,14 @@ public class ZipFragment extends BaseFragment {
 
             @Override
             protected Void doInBackground(Void... params) {
-
-                ArrayList<FileInfo> infos = fc.getAllZip(SortMethod.size);
+                FileControl fc = FileControl.getInstance(context);
+                ArrayList<FileInfo> infos = fc.getAllVideos(context, FileSortHelper.SortMethod.size);
                 if (infos != null && mInfos != null) {
                     mInfos.clear();
                     mInfos.addAll(infos);
                     FileSortHelper helper = new FileSortHelper();
-                    Collections.sort(mInfos, helper.getComParator(SortMethod.size));
+                    Collections.sort(mInfos, helper.getComParator(FileSortHelper.SortMethod.size));
                 }
-
                 return null;
             }
 
@@ -172,8 +160,8 @@ public class ZipFragment extends BaseFragment {
                     noData.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
                 }
-
             }
+
         };
         task.execute(new Void[]{});
     }
@@ -191,8 +179,9 @@ public class ZipFragment extends BaseFragment {
         btnBottomDelete.setEnabled(deleteMap.size() != 0);
         btnBottomDelete.setText(String.format(context.getResources().getString(R.string.file_delete_withdata), Util.formatFileSizeToPic(size)));
         cbTopSelectAll.setText(cbTopSelectAll.isChecked() ? "取消" : "全选");
+
         if (deleteMap.size() == 0) {
-            tvTopTitle.setText(R.string.zip_clean);
+            tvTopTitle.setText(R.string.video_clean);
         } else {
             tvTopTitle.setText("已选中" + deleteMap.size() + "项");
         }
@@ -200,10 +189,12 @@ public class ZipFragment extends BaseFragment {
 
     @Override
     public void onClick(View view) {
-        super.onClick(view);
         switch (view.getId()) {
+            case R.id.iv_top_back:
+                finish();
+                break;
             case R.id.btn_bottom_delete:
-                showConfirmDeleteDialog(deleteMap.size(), getActivity());
+                showConfirmDeleteDialog(deleteMap.size(), this);
                 break;
             case R.id.cb_top_select_all:
                 if (cbTopSelectAll.isChecked()) {
@@ -217,24 +208,24 @@ public class ZipFragment extends BaseFragment {
                     deleteMap.clear();
                 }
                 adapter.setDate(mInfos, deleteMap);
-                changeTitle(getActivity());
+                changeTitle(C.get());
                 break;
         }
     }
 
-    private void showConfirmDeleteDialog(int size, final Activity activity) {
-        dialogDelete = DialogFactory.createDialog(activity, R.layout.dialog_filedelete, "提示", "确认要删除选中的" + size + "项?",
+    private void showConfirmDeleteDialog(int size, final Context context) {
+        dialogDelete = DialogFactory.createDialog(context, R.layout.dialog_filedelete, "提示", "确认要删除选中的" + size + "项?",
                 getString(R.string.yes_zh), getString(R.string.no_zh),
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialogDelete.dismiss();
-                        asyncDelete(activity);
+                        dialogDelete.cancel();
+                        asyncDelete(context);
                     }
                 }, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialogDelete.dismiss();
+                        dialogDelete.cancel();
 
                     }
                 });
@@ -243,13 +234,13 @@ public class ZipFragment extends BaseFragment {
         dialogDelete.show();
     }
 
-    private void asyncDelete(final Activity activity) {
+    private void asyncDelete(final Context context) {
         AsyncTaskwdh<Void, Void, Void> task = new AsyncTaskwdh<Void, Void, Void>() {
 
             @Override
             protected void onPreExecute() {
                 if (dlgDeleteWaiting == null) {
-                    dlgDeleteWaiting = DialogFactory.createDialog(activity, R.layout.common_loading_dialog);
+                    dlgDeleteWaiting = DialogFactory.createDialog(context, R.layout.common_loading_dialog);
                     dlgDeleteWaiting.setCancelable(false);
                     dlgDeleteWaiting.setCanceledOnTouchOutside(false);
                 }
@@ -263,8 +254,8 @@ public class ZipFragment extends BaseFragment {
                 while (iterator.hasNext() && mInfos != null) {
                     next = iterator.next();
                     if (next != null) {
-                        boolean b = FileBrowserUtil.deleteOtherFile(activity, next.getValue().fileId,
-                                next.getValue().filePath, FileCategoryHelper.FileCategory.Zip);
+                        boolean b = FileBrowserUtil.deleteVideo(context, next.getValue().fileId,
+                                next.getValue().filePath, FileCategoryHelper.FileCategory.Video);
                         if (b) {
                             if (next.getValue() != null) {
                                 mInfos.remove(next.getValue());
@@ -299,7 +290,6 @@ public class ZipFragment extends BaseFragment {
         if (instance.isRunning()) {
             instance.close();
         }
-
         if (deleteMap != null) {
             deleteMap.clear();
             deleteMap = null;
@@ -311,7 +301,6 @@ public class ZipFragment extends BaseFragment {
         }
 
         if (adapter != null) {
-            adapter.clear();
             adapter = null;
         }
     }

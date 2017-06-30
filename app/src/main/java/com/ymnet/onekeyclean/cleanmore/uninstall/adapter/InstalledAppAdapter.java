@@ -48,7 +48,7 @@ public class InstalledAppAdapter extends RecyclerViewPlus.Adapter {
             mHolder.mAppName.setText(mDataList.get(position).appName);
             long size = mDataList.get(position).size;
             String s = FormatUtils.formatFileSize(size);
-            mHolder.mVersion.setText("version:" + mDataList.get(position).versionName + "/占用内存:" + s);
+            mHolder.mVersion.setText(s);
             mHolder.mUninstall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

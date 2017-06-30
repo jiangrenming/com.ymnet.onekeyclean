@@ -22,16 +22,17 @@ public class HomeActivity extends ImmersiveActivity implements HomeFragment.OnFr
     private ViewPager              mViewPager;
     private TabLayout              mTabLayout;
     private MyFragmentPagerAdapter myFragmentPagerAdapter;
+    public FragmentManager mFM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        mFM = getSupportFragmentManager();
         initView();
     }
 
     private void initView() {
-
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         myFragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(myFragmentPagerAdapter);
@@ -102,7 +103,11 @@ public class HomeActivity extends ImmersiveActivity implements HomeFragment.OnFr
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // TODO: 2017/6/16 0016 再传递数据给对应的fragment
+    }
 
+    @Override
+    public void finish() {
+        super.finish();
+        
     }
 }

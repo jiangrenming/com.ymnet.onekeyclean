@@ -28,7 +28,30 @@
             android:textColor="#545352"
             android:textSize="10sp"/>
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_home"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
 
+        <ImageView
+            android:id="@+id/iv_home"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/home_notification"/>
+
+        <TextView
+            android:layout_marginTop="3dp"
+            android:id="@+id/tv_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="首页"
+            android:textColor="#545352"
+            android:textSize="10sp"/>
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_head"
         android:layout_width="0dp"
@@ -77,6 +100,30 @@
             android:textColor="#545352"
             android:textSize="10sp"/>
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_uninstall"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_uninstall"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/uninstall_notification"/>
+
+        <TextView
+            android:layout_marginTop="3dp"
+            android:id="@+id/tv_uninstall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/install_manager"
+            android:textColor="#545352"
+            android:textSize="10sp"/>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_wechat"
@@ -103,54 +150,6 @@
             android:textSize="10sp"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_qq"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/iv_qq"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:src="@drawable/qq"/>
-
-        <TextView
-            android:layout_marginTop="8dp"
-            android:id="@+id/tv_qq"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="QQ清理"
-            android:textColor="#545352"
-            android:textSize="10sp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/ll_flashlight"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/iv_flashlight"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:src="@drawable/flashlight"/>
-
-        <TextView
-            android:layout_marginTop="8dp"
-            android:id="@+id/tv_flashlight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="手电筒"
-            android:textColor="#545352"
-            android:textSize="10sp"/>
-    </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_setting"
         android:layout_width="0dp"

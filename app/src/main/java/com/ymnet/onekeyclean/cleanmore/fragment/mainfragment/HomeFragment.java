@@ -14,7 +14,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.ymnet.killbackground.utils.Run;
@@ -23,11 +25,18 @@ import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.constants.ByteConstants;
 import com.ymnet.onekeyclean.cleanmore.constants.ScanState;
 import com.ymnet.onekeyclean.cleanmore.constants.TimeConstants;
+import com.ymnet.onekeyclean.cleanmore.customview.CustomGridView;
 import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
 import com.ymnet.onekeyclean.cleanmore.datacenter.DataCenterObserver;
 import com.ymnet.onekeyclean.cleanmore.fragment.CleanOverFragment;
-import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.FileManagerActivity;
-import com.ymnet.onekeyclean.cleanmore.fragment.view.HomeAdapter;
+import com.ymnet.onekeyclean.cleanmore.fragment.activity.ApkManagerActivity;
+import com.ymnet.onekeyclean.cleanmore.fragment.activity.FileManagerActivity;
+import com.ymnet.onekeyclean.cleanmore.fragment.activity.MusicManagerActivity;
+import com.ymnet.onekeyclean.cleanmore.fragment.activity.PackageManagerActivity;
+import com.ymnet.onekeyclean.cleanmore.fragment.activity.PicManagerActivity;
+import com.ymnet.onekeyclean.cleanmore.fragment.activity.VideoManagerActivity;
+import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.adapter.FileManagerAdapter;
+import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.base.BaseFragment;
 import com.ymnet.onekeyclean.cleanmore.fragment.view.RecyclerInfo;
 import com.ymnet.onekeyclean.cleanmore.junk.ScanFinishFragment;
 import com.ymnet.onekeyclean.cleanmore.junk.ScanHelp;
@@ -55,6 +64,7 @@ import com.ymnet.onekeyclean.cleanmore.widget.WaveLoadingView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,7 +86,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
     private ArrayList<JunkChild>        mJunkChildDatas;
     private long                        mJunkChildSize;
     private RecyclerViewPlus            mRecyclerView;
-    private HomeAdapter                 mAdapter;
+    private FileManagerAdapter          mAdapter;
     private RecyclerInfo                mRecyclerInfo;
     private View                        mHeadContent;
     private StickyLayout                mStickLayout;
@@ -92,7 +102,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
     private static final String  SCAN_AGAIN   = "scanAgain";
     private static final String  SCANNING     = "scanning";
     private              Handler mHandler     = new MyHandler(this);
-    private ImageView mIvCleanDown;
+    private ImageView                      mIvCleanDown;
+    private ArrayList<Map<String, Object>> mHomeMainFunctionList;
+    private ArrayList<BaseFragment>        fragments;
 
     class MyHandler extends Handler {
 
@@ -128,6 +140,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
             }
         }
     }
+
+    private int[]    mMainFunctionIcon = {
+            R.drawable.rocket_home,
+            R.drawable.wechat_home,
+            R.drawable.uninstall_notification,
+            R.drawable.qqicon_home,};
+    private String[] mMainFunctionName = {"手机加速", "微信清理", "软件管理", "QQ清理"};
 
     public HomeFragment() {
     }
@@ -203,9 +222,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home1, container, false);
+        View view = inflater.inflate(R.layout.fragment_home1_1, container, false);
         initView(view);
-
+        //        initFragment();
         if (DataCenterObserver.get(C.get()).isRefreshCleanActivity()) {
             DataCenterObserver.get(C.get()).setRefreshCleanActivity(false);
             Log.d(TAG, "onCreateView: ");
@@ -237,16 +256,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
 
         mRecyclerView = (RecyclerViewPlus) view.findViewById(R.id.sticky_content);
         mRecyclerInfo = new RecyclerInfo();
-        mAdapter = new HomeAdapter(C.get(), mRecyclerInfo);
+        //        mAdapter = new HomeAdapter(C.get(), mRecyclerInfo);
+        mAdapter = new FileManagerAdapter(C.get());
 
         final LinearLayoutManager layout = new LinearLayoutManager(C.get());
         mRecyclerView.setLayoutManager(layout);
 
         mRecyclerView.addItemDecoration(new LinearLayoutItemDecoration(C.get(), LinearLayoutItemDecoration.HORIZONTAL_LIST));
-        mAdapter.setRecyclerListListener(new RecyclerViewClickListener() {
+        mAdapter.setmRecyclerViewClickListener(new RecyclerViewClickListener() {
             @Override
             public void onClick(View v, int position) {
-                recyclerViewOnClick(v, position);
+                forwardSendPage(position);
             }
 
             @Override
@@ -296,6 +316,75 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
             }
         });
 
+        //gridview
+        CustomGridView gridView = (CustomGridView) view.findViewById(R.id.gv_mainfuncation);
+        //新建List
+        mHomeMainFunctionList = new ArrayList<>();
+        //获取数据
+        getData();
+        //新建适配器
+        String[] from = {"image", "text"};
+        int[] to = {R.id.iv_item_mainfunction, R.id.tv_item_mainfunction};
+        SimpleAdapter simpleAdapter = new SimpleAdapter(getContext(), mHomeMainFunctionList, R.layout.home_function_item, from, to);
+        //配置适配器
+        gridView.setAdapter(simpleAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        Intent intent = new Intent(C.get(), CleanActivity.class);
+                        intent.putExtra(OnekeyField.ONEKEYCLEAN, "home");
+                        intent.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
+                        startActivityForResult(intent, CLEAN_CODE);
+                        break;
+                    case 1:
+                        Intent intentWeChat = new Intent(C.get(), WeChatActivity.class);
+                        intentWeChat.putExtra(OnekeyField.ONEKEYCLEAN, "微信清理");
+                        intentWeChat.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
+                        intentWeChat.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        C.get().startActivity(intentWeChat);
+                        break;
+                    case 2:
+                        Intent intentUninstall = new Intent(C.get(), UninstallActivity.class);
+                        intentUninstall.putExtra(OnekeyField.ONEKEYCLEAN, "软件管理");
+                        intentUninstall.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
+                        intentUninstall.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        C.get().startActivity(intentUninstall);
+                        break;
+                    case 3:
+                        Intent intentQQ = new Intent(C.get(), QQActivity.class);
+                        intentQQ.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intentQQ.putExtra(OnekeyField.ONEKEYCLEAN, "QQ清理");
+                        intentQQ.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
+                        C.get().startActivity(intentQQ);
+                        break;
+                }
+            }
+        });
+
+    }
+
+    /*public void initFragment() {
+        fragments = new ArrayList<>();
+        fragments.add(new DocumentsFragment());
+        fragments.add(new PictureFragment());
+        fragments.add(new MusicFragment());
+        fragments.add(new VideoFragment());
+        fragments.add(new ApkFragment());
+        fragments.add(new ZipFragment());
+    }*/
+
+    public List<Map<String, Object>> getData() {
+        //cion和iconName的长度是相同的，这里任选其一都可以
+        for (int i = 0; i < mMainFunctionIcon.length; i++) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("image", mMainFunctionIcon[i]);
+            map.put("text", mMainFunctionName[i]);
+            mHomeMainFunctionList.add(map);
+        }
+
+        return mHomeMainFunctionList;
     }
 
     @Override
@@ -315,6 +404,36 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
             Log.d("HomeFragment", "一键加速传回");
             mAdapter.notifyDataSetChanged();
         }
+    }
+
+    public void forwardSendPage(int position) {
+        switch (position) {
+            case 0:
+                startActivity(new Intent(C.get(), FileManagerActivity.class));
+                break;
+            case 1:
+                startActivity(new Intent(C.get(), PicManagerActivity.class));
+                break;
+            case 2:
+                startActivity(new Intent(C.get(), MusicManagerActivity.class));
+                break;
+            case 3:
+                startActivity(new Intent(C.get(), VideoManagerActivity.class));
+                break;
+            case 4:
+                startActivity(new Intent(C.get(), ApkManagerActivity.class));
+                break;
+            case 5:
+                startActivity(new Intent(C.get(), PackageManagerActivity.class));
+                break;
+        }
+
+        /*FragmentTransaction beginTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        beginTransaction.setCustomAnimations(R.anim.translate_activity_in_anti, R.anim.translate_activity_out_anti);
+//        beginTransaction.replace(R.id.file_manager_container, baseFragment);
+        beginTransaction.add(R.id.fl_home, baseFragment);
+        beginTransaction.addToBackStack(null);
+        beginTransaction.commitAllowingStateLoss();*/
     }
 
     private void recyclerViewOnClick(View v, int position) {
@@ -342,13 +461,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Scan
                 break;
             case 3:
                 Intent intentUninstall = new Intent(C.get(), UninstallActivity.class);
-                intentUninstall.putExtra(OnekeyField.ONEKEYCLEAN, "应用卸载");
+                intentUninstall.putExtra(OnekeyField.ONEKEYCLEAN, "软件管理");
                 intentUninstall.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
                 intentUninstall.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 C.get().startActivity(intentUninstall);
                 break;
             case 4:
-                Intent file = new Intent(C.get(), FileManagerActivity.class);
+                Intent file = new Intent(C.get(), com.ymnet.onekeyclean.cleanmore.fragment.filemanager.FileManagerActivity.class);
                 file.putExtra(OnekeyField.ONEKEYCLEAN, "文件清理");
                 file.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
                 file.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

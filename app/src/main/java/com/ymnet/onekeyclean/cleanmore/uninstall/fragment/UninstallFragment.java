@@ -10,6 +10,8 @@ import android.content.pm.PackageStats;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -42,14 +44,23 @@ import java.util.List;
 
 public class UninstallFragment extends BaseFragment {
 
-    private static List<AppInfo> mAppInfoList = new ArrayList<>();
-    private static InstalledAppAdapter    mAdapter;
-    private        boolean                isExecutedUninstall;
-    private        RecyclerViewPlus       mRecyclerView;
-    private        View                   mView;
-    private        AppUninstallReceiver   mReceiver;
-    private        List<String>           mIgnoreList;
-    private        PackageManager         mPackageManager;
+    private static List<AppInfo> mAppInfoList  = new ArrayList<>();
+    private static List<AppInfo> mAppInfoList2 = new ArrayList<>();
+    private static InstalledAppAdapter  mAdapter;
+    private        boolean              isExecutedUninstall;
+    private        RecyclerViewPlus     mRecyclerView;
+    private        View                 mView;
+    private        AppUninstallReceiver mReceiver;
+    private        List<String>         mIgnoreList;
+    private        PackageManager       mPackageManager;
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+        }
+    };
 
     public static UninstallFragment newInstance() {
         UninstallFragment fragment = new UninstallFragment();
@@ -74,6 +85,7 @@ public class UninstallFragment extends BaseFragment {
         for (int i = 0; i < mAppInfoList.size(); i++) {
             getPkgSize(mAppInfoList.get(i), i);
         }
+
     }
 
     private void getPkgSize(final AppInfo packageInfo, final int position) {
@@ -97,6 +109,7 @@ public class UninstallFragment extends BaseFragment {
                         //忽略名单应用不添加进集合
                         if (!mIgnoreList.contains(packageInfo.pkgName)) {
                             packageInfo.size = cacheSize;
+                            mAppInfoList2.add(packageInfo);
                         }
                         mAdapter.notifyItemRangeChanged(position, 1);
                     }
@@ -135,7 +148,13 @@ public class UninstallFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_uninstall, container, false);
-        initView(mView);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initView(mView);
+            }
+        }, 300);
+
         return mView;
     }
 

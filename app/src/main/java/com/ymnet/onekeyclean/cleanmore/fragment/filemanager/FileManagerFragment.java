@@ -37,7 +37,7 @@ public class FileManagerFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.file_manager_fragment, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.file_manager_recyclerview);
         textView = (TextView) view.findViewById(R.id.file_manager_size);
-        initSDCardSize();
+        initSDCardSize();// TODO: 2017/6/29 0029 首页内存大小
         Context context = getActivity().getApplicationContext();
         initFragment();
         adapter = new FileManagerAdapter(context);

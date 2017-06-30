@@ -1,20 +1,40 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
     >
 
     <Button
+        android:id="@+id/btn_more_function"
+        android:layout_width="240dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/bg_selector"
+        android:gravity="center"
+        android:paddingLeft="18dp"
+        android:text="@string/onkeycleandefaultcontent"
+        android:textColor="#DD2A52D2"
+        android:textSize="14sp"
+        android:visibility="invisible"/>
+    <!--<RelativeLayout
         android:id="@+id/btn_more_function"
         android:layout_width="200dp"
         android:layout_height="60dp"
         android:layout_centerInParent="true"
         android:background="@drawable/bg_selector"
         android:paddingLeft="18dp"
-        android:text="@string/onkeycleandefaultcontent"
+        android:gravity="center"
+        android:visibility="invisible">
+        &lt;!&ndash;android:text="@string/onkeycleandefaultcontent"
         android:textColor="#DD2A52D2"
         android:textSize="14sp"
-        android:visibility="invisible" />
+        android:gravity="center"
+        android:visibility="invisible"&ndash;&gt;
+        <com.ymnet.onekeyclean.cleanmore.customview.MainScrollUpAdvertisementView
+            android:id="@+id/suv_more_function"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"/>
+    </RelativeLayout>-->
 
     <RelativeLayout
         android:id="@+id/rl_anim"
@@ -38,7 +58,7 @@
             android:layout_height="80dp"
             android:layout_centerInParent="true"
             android:scaleType="centerInside"
-            android:src="@mipmap/within" />
+            android:src="@mipmap/within"/>
 
         <ImageView
             android:id="@+id/imageView_within1"
@@ -46,13 +66,13 @@
             android:layout_height="70dp"
             android:layout_centerInParent="true"
             android:scaleType="centerInside"
-            android:src="@mipmap/within_1" />
+            android:src="@mipmap/within_1"/>
 
         <TextView
             android:id="@+id/memory_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"/>
 
         <ImageView
             android:id="@+id/imageView_determine"
@@ -60,7 +80,7 @@
             android:layout_height="65dp"
             android:layout_centerInParent="true"
             android:src="@mipmap/determine"
-            android:visibility="invisible" />
+            android:visibility="invisible"/>
 
         <!--清理软件自定义布局-->
         <com.ymnet.killbackground.view.customwidget.Wheel
@@ -77,28 +97,28 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@mipmap/robot"
-                android:visibility="invisible" />
+                android:visibility="invisible"/>
 
             <ImageView
                 android:id="@+id/iv_clean2"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@mipmap/robot"
-                android:visibility="invisible" />
+                android:visibility="invisible"/>
 
             <ImageView
                 android:id="@+id/iv_clean3"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@mipmap/robot"
-                android:visibility="invisible" />
+                android:visibility="invisible"/>
 
             <ImageView
                 android:id="@+id/iv_clean4"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@mipmap/robot"
-                android:visibility="invisible" />
+                android:visibility="invisible"/>
 
 
             <ImageView
@@ -106,47 +126,47 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@mipmap/robot"
-                android:visibility="invisible" />
+                android:visibility="invisible"/>
 
             <ImageView
                 android:id="@+id/iv_clean6"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@mipmap/robot"
-                android:visibility="invisible" />
+                android:visibility="invisible"/>
 
             <ImageView
                 android:id="@+id/iv_clean7"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@mipmap/robot"
-                android:visibility="invisible" />
+                android:visibility="invisible"/>
 
             <ImageView
                 android:id="@+id/iv_clean8"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@mipmap/robot"
-                android:visibility="invisible" />
+                android:visibility="invisible"/>
 
             <ImageView
                 android:id="@+id/iv_clean9"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@mipmap/robot"
-                android:visibility="invisible" />
+                android:visibility="invisible"/>
 
             <ImageView
                 android:id="@+id/iv_clean10"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@mipmap/robot"
-                android:visibility="invisible" />
+                android:visibility="invisible"/>
         </com.ymnet.killbackground.view.customwidget.Wheel>
     </RelativeLayout>
 
     <com.ymnet.killbackground.view.customwidget.BoomView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>

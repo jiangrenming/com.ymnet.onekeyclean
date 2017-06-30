@@ -27,47 +27,47 @@ import com.ymnet.onekeyclean.cleanmore.filebrowser.FileCategoryHelper.FileCatego
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
-public class FileCategoryActivity extends ImmersiveActivity implements MarketObserver, OnClickListener
-{
-    
+public class FileCategoryActivity extends ImmersiveActivity implements MarketObserver, OnClickListener {
+
     private CategoryBar mCategoryBar;
-    
+
     private FileControl mControl;
-    
+
     private HashMap<FileCategory, Integer> categoryIndex = new HashMap<FileCategory, Integer>();
-    
+
     private ScannerReceiver mScannerReceiver;
-    
+
     private TextView title;
-    
+
     private ImageView back;
-    
+
     private LinearLayout noPage;
-    
+
     private LinearLayout categoryPage;
-    
+
     private FileBrowserUtil.SDCardInfo sdCardInfo;
-    
+
     private LinearLayout CartegoryPic;
-    
+
     private LinearLayout CartegoryMusic;
-    
+
     private LinearLayout CartegoryVideo;
-    
+
     private LinearLayout CartegoryDoc;
-    
+
     private LinearLayout CartegoryApk;
-    
+
     private LinearLayout CartegoryZip;
-    
+
     private boolean refresh = false;
-    
+
     private boolean hasPopShowed = false;
 
     private Handler handler = new MyHandler(this);
 
     private static class MyHandler extends Handler {
         WeakReference<FileCategoryActivity> theActivity;
+
         public MyHandler(FileCategoryActivity activity) {
             theActivity = new WeakReference<FileCategoryActivity>(activity);
         }
@@ -91,21 +91,20 @@ public class FileCategoryActivity extends ImmersiveActivity implements MarketObs
             }
         }
     }
-    
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.filebrowser_main_activity);
-        
+
         mControl = FileControl.getInstance(getApplicationContext());
         mControl.addObserver(this);
-        
+
         title = (TextView) findViewById(R.id.tv_base_title);
         back = (ImageView) findViewById(R.id.iv_top_back);
         noPage = (LinearLayout) findViewById(R.id.sd_not_available_page);
         categoryPage = (LinearLayout) findViewById(R.id.category_page);
-        
+
         CartegoryPic = (LinearLayout) findViewById(R.id.category_picture);
         CartegoryMusic = (LinearLayout) findViewById(R.id.category_music);
         CartegoryVideo = (LinearLayout) findViewById(R.id.category_video);
@@ -118,37 +117,33 @@ public class FileCategoryActivity extends ImmersiveActivity implements MarketObs
         CartegoryDoc.setOnClickListener(this);
         CartegoryApk.setOnClickListener(this);
         CartegoryZip.setOnClickListener(this);
-        
+
         title.setText(R.string.file_manager);
         back.setOnClickListener(this);
         updateUI();
         registerScannerReceiver();
     }
-    
+
     @Override
-    protected void onResume()
-    {
-        if (refresh)
-        {
+    protected void onResume() {
+        if (refresh) {
             refreshCategoryInfo(FileScanState.DATA_CHANGE);
         }
         refresh = false;
         super.onResume();
     }
-    
+
     @Override
-    protected void onDestroy()
-    {
+    protected void onDestroy() {
         super.onDestroy();
-        
+
         FileCategoryActivity.this.unregisterReceiver(mScannerReceiver);
         mControl.close();
-        
+
     }
-    
+
     @Override
-    public void onClick(View view)
-    {
+    public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.iv_top_back) {
             this.finish();
@@ -174,30 +169,21 @@ public class FileCategoryActivity extends ImmersiveActivity implements MarketObs
         } else {
         }
     }
-    
+
     @Override
-    public void update(MarketObservable observable, Object data)
-    {
+    public void update(MarketObservable observable, Object data) {
         Message msg = Message.obtain();
-        if (data instanceof Integer)
-        {
-            if ((Integer) data == FileScanState.SCAN_FINSH)
-            {
+        if (data instanceof Integer) {
+            if ((Integer) data == FileScanState.SCAN_FINSH) {
                 msg.what = FileScanState.SCAN_FINSH;
                 handler.sendMessage(msg);// 注意：此处要用handler来更新页面内容
-            }
-            else if ((Integer) data == FileScanState.DATA_CHANGE)
-            {
+            } else if ((Integer) data == FileScanState.DATA_CHANGE) {
                 msg.what = FileScanState.DATA_CHANGE;
                 handler.sendMessage(msg);
-            }
-            else if ((Integer) data == FileScanState.SCAN_PROVIDER_FINSH)
-            {
+            } else if ((Integer) data == FileScanState.SCAN_PROVIDER_FINSH) {
                 msg.what = FileScanState.SCAN_PROVIDER_FINSH;
                 handler.sendMessage(msg);
-            }
-            else if ((Integer) data == FileScanState.SCAN_SDCARD_ING)
-            {
+            } else if ((Integer) data == FileScanState.SCAN_SDCARD_ING) {
                 msg.what = FileScanState.SCAN_SDCARD_ING;
                 handler.sendMessage(msg);
             }
@@ -207,45 +193,36 @@ public class FileCategoryActivity extends ImmersiveActivity implements MarketObs
     /**
      * 检查sd卡是否存在 是否可读
      */
-    private void updateUI()
-    {
+    private void updateUI() {
         boolean sdCardReady = FileBrowserUtil.isSDCardReady();
-        if (sdCardReady)
-        {
+        if (sdCardReady) {
             categoryPage.setVisibility(View.VISIBLE);
             noPage.setVisibility(View.GONE);
             setupCategoryInfo();
-        }
-        else
-        {
+        } else {
             categoryPage.setVisibility(View.GONE);
             noPage.setVisibility(View.VISIBLE);
         }
     }
-    
-    private void setupCategoryInfo()
-    {
+
+    private void setupCategoryInfo() {
         mCategoryBar = (CategoryBar) findViewById(R.id.category_bar);
-        int[] imgs = new int[] { R.drawable.category_bar_picture, R.drawable.category_bar_music, R.drawable.category_bar_video, R.drawable.category_bar_document, R.drawable.category_bar_apk,
-                R.drawable.category_bar_zip, R.drawable.category_bar_other };
-        
-        for (int i = 0; i < imgs.length; i++)
-        {
+        int[] imgs = new int[]{R.drawable.category_bar_picture, R.drawable.category_bar_music, R.drawable.category_bar_video, R.drawable.category_bar_document, R.drawable.category_bar_apk,
+                R.drawable.category_bar_zip, R.drawable.category_bar_other};
+
+        for (int i = 0; i < imgs.length; i++) {
             mCategoryBar.addCategory(imgs[i]);
         }
-        
-        for (int i = 0; i < FileControl.sCategories.length; i++)
-        {
+
+        for (int i = 0; i < FileControl.sCategories.length; i++) {
             categoryIndex.put(FileControl.sCategories[i], i);
         }
         mControl.scan();
     }
-    
-    public void refreshCategoryInfo(int flag)
-    {
+
+    public void refreshCategoryInfo(int flag) {
         sdCardInfo = FileBrowserUtil.getSDCardInfo();
-        if (sdCardInfo != null)
-        {
+        if (sdCardInfo != null) {
             mCategoryBar.setFullValue(sdCardInfo.total);
             setTextView(R.id.sd_card_capacity, getString(R.string.sd_card_size, ApplicationUtils.formatFileSizeToString(sdCardInfo.total)));
             setTextView(R.id.sd_card_available, getString(R.string.sd_card_available, ApplicationUtils.formatFileSizeToString(sdCardInfo.free)));
@@ -253,88 +230,80 @@ public class FileCategoryActivity extends ImmersiveActivity implements MarketObs
         // the other category size should include those files didn't get
         // scanned.
         long size = 0;
-        for (FileCategory fc : FileControl.sCategories)
-        {
+        for (FileCategory fc : FileControl.sCategories) {
             FileControl.CategoryInfo categoryInfo = mControl.getCategoryInfos().get(fc);
-            setCategoryCount(fc, categoryInfo.count,flag);
+            setCategoryCount(fc, categoryInfo.count, flag);
             // other category size should be set separately with calibration
             if (fc == FileCategory.Other) {
-            	continue;
+                continue;
             }
-            
+
             setCategorySize(fc, categoryInfo.size);
             setCategoryBarValue(fc, categoryInfo.size);
             size += categoryInfo.size;
         }
-        
-        if (sdCardInfo != null)
-        {
+
+        if (sdCardInfo != null) {
             long otherSize = sdCardInfo.total - sdCardInfo.free - size;
             setCategorySize(FileCategory.Other, otherSize);
             setCategoryBarValue(FileCategory.Other, otherSize);
-            
-            if (FileScanState.SCAN_FINSH == flag && !hasPopShowed) {
-            	float f = ((float) sdCardInfo.free) / sdCardInfo.total;
-            	long dur = Util.getLaseCleanDate(this, System.currentTimeMillis());
-            	int day = (int) (dur / (24 * 60 * 60));
-            	if (f < 0.2 && day > 3) {
-            		hasPopShowed = true;
-            		
-            		// pop
-            		View v = View.inflate(this, R.layout.file_pop_tips, null);
-            		PopupWindow pop = new PopupWindow(v, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            		pop.setFocusable(true);
-            		pop.setOutsideTouchable(true);
-            		pop.setBackgroundDrawable(getResources().getDrawable(R.drawable.menu_search_press));
-            		
-            		int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-            		int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-            		v.measure(w, h);
-            		
-            		int xoff = mCategoryBar.getWidth() - v.getMeasuredWidth();
-            		int yoff = mCategoryBar.getHeight() + v.getMeasuredHeight();
 
-            		pop.showAsDropDown(mCategoryBar, xoff, -yoff);
-            	}
+            if (FileScanState.SCAN_FINSH == flag && !hasPopShowed) {
+                float f = ((float) sdCardInfo.free) / sdCardInfo.total;
+                long dur = Util.getLaseCleanDate(this, System.currentTimeMillis());
+                int day = (int) (dur / (24 * 60 * 60));
+                if (f < 0.2 && day > 3) {
+                    hasPopShowed = true;
+
+                    // pop
+                    View v = View.inflate(this, R.layout.file_pop_tips, null);
+                    PopupWindow pop = new PopupWindow(v, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    pop.setFocusable(true);
+                    pop.setOutsideTouchable(true);
+                    pop.setBackgroundDrawable(getResources().getDrawable(R.drawable.menu_search_press));
+
+                    int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+                    int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+                    v.measure(w, h);
+
+                    int xoff = mCategoryBar.getWidth() - v.getMeasuredWidth();
+                    int yoff = mCategoryBar.getHeight() + v.getMeasuredHeight();
+
+                    pop.showAsDropDown(mCategoryBar, xoff, -yoff);
+                }
             }
         }
     }
-    
-    private void setCategoryCount(FileCategory fc, long count,int flag)
-    {
+
+    private void setCategoryCount(FileCategory fc, long count, int flag) {
         int id = getCategoryCountId(fc);
         if (id == 0)
             return;
         String showString;
-        if(count==0&&flag!=FileScanState.DATA_CHANGE&&flag!=FileScanState.SCAN_FINSH){
-            showString=getString(R.string.file_category_count_default);
-        }else{
-            showString=getString(R.string.file_account_in_managerment,count+"");
+        if (count == 0 && flag != FileScanState.DATA_CHANGE && flag != FileScanState.SCAN_FINSH) {
+            showString = getString(R.string.file_category_count_default);
+        } else {
+            showString = getString(R.string.file_account_in_managerment, count + "");
         }
         setTextView(id, showString);
     }
-    
-    private void setTextView(int id, String t)
-    {
+
+    private void setTextView(int id, String t) {
         TextView text = (TextView) findViewById(id);
         text.setText(t);
     }
-    
-    private void setCategoryBarValue(FileCategory f, long size)
-    {
-        if (mCategoryBar == null)
-        {
+
+    private void setCategoryBarValue(FileCategory f, long size) {
+        if (mCategoryBar == null) {
             mCategoryBar = (CategoryBar) findViewById(R.id.category_bar);
         }
         mCategoryBar.setCategoryValue(categoryIndex.get(f), size);
     }
-    
-    private void setCategorySize(FileCategory fc, long size)
-    {
+
+    private void setCategorySize(FileCategory fc, long size) {
         int txtId = 0;
         int resId = 0;
-        switch (fc)
-        {
+        switch (fc) {
             case Music:
                 txtId = R.id.category_legend_music;
                 resId = R.string.category_music;
@@ -364,17 +333,16 @@ public class FileCategoryActivity extends ImmersiveActivity implements MarketObs
                 resId = R.string.category_other;
                 break;
         }
-        
+
         if (txtId == 0 || resId == 0)
             return;
-        if(size<=0)size=0;
+        if (size <= 0)
+            size = 0;
         setTextView(txtId, getString(resId) + ":" + FileBrowserUtil.convertStorage(size));
     }
-    
-    private static int getCategoryCountId(FileCategory fc)
-    {
-        switch (fc)
-        {
+
+    private static int getCategoryCountId(FileCategory fc) {
+        switch (fc) {
             case Picture:
                 return R.id.category_picture_count;
             case Music:
@@ -388,27 +356,23 @@ public class FileCategoryActivity extends ImmersiveActivity implements MarketObs
             case Zip:
                 return R.id.category_zip_count;
         }
-        
+
         return 0;
     }
-    
-    private class ScannerReceiver extends BroadcastReceiver
-    {
-        
+
+    private class ScannerReceiver extends BroadcastReceiver {
+
         @Override
-        public void onReceive(Context context, Intent intent)
-        {
+        public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             // handle intents related to external storage
-            if (action.equals(Intent.ACTION_MEDIA_SCANNER_FINISHED) || action.equals(Intent.ACTION_MEDIA_MOUNTED) || action.equals(Intent.ACTION_MEDIA_UNMOUNTED))
-            {
+            if (action.equals(Intent.ACTION_MEDIA_SCANNER_FINISHED) || action.equals(Intent.ACTION_MEDIA_MOUNTED) || action.equals(Intent.ACTION_MEDIA_UNMOUNTED)) {
                 updateUI();
             }
         }
     }
-    
-    private void registerScannerReceiver()
-    {
+
+    private void registerScannerReceiver() {
         mScannerReceiver = new ScannerReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_MEDIA_SCANNER_FINISHED);
@@ -417,7 +381,6 @@ public class FileCategoryActivity extends ImmersiveActivity implements MarketObs
         intentFilter.addDataScheme("file");
         FileCategoryActivity.this.registerReceiver(mScannerReceiver, intentFilter);
     }
-    
-    
-    
+
+
 }

@@ -2,15 +2,21 @@ package com.ymnet.killbackground.presenter;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
+import android.os.Environment;
+import android.os.StatFs;
+import android.text.format.Formatter;
 
-import com.example.commonlibrary.utils.SystemMemory;
+import com.example.commonlibrary.utils.PhoneModel;
 import com.example.commonlibrary.utils.ShareDataUtils;
 import com.wenming.library.processutil.AndroidProcess;
 import com.wenming.library.processutil.ProcessManager;
 import com.ymnet.killbackground.view.CleanView;
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.utils.C;
 
+import java.io.File;
 import java.util.List;
 
 
@@ -34,7 +40,10 @@ public class CleanPresenterImpl implements CleanPresenter {
 
         int count = 0;//被杀进程计数
         String nameList = "";//记录被杀死进程的包名
-        long beforeMem = SystemMemory.getAvailMemorySize(context);//清理前的可用内存
+//        long beforeMem = SystemMemory.getAvailMemorySize(context);//清理前的可用内存
+        long beforeMem = getAvailableSpace();
+        //调用系统清理
+        callSystem(context);
 
         //获取一个ActivityManager 对象
         ActivityManager activityManager = (ActivityManager)
@@ -76,7 +85,8 @@ public class CleanPresenterImpl implements CleanPresenter {
         ShareDataUtils.setSharePrefData(context, "clean_data", "last_clean_time", System.currentTimeMillis());
         boolean canClean = System.currentTimeMillis() - lastCleanTime > 1000 * 30;
 
-        long afterMem = SystemMemory.getAvailMemorySize(context);//清理后的内存占用
+//        long afterMem = SystemMemory.getAvailMemorySize(context);//清理后的内存占用
+        long afterMem = getAvailableSpace();//清理后的内存占用
 
         long cleanMem = Math.abs(afterMem - beforeMem);
 
@@ -102,6 +112,29 @@ public class CleanPresenterImpl implements CleanPresenter {
 
         }
         return count;
+    }
+
+    private long getAvailableSpace() {
+        File path = Environment.getDataDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockCount = stat.getBlockCount();
+        long blockSize = stat.getBlockSize();
+        long availableBlocks = stat.getAvailableBlocks();
+
+        String totalSize = Formatter.formatFileSize(C.get(), blockCount*blockSize);
+        String availableSize = Formatter.formatFileSize(C.get(), blockCount*availableBlocks);
+
+        //        return "手机Rom总容量:"+totalSize+"\n手机Rom可用容量:"+availableSize;
+        return blockCount*availableBlocks;
+    }
+
+
+    private void callSystem(Context context) {
+        if (PhoneModel.matchModel("mi")) {
+
+            Intent localIntent = new Intent("com.android.systemui.taskmanager.Clear");
+            context.sendBroadcast(localIntent);
+        }
     }
 
 }

@@ -31,6 +31,10 @@ public class FileControl extends MarketObservable {
     private boolean isRun = false;
 
     private boolean isRunning = false;
+    private Cursor mVideoC;
+    private Cursor mMusicC;
+    private Cursor mPicC;
+    private Cursor mMediaC;
 
     public boolean isUserStop() {
         return isUserStop;
@@ -166,17 +170,17 @@ public class FileControl extends MarketObservable {
     private boolean refreshMediaCategory(FileCategory fc, Uri uri) {
         if (isRun && categoryHelper != null) {
             String[] columns = new String[]{"COUNT(*)", "SUM(_size)"};
-            Cursor c = context.getContentResolver().query(uri, columns, categoryHelper.buildSelectionByCategory(fc), null, null);
-            if (c == null) {
+            mMediaC = context.getContentResolver().query(uri, columns, categoryHelper.buildSelectionByCategory(fc), null, null);
+            if (mMediaC == null) {
                 return false;
             }
 
-            if (c.moveToNext()) {
-                setCategoryInfo(fc, c.getLong(0), c.getLong(1));
-                c.close();
+            if (mMediaC.moveToNext()) {
+                setCategoryInfo(fc, mMediaC.getLong(0), mMediaC.getLong(1));
+                mMediaC.close();
                 return true;
             } else {
-                c.close();
+                mMediaC.close();
             }
         }
         return false;
@@ -414,24 +418,24 @@ public class FileControl extends MarketObservable {
         String sort = categoryHelper.buildSortOrder(sortMethod);
         String[] projection = {Images.ImageColumns._ID, Images.ImageColumns.DATA, Images.ImageColumns.BUCKET_ID, Images.ImageColumns.BUCKET_DISPLAY_NAME,
                 Images.ImageColumns.SIZE, Images.ImageColumns.TITLE, Images.ImageColumns.DATE_MODIFIED, Images.ImageColumns.MIME_TYPE};
-        Cursor c = context.getContentResolver().query(Images.Media.EXTERNAL_CONTENT_URI, projection, null, null, sort);
-        if (c != null && c.getCount() > 0) {
-            int idd = c.getColumnIndex(Images.ImageColumns._ID);
-            int pathIndex = c.getColumnIndex(Images.ImageColumns.DATA);
-            int dirNameIndex = c.getColumnIndex(Images.ImageColumns.BUCKET_DISPLAY_NAME);
-            int size = c.getColumnIndex(Images.ImageColumns.SIZE);
-            int title = c.getColumnIndex(Images.ImageColumns.TITLE);
-            int mime = c.getColumnIndex(Images.ImageColumns.MIME_TYPE);
-            c.moveToPosition(-1);
-            while (c.moveToNext()) {
+        mPicC = context.getContentResolver().query(Images.Media.EXTERNAL_CONTENT_URI, projection, null, null, sort);
+        if (mPicC != null && mPicC.getCount() > 0) {
+            int idd = mPicC.getColumnIndex(Images.ImageColumns._ID);
+            int pathIndex = mPicC.getColumnIndex(Images.ImageColumns.DATA);
+            int dirNameIndex = mPicC.getColumnIndex(Images.ImageColumns.BUCKET_DISPLAY_NAME);
+            int size = mPicC.getColumnIndex(Images.ImageColumns.SIZE);
+            int title = mPicC.getColumnIndex(Images.ImageColumns.TITLE);
+            int mime = mPicC.getColumnIndex(Images.ImageColumns.MIME_TYPE);
+            mPicC.moveToPosition(-1);
+            while (mPicC.moveToNext()) {
                 // String bulketID = c.getString(id);
                 if (isUserStop) break;
-                String bulketName = c.getString(dirNameIndex);
-                String path = c.getString(pathIndex);
-                int fileId = c.getInt(idd);
-                long filesize = c.getLong(size);
-                String fileTitle = c.getString(title);
-                String mimeType = c.getString(mime);
+                String bulketName = mPicC.getString(dirNameIndex);
+                String path = mPicC.getString(pathIndex);
+                int fileId = mPicC.getInt(idd);
+                long filesize = mPicC.getLong(size);
+                String fileTitle = mPicC.getString(title);
+                String mimeType = mPicC.getString(mime);
                 if (TextUtils.isEmpty(path)) {
                     continue;
                 } else {
@@ -489,7 +493,7 @@ public class FileControl extends MarketObservable {
                 }
                 allPicsList.add(info);
             }
-            c.close();
+            mPicC.close();
 
             ArrayList<FileInfo> qq = allPicsMap.get(FileBrowserUtil.PIC_DIR_QQ);
             if (qq != null) {
@@ -529,6 +533,24 @@ public class FileControl extends MarketObservable {
     }
 
     public ArrayList<FileInfo> getAllPicList() {
+        if (allPicsMap == null) {
+            allPicsMap = new HashMap<String, ArrayList<FileInfo>>();
+        } else {
+            allPicsMap.clear();
+        }
+
+        if (allPicsList == null) {
+            allPicsList = new ArrayList<FileInfo>();
+        } else {
+            allPicsList.clear();
+        }
+
+
+        if (allPicDirNames == null) {
+            allPicDirNames = new ArrayList<String>();
+        } else {
+            allPicDirNames.clear();
+        }
         getAllPic(context, SortMethod.date);
         return allPicsList;
     }
@@ -546,19 +568,20 @@ public class FileControl extends MarketObservable {
         ArrayList<FileInfo> list = new ArrayList<FileInfo>();
         String[] projection = {Audio.AudioColumns.DATA, Audio.Media._ID, Audio.AudioColumns.DISPLAY_NAME, Audio.AudioColumns.SIZE,
                 Audio.AudioColumns.DURATION, Audio.AudioColumns.MIME_TYPE, Audio.AudioColumns.TITLE};
-        Cursor c = context.getContentResolver().query(Audio.Media.EXTERNAL_CONTENT_URI, projection, null/*MediaStore.Audio.Media.IS_MUSIC + "=1"*/, null, sort);
+        /*MediaStore.Audio.Media.IS_MUSIC + "=1"*/
+        mMusicC = context.getContentResolver().query(Audio.Media.EXTERNAL_CONTENT_URI, projection, null/*MediaStore.Audio.Media.IS_MUSIC + "=1"*/, null, sort);
 
-        if (c != null && c.getCount() > 0) {
-            c.moveToPosition(-1);
-            int id = c.getColumnIndex(Audio.Media._ID);
-            int title = c.getColumnIndex(Audio.AudioColumns.DISPLAY_NAME);
-            int title2 = c.getColumnIndex(Audio.AudioColumns.TITLE);
-            int duration = c.getColumnIndex(Audio.AudioColumns.DURATION);
-            int size = c.getColumnIndex(Audio.AudioColumns.SIZE);
-            int mine = c.getColumnIndex(Audio.AudioColumns.MIME_TYPE);
-            int data = c.getColumnIndex(Audio.AudioColumns.DATA);
-            while (c.moveToNext()) {
-                String path = c.getString(data);
+        if (mMusicC != null && mMusicC.getCount() > 0) {
+            mMusicC.moveToPosition(-1);
+            int id = mMusicC.getColumnIndex(Audio.Media._ID);
+            int title = mMusicC.getColumnIndex(Audio.AudioColumns.DISPLAY_NAME);
+            int title2 = mMusicC.getColumnIndex(Audio.AudioColumns.TITLE);
+            int duration = mMusicC.getColumnIndex(Audio.AudioColumns.DURATION);
+            int size = mMusicC.getColumnIndex(Audio.AudioColumns.SIZE);
+            int mine = mMusicC.getColumnIndex(Audio.AudioColumns.MIME_TYPE);
+            int data = mMusicC.getColumnIndex(Audio.AudioColumns.DATA);
+            while (mMusicC.moveToNext()) {
+                String path = mMusicC.getString(data);
 
                 if (path == null) {
                     continue;
@@ -570,20 +593,20 @@ public class FileControl extends MarketObservable {
                 }
 
                 FileInfo info = new FileInfo();
-                info.fileId = c.getInt(id);
-                info.fileName = c.getString(title);
+                info.fileId = mMusicC.getInt(id);
+                info.fileName = mMusicC.getString(title);
                 if (TextUtils.isEmpty(info.fileName)) {
-                    info.fileName = c.getString(title2);
+                    info.fileName = mMusicC.getString(title2);
                 }
-                info.duration = (int) c.getLong(duration);
-                info.fileSize = c.getLong(size);
-                info.mimeType = c.getString(mine);
+                info.duration = (int) mMusicC.getLong(duration);
+                info.fileSize = mMusicC.getLong(size);
+                info.mimeType = mMusicC.getString(mine);
                 info.filePath = path;
                 info.fc = FileCategory.Music;
                 list.add(info);
 
             }
-            c.close();
+            mMusicC.close();
         }
         return list;
     }
@@ -593,30 +616,30 @@ public class FileControl extends MarketObservable {
         ArrayList<FileInfo> list = new ArrayList<FileInfo>();
         String[] projection = {Video.VideoColumns.DATA, Video.Media._ID, Video.VideoColumns.DISPLAY_NAME, Video.VideoColumns.SIZE,
                 Video.VideoColumns.DURATION, Video.VideoColumns.MIME_TYPE};
-        Cursor c = context.getContentResolver().query(Video.Media.EXTERNAL_CONTENT_URI, projection, null, null, sort);
-        if (c != null && c.getCount() > 0) {
-            c.moveToPosition(-1);
-            int id = c.getColumnIndex(Video.Media._ID);
-            int title = c.getColumnIndex(Video.VideoColumns.DISPLAY_NAME);
-            int duration = c.getColumnIndex(Video.VideoColumns.DURATION);
-            int size = c.getColumnIndex(Video.VideoColumns.SIZE);
-            int mine = c.getColumnIndex(Video.VideoColumns.MIME_TYPE);
-            int data = c.getColumnIndex(Video.VideoColumns.DATA);
-            while (c.moveToNext()) {
+        mVideoC = context.getContentResolver().query(Video.Media.EXTERNAL_CONTENT_URI, projection, null, null, sort);
+        if (mVideoC != null && mVideoC.getCount() > 0) {
+            mVideoC.moveToPosition(-1);
+            int id = mVideoC.getColumnIndex(Video.Media._ID);
+            int title = mVideoC.getColumnIndex(Video.VideoColumns.DISPLAY_NAME);
+            int duration = mVideoC.getColumnIndex(Video.VideoColumns.DURATION);
+            int size = mVideoC.getColumnIndex(Video.VideoColumns.SIZE);
+            int mine = mVideoC.getColumnIndex(Video.VideoColumns.MIME_TYPE);
+            int data = mVideoC.getColumnIndex(Video.VideoColumns.DATA);
+            while (mVideoC.moveToNext()) {
 //                File mFile = new File(c.getString(data));
 //                if (!mFile.exists())
 //                    continue;
                 FileInfo info = new FileInfo();
-                info.fileId = c.getInt(id);
-                info.fileName = c.getString(title);
-                info.duration = (int) c.getLong(duration);
-                info.fileSize = c.getLong(size);
-                info.mimeType = c.getString(mine);
-                info.filePath = c.getString(data);
+                info.fileId = mVideoC.getInt(id);
+                info.fileName = mVideoC.getString(title);
+                info.duration = (int) mVideoC.getLong(duration);
+                info.fileSize = mVideoC.getLong(size);
+                info.mimeType = mVideoC.getString(mine);
+                info.filePath = mVideoC.getString(data);
                 info.fc = FileCategory.Video;
                 list.add(info);
             }
-            c.close();
+            mVideoC.close();
         }
         return list;
     }
@@ -701,6 +724,18 @@ public class FileControl extends MarketObservable {
     }
 
     public void close() {
+        if (mVideoC != null && !mVideoC.isClosed()) {
+            mVideoC.close();
+        }
+        if (mMusicC != null && !mMusicC.isClosed()) {
+            mMusicC.close();
+        }
+        if (mPicC != null && !mPicC.isClosed()) {
+            mPicC.close();
+        }
+        if (mMediaC != null && !mMediaC.isClosed()) {
+            mMediaC.close();
+        }
         isRun = false;
         isUserStop = false;
         deleteObservers();

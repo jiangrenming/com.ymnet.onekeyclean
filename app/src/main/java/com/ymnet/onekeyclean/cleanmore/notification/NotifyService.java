@@ -4,15 +4,10 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Color;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -20,8 +15,9 @@ import android.widget.RemoteViews;
 
 import com.example.commonlibrary.utils.PhoneModel;
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.HomeActivity;
 import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
-import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
+import com.ymnet.onekeyclean.cleanmore.uninstall.activity.UninstallActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.NotificationUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
@@ -29,6 +25,7 @@ import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.wechat.WeChatActivity;
 
 import java.io.Serializable;
+
 
 
 /**
@@ -53,7 +50,34 @@ public class NotifyService extends Service implements Serializable {
     private NotificationManager        mNotificationManager;
     private String                     mAndroidModel;
     private static boolean status   = false;
-    private        Handler mHandler = new Handler() {
+    private RemoteViews  remoteViews;
+    private boolean mDarkNotificationTheme;
+    private Notification mNotification;
+    private int[] mTextArray = new int[]{
+            R.id.tv_head,
+            R.id.tv_home,
+            R.id.tv_uninstall,
+            R.id.tv_wechat,
+            R.id.tv_deep,
+            R.id.tv_setting
+    };
+    private int[] mIconArray = new int[]{
+            R.id.iv_home,
+            R.id.iv_head,
+            R.id.iv_deep,
+            R.id.iv_uninstall,
+            R.id.iv_wechat,
+            R.id.iv_setting
+    };
+    private int[] mScrArray = new int[]{
+            R.drawable.home_white,
+            R.drawable.onekeyclean_white,
+            R.drawable.brush_white,
+            R.drawable.onekeyclean_white,
+            R.drawable.wechat_white,
+            R.drawable.setting_white
+    };
+    /*private        Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -65,10 +89,9 @@ public class NotifyService extends Service implements Serializable {
                     break;
             }
         }
-    };
-    private RemoteViews  remoteViews;
-    private Notification mNotification;
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    };*/
+
+   /* private BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -84,8 +107,7 @@ public class NotifyService extends Service implements Serializable {
                 mHandler.sendEmptyMessageDelayed(0, 5000);
             }
         }
-    };
-    private boolean mDarkNotificationTheme;
+    };*/
 
     public NotifyService() {
 
@@ -104,16 +126,16 @@ public class NotifyService extends Service implements Serializable {
         accountAuth.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(accountAuth);
 
-        registerBroadCastReceiver();
+//        registerBroadCastReceiver();
         //启动通知栏
         initNotification();
     }
 
-    private void registerBroadCastReceiver() {
+    /*private void registerBroadCastReceiver() {
         IntentFilter filter = new IntentFilter();
         filter.addAction("flashlight_status");
         this.registerReceiver(mReceiver, filter);
-    }
+    }*/
 
     private void initNotification() {
         //初始化服务
@@ -126,27 +148,24 @@ public class NotifyService extends Service implements Serializable {
     private void showPermanentNotification() {
         RemoteViews remoteViews = null;
         remoteViews = getRemoteViews();
-        //奇酷手机更换图标为白色
+
         mDarkNotificationTheme = NotificationUtil.isDarkNotificationTheme(C.get());
         Log.d(TAG, "darkNotificationTheme:dark-" + mDarkNotificationTheme);
+
         if (mDarkNotificationTheme) {
             //白色图标
-            remoteViews.setImageViewResource(R.id.iv_head, R.drawable.onekeyclean_white);
-            remoteViews.setImageViewResource(R.id.iv_wechat, R.drawable.wechat_white);
-            remoteViews.setImageViewResource(R.id.iv_qq, R.drawable.qq_white);
-            remoteViews.setImageViewResource(R.id.iv_deep, R.drawable.brush_white);
-            //            remoteViews.setImageViewResource(R.id.iv_deep, R.drawable.qq_white);
-            remoteViews.setImageViewResource(R.id.iv_flashlight, R.drawable.flashlight_white);
-            remoteViews.setImageViewResource(R.id.iv_setting, R.drawable.setting_white);
-            /*下面这种或者这种remoteViews.setInt(R.id.tv_head, "setTextColor", Color.parseColor("#ffffff"));*/
-            remoteViews.setTextColor(R.id.tv_head, Color.parseColor("#ffffff"));
-            remoteViews.setTextColor(R.id.tv_wechat, Color.parseColor("#ffffff"));
-            remoteViews.setTextColor(R.id.tv_qq, Color.parseColor("#ffffff"));
-            remoteViews.setTextColor(R.id.tv_deep, Color.parseColor("#ffffff"));
-            remoteViews.setTextColor(R.id.tv_flashlight, Color.parseColor("#ffffff"));
-            remoteViews.setTextColor(R.id.tv_setting, Color.parseColor("#ffffff"));
+            setRVImageViewResource(mIconArray,mScrArray);
+            //白色文本
+            setRVTextColor(mTextArray);
         }
 
+        //主页面
+        Intent intentHome = new Intent(C.get(), HomeActivity.class);
+        intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intentHome.putExtra(OnekeyField.ONEKEYCLEAN, "主页面");
+        intentHome.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_ID);
+        PendingIntent piHome = PendingIntent.getActivity(C.get(), REQUEST_CODE03, intentHome, PendingIntent.FLAG_UPDATE_CURRENT);
+        remoteViews.setOnClickPendingIntent(R.id.ll_home, piHome);
         //一键加速
         Intent intent2 = new Intent(C.get(), StatisticReceiver.class);
         intent2.putExtra(OnekeyField.KEY, OnekeyField.KILLBACKGROUND);
@@ -154,8 +173,8 @@ public class NotifyService extends Service implements Serializable {
         remoteViews.setOnClickPendingIntent(R.id.ll_head, pendingIntent);
 
         //微信清理
-                Intent intent3 = new Intent(C.get(), WeChatActivity.class);
-//        Intent intent3 = new Intent(C.get(), DeviceManagerReceiver.class);
+        Intent intent3 = new Intent(C.get(), WeChatActivity.class);
+        //      Intent intent3 = new Intent(C.get(), DeviceManagerReceiver.class);
 
         intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent3.putExtra(OnekeyField.ONEKEYCLEAN, "微信清理");
@@ -163,13 +182,13 @@ public class NotifyService extends Service implements Serializable {
         PendingIntent pendingIntent1 = PendingIntent.getActivity(C.get(), REQUEST_CODE02, intent3, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_wechat, pendingIntent1);
 
-        //QQ清理
-        Intent intent4 = new Intent(C.get(), QQActivity.class);
+        //应用卸载
+        Intent intent4 = new Intent(C.get(), UninstallActivity.class);
         intent4.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent4.putExtra(OnekeyField.ONEKEYCLEAN, "QQ清理");
+        intent4.putExtra(OnekeyField.ONEKEYCLEAN, "软件管理");
         intent4.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_ID);
         PendingIntent pendingIntent4 = PendingIntent.getActivity(C.get(), REQUEST_CODE03, intent4, PendingIntent.FLAG_UPDATE_CURRENT);
-        remoteViews.setOnClickPendingIntent(R.id.ll_qq, pendingIntent4);
+        remoteViews.setOnClickPendingIntent(R.id.ll_uninstall, pendingIntent4);
 
         //垃圾清理
         Intent intent5 = new Intent(C.get(), SilverActivity.class);
@@ -180,7 +199,7 @@ public class NotifyService extends Service implements Serializable {
         remoteViews.setOnClickPendingIntent(R.id.ll_deep, pendingIntent5);
 
         //手电筒
-        Intent intent7 = new Intent(this, FlashlightService.class);
+        /*Intent intent7 = new Intent(this, FlashlightService.class);
         intent7.putExtra(OPEN_FLASHLIGHT, status);
         if (PhoneModel.matchModel("vivo", "Coolpad")) {//需要收起通知栏的机型
             intent7.putExtra(MODEL, true);
@@ -190,7 +209,7 @@ public class NotifyService extends Service implements Serializable {
         status = !status;
 
         PendingIntent pendingIntent7 = PendingIntent.getService(C.get(), REQUEST_CODE05, intent7, PendingIntent.FLAG_UPDATE_CURRENT);
-        remoteViews.setOnClickPendingIntent(R.id.ll_flashlight, pendingIntent7);
+        remoteViews.setOnClickPendingIntent(R.id.ll_flashlight, pendingIntent7);*/
 
         //系统设置
         Intent intent6 = new Intent(this, StatisticReceiver.class);
@@ -214,12 +233,25 @@ public class NotifyService extends Service implements Serializable {
         startForeground(ID, mNotification);
     }
 
+    private void setRVImageViewResource(int[] iconArray, int[] scrArray) {
+        for (int i = 0; i < iconArray.length; i++) {
+            remoteViews.setImageViewResource(iconArray[i], scrArray[i]);
+        }
+    }
+
+    private void setRVTextColor(int[] textArray) {
+        for (int i : textArray) {
+           /*下面这种或者这种remoteViews.setInt(R.id.tv_head, "setTextColor", Color.parseColor("#ffffff"));*/
+            remoteViews.setTextColor(i, Color.parseColor("#ffffff"));
+        }
+    }
+
 
     private void changeFlashLightColor(boolean status) {
-        if (status) {
+        /*if (status) {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.drawable.flashlight_open);
             remoteViews.setTextColor(R.id.tv_flashlight, Color.parseColor("#1B98D9"));
-            //PhoneModel.matchModel("8681", "SM-", "OPPO"/*, "HUAWEI"*/,/*"ONEPLUS",*/"Le", "M5"/*,"Coolpad"*/)
+            //PhoneModel.matchModel("8681", "SM-", "OPPO"*//*, "HUAWEI"*//*,*//*"ONEPLUS",*//*"Le", "M5"*//*,"Coolpad"*//*)
         } else if (mDarkNotificationTheme) {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.drawable.flashlight_white);
             remoteViews.setTextColor(R.id.tv_flashlight, Color.WHITE);
@@ -227,7 +259,7 @@ public class NotifyService extends Service implements Serializable {
             remoteViews.setImageViewResource(R.id.iv_flashlight, R.drawable.flashlight);
             remoteViews.setTextColor(R.id.tv_flashlight, Color.parseColor("#545352"));
         }
-        mNotificationManager.notify(ID, mNotification);
+        mNotificationManager.notify(ID, mNotification);*/
 
     }
 
@@ -271,9 +303,9 @@ public class NotifyService extends Service implements Serializable {
     @Override
     public void unbindService(ServiceConnection conn) {
         super.unbindService(conn);
-        if (mReceiver != null) {
+        /*if (mReceiver != null) {
             this.unregisterReceiver(mReceiver);
             Log.d(TAG, "unbindService: 服务解绑了");
-        }
+        }*/
     }
 }

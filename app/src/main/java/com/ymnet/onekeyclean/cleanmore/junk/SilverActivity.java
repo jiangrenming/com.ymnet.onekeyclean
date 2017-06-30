@@ -1,6 +1,7 @@
 package com.ymnet.onekeyclean.cleanmore.junk;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.TransitionDrawable;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.HomeActivity;
 import com.ymnet.onekeyclean.cleanmore.ImmersiveActivity;
 import com.ymnet.onekeyclean.cleanmore.animation.TweenAnimationUtils;
 import com.ymnet.onekeyclean.cleanmore.constants.ByteConstants;
@@ -529,10 +531,9 @@ public class SilverActivity extends ImmersiveActivity implements View.OnClickLis
         }
     }
 
-
     @Override
     public void finish() {
         super.finish();
-        Fragment frag = getSupportFragmentManager().findFragmentById(R.id.fl_content);
+        startActivity(new Intent(this,HomeActivity.class));
     }
 }

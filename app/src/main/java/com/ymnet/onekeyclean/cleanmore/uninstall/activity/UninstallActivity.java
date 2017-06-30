@@ -1,5 +1,6 @@
 package com.ymnet.onekeyclean.cleanmore.uninstall.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.HomeActivity;
 import com.ymnet.onekeyclean.cleanmore.ImmersiveActivity;
 import com.ymnet.onekeyclean.cleanmore.uninstall.fragment.EmptyFragment;
 import com.ymnet.onekeyclean.cleanmore.uninstall.fragment.UninstallFragment;
@@ -47,7 +49,7 @@ public class UninstallActivity extends ImmersiveActivity {
 
     private void initToolbar() {
         TextView title = (TextView) findViewById(R.id.junk_title_txt);
-        title.setText("应用卸载");
+        title.setText("软件管理");
         title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,5 +87,10 @@ public class UninstallActivity extends ImmersiveActivity {
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+    }
+    @Override
+    public void finish() {
+        super.finish();
+        startActivity(new Intent(this,HomeActivity.class));
     }
 }

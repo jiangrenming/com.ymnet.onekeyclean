@@ -338,4 +338,9 @@ public class DocumentsFragment extends BaseFragment {
         pb_loading.setVisibility(View.GONE);
     }
 
+    @Override
+    public void onBack() {
+        super.onBack();
+//        getActivity().finish();
+    }
 }

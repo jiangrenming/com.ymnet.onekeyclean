@@ -30,6 +30,7 @@ import com.nineoldandroids.view.ViewHelper;
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.killbackground.customlistener.MyViewPropertyAnimatorListener;
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.HomeActivity;
 import com.ymnet.onekeyclean.cleanmore.ImmersiveActivity;
 import com.ymnet.onekeyclean.cleanmore.animation.TweenAnimationUtils;
 import com.ymnet.onekeyclean.cleanmore.constants.QQConstants;
@@ -48,7 +49,6 @@ import com.ymnet.onekeyclean.cleanmore.utils.CleanSetSharedPreferences;
 import com.ymnet.onekeyclean.cleanmore.utils.DisplayUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
-import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.utils.ToastUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
 import com.ymnet.onekeyclean.cleanmore.web.WebHtmlActivity;
@@ -132,6 +132,14 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
         initializeRecyclerView();
         initBottom();
         ani_view = findViewById(R.id.ani_view);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        Intent intent = new Intent(this, HomeActivity.class);
+
+        startActivity(intent);
     }
 
     private void initBottom() {

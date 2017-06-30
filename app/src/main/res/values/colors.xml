@@ -69,4 +69,5 @@
     <color name="blue_pressed">#aaF2F6FB</color>
     <color name="tranwhite">#33FFFFFF</color>
     <color name="tranwhitecc">#ccFFFFFF</color>
+    <color name="line">#DCE4EB</color>
 </resources>

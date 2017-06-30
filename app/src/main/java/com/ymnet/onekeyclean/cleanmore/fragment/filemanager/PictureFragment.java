@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
-import com.ymnet.onekeyclean.cleanmore.filebrowser.FileBigImageActivity;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileBrowserUtil;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileCategoryHelper;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileControl;
@@ -32,6 +31,7 @@ import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
 import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
 import com.ymnet.onekeyclean.cleanmore.wechat.DialogFactory;
+import com.ymnet.onekeyclean.cleanmore.wechat.detail.PicDetailActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -148,10 +148,13 @@ public class PictureFragment extends BaseFragment {
         adapter.setItemClickListener(new FileItemAdapter.OnItemClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Intent intent = new Intent(context, FileBigImageActivity.class);
-                intent.putExtra("infos", mInfos);
-                intent.putExtra("position", position);
-                startActivityForResult(intent, 1);
+//                Intent intent = new Intent(context, FileBigImageActivity.class);
+//                intent.putExtra("infos", mInfos);
+//                intent.putExtra("position", position);
+//                startActivityForResult(intent, 1);
+                Intent i = new Intent(C.get(), PicDetailActivity.class);
+                i.putExtra(PicDetailActivity.EXTRA_PATH, mInfos.get(position).filePath);
+                startActivity(i);
             }
 
             @Override

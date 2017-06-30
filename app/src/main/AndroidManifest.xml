@@ -108,10 +108,10 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR"/>
 
-    <uses-feature android:name="android.hardware.camera"/>
-    <uses-feature android:name="android.hardware.autofocus"/>
+    <!-- <uses-feature android:name="android.hardware.camera"/> -->
+    <!-- <uses-feature android:name="android.hardware.autofocus"/> -->
 
-    <uses-permission android:name="android.permission.BIND_DEVICE_ADMIN"/>
+
     <!-- account authenticator -->
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES"/>
@@ -193,7 +193,6 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar">
         </activity>
-
         <activity
             android:name=".cleanmore.fragment.filemanager.FileManagerActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -201,7 +200,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity_Translate_Theme">
         </activity>
-
         <activity
             android:name=".cleanmore.filebrowser.FileBigImageActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -219,14 +217,15 @@
                 <action android:name="flashlight_status"/>
             </intent-filter>
         </service>
-        <!--android:noHistory="true"-->
+        <!-- android:noHistory="true" -->
         <activity
             android:name="com.ymnet.killbackground.view.CleanActivity"
-            android:launchMode="singleInstance"
             android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -248,11 +247,13 @@
             </intent-filter>
         </receiver>
 
+        <!--
         <service
             android:name=".cleanmore.notification.FlashlightService"
             android:enabled="true"
             android:exported="true">
         </service>
+        -->
         <service android:name=".cleanmore.service.BackgroundDoSomethingService"/>
         <service
             android:name=".cleanmore.notification.AssistantServiceHelper"
@@ -314,24 +315,26 @@
             android:launchMode="singleTop">
         </activity>
         <!-- 供外部开启任务管理器的activity -->
+        <!--
         <activity
             android:name=".DeviceManagerReceiver"
             android:excludeFromRecents="true"
             android:exported="true"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
 
-            <!-- <meta-data android:name="android.app.device_admin" -->
-            <!-- android:resource="@xml/my_admin" /> -->
+            &lt;!&ndash; <meta-data android:name="android.app.device_admin" &ndash;&gt;
+            &lt;!&ndash; android:resource="@xml/my_admin" /> &ndash;&gt;
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
 
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
             </intent-filter>
         </activity>
+        -->
         <activity android:name=".cleanmore.uninstall.activity.UninstallActivity">
         </activity>
 
-       <receiver android:name=".cleanmore.uninstall.model.AppInstallReceiver">
+        <receiver android:name=".cleanmore.uninstall.model.AppInstallReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED"/>
                 <action android:name="android.intent.action.PACKAGE_REPLACED"/>
@@ -345,6 +348,19 @@
                 <action android:name="uninstall_app"/>
             </intent-filter>
         </receiver>
+
+        <activity android:name=".cleanmore.fragment.activity.FileManagerActivity">
+        </activity>
+        <activity android:name=".cleanmore.fragment.activity.PicManagerActivity">
+        </activity>
+        <activity android:name=".cleanmore.fragment.activity.MusicManagerActivity">
+        </activity>
+        <activity android:name=".cleanmore.fragment.activity.VideoManagerActivity">
+        </activity>
+        <activity android:name=".cleanmore.fragment.activity.ApkManagerActivity">
+        </activity>
+        <activity android:name=".cleanmore.fragment.activity.PackageManagerActivity">
+        </activity>
     </application>
 
 </manifest>

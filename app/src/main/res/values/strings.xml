@@ -123,7 +123,7 @@
     <string name="header_residual">卸载残留</string>
     <string name="apk_file">APK文件</string>
     <string name="wechat">微信</string>
-    <string name="install_manager">应用卸载</string>
+    <string name="install_manager">软件管理</string>
     <string name="comment_time">2014-5-14 14:11</string>
     <string name="update_tv_all_size">2012MB</string>
     <string name="mobile_clear_bigfile_list_info_position_pre">位置: </string>
@@ -186,9 +186,11 @@
     <string name="filesize">12.00M</string>
     <string name="qq_go_clean">查看管理</string>
 
-    <string name="toast_bean_best">已清理至最佳状态</string>
-    <string name="toast_clean_result"><![CDATA[释放 <font color=\"#f64747\">%1$s</font>内存 性能提升<font color=\"#f64747\">%2$d%%</font>]]></string>
-    <!--<string name="toast_clean_result">释放%1$s内存 性能提升%2$d%%</string>-->
+    <!--<string name="toast_bean_best">已清理至最佳状态</string>-->
+    <string name="toast_bean_best">手机跑得飞快\n深度清理 释放更多空间</string>
+    <!--<string name="toast_clean_result"><![CDATA[释放 <font color=\"#f64747\">%1$s</font>内存 性能提升<font color=\"#f64747\">%2$d%%</font>]]></string>-->
+    <!--<string name="toast_clean_result">释放%1$s内存\n性能提升%2$d%%</string>-->
+    <string name="toast_clean_result">手机已提速%1$d%%\n深度清理 让手机更快</string>
     <string name="leadinto_home">释放更多空间 深度清理</string>
     <string name="more_news">更多热点资讯\n立即查看</string>
     <string name="used_memory">内存使用%1$d%%</string>
@@ -212,11 +214,11 @@
     <string name="picture_clean">相册清理</string>
     <string name="picture_clean_dec">清理质量不佳的图片</string>
     <string name="video_clean">视频清理</string>
-    <string name="video_clean_dec">清理不喜欢的歌曲</string>
+    <string name="video_clean_dec">清理不再观看的视频</string>
     <string name="music_clean">音乐清理</string>
-    <string name="music_clean_dec">清理不再观看的视频</string>
+    <string name="music_clean_dec">清理不喜欢的歌曲</string>
     <string name="apk_clean">安装包清理</string>
-    <string name="apk_clean_dec">清理手机中无用的安装包</string>
+    <string name="apk_clean_dec">清理无用的安装包</string>
     <string name="zip_clean">压缩包清理</string>
     <string name="zip_clean_dec">清理多余的压缩包</string>
 

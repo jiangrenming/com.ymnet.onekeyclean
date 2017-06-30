@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ymnet.onekeyclean.cleanmore.HomeActivity;
 import com.ymnet.retrofit2service.RetrofitService;
 import com.ymnet.retrofit2service.bean.WeChatNewsInformation;
 import com.example.commonlibrary.utils.ConvertParamsUtils;
@@ -953,6 +954,11 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
                 startActivity(intent);
                 break;
         }
+    }
+    @Override
+    public void finish() {
+        super.finish();
+        startActivity(new Intent(this,HomeActivity.class));
     }
 }
 
