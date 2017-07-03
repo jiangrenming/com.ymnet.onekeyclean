@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp">
+                android:layout_height="80dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:paddingLeft="20dp">
 
     <ImageView
         android:id="@+id/iv_icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
         android:src="@mipmap/icon_launcher"/>
 
     <TextView
-        android:layout_centerInParent="true"
         android:id="@+id/tv_app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_marginBottom="12dp"
         android:layout_toRightOf="@+id/iv_icon"
         android:text="应用名称"
@@ -26,19 +29,17 @@
         android:id="@+id/tv_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="应用大小"
-        android:layout_marginRight="10dp"
         android:layout_centerInParent="true"
+        android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/iv_uninstall"
+        android:text="应用大小"
         android:textColor="#9c9c9c"
         android:textSize="12sp"/>
 
-    <ImageView
+    <CheckBox
         android:id="@+id/iv_uninstall"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        style="@style/File_Item_Checkbox"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/uninstall"/>
-
+        android:gravity="right|center_vertical"/>
 </RelativeLayout>

@@ -312,7 +312,7 @@
 
         <activity
             android:name=".cleanmore.HomeActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleInstance">
         </activity>
         <!-- 供外部开启任务管理器的activity -->
         <!--

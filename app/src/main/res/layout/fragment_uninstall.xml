@@ -4,12 +4,24 @@
                 android:layout_height="match_parent"
                 android:background="@color/gray94">
 
+    <RelativeLayout
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+    <include
+        android:id="@+id/bottom_delete"
+        layout="@layout/file_management_base_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        />
     <com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus
         android:id="@+id/rv_installed_app"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:layout_above="@+id/bottom_delete"
+        android:layout_below="@+id/empty_view"
         />
-
 
 </RelativeLayout>

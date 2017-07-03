@@ -17,7 +17,7 @@ import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.Fragment4;
 import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.HomeFragment;
 
 
-public class HomeActivity extends ImmersiveActivity implements HomeFragment.OnFragmentInteractionListener, Fragment2.OnFragmentInteractionListener, Fragment3.OnFragmentInteractionListener, Fragment4.OnFragmentInteractionListener {
+public class HomeActivity extends ImmersiveActivity implements Fragment2.OnFragmentInteractionListener, Fragment3.OnFragmentInteractionListener, Fragment4.OnFragmentInteractionListener {
 
     private ViewPager              mViewPager;
     private TabLayout              mTabLayout;

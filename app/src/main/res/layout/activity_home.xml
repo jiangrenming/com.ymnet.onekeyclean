@@ -30,7 +30,7 @@
                 android:singleLine="true"
                 android:text="一键清理"
                 android:textColor="@color/white"
-                android:textSize="17dp"/>
+                android:textSize="19dp"/>
         </RelativeLayout>
 
         <android.support.v4.view.ViewPager

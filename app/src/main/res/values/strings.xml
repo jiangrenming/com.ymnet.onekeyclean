@@ -221,5 +221,7 @@
     <string name="apk_clean_dec">清理无用的安装包</string>
     <string name="zip_clean">压缩包清理</string>
     <string name="zip_clean_dec">清理多余的压缩包</string>
+    <string name="phone_memory_size">手机存储空间</string>
+    <string name="tv_memory_size_desc">已用：%1$s\n总共：%2$s</string>
 
 </resources>

@@ -93,7 +93,6 @@ public class SilverActivity extends ImmersiveActivity implements View.OnClickLis
 
         initScan();
         from = getIntent().getIntExtra("from", -1);
-        //        }
 
     }
 

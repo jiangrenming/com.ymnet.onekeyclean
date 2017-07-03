@@ -14,16 +14,20 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.example.commonlibrary.utils.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
 import com.ymnet.onekeyclean.cleanmore.fragment.BaseFragment;
+import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.adapter.FileItemAdapter;
 import com.ymnet.onekeyclean.cleanmore.uninstall.activity.UninstallActivity;
 import com.ymnet.onekeyclean.cleanmore.uninstall.adapter.InstalledAppAdapter;
 import com.ymnet.onekeyclean.cleanmore.uninstall.model.AppInfo;
@@ -34,7 +38,10 @@ import com.ymnet.onekeyclean.cleanmore.widget.LinearLayoutItemDecoration;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by MajinBuu on 2017/6/21 0021.
@@ -42,25 +49,27 @@ import java.util.List;
  * @overView 已安装应用卸载界面
  */
 
-public class UninstallFragment extends BaseFragment {
+public class UninstallFragment extends BaseFragment implements View.OnClickListener {
 
     private static List<AppInfo> mAppInfoList  = new ArrayList<>();
     private static List<AppInfo> mAppInfoList2 = new ArrayList<>();
-    private static InstalledAppAdapter  mAdapter;
-    private        boolean              isExecutedUninstall;
-    private        RecyclerViewPlus     mRecyclerView;
-    private        View                 mView;
-    private        AppUninstallReceiver mReceiver;
-    private        List<String>         mIgnoreList;
-    private        PackageManager       mPackageManager;
+    private static Map<Integer, AppInfo> mSelectedApp;
+    private static InstalledAppAdapter   mAdapter;
+    private        boolean               isExecutedUninstall;
+    private        RecyclerViewPlus      mRecyclerView;
+    private        View                  mView;
+    private        AppUninstallReceiver  mReceiver;
+    private        List<String>          mIgnoreList;
+    private        PackageManager        mPackageManager;
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
         }
     };
+    private TextView mOneKeyUninstalled;
 
     public static UninstallFragment newInstance() {
         UninstallFragment fragment = new UninstallFragment();
@@ -111,7 +120,7 @@ public class UninstallFragment extends BaseFragment {
                             packageInfo.size = cacheSize;
                             mAppInfoList2.add(packageInfo);
                         }
-                        mAdapter.notifyItemRangeChanged(position, 1);
+                        //                        mAdapter.notifyItemRangeChanged(position, 1);
                     }
 
                 }
@@ -131,14 +140,62 @@ public class UninstallFragment extends BaseFragment {
         addCache();
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_bottom_delete:
+                if (mSelectedApp.size() == 0) {
+                    ToastUtil.showShort(C.get(), "请选中需要卸载的软件");
+                } else {
+                    multiUninstall(mSelectedApp);
+                }
+                break;
+        }
+    }
+
+    private static Map<String, Integer> mMIList = new HashMap<>();
+
+    private void multiUninstall(Map<Integer, AppInfo> mSelectedApp) {
+        //卸载应用
+        Iterator<Map.Entry<Integer, AppInfo>> iterator = mSelectedApp.entrySet().iterator();
+        Map.Entry<Integer, AppInfo> next;
+        while (iterator.hasNext()) {
+            next = iterator.next();
+            if (next != null) {
+                Integer position = next.getKey();
+                String pkgName = next.getValue().pkgName;
+
+                uninstallApp(pkgName);
+                Log.d("UninstallFragment", "存入的:" + pkgName);
+                mMIList.put(pkgName, position);
+            }
+        }
+        mSelectedApp.clear();
+        mAdapter.notifyDataSetChanged();
+        changeSelectedState();
+    }
+
+    @Override
+    public void onAttachFragment(Fragment childFragment) {
+        super.onAttachFragment(childFragment);
+
+    }
+
     public static class AppUninstallReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(Intent.ACTION_PACKAGE_REMOVED)) {
-                Log.d("AppUninstallReceiver", "收到卸载成功的广播了");
-                mAppInfoList.remove(mPosition);
-                mAdapter.notifyDataSetChanged();
+                String packageName = intent.getData().getSchemeSpecificPart();
+                if (mMIList.containsKey(packageName)) {
+                    Log.d("AppUninstallReceiver", "packageName:" + packageName + "/mMIList.get(packageName):" + mMIList.get(packageName));
+                    int index = mMIList.get(packageName).intValue();
+                    mAppInfoList.remove(index);
+
+                    Log.d("AppUninstallReceiver", mAppInfoList.toString());
+                    mAdapter.notifyDataSetChanged();
+                }
+
             }
 
         }
@@ -152,39 +209,64 @@ public class UninstallFragment extends BaseFragment {
             @Override
             public void run() {
                 initView(mView);
+                initData();
+                initListener();
             }
         }, 300);
 
         return mView;
     }
 
-    private void initView(View view) {
-        mRecyclerView = (RecyclerViewPlus) view.findViewById(R.id.rv_installed_app);
-        //        mProgressBar = view.findViewById(R.id.pb_uninstall_loading);
-        mAdapter = new InstalledAppAdapter(mAppInfoList);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(C.get()));
-        mRecyclerView.addItemDecoration(new LinearLayoutItemDecoration(C.get(), LinearLayoutItemDecoration.HORIZONTAL_LIST));
-        mRecyclerView.setAdapter(mAdapter);
+    private void initListener() {
+        mOneKeyUninstalled.setOnClickListener(this);
         mAdapter.setRecyclerListListener(new UninstallClickListener() {
             @Override
             public void onClick(AppInfo appInfo, int position) {
                 asyncUninstall(position);
                 /*//弹dialog 确认是否删除
                 showConfirmDeleteDialog(appInfo.appName, position);*/
-
             }
 
         });
+        mAdapter.setOnCheckChangedListener(new FileItemAdapter.OnCheckChangedListener() {
+            @Override
+            public void checkChanged() {
+                changeSelectedState();
+            }
+        });
+    }
+
+    private void changeSelectedState() {
+        //        mOneKeyUninstalled.setEnabled(mSelectedApp.size() != 0);
+        mOneKeyUninstalled.setText(String.format(getResources().getString(R.string.file_delete_withdata), mSelectedApp.size() + "款"));
+    }
+
+    private void initView(View view) {
+        mRecyclerView = (RecyclerViewPlus) view.findViewById(R.id.rv_installed_app);
+        mOneKeyUninstalled = (TextView) view.findViewById(R.id.btn_bottom_delete);
+        //        mOneKeyUninstalled.setEnabled(false);
+        //        mProgressBar = view.findViewById(R.id.pb_uninstall_loading);
+        mSelectedApp = new HashMap<>();
+        mAdapter = new InstalledAppAdapter(mAppInfoList, mSelectedApp);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(C.get()));
+        mRecyclerView.addItemDecoration(new LinearLayoutItemDecoration(C.get(), LinearLayoutItemDecoration.HORIZONTAL_LIST));
+        mRecyclerView.setAdapter(mAdapter);
+
         mAdapter.notifyDataSetChanged();
 
     }
 
-    public static int mPosition;
+    private void initData() {
+        mOneKeyUninstalled.setText(R.string.file_delete_nodata);
+    }
+
+    public int mPosition;
 
     private void asyncUninstall(final int position) {
+        mMIList.put(mAppInfoList.get(position).pkgName, position);
         //卸载应用
         uninstallApp(mAppInfoList.get(position).pkgName);
-        mPosition = position;
+        //        mPosition = position;
     }
 
     private void uninstallApp(String pkgName) {
