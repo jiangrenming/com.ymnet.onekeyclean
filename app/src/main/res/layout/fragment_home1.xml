@@ -6,56 +6,83 @@
     android:orientation="vertical"
     tools:context="com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.HomeFragment">
 
-    <com.ymnet.onekeyclean.cleanmore.widget.StickyLayout
-        android:id="@+id/sticky_layout"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:scrollbars="none">
 
-        <View
-            android:id="@+id/v_touch_bounce"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="#c0ffff00"/>
-
-        <LinearLayout
+        <com.ymnet.onekeyclean.cleanmore.widget.StickyLayout
+            android:id="@+id/sticky_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/sticky_header"
+            <View
+                android:id="@+id/v_touch_bounce"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <include layout="@layout/fragment_item0"/>
-
-            </LinearLayout>
-
-            <com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus
-                android:id="@+id/sticky_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never"
-                />
+                android:layout_height="0dp"
+                android:background="#c0ffff00"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:layout_gravity="center"
+                <LinearLayout
+                    android:id="@+id/sticky_header"
                     android:layout_width="match_parent"
-                    android:layout_height="164dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/bottom_adorn"/>
-            </LinearLayout>
-            <!--@drawable/timg2-->
-            <!--android:layout_height="164dp"-->
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-        </LinearLayout>
-    </com.ymnet.onekeyclean.cleanmore.widget.StickyLayout>
+                    <include layout="@layout/fragment_item0"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sticky_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fillViewport="true"
+                    android:orientation="vertical">
+
+                    <com.ymnet.onekeyclean.cleanmore.customview.CustomGridView
+                        android:id="@+id/gv_mainfunction"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:horizontalSpacing="0.0dip"
+                        android:listSelector="@null"
+                        android:numColumns="2"
+                        android:scrollbars="none"
+                        android:stretchMode="columnWidth"
+                        android:verticalSpacing="0.0dip"/>
+
+                    <com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus
+                        android:id="@+id/rvp_morefunction"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:overScrollMode="never"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="164dp"
+                            android:layout_gravity="center"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/bottom_adorn"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!--@drawable/timg2-->
+                <!--android:layout_height="164dp"-->
+
+            </LinearLayout>
+        </com.ymnet.onekeyclean.cleanmore.widget.StickyLayout>
+    </ScrollView>
 </LinearLayout>

@@ -23,12 +23,21 @@ import java.util.NoSuchElementException;
 public class StickyLayout extends LinearLayout {
     private static final boolean DEBUG = true;
     private static final String  TAG   = "wdh";
-    private HeightChangeListener heightChangeListener;
-    private View                 viewBounce;
+    private HeightChangeListener    heightChangeListener;
+    private View                    viewBounce;
+    private IpmlScrollChangListener scroll;
     //    private BounceCalculate bc;
 
     public void setHeightChangeListener(HeightChangeListener heightChangeListener) {
         this.heightChangeListener = heightChangeListener;
+    }
+
+    public void setScroll(IpmlScrollChangListener scroll) {
+        this.scroll = scroll;
+    }
+
+    public interface IpmlScrollChangListener {
+        boolean isReadyForPull();
     }
 
     public View getmHeader() {
@@ -104,7 +113,7 @@ public class StickyLayout extends LinearLayout {
 
 
     public void initData() {
-//        int headerId = getResources().getIdentifier("sticky_header", "id", getContext().getPackageName());
+        //        int headerId = getResources().getIdentifier("sticky_header", "id", getContext().getPackageName());
         int headerId = getResources().getIdentifier("rl_home_head", "id", getContext().getPackageName());
         int contentId = getResources().getIdentifier("sticky_content", "id", getContext().getPackageName());
         if (headerId != 0 && contentId != 0) {
@@ -166,12 +175,17 @@ public class StickyLayout extends LinearLayout {
                 break;
         }
 
+        if (!scroll.isReadyForPull()) {
+            return false;
+        }
+
         if (DEBUG) {
         }
         return intercepted != 0 && mIsSticky;
     }
 
     private int mDeltaY;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (!mIsSticky) {
@@ -215,7 +229,7 @@ public class StickyLayout extends LinearLayout {
                 }
                 // 这里做了下判断，当松开手的时候，会自动向两边滑动，具体向哪边滑，要看当前所处的位置
                 int destHeight = 0;
-                if (mDeltaY<0) {
+                if (mDeltaY < 0) {
                     destHeight = 0;
                     mStatus = STATUS_COLLAPSED;
                 } else {
@@ -298,8 +312,8 @@ public class StickyLayout extends LinearLayout {
             flagScroll = END;
         } else if (height > mOriginalHeaderHeight) {
             //如果把这行注释了 则可以把头部下拉到任意位置，然后手松开的时候回弹至原位置，个人感觉这么样效果会更好一点。。
-            //            height = mOriginalHeaderHeight;
-            //            flagScroll = START;
+            height = mOriginalHeaderHeight;
+            flagScroll = START;
         } else {
             flagScroll = MIDDLE;
         }

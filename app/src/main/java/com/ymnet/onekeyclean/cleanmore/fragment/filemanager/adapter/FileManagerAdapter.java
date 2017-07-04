@@ -1,13 +1,13 @@
 package com.ymnet.onekeyclean.cleanmore.fragment.filemanager.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
 import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.base.FileManagerInfo;
 import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewClickListener;
 
@@ -15,7 +15,7 @@ import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewClickListener
  * Created by Administrator on 2017/6/21.
  */
 
-public class FileManagerAdapter extends RecyclerView.Adapter {
+public class FileManagerAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter {
     private Context mContext;
     private RecyclerViewClickListener mRecyclerViewClickListener;
 
@@ -24,13 +24,12 @@ public class FileManagerAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = View.inflate(mContext, R.layout.function_home_item_layout, null);
-        return new FileManagerHolder(view);
+    public int getContentItemCount() {
+        return FileManagerInfo.title.length;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    protected void onBindContentViewHolder(ContentViewHolder holder, final int position) {
         if (holder instanceof FileManagerHolder) {
             FileManagerHolder mHolder = (FileManagerHolder) holder;
             mHolder.mIcon.setImageResource(FileManagerInfo.img[position]);
@@ -47,11 +46,12 @@ public class FileManagerAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public int getItemCount() {
-        return FileManagerInfo.title.length;
+    public ContentViewHolder onCreateContentView(ViewGroup parent, int viewType) {
+        View view = View.inflate(mContext, R.layout.function_home_item_layout, null);
+        return new FileManagerHolder(view);
     }
 
-    private class FileManagerHolder extends RecyclerView.ViewHolder {
+    private class FileManagerHolder extends ContentViewHolder {
         private ImageView mIcon;
         private TextView mDesc;
         private TextView mTitle;

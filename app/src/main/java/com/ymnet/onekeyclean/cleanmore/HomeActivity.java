@@ -84,7 +84,8 @@ public class HomeActivity extends ImmersiveActivity implements Fragment2.OnFragm
             } else if (position == 3) {
                 return new Fragment4();
             }*/
-            return new HomeFragment();
+//            return new HomeFragment();
+            return HomeFragment.newInstance();
         }
 
         @Override

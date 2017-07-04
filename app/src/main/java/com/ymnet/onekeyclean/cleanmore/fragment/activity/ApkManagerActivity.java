@@ -22,7 +22,6 @@ import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.adapter.FileItemAdap
 import com.ymnet.onekeyclean.cleanmore.temp.AsyncTaskwdh;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
-import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
 import com.ymnet.onekeyclean.cleanmore.wechat.DialogFactory;
 import com.ymnet.onekeyclean.cleanmore.widget.LinearLayoutItemDecoration;
@@ -54,9 +53,14 @@ public class ApkManagerActivity extends ImmersiveActivity implements View.OnClic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.documents_fragment_item);
-        Map<String, String> m = new HashMap<>();
-        m.put(OnekeyField.FileCLEAN, "安装包清理");
-        MobclickAgent.onEvent(C.get(), StatisticMob.STATISTIC_FILECLEAN_ID, m);
+
+        String stringExtra = getIntent().getStringExtra(OnekeyField.ONEKEYCLEAN);
+        String statistics_key = getIntent().getStringExtra(OnekeyField.STATISTICS_KEY);
+        if (stringExtra != null) {
+            Map<String, String> m = new HashMap<>();
+            m.put(OnekeyField.ONEKEYCLEAN, stringExtra);
+            MobclickAgent.onEvent(C.get(), statistics_key, m);
+        }
 
         initView(C.get());
         initData(C.get());

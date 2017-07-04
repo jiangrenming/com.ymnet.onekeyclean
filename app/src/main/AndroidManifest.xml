@@ -194,13 +194,6 @@
             android:theme="@android:style/Theme.NoTitleBar">
         </activity>
         <activity
-            android:name=".cleanmore.fragment.filemanager.FileManagerActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:launchMode="standard"
-            android:screenOrientation="portrait"
-            android:theme="@style/Activity_Translate_Theme">
-        </activity>
-        <activity
             android:name=".cleanmore.filebrowser.FileBigImageActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="standard"

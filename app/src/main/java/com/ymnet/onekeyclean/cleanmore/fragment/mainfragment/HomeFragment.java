@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -59,8 +58,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
     private static final int    SILVER_CODE = 12;
     private              String TAG         = "HomeFragment";
 
-//    private SGTextView                     tv_size;
-//    private SGTextView                     tv_unit;
     private Button                         mProgressButton;
     private RecyclerViewPlus               mRecyclerView;
     private FileManagerAdapter             mAdapter;
@@ -73,7 +70,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
     private Handler mHandler = new MyHandler(this);
     private TextView      tv_junk_state;
     private ProgressWheel mProgressWheel;
-    private TextView tv_memory_size_desc;
+    private TextView      tv_memory_size_desc;
+    private View mView_head;
 
     class MyHandler extends Handler {
 
@@ -84,15 +82,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            /*switch (msg.what) {
-                case 0:
 
-                    Intent intent = new Intent(getContext(), SilverActivity.class);
-                    *//*intent.putExtra("state", "scanFi");
-                    Log.d("MyHandler", "mScan:" + mScan.getTotalSelectSize() + "--" + mScan.hashCode());*//*
-                    startActivityForResult(intent, SILVER_CODE);
-                    break;
-            }*/
         }
     }
 
@@ -111,11 +101,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -143,6 +128,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
     }
 
     private void initView(View view) {
+
         mStickyHead = view.findViewById(R.id.sticky_header);
         mHeadContent = view.findViewById(R.id.ll_head_content);
 
@@ -157,11 +143,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
             }
         });
 
-        mRecyclerView = (RecyclerViewPlus) view.findViewById(R.id.sticky_content);
+        mRecyclerView = (RecyclerViewPlus) view.findViewById(R.id.rvp_morefunction);
         mAdapter = new FileManagerAdapter(C.get());
-
+        mAdapter.addHeaderView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
+            @Override
+            protected View onCreateView(ViewGroup parent) {
+                return mView_head;
+            }
+        });
         final LinearLayoutManager layout = new LinearLayoutManager(C.get());
         mRecyclerView.setLayoutManager(layout);
+        initHeadView();
 
         mRecyclerView.addItemDecoration(new LinearLayoutItemDecoration(C.get(), LinearLayoutItemDecoration.HORIZONTAL_LIST));
         mAdapter.setmRecyclerViewClickListener(new RecyclerViewClickListener() {
@@ -180,6 +172,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
 
             }
         });
+
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.canScrollVertically(1);
 
@@ -199,8 +192,30 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
             }
         });
 
+        mStickLayout.setScroll(new StickyLayout.IpmlScrollChangListener() {
+            @Override
+            public boolean isReadyForPull() {
+                return isOnTop(mRecyclerView);
+            }
+        });
+
+    }
+
+    public static boolean isOnTop(ViewGroup viewGroup) {
+        int[] groupLocation = new int[2];
+        viewGroup.getLocationOnScreen(groupLocation);
+        int[] itemLocation = new int[2];
+        if (viewGroup.getChildAt(0) != null) {
+            viewGroup.getChildAt(0).getLocationOnScreen(itemLocation);
+            return groupLocation[1] == itemLocation[1];
+        }
+        return false;
+    }
+
+    private void initHeadView() {
+        mView_head = getActivity().getLayoutInflater().inflate(R.layout.home_head, mRecyclerView, false);
         //gridview
-        CustomGridView gridView =  (CustomGridView) view.findViewById(R.id.gv_mainfuncation);
+        CustomGridView gridView = (CustomGridView) mView_head.findViewById(R.id.gv_mainfunction);
         mHomeMainFunctionList = new ArrayList<>();
         getData();
         String[] from = {"image", "text"};
@@ -241,17 +256,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
                 }
             }
         });
-
     }
 
     private void initProgressWheel(FileBrowserUtil.SDCardInfo info) {
-        float percent =  ((info.total - info.free) * 100 / info.total + 0.5f);
+        float percent = ((info.total - info.free) * 100 / info.total + 0.5f);
         drawPercent(percent);
     }
 
     private void drawPercent(float percent) {
-        mProgressWheel.setText((int)(percent+0.5f)+"%\n已用");
-        ValueAnimator va = ValueAnimator.ofFloat(0, percent*100f);
+        mProgressWheel.setText((int) (percent + 0.5f) + "%\n已用");
+        ValueAnimator va = ValueAnimator.ofFloat(0, percent * 100f);
         va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -264,7 +278,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
         va.setDuration(800).start();
     }
 
-    // TODO: 2017/7/3 0003 垃圾清理已清理过的状态判断
+    //垃圾清理已清理过的状态判断
     private boolean checkHasCleanCache() {
         long lastTime = com.ymnet.onekeyclean.cleanmore.cacheclean.Util.getLaseCleanDate(C.get(), System.currentTimeMillis());
         boolean hasCache = CleanSetSharedPreferences.getLastSet(C.get(), CleanSetSharedPreferences.CLEAN_RESULT_CACHE, false);
@@ -296,22 +310,40 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
     public void forwardSendPage(int position) {
         switch (position) {
             case 0:
-                startActivity(new Intent(C.get(), FileManagerActivity.class));
+                Intent intentFM = new Intent(C.get(), FileManagerActivity.class);
+                intentFM.putExtra(OnekeyField.ONEKEYCLEAN, "大文件清理");
+                intentFM.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
+                startActivity(intentFM);
                 break;
             case 1:
-                startActivity(new Intent(C.get(), PicManagerActivity.class));
+                Intent intentPM = new Intent(C.get(), PicManagerActivity.class);
+                intentPM.putExtra(OnekeyField.ONEKEYCLEAN, "相册清理");
+                intentPM.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
+                startActivity(intentPM);
                 break;
             case 2:
-                startActivity(new Intent(C.get(), MusicManagerActivity.class));
+                Intent intentMM = new Intent(C.get(), MusicManagerActivity.class);
+                intentMM.putExtra(OnekeyField.ONEKEYCLEAN, "音乐清理");
+                intentMM.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
+                startActivity(intentMM);
                 break;
             case 3:
-                startActivity(new Intent(C.get(), VideoManagerActivity.class));
+                Intent intentVM = new Intent(C.get(), VideoManagerActivity.class);
+                intentVM.putExtra(OnekeyField.ONEKEYCLEAN, "视频清理");
+                intentVM.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
+                startActivity(intentVM);
                 break;
             case 4:
-                startActivity(new Intent(C.get(), ApkManagerActivity.class));
+                Intent intentAM = new Intent(C.get(), ApkManagerActivity.class);
+                intentAM.putExtra(OnekeyField.ONEKEYCLEAN, "安装包清理");
+                intentAM.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
+                startActivity(intentAM);
                 break;
             case 5:
-                startActivity(new Intent(C.get(), PackageManagerActivity.class));
+                Intent intentPKM = new Intent(C.get(), PackageManagerActivity.class);
+                intentPKM.putExtra(OnekeyField.ONEKEYCLEAN, "压缩包清理");
+                intentPKM.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
+                startActivity(intentPKM);
                 break;
         }
 

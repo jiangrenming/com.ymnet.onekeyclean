@@ -22,7 +22,6 @@ import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.adapter.FileItemAdap
 import com.ymnet.onekeyclean.cleanmore.temp.AsyncTaskwdh;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
-import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
 import com.ymnet.onekeyclean.cleanmore.wechat.DialogFactory;
 import com.ymnet.onekeyclean.cleanmore.widget.LinearLayoutItemDecoration;
@@ -35,7 +34,7 @@ import java.util.Map;
 
 public class PackageManagerActivity extends ImmersiveActivity implements View.OnClickListener {
 
-    protected  View                   fl_loading;
+    protected View                   fl_loading;
     protected View                   pb_loading;
     private   TextView               tvTopTitle;
     private   CheckBox               cbTopSelectAll;
@@ -48,15 +47,20 @@ public class PackageManagerActivity extends ImmersiveActivity implements View.On
     private   RecyclerView           recyclerView;
     private   FileItemAdapter        adapter;
     private   ArrayList<FileInfo>    mInfos;
-    private View mBack;
+    private   View                   mBack;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.documents_fragment_item);
-        Map<String, String> m = new HashMap<>();
-        m.put(OnekeyField.FileCLEAN, "压缩包清理");
-        MobclickAgent.onEvent(C.get(), StatisticMob.STATISTIC_FILECLEAN_ID, m);
+
+        String stringExtra = getIntent().getStringExtra(OnekeyField.ONEKEYCLEAN);
+        String statistics_key = getIntent().getStringExtra(OnekeyField.STATISTICS_KEY);
+        if (stringExtra != null) {
+            Map<String, String> m = new HashMap<>();
+            m.put(OnekeyField.ONEKEYCLEAN, stringExtra);
+            MobclickAgent.onEvent(C.get(), statistics_key, m);
+        }
 
         initView(C.get());
         initData(C.get());
@@ -194,7 +198,7 @@ public class PackageManagerActivity extends ImmersiveActivity implements View.On
                 finish();
                 break;
             case R.id.btn_bottom_delete:
-                showConfirmDeleteDialog(deleteMap.size(),this);
+                showConfirmDeleteDialog(deleteMap.size(), this);
                 break;
             case R.id.cb_top_select_all:
                 if (cbTopSelectAll.isChecked()) {

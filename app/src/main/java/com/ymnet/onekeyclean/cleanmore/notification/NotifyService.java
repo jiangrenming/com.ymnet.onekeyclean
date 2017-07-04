@@ -73,7 +73,7 @@ public class NotifyService extends Service implements Serializable {
             R.drawable.home_white,
             R.drawable.onekeyclean_white,
             R.drawable.brush_white,
-            R.drawable.onekeyclean_white,
+            R.drawable.filemanager_white,
             R.drawable.wechat_white,
             R.drawable.setting_white
     };
