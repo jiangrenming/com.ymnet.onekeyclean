@@ -19,7 +19,7 @@
             android:src="@drawable/onekeyclean"/>
 
         <TextView
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="6dp"
             android:id="@+id/tv_gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,12 +38,12 @@
 
         <ImageView
             android:id="@+id/iv_home"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/home_notification"/>
 
         <TextView
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="6dp"
             android:id="@+id/tv_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -62,12 +62,12 @@
 
         <ImageView
             android:id="@+id/iv_head"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/onekeyclean"/>
 
         <TextView
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="6dp"
             android:id="@+id/tv_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -87,11 +87,11 @@
 
         <ImageView
             android:id="@+id/iv_deep"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/brush"/>
         <TextView
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:id="@+id/tv_deep"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -110,12 +110,12 @@
 
         <ImageView
             android:id="@+id/iv_uninstall"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/uninstall_notification"/>
 
         <TextView
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="6dp"
             android:id="@+id/tv_uninstall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -160,12 +160,12 @@
 
         <ImageView
             android:id="@+id/iv_setting"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/setting"/>
 
         <TextView
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:id="@+id/tv_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
