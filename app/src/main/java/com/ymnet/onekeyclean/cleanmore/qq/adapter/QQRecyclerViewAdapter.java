@@ -84,7 +84,6 @@ public class QQRecyclerViewAdapter extends RecyclerViewPlus.HeaderFooterItemAdap
             InnerViewHolder holder = (InnerViewHolder) h;
 
             QQFileType chatFile = content.get(position);
-            Log.d(TAG, "onBindContentViewHolder: " + chatFile);
             if (chatFile == null)
                 return;
             holder.position = position;

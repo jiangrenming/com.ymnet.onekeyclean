@@ -89,7 +89,7 @@ public class CleanActivity extends Activity implements CleanView {
                     if (mCount >= 0 && valueChange) {
                         if (temp < mCount) {
                             mMemoryInfo.setText("" + (mUsedMemory - ++temp) + "%");
-                            mHandler.sendEmptyMessageDelayed(0, 200);
+                            mHandler.sendEmptyMessageDelayed(0, 800/mCount);
                         }
                         Log.d(TAG, "handleMessage: " + (mUsedMemory + "  " + mCount));
                     } else {

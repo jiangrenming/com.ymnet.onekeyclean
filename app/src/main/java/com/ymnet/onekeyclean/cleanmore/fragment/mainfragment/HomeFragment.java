@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -54,9 +55,18 @@ import java.util.Map;
 
 public class HomeFragment extends Fragment implements View.OnClickListener, StickyLayout.OnGiveUpTouchEventListener {
 
-    private static final int    CLEAN_CODE  = 13;
-    private static final int    SILVER_CODE = 12;
-    private              String TAG         = "HomeFragment";
+    private static final int    CLEAN_CODE     = 13;
+    private static final int    SILVER_CODE    = 12;
+    private static final int    WECHAT_CODE    = 14;
+    private static final int    UNINSTALL_CODE = 15;
+    private static final int    QQ_CODE        = 16;
+    private static final int    FILE_CODE      = 20;
+    private static final int    PM_CODE        = 21;
+    private static final int    PP_CODE        = 22;
+    private static final int    VM_CODE        = 23;
+    private static final int    AM_CODE        = 24;
+    private static final int    PKM_CODE       = 25;
+    private              String TAG            = "HomeFragment";
 
     private Button                         mProgressButton;
     private RecyclerViewPlus               mRecyclerView;
@@ -71,7 +81,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
     private TextView      tv_junk_state;
     private ProgressWheel mProgressWheel;
     private TextView      tv_memory_size_desc;
-    private View mView_head;
+    private View          mView_head;
 
     class MyHandler extends Handler {
 
@@ -237,21 +247,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
                         intentWeChat.putExtra(OnekeyField.ONEKEYCLEAN, "微信清理");
                         intentWeChat.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
                         intentWeChat.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        C.get().startActivity(intentWeChat);
+                        startActivityForResult(intentWeChat, WECHAT_CODE);
                         break;
                     case 2:
                         Intent intentUninstall = new Intent(C.get(), UninstallActivity.class);
                         intentUninstall.putExtra(OnekeyField.ONEKEYCLEAN, "软件管理");
                         intentUninstall.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
                         intentUninstall.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        C.get().startActivity(intentUninstall);
+                        startActivityForResult(intentUninstall, UNINSTALL_CODE);
                         break;
                     case 3:
                         Intent intentQQ = new Intent(C.get(), QQActivity.class);
                         intentQQ.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intentQQ.putExtra(OnekeyField.ONEKEYCLEAN, "QQ清理");
                         intentQQ.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
-                        C.get().startActivity(intentQQ);
+                        startActivityForResult(intentQQ, QQ_CODE);
                         break;
                 }
             }
@@ -313,37 +323,37 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
                 Intent intentFM = new Intent(C.get(), FileManagerActivity.class);
                 intentFM.putExtra(OnekeyField.ONEKEYCLEAN, "大文件清理");
                 intentFM.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
-                startActivity(intentFM);
+                startActivityForResult(intentFM, FILE_CODE);
                 break;
             case 1:
                 Intent intentPM = new Intent(C.get(), PicManagerActivity.class);
                 intentPM.putExtra(OnekeyField.ONEKEYCLEAN, "相册清理");
                 intentPM.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
-                startActivity(intentPM);
+                startActivityForResult(intentPM, PM_CODE);
                 break;
             case 2:
                 Intent intentMM = new Intent(C.get(), MusicManagerActivity.class);
                 intentMM.putExtra(OnekeyField.ONEKEYCLEAN, "音乐清理");
                 intentMM.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
-                startActivity(intentMM);
+                startActivityForResult(intentMM, PP_CODE);
                 break;
             case 3:
                 Intent intentVM = new Intent(C.get(), VideoManagerActivity.class);
                 intentVM.putExtra(OnekeyField.ONEKEYCLEAN, "视频清理");
                 intentVM.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
-                startActivity(intentVM);
+                startActivityForResult(intentVM, VM_CODE);
                 break;
             case 4:
                 Intent intentAM = new Intent(C.get(), ApkManagerActivity.class);
                 intentAM.putExtra(OnekeyField.ONEKEYCLEAN, "安装包清理");
                 intentAM.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
-                startActivity(intentAM);
+                startActivityForResult(intentAM, AM_CODE);
                 break;
             case 5:
                 Intent intentPKM = new Intent(C.get(), PackageManagerActivity.class);
                 intentPKM.putExtra(OnekeyField.ONEKEYCLEAN, "压缩包清理");
                 intentPKM.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_HOME_ID);
-                startActivity(intentPKM);
+                startActivityForResult(intentPKM, PKM_CODE);
                 break;
         }
 
@@ -379,6 +389,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
                 tv_junk_state.setText(R.string.tv_junk_desc);
             }
         }
+        Log.d("HomeFragment", "requestCode:" + requestCode);
+        initData();
     }
 
     @Override

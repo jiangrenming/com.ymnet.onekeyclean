@@ -15,6 +15,6 @@ public interface CleanPresenter {
      * @param visible true为弹toast展示,false为不弹toast
      * @return 杀死缓存应用个数
      */
-    int killAll(Context context, boolean visible);
+    void killAll(Context context, boolean visible);
 
 }

@@ -1,6 +1,8 @@
 package com.ymnet.onekeyclean.cleanmore.qq.activity;
 
-
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
@@ -23,9 +25,6 @@ import android.widget.TextView;
 
 import com.example.commonlibrary.utils.NetworkUtils;
 import com.example.commonlibrary.utils.ScreenUtil;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorInflater;
-import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.view.ViewHelper;
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.killbackground.customlistener.MyViewPropertyAnimatorListener;
@@ -566,6 +565,7 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
         ViewHelper.setAlpha(mIv_sun, 0f);
         ViewHelper.setRotation(mIv_sun, 0f);
 
+
         mFl_idle.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -591,12 +591,15 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
                     set.start();
 
                 } catch (Exception e) {
+                    e.printStackTrace();
+
                     ViewHelper.setAlpha(mIv_sun_center, 1);
                     ViewHelper.setAlpha(mTv_clean_success_size, 1);
                     ViewHelper.setAlpha(mTv_history_clean_size, 1);
                     ViewHelper.setAlpha(mIv_sun, 1);
                     ViewHelper.setRotation(mIv_sun, 0f);
                     ViewHelper.setTranslationY(mLl_content, 0);
+
                 }
             }
         }, 100);
@@ -614,19 +617,13 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
 
     private AnimatorSet initAnimSet() {
         FragmentActivity context = this;
-        AnimatorSet animSet = new AnimatorSet();
-        Animator anim = AnimatorInflater.loadAnimator(context,
-                R.animator.anim_clean_complete);
-        Animator anim2 = AnimatorInflater.loadAnimator(context,
-                R.animator.anim_clean_complete_center);// 透明度+缩放动画
-        Animator anim3 = AnimatorInflater.loadAnimator(context,
-                R.animator.anim_clean_complete_alpha);
-        Animator anim4 = AnimatorInflater.loadAnimator(context,
-                R.animator.anim_clean_complete_alpha);// 透明度动画
-        Animator anim5 = AnimatorInflater.loadAnimator(context,
-                R.animator.high_light_translate);// 高亮平移
-        Animator anim7 = AnimatorInflater.loadAnimator(context,
-                R.animator.from_buttom_to_top);// Button下往上移
+        AnimatorSet animSet = new android.animation.AnimatorSet();
+        Animator anim = AnimatorInflater.loadAnimator(context, R.animator.anim_clean_complete);
+        Animator anim2 = AnimatorInflater.loadAnimator(context, R.animator.anim_clean_complete_center);// 透明度+缩放动画
+        Animator anim3 = AnimatorInflater.loadAnimator(context, R.animator.anim_clean_complete_alpha);
+        Animator anim4 = AnimatorInflater.loadAnimator(context, R.animator.anim_clean_complete_alpha);// 透明度动画
+        Animator anim5 = AnimatorInflater.loadAnimator(context, R.animator.high_light_translate);// 高亮平移
+        android.animation.Animator anim7 = AnimatorInflater.loadAnimator(context, R.animator.from_buttom_to_top);// Button下往上移
         anim2.setDuration(800);
         anim3.setDuration(500);
         anim4.setDuration(800);
@@ -754,7 +751,6 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
                         String str1 = FormatUtils.formatFileSize(CleanSetSharedPreferences.getQQTodayCleanSize(QQActivity.this, 0));
                         String str2 = FormatUtils.formatFileSize(CleanSetSharedPreferences.getQQTotalCleanSize(QQActivity.this, 0));
                         mTv_history_clean_size.setText(getString(R.string.today_clean_total_clean, str1, str2));
-                        Log.d("QQActivity", "刷新了界面");
                         animDisplay();
 
                     }

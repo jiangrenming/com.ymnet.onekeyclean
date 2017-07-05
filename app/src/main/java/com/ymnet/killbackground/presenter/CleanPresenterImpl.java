@@ -4,19 +4,16 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Environment;
-import android.os.StatFs;
-import android.text.format.Formatter;
 
 import com.example.commonlibrary.utils.PhoneModel;
 import com.example.commonlibrary.utils.ShareDataUtils;
+import com.example.commonlibrary.utils.SystemMemory;
 import com.wenming.library.processutil.AndroidProcess;
 import com.wenming.library.processutil.ProcessManager;
+import com.ymnet.killbackground.utils.Run;
 import com.ymnet.killbackground.view.CleanView;
 import com.ymnet.onekeyclean.R;
-import com.ymnet.onekeyclean.cleanmore.utils.C;
 
-import java.io.File;
 import java.util.List;
 
 
@@ -36,14 +33,24 @@ public class CleanPresenterImpl implements CleanPresenter {
     }
 
     @Override
-    public int killAll(Context context, boolean visible) {
+    public void killAll(final Context context, final boolean visible) {
 
+        long beforeMem;
         int count = 0;//被杀进程计数
+
+        beforeMem = SystemMemory.getAvailMemorySize(context);//清理前的可用内存
+        //        long beforeMem = getAvailMemorySize(context);
+
         String nameList = "";//记录被杀死进程的包名
-//        long beforeMem = SystemMemory.getAvailMemorySize(context);//清理前的可用内存
-        long beforeMem = getAvailableSpace();
-        //调用系统清理
-        callSystem(context);
+        int temp = 0;//被杀进程计数
+
+        Run.onMain(new Runnable() {
+            @Override
+            public void run() {
+                //调用系统清理
+                callSystem(context);
+            }
+        });
 
         //获取一个ActivityManager 对象
         ActivityManager activityManager = (ActivityManager)
@@ -62,9 +69,10 @@ public class CleanPresenterImpl implements CleanPresenter {
                 for (int i = 0; i < pkNameList.length; i++) {
                     String pkName = pkNameList[i];
                     activityManager.killBackgroundProcesses(pkName);//杀死该进程
-                    count++;//杀死进程的计数+1
+                    temp++;//杀死进程的计数+1
                     nameList += "  " + pkName;
                 }
+                count = temp;
             }
         } else {
             List<AndroidProcess> runAppInfos = ProcessManager.getRunningProcesses();
@@ -76,18 +84,19 @@ public class CleanPresenterImpl implements CleanPresenter {
                 String pkName = appProcessInfo.name;
 
                 activityManager.killBackgroundProcesses(pkName);//杀死该进程
-                count++;//杀死进程的计数+1
+                temp++;//杀死进程的计数+1
                 nameList += "  " + pkName;
             }
+            count = temp;
         }
+
 
         long lastCleanTime = ShareDataUtils.getSharePrefLongData(context, "clean_data", "last_clean_time");
         ShareDataUtils.setSharePrefData(context, "clean_data", "last_clean_time", System.currentTimeMillis());
         boolean canClean = System.currentTimeMillis() - lastCleanTime > 1000 * 30;
 
-//        long afterMem = SystemMemory.getAvailMemorySize(context);//清理后的内存占用
-        long afterMem = getAvailableSpace();//清理后的内存占用
-
+        long afterMem = SystemMemory.getAvailMemorySize(context);//清理后的内存占用
+        //        long afterMem = getAvailMemorySize(context);//清理后的内存占用
         long cleanMem = Math.abs(afterMem - beforeMem);
 
         boolean valueChange = true;
@@ -107,27 +116,11 @@ public class CleanPresenterImpl implements CleanPresenter {
                 //获取最近十个应用图标,展示吸入动画
                 cleanView.getIconAndShow(cleanMem);
             }
-
             cleanView.isValueChang(valueChange);
-
         }
-        return count;
+
+
     }
-
-    private long getAvailableSpace() {
-        File path = Environment.getDataDirectory();
-        StatFs stat = new StatFs(path.getPath());
-        long blockCount = stat.getBlockCount();
-        long blockSize = stat.getBlockSize();
-        long availableBlocks = stat.getAvailableBlocks();
-
-        String totalSize = Formatter.formatFileSize(C.get(), blockCount*blockSize);
-        String availableSize = Formatter.formatFileSize(C.get(), blockCount*availableBlocks);
-
-        //        return "手机Rom总容量:"+totalSize+"\n手机Rom可用容量:"+availableSize;
-        return blockCount*availableBlocks;
-    }
-
 
     private void callSystem(Context context) {
         if (PhoneModel.matchModel("mi")) {

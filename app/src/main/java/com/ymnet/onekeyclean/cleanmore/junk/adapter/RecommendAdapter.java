@@ -85,12 +85,10 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
     public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
         super.onViewAttachedToWindow(holder);
         int adapterPosition = holder.getAdapterPosition();
-        Log.d("RecommendAdapter", "adapterPosition:" + adapterPosition);
     }
 
     @Override
     protected void onBindContentViewHolder(final ContentViewHolder holder, final int position) {
-        Log.d(TAG, "onBindContentViewHolder:position: " + position);
         if (holder instanceof FootViewHolder) { //底部loadmore界面
             FootViewHolder footHolder = (FootViewHolder) holder;
         } else if (holder instanceof ThreeViewHolder) {

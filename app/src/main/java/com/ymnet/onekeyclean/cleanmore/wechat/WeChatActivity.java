@@ -761,7 +761,7 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
                 Log.d("CleanOverFragment", "fl_idle.getMeasuredWidth():" + mFl_idle.getMeasuredWidth());
                 mFl_idle.setTranslationX(width / 2 - mFl_idle.getMeasuredWidth() / 2);
 
-                mFl_idle.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                mFl_idle.getViewTreeObserver().removeGlobalOnLayoutListener(this);
             }
         });
         //星星闪烁动画
@@ -955,10 +955,11 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
                 break;
         }
     }
+
     @Override
     public void finish() {
         super.finish();
-        startActivity(new Intent(this,HomeActivity.class));
+        startActivity(new Intent(this, HomeActivity.class));
     }
 }
 
