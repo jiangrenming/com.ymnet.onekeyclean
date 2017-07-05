@@ -29,7 +29,6 @@ import com.nineoldandroids.view.ViewHelper;
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.killbackground.customlistener.MyViewPropertyAnimatorListener;
 import com.ymnet.onekeyclean.R;
-import com.ymnet.onekeyclean.cleanmore.HomeActivity;
 import com.ymnet.onekeyclean.cleanmore.ImmersiveActivity;
 import com.ymnet.onekeyclean.cleanmore.animation.TweenAnimationUtils;
 import com.ymnet.onekeyclean.cleanmore.constants.QQConstants;
@@ -111,11 +110,16 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
     private View                   mEmptyFoot;
     private        long   mSuccessCleanSize = 0;
     private static String ActivityState     = null;
+    private boolean saveScrollState=false;
+    private BottomScrollView mSv;
+    private BottomScrollView mEmptySv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qq);
+
+        addActivity(this);
 
         String stringExtra = getIntent().getStringExtra(OnekeyField.ONEKEYCLEAN);
         String statistics_key = getIntent().getStringExtra(OnekeyField.STATISTICS_KEY);
@@ -131,14 +135,6 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
         initializeRecyclerView();
         initBottom();
         ani_view = findViewById(R.id.ani_view);
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        Intent intent = new Intent(this, HomeActivity.class);
-
-        startActivity(intent);
     }
 
     private void initBottom() {
@@ -191,8 +187,8 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
     }
 
     private RecyclerViewPlus      rv;
-    private DividerItemDecoration did;
 
+    private DividerItemDecoration did;
     private void initializeRecyclerView() {
         rv = (RecyclerViewPlus) findViewById(R.id.rv_content);
         mEmptyView = findViewById(R.id.v_empty);
@@ -200,10 +196,10 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
         initEmptyData();
         rv.setEmptyView(mEmptyView);
 
-        BottomScrollView sv = (BottomScrollView) findViewById(R.id.sv_scanend);
-        sv.setSmoothScrollingEnabled(true);
+        mSv = (BottomScrollView) findViewById(R.id.sv_scanend);
+        mSv.setSmoothScrollingEnabled(true);
         //滑动到底的监听
-        sv.setOnScrollToBottomListener(new BottomScrollView.OnScrollToBottomListener() {
+        mSv.setOnScrollToBottomListener(new BottomScrollView.OnScrollToBottomListener() {
             @Override
             public void onScrollBottomListener(boolean isBottom) {
                 if (isBottom && mRl.getVisibility() == View.GONE) {
@@ -316,7 +312,7 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
                 intent.putExtra("html", news_url);
                 intent.putExtra("flag", 10);
                 intent.putExtra(OnekeyField.CLEAN_NEWS, "QQ清理新闻");
-
+                saveScrollState = true;
                 startActivity(intent);
 
             }
@@ -400,7 +396,7 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
                 intent.putExtra("html", news_url);
                 intent.putExtra("flag", 10);
                 intent.putExtra(OnekeyField.CLEAN_NEWS, "QQ清理新闻");
-
+                saveScrollState = true;
                 startActivity(intent);
 
             }
@@ -471,8 +467,8 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
     }
 
     public static final int    REQUEST_DETAIL_CHANGE = 0X10;
-    public static final String FLAG_CHANGE           = "flag_change";
 
+    public static final String FLAG_CHANGE           = "flag_change";
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -490,18 +486,23 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+        if (!saveScrollState) {
+            mEmptySv.scrollTo(0, 0);
+            mSv.scrollTo(0, 0);
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         QQActivity.ActivityState = QQConstants.ACTIVITY_STOP;
+        saveScrollState = false;
     }
 
     private SGTextView tv_size, tv_unit;
+
     private View view_head;
     private int  headHeight;
-
     private void initializeHeadView() {
         view_head = getLayoutInflater().inflate(R.layout.qq_head, rv, false);
         mWaveLoadingView = (WaveLoadingView) view_head.findViewById(R.id.waveLoadingView);
@@ -538,10 +539,10 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
         mLl_content = mEmptyView.findViewById(ll_content);
         mEmptyRv = (RecyclerViewPlus) mEmptyView.findViewById(R.id.rv_recommend);
 
-        BottomScrollView emptySv = (BottomScrollView) mEmptyView.findViewById(R.id.sv_scanfinish);
-        emptySv.setSmoothScrollingEnabled(true);
+        mEmptySv = (BottomScrollView) mEmptyView.findViewById(R.id.sv_scanfinish);
+        mEmptySv.setSmoothScrollingEnabled(true);
         //滑动到底的监听
-        emptySv.setOnScrollToBottomListener(new BottomScrollView.OnScrollToBottomListener() {
+        mEmptySv.setOnScrollToBottomListener(new BottomScrollView.OnScrollToBottomListener() {
             @Override
             public void onScrollBottomListener(boolean isBottom) {
                 if (isBottom) {
@@ -669,8 +670,8 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
     }
 
     View ll_title;
-    int  titleHeight;
 
+    int  titleHeight;
     private void initTitleBar() {
         mWaveLoadingView = (WaveLoadingView) findViewById(R.id.waveLoadingView);
 
@@ -700,8 +701,8 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
     }
 
     int count = 0;
-    int temp  = 0;
 
+    int temp  = 0;
     @Override
     public void updateData() {
         Task.UI_THREAD_EXECUTOR.execute(new Runnable() {
@@ -799,7 +800,6 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
         }
     }
 
-
     @Override
     public void startAnim() {
         rv.setOnTouchListener(new View.OnTouchListener() {
@@ -821,6 +821,7 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
             }
         }, 100);
     }
+
 
     @Override
     public void stopAnim() {
@@ -881,4 +882,16 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        openHome(true);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+    }
+
 }

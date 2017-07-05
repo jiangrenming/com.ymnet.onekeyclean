@@ -37,17 +37,22 @@ public class MarketApplication extends BaseApplication {
 
     private ApplicationComponent applicationComponent;
 
-
     private static MarketApplication application;
 
     private Map<String, String> mUnionAppMaps;
 
     private ConcurrentHashMap<Integer, Activity> mRunningActivities;
     private WifiConnectionStatus                 mWifiConnectionStatus;
+//    private List<Activity> mList = new LinkedList<>();
 
     public static MarketApplication getInstance() {
         return application;
     }
+
+    /*public void addActivity(Activity activity) {
+        mList.add(activity);
+    }*/
+
 
     @Override
     @SuppressLint("NewApi")

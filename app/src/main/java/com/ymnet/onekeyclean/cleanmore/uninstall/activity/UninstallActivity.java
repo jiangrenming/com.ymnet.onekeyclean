@@ -1,6 +1,5 @@
 package com.ymnet.onekeyclean.cleanmore.uninstall.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -8,7 +7,6 @@ import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
-import com.ymnet.onekeyclean.cleanmore.HomeActivity;
 import com.ymnet.onekeyclean.cleanmore.ImmersiveActivity;
 import com.ymnet.onekeyclean.cleanmore.uninstall.fragment.EmptyFragment;
 import com.ymnet.onekeyclean.cleanmore.uninstall.fragment.UninstallFragment;
@@ -34,6 +32,8 @@ public class UninstallActivity extends ImmersiveActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_uninstall);
+
+        addActivity(this);
 
         String stringExtra = getIntent().getStringExtra(OnekeyField.ONEKEYCLEAN);
         String statistics_key = getIntent().getStringExtra(OnekeyField.STATISTICS_KEY);
@@ -88,9 +88,15 @@ public class UninstallActivity extends ImmersiveActivity {
         super.onResume();
         MobclickAgent.onResume(this);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        openHome(true);
+    }
+
     @Override
     public void finish() {
         super.finish();
-        startActivity(new Intent(this,HomeActivity.class));
     }
 }

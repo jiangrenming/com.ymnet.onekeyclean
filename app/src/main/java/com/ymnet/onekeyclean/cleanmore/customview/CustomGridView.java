@@ -2,6 +2,7 @@ package com.ymnet.onekeyclean.cleanmore.customview;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.GridView;
 
 /**
@@ -29,4 +30,17 @@ public class CustomGridView extends GridView {
                 MeasureSpec.AT_MOST);
         super.onMeasure(widthMeasureSpec, expandSpec);
     }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        Log.d("CustomGridView", "GridView大小发生变换了");
+        invalidate();
+    }
+
+    @Override
+    public void setPadding(int left, int top, int right, int bottom) {
+        super.setPadding(left, top, right, bottom);
+    }
 }
+

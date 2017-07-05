@@ -23,9 +23,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ymnet.onekeyclean.cleanmore.HomeActivity;
-import com.ymnet.retrofit2service.RetrofitService;
-import com.ymnet.retrofit2service.bean.WeChatNewsInformation;
 import com.example.commonlibrary.utils.ConvertParamsUtils;
 import com.example.commonlibrary.utils.NetworkUtils;
 import com.example.commonlibrary.utils.ScreenUtil;
@@ -45,7 +42,6 @@ import com.ymnet.onekeyclean.cleanmore.utils.CleanSetSharedPreferences;
 import com.ymnet.onekeyclean.cleanmore.utils.DisplayUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
-import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.utils.ToastUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
 import com.ymnet.onekeyclean.cleanmore.web.WebHtmlActivity;
@@ -62,6 +58,8 @@ import com.ymnet.onekeyclean.cleanmore.widget.BottomScrollView;
 import com.ymnet.onekeyclean.cleanmore.widget.LinearLayoutItemDecoration;
 import com.ymnet.onekeyclean.cleanmore.widget.SGTextView;
 import com.ymnet.onekeyclean.cleanmore.widget.WaveLoadingView;
+import com.ymnet.retrofit2service.RetrofitService;
+import com.ymnet.retrofit2service.bean.WeChatNewsInformation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,6 +79,7 @@ import static com.ymnet.onekeyclean.R.id.tv_history_clean_size;
 
 
 public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, View.OnClickListener {
+    private static final int NEWS_CODE = 11;
     WeChatPresenter mPresenter;
     public final static String EXTRA_ITEM_POSITION = "wechat_position";
     public final static String WECHAT_GUIDE        = "wechat_guide";
@@ -111,11 +110,16 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
     private long                      mSuccessCleanSize = 0;
     private HashMap<Integer, Boolean> removeMap         = new HashMap<>();
     private int position;
+    private BottomScrollView mSv;
+    private BottomScrollView mEmptySv;
+    private boolean saveScrollState =false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_we_chat);
+
+        addActivity(this);
 
         String stringExtra = getIntent().getStringExtra(OnekeyField.ONEKEYCLEAN);
         String statistics_key = getIntent().getStringExtra(OnekeyField.STATISTICS_KEY);
@@ -140,9 +144,19 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
     boolean end = true;
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+        if (!saveScrollState) {
+            mEmptySv.scrollTo(0, 0);
+            mSv.scrollTo(0, 0);
+        }
+
     }
 
     @Override
@@ -208,10 +222,10 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
         initEmptyData();
         rv.setEmptyView(mEmptyView);
 
-        BottomScrollView sv = (BottomScrollView) findViewById(R.id.sv_scanend);
-        sv.setSmoothScrollingEnabled(true);
+        mSv = (BottomScrollView) findViewById(R.id.sv_scanend);
+        mSv.setSmoothScrollingEnabled(true);
         //滑动到底的监听
-        sv.setOnScrollToBottomListener(new BottomScrollView.OnScrollToBottomListener() {
+        mSv.setOnScrollToBottomListener(new BottomScrollView.OnScrollToBottomListener() {
             @Override
             public void onScrollBottomListener(boolean isBottom) {
                 if (isBottom && mRl.getVisibility() == View.GONE) {
@@ -373,8 +387,9 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
                 intent.putExtra("html", news_url);
                 intent.putExtra("flag", 10);
                 intent.putExtra(OnekeyField.CLEAN_NEWS, "微信清理新闻");
+                saveScrollState = true;
 
-                startActivity(intent);
+                startActivityForResult(intent,NEWS_CODE);
             }
 
             @Override
@@ -389,6 +404,7 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
         });
         mEmptyRv.setAdapter(mEmptyRecommendAdapter);
     }
+
 
     private void initEmptyHead() {
         ImageView icon = (ImageView) mEmptyHead.findViewById(R.id.wechat_icon);
@@ -456,8 +472,9 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
                 intent.putExtra("html", news_url);
                 intent.putExtra("flag", 10);
                 intent.putExtra(OnekeyField.CLEAN_NEWS, "微信清理新闻");
+                saveScrollState = true;
 
-                startActivity(intent);
+                startActivityForResult(intent,NEWS_CODE);
 
             }
 
@@ -513,10 +530,10 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
         mLl_content = mEmptyView.findViewById(ll_content);
         mEmptyRv = (RecyclerViewPlus) mEmptyView.findViewById(R.id.rv_recommend);
 
-        BottomScrollView emptySv = (BottomScrollView) mEmptyView.findViewById(R.id.sv_scanfinish);
-        emptySv.setSmoothScrollingEnabled(true);
+        mEmptySv = (BottomScrollView) mEmptyView.findViewById(R.id.sv_scanfinish);
+        mEmptySv.setSmoothScrollingEnabled(true);
         //滑动到底的监听
-        emptySv.setOnScrollToBottomListener(new BottomScrollView.OnScrollToBottomListener() {
+        mEmptySv.setOnScrollToBottomListener(new BottomScrollView.OnScrollToBottomListener() {
             @Override
             public void onScrollBottomListener(boolean isBottom) {
                 if (isBottom) {
@@ -710,6 +727,12 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        saveScrollState = false;
+    }
+
     public static final int    REQUEST_DETAIL_CHANGE = 0X10;
     public static final String FLAG_CHANGE           = "flag_change";
 
@@ -721,6 +744,9 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
             if (extra && adapter != null) {
                 updateData();
             }
+        } else if (requestCode == NEWS_CODE) {
+            //更改状态
+//            saveScrollState = true;
         }
     }
 
@@ -957,9 +983,14 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        openHome(true);
+    }
+
+    @Override
     public void finish() {
         super.finish();
-        startActivity(new Intent(this, HomeActivity.class));
     }
 }
 

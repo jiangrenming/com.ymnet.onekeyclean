@@ -37,18 +37,6 @@ public class DataCenterObserver extends MarketObservable {
 
     private int updateStatus = UPDATE_STATUS_UNKOWN;
 
- /*   public int getUpdateStatus() {
-        return updateStatus;
-    }
-
-    public void setUpdateStatus(int updateStatus) {
-        this.updateStatus = updateStatus;
-        mHandler.sendEmptyMessage(UPDATE_STATUS_CHANGE);
-    }*/
-/*
-    *//**jf渠道需要屏蔽的应用数量*//*
-    public static int jfIgnoreNum = 0;*/
-
     /**
      * 创建下载数据结果集
      */
@@ -228,30 +216,11 @@ public class DataCenterObserver extends MarketObservable {
      */
     private static volatile DataCenterObserver sInstance;
 
-    /**
-     * 搜索热词
-     */
-    private String hot_words;
-
-    /**
-     * 推荐应用或热词列表
-     */
-/*    private List<RecommendEntity> recommendationList;
-
-
-    private UserInfo userInfo;*/
-
-//    private FileRecieverFromPC pcFromFile;
-
     private SilverActivity.CleanDataModeEvent cleanData;
     private AppsInfoHandler                   appsInfo;
 
     private DataCenterObserver(Context context) {
         mContext = context.getApplicationContext();
-        /*userInfo = new UserInfo();
-        userInfo.init(mContext);*/
-        /*pcFromFile = new FileRecieverFromPC();
-        pcFromFile.init(mHandler, mContext);*/
         appsInfo = new AppsInfoHandler(mContext, mHandler);
     }
 
@@ -266,38 +235,7 @@ public class DataCenterObserver extends MarketObservable {
         return sInstance;
     }
 
-
-   /* public Handler getMarketHandler() {
-        return mHandler;
-    }
-
-    public AppsInfoHandler getAppsInfoHandler() {
-        return appsInfo;
-    }
-
-    public void setmLianMengApk(ArrayList<String> mLianMengApk) {
-        appsInfo.setmLianMengApk(mLianMengApk);
-    }
-
-    public boolean isLianMengApk(String packageName) {
-        return appsInfo.isLianMengApk(packageName);
-    }
-
-    public int lianMengApkSize() {
-        return appsInfo.lianMengApkSize();
-    }
-
-    public int getUpgradeNumber() {
-
-        return appsInfo.getUpgradeNumber();
-    }
-
-    public int getIgnoreNumber() {
-        return appsInfo.getIgnoreNumber();
-    }
-
-
-    *//**
+    /**
      * 获取所有已安装应用列表
      *
      * @return
@@ -324,40 +262,6 @@ public class DataCenterObserver extends MarketObservable {
         return appsInfo.getUserInstalledApps();
     }
 
-
-    /*public String getInstalledAppsJson() {
-
-        ConcurrentHashMap<String, InstalledApp> syss = getSysInstalledApps();
-        JsonArray sysArray = new JsonArray();
-        for (InstalledApp app : syss.values()) {
-            JsonObject object = new JsonObject();
-            String packageName = app.packageName;
-            object.addProperty("pn", packageName);
-            int versionCode = app.versionCode;
-            object.addProperty("vc", versionCode);
-
-            sysArray.add(object);
-        }
-
-        ConcurrentHashMap<String, InstalledApp> users = getUserInstalledApps();
-        JsonArray userArray = new JsonArray();
-        for (InstalledApp app : users.values()) {
-            JsonObject object = new JsonObject();
-            String packageName = app.packageName;
-            object.addProperty("pn", packageName);
-            int versionCode = app.versionCode;
-            object.addProperty("vc", versionCode);
-
-            userArray.add(object);
-        }
-
-        JsonObject obj = new JsonObject();
-        obj.add("sys", sysArray);
-        obj.add("user", userArray);
-
-        return obj.toString();
-    }*/
-
     /**
      * 获取用户安装应用列表
      *
@@ -377,142 +281,6 @@ public class DataCenterObserver extends MarketObservable {
         return userArray.toString();
     }
 
-    /**
-     * 是否安装过
-     *
-     * @param packageName
-     * @return
-     *//*
-    public boolean isInstalled(String packageName) {
-        return getInstalledApp(packageName) != null;
-    }
-
-    *//**
-     * 获取单个应用信息
-     *
-     * @param packageName
-     * @return
-     *//*
-    public InstalledApp getInstalledApp(String packageName) {
-        return appsInfo.getInstalledApp(packageName);
-    }
-
-
-    *//**
-     * 获取已安装应用的md5值
-     *
-     * @param packageName
-     * @return
-     *//*
-    public String getInstalledAppMd5(String packageName) {
-        String md5 = null;
-        InstalledApp app = getInstalledApp(packageName);
-        if (app != null) {
-            md5 = Utils.getLocalFileMd5(app.storeLocation);
-        }
-
-        return md5;
-    }
-
-    *//**
-     * 获取应用的version code
-     *
-     * @param packageName
-     * @return
-     *//*
-    public int getInstalledAppVersionCode(String packageName) {
-        InstalledApp app = appsInfo.getInstalledApp(packageName);
-        return app != null ? app.versionCode : 0;
-    }
-
-    *//**
-     * 获取应用的version name
-     *//*
-    public String getInstalledAppVersionName(String packageName) {
-        InstalledApp app = appsInfo.getInstalledApp(packageName);
-        return app != null ? app.versionName : "";
-    }
-
-
-    public void addInstalledApp(String packageName) {
-        appsInfo.addInstalledApp(packageName, appsInfo.getInstalledApp(packageName));
-    }
-
-
-    public void removeInstalledApp(String packageName) {
-        appsInfo.removeInstalledApp(packageName);
-    }*/
-
-/*
-    public HashMap<String, App> getUpdateList() {
-        return appsInfo.getUpdateList();
-    }
-
-    public HashMap<String, App> getDeprecatedList() {
-        return appsInfo.getDeprecatedList();
-    }
-
-    public HashMap<String, App> getIgnoreUpdateList() {
-        return appsInfo.getIgnoreUpdateList();
-    }
-
-    public void removeUpdateApp(App app) {
-        appsInfo.removeUpdateApp(app);
-    }
-
-    public boolean ignoreApp(App app) {
-        return appsInfo.ignoreApp(app);
-    }
-
-    public boolean unIgnoreApp(App app) {
-        return appsInfo.unIgnoreApp(app);
-    }
-
-    public UpdateAppsListController getUpdateAppsListController() {
-        return appsInfo.getUpdateAppsListController();
-    }
-
-    //除去ApiResponseFactory 其余处不调此方法
-    public void setUpdateList(HashMap<String, App> list) {
-
-        appsInfo.setUpdateList(list);
-    }
-
-    //除去ApiResponseFactory 其余处不调此方法
-    public void removeUpdatedApp(String app) {
-        appsInfo.removeUpdatedApp(app);
-    }
-
-    // 来自pc端的电脑
-    public int getFileFromPCCount() {
-        return pcFromFile.getFileCount();
-    }
-
-    public ArrayList<FileFromPC> getFilesFromPC() {
-        return pcFromFile.getFiles();
-    }
-
-    public void deleteFilesFromPC(int[] ids, String[] files, boolean deleFile) {
-        pcFromFile.deleteFileById(ids, files, deleFile);
-    }
-
-    public String getHot_words() {
-        return hot_words;
-    }
-
-    public void setHot_words(String hot_words) {
-        this.hot_words = hot_words;
-    }
-
-    public List<RecommendEntity> getRecommendationList() {
-        return recommendationList;
-    }
-
-    public void setRecommendationList(List<RecommendEntity> recommendationList) {
-        this.recommendationList = recommendationList;
-    }*/
-
-
     public WifiConnectionStatus getWifiStatus() {
         return MarketApplication.getInstance().getWifiConnectionStatus();
     }
@@ -522,19 +290,6 @@ public class DataCenterObserver extends MarketObservable {
         return wifiConnectionStatus != null ? wifiConnectionStatus.getConnStatus() : 0;
     }
 
-   /* public App checkInUpdateListForInstalled(String packageName) {
-
-        return appsInfo.checkInupdatelist(packageName, true);
-    }
-
-    private List<App> mustAppList;
-
-    public List<App> getMustAppList() {
-        if (mustAppList == null)
-            mustAppList = new ArrayList<App>();
-        return mustAppList;
-    }*/
-
     public void setCleanData(SilverActivity.CleanDataModeEvent cleanData) {
         this.cleanData = cleanData;
     }
@@ -543,14 +298,6 @@ public class DataCenterObserver extends MarketObservable {
         return cleanData;
     }
 
-   /* public UserInfo getUserInfo() {
-        if (userInfo == null) {
-            userInfo = new UserInfo();
-            userInfo.init(mContext);
-        }
-        return userInfo;
-    }
-*/
 
     private boolean refreshCleanActivity = false;
 

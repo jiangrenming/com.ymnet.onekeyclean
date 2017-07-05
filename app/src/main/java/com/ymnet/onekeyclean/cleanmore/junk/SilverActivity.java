@@ -1,7 +1,6 @@
 package com.ymnet.onekeyclean.cleanmore.junk;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.TransitionDrawable;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
-import com.ymnet.onekeyclean.cleanmore.HomeActivity;
 import com.ymnet.onekeyclean.cleanmore.ImmersiveActivity;
 import com.ymnet.onekeyclean.cleanmore.animation.TweenAnimationUtils;
 import com.ymnet.onekeyclean.cleanmore.constants.ByteConstants;
@@ -76,6 +74,8 @@ public class SilverActivity extends ImmersiveActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_silver);
+
+        addActivity(this);
 
         String stringExtra = getIntent().getStringExtra(OnekeyField.ONEKEYCLEAN);
         String statistics_key = getIntent().getStringExtra(OnekeyField.STATISTICS_KEY);
@@ -531,8 +531,13 @@ public class SilverActivity extends ImmersiveActivity implements View.OnClickLis
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        openHome(true);
+    }
+
+    @Override
     public void finish() {
-        super.finish();
-        startActivity(new Intent(this,HomeActivity.class));
+       super.finish();
     }
 }

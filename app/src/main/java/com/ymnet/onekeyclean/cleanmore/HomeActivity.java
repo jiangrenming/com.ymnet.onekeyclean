@@ -1,7 +1,6 @@
 package com.ymnet.onekeyclean.cleanmore;
 
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,11 +9,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.Fragment2;
 import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.Fragment3;
 import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.Fragment4;
 import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.HomeFragment;
+import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class HomeActivity extends ImmersiveActivity implements Fragment2.OnFragmentInteractionListener, Fragment3.OnFragmentInteractionListener, Fragment4.OnFragmentInteractionListener {
@@ -22,12 +26,21 @@ public class HomeActivity extends ImmersiveActivity implements Fragment2.OnFragm
     private ViewPager              mViewPager;
     private TabLayout              mTabLayout;
     private MyFragmentPagerAdapter myFragmentPagerAdapter;
-    public FragmentManager mFM;
+    public  FragmentManager        mFM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        String stringExtra = getIntent().getStringExtra(OnekeyField.ONEKEYCLEAN);
+        String statistics_key = getIntent().getStringExtra(OnekeyField.STATISTICS_KEY);
+        if (stringExtra != null) {
+            Map<String, String> m = new HashMap<>();
+            m.put(OnekeyField.ONEKEYCLEAN, stringExtra);
+            MobclickAgent.onEvent(this, statistics_key, m);
+        }
+
         mFM = getSupportFragmentManager();
         initView();
     }
@@ -84,13 +97,13 @@ public class HomeActivity extends ImmersiveActivity implements Fragment2.OnFragm
             } else if (position == 3) {
                 return new Fragment4();
             }*/
-//            return new HomeFragment();
+            //            return new HomeFragment();
             return HomeFragment.newInstance();
         }
 
         @Override
         public int getCount() {
-//            return mTitles.length;
+            //            return mTitles.length;
             return 1;
         }
 
@@ -102,13 +115,14 @@ public class HomeActivity extends ImmersiveActivity implements Fragment2.OnFragm
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void onBackPressed() {
+        super.onBackPressed();
+        isClearAll = true;
+        exit();
     }
 
     @Override
     public void finish() {
         super.finish();
-        
     }
 }

@@ -161,7 +161,7 @@ public class NotifyService extends Service implements Serializable {
 
         //主页面
         Intent intentHome = new Intent(C.get(), HomeActivity.class);
-        intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intentHome.putExtra(OnekeyField.ONEKEYCLEAN, "主页面");
         intentHome.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_ID);
         PendingIntent piHome = PendingIntent.getActivity(C.get(), REQUEST_CODE03, intentHome, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -176,7 +176,7 @@ public class NotifyService extends Service implements Serializable {
         Intent intent3 = new Intent(C.get(), WeChatActivity.class);
         //      Intent intent3 = new Intent(C.get(), DeviceManagerReceiver.class);
 
-        intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent3.putExtra(OnekeyField.ONEKEYCLEAN, "微信清理");
         intent3.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_ID);
         PendingIntent pendingIntent1 = PendingIntent.getActivity(C.get(), REQUEST_CODE02, intent3, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -184,7 +184,7 @@ public class NotifyService extends Service implements Serializable {
 
         //应用卸载
         Intent intent4 = new Intent(C.get(), UninstallActivity.class);
-        intent4.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent4.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent4.putExtra(OnekeyField.ONEKEYCLEAN, "软件管理");
         intent4.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_ID);
         PendingIntent pendingIntent4 = PendingIntent.getActivity(C.get(), REQUEST_CODE03, intent4, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -194,7 +194,7 @@ public class NotifyService extends Service implements Serializable {
         Intent intent5 = new Intent(C.get(), SilverActivity.class);
         intent5.putExtra(OnekeyField.ONEKEYCLEAN, "垃圾清理");
         intent5.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_ID);
-        intent5.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent5.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent5 = PendingIntent.getActivity(C.get(), REQUEST_CODE04, intent5, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.ll_deep, pendingIntent5);
 

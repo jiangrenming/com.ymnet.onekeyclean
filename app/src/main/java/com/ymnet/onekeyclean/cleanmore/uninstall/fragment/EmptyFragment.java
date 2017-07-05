@@ -128,17 +128,20 @@ public class EmptyFragment extends BaseFragment {
                     @Override
                     public void run() {
                         mUninstallCallback.getMessage(mAppInfoList);
-
                         FragmentManager fm = getFragmentManager();
-                        FragmentTransaction ft = fm.beginTransaction();
-                        UninstallFragment uf = UninstallFragment.newInstance();
+                        if (fm != null) {
 
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelableArrayList("appInfoList", (ArrayList<? extends Parcelable>) mAppInfoList);
-                        uf.setArguments(bundle);
-                        ft.replace(R.id.fl_uninstall, uf);
-                        //                        ft.addToBackStack(null);
-                        ft.commit();
+                            FragmentTransaction ft = fm.beginTransaction();
+                            UninstallFragment uf = UninstallFragment.newInstance();
+
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelableArrayList("appInfoList", (ArrayList<? extends Parcelable>) mAppInfoList);
+                            uf.setArguments(bundle);
+                            ft.replace(R.id.fl_uninstall, uf);
+                            //                        ft.addToBackStack(null);
+                            ft.commit();
+                        }
+
                     }
                 }, 500);
             }
