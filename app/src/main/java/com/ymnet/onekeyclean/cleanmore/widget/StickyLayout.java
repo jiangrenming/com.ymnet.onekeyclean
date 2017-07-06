@@ -26,8 +26,8 @@ public class StickyLayout extends LinearLayout {
     private HeightChangeListener    heightChangeListener;
     private View                    viewBounce;
     private IpmlScrollChangListener scroll;
-    //    private BounceCalculate bc;
 
+    //    private BounceCalculate bc;
     public void setHeightChangeListener(HeightChangeListener heightChangeListener) {
         this.heightChangeListener = heightChangeListener;
     }
@@ -36,8 +36,12 @@ public class StickyLayout extends LinearLayout {
         this.scroll = scroll;
     }
 
+    //    public static final int STATUS_EXPANDED  = 1;
+    //    public static final int STATUS_COLLAPSED = 2;
     public interface IpmlScrollChangListener {
         boolean isReadyForPull();
+
+        void isMoving();
     }
 
     public View getmHeader() {
@@ -100,6 +104,10 @@ public class StickyLayout extends LinearLayout {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public StickyLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+    }
+
+    public int getStatus() {
+        return mStatus;
     }
 
 
@@ -238,6 +246,8 @@ public class StickyLayout extends LinearLayout {
                 }
                 // 慢慢滑向终点
                 this.smoothSetHeaderHeight(mHeaderHeight, destHeight, 1200);
+                //设置可调用的滑动监听
+                scroll.isMoving();
                 break;
             }
             default:

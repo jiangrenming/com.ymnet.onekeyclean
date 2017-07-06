@@ -60,6 +60,7 @@ public class HomeActivity extends ImmersiveActivity implements Fragment2.OnFragm
         return mInstance;
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();

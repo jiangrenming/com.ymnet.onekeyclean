@@ -52,7 +52,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="14dp"
-                android:src="@drawable/flash_arrow_grey_anim"
+                android:src="@drawable/flash_arrow_blue_anim"
                 />
 
             <!--<com.ymnet.onekeyclean.cleanmore.customview.MainScrollUpAdvertisementView
