@@ -12,7 +12,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="@dimen/dp48"
             android:background="@color/main_blue_new1">
 
             <TextView
@@ -20,7 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="@dimen/dp15"
                 android:drawablePadding="0.0dip"
                 android:gravity="center"
                 android:shadowColor="#39000000"

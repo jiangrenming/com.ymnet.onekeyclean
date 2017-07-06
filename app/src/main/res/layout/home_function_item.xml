@@ -13,13 +13,13 @@
         android:background="@drawable/bg_gv_selector"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="@dimen/default_40dp">
+        android:padding="@dimen/dp40">
 
         <ImageView
             android:id="@+id/iv_item_mainfunction"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginBottom="5dp"
+            android:layout_width="@dimen/dp30"
+            android:layout_height="@dimen/dp30"
+            android:layout_marginBottom="@dimen/dp5"
             android:src="@drawable/qq_features_icon"/>
 
         <TextView
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="QQ清理"
-            android:textColor="#000"
-            android:textSize="16sp"/>
+            android:textColor="#848484"
+            android:textSize="@dimen/dp14"/>
     </LinearLayout>
 </LinearLayout>

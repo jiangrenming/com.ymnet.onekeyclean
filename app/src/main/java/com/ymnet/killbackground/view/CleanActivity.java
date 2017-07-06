@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,7 +23,6 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -66,7 +66,7 @@ public class CleanActivity extends Activity implements CleanView {
     private String               showToast;
     private boolean              valueChange;
     private ImageView            mDetermine;
-    private Button               mMoreFunction;
+    private TextView               mMoreFunction;
     private RelativeLayout       mRelativeLayout;
     private CleanPresenter       mCleanPresenter;
     private int                  mCount;
@@ -114,6 +114,9 @@ public class CleanActivity extends Activity implements CleanView {
             }
         }
     };
+    private View mRl_more_function;
+    private ImageView mArrow;
+    private AnimationDrawable mAnimationDrawable;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -213,9 +216,15 @@ public class CleanActivity extends Activity implements CleanView {
             public void onAnimationStart(View view) {
                 super.onAnimationStart(view);
                 //按钮展示动画
-                mMoreFunction.setScaleX(0);
-                mMoreFunction.setVisibility(View.VISIBLE);
-                ViewCompat.animate(mMoreFunction).scaleX(1).setDuration(500).start();
+                mRl_more_function.setScaleX(0);
+                mRl_more_function.setVisibility(View.VISIBLE);
+                if (HomeActivity.getInstance().isVisible) {
+                    mArrow.setVisibility(View.INVISIBLE);
+                } else {
+                    mArrow.setVisibility(View.VISIBLE);
+                }
+                gifAnim(mArrow);
+                ViewCompat.animate(mRl_more_function).scaleX(1).setDuration(500).start();
 
                 mMoreFunction.setText(showToast);
                /*
@@ -241,11 +250,26 @@ public class CleanActivity extends Activity implements CleanView {
         }).start();
     }
 
+    private void gifAnim(ImageView imageView) {
+        mAnimationDrawable = (AnimationDrawable) imageView.getDrawable();
+        if (mAnimationDrawable.isRunning()) {
+            mAnimationDrawable.stop();
+        }
+        mAnimationDrawable.start();
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mAnimationDrawable != null) {
+            mAnimationDrawable.stop();
+        }
     }
 
     private void initView() {
@@ -260,8 +284,10 @@ public class CleanActivity extends Activity implements CleanView {
         mMemoryInfo = (TextView) findViewById(R.id.memory_info);
         mMemoryInfo.setVisibility(View.INVISIBLE);
 
-        mMoreFunction = (Button) findViewById(R.id.btn_more_function);
-        mMoreFunction.setOnClickListener(new View.OnClickListener() {
+        mRl_more_function = findViewById(R.id.rl_more_function);
+        mMoreFunction = (TextView) findViewById(R.id.btn_more_function);
+        mArrow = (ImageView) findViewById(R.id.iv_arrow);
+        mRl_more_function.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(CleanActivity.this, HomeActivity.class));

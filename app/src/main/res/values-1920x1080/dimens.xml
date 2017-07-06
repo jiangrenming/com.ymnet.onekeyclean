@@ -1,30 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="default_textsize_12dp">12dp</dimen>
-    <dimen name="title_text_size">17dp</dimen>
-    <dimen name="dialog_content_text_size">14dp</dimen>
-    <dimen name="dialog_btn_text_size">16dp</dimen>
-    <dimen name="dialog_title_text_size">18dp</dimen>
-    <dimen name="default_10dp">10dp</dimen>
-    <dimen name="default_50dp">50dp</dimen>
-    <dimen name="categoryLegend">11dp</dimen>
-    <dimen name="one_hundred_and_eleven">111dp</dimen>
-    <dimen name="one_hundred_and_fifty_eight">158dp</dimen>
-    <dimen name="sp16">16sp</dimen>
-    <dimen name="sp12">12sp</dimen>
-
-    <dimen name="corner_radius">5dp</dimen>
-    <dimen name="default_48dp">48dp</dimen>
-
-    <dimen name="file_item_image_width">50dip</dimen>
-    <dimen name="file_item_image_height">@dimen/file_item_image_width</dimen>
-    <dimen name="file_video_image_width">90dip</dimen>
-    <dimen name="default_20dp">20dp</dimen>
-    <dimen name="default_40dp">40dp</dimen>
-
-    <!--自定义尺寸-->
     <dimen name="dp1">3.0px</dimen>
     <dimen name="dp2">6.0px</dimen>
     <dimen name="dp3">9.0px</dimen>

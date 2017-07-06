@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -223,11 +222,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
         return false;
     }
 
-    private float getDensity() {
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-        return dm.density;
-    }
-
     private void initHeadView() {
         mView_head = getActivity().getLayoutInflater().inflate(R.layout.home_head, mRecyclerView, false);
         //gridview
@@ -237,19 +231,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
         String[] from = {"image", "text"};
         int[] to = {R.id.iv_item_mainfunction, R.id.tv_item_mainfunction};
         SimpleAdapter simpleAdapter = new SimpleAdapter(getContext(), mHomeMainFunctionList, R.layout.home_function_item, from, to);
-
-        /*float density = getDensity();
-        Log.d("HomeFragment", "40f / density * 3:" + (40f / density * 3));
-        LinearLayout ll_item = (LinearLayout) LayoutInflater.from(C.get()).inflate(R.layout.home_function_item, gridView, false).findViewById(R.id.ll_item_home_function);
-
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
-        ll_item.setLayoutParams(params);
-        int padding = DisplayUtil.dip2px(C.get(), 40f / density * 3);
-        ll_item.setPadding(padding * 2, padding * 2, padding * 2, padding * 2);
-
-        gridView.requestLayout();
-        mRecyclerView.requestLayout();*/
 
         gridView.setAdapter(simpleAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

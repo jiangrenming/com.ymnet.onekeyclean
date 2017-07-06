@@ -15,6 +15,7 @@ import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.Fragment2;
 import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.Fragment3;
 import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.Fragment4;
 import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.HomeFragment;
+import com.ymnet.onekeyclean.cleanmore.junk.ScanHelp;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
 
 import java.util.HashMap;
@@ -23,10 +24,12 @@ import java.util.Map;
 
 public class HomeActivity extends ImmersiveActivity implements Fragment2.OnFragmentInteractionListener, Fragment3.OnFragmentInteractionListener, Fragment4.OnFragmentInteractionListener {
 
-    private ViewPager              mViewPager;
+    private static HomeActivity mInstance;
+    private ViewPager mViewPager;
     private TabLayout              mTabLayout;
     private MyFragmentPagerAdapter myFragmentPagerAdapter;
     public  FragmentManager        mFM;
+    public static boolean isVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,30 @@ public class HomeActivity extends ImmersiveActivity implements Fragment2.OnFragm
 
         mFM = getSupportFragmentManager();
         initView();
+    }
+
+    public static HomeActivity getInstance() {
+
+        if (mInstance == null) {
+            synchronized (ScanHelp.class) {
+                if (mInstance == null) {
+                    mInstance = new HomeActivity();
+                }
+            }
+        }
+        return mInstance;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isVisible = true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        isVisible = false;
     }
 
     private void initView() {

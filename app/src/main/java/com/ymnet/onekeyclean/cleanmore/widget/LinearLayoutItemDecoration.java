@@ -67,7 +67,7 @@ public class LinearLayoutItemDecoration extends RecyclerView.ItemDecoration{
             final int top = child.getBottom() + params.bottomMargin;
             final int bottom = top + mDivider.getIntrinsicHeight();
             mDivider.setBounds(left, top, right, bottom);
-            mDivider.setColorFilter(Color.parseColor("#F8F8F8"), PorterDuff.Mode.SRC);
+            mDivider.setColorFilter(Color.parseColor("#FFE8ECEF"), PorterDuff.Mode.SRC);
             mDivider.draw(c);
         }
     }

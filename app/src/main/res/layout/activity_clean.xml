@@ -4,7 +4,7 @@
                 android:layout_height="match_parent"
     >
 
-    <Button
+    <!--<Button
         android:id="@+id/btn_more_function"
         android:layout_width="240dp"
         android:layout_height="60dp"
@@ -15,32 +15,59 @@
         android:text="@string/onkeycleandefaultcontent"
         android:textColor="#DD2A52D2"
         android:textSize="14sp"
-        android:visibility="invisible"/>
-    <!--<RelativeLayout
-        android:id="@+id/btn_more_function"
-        android:layout_width="200dp"
+        android:visibility="invisible"/>-->
+
+    <RelativeLayout
+        android:id="@+id/rl_more_function"
+        android:layout_width="240dp"
         android:layout_height="60dp"
         android:layout_centerInParent="true"
         android:background="@drawable/bg_selector"
-        android:paddingLeft="18dp"
-        android:gravity="center"
         android:visibility="invisible">
-        &lt;!&ndash;android:text="@string/onkeycleandefaultcontent"
-        android:textColor="#DD2A52D2"
-        android:textSize="14sp"
-        android:gravity="center"
-        android:visibility="invisible"&ndash;&gt;
-        <com.ymnet.onekeyclean.cleanmore.customview.MainScrollUpAdvertisementView
-            android:id="@+id/suv_more_function"
+
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="40dp"/>
-    </RelativeLayout>-->
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:id="@+id/btn_more_function"
+                android:layout_width="144dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="55dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:text="@string/onkeycleandefaultcontent"
+                android:textColor="#318cfc"
+                android:textSize="14sp"
+                />
+            <!--android:textColor="#DD2A52D2"-->
+
+            <ImageView
+                android:id="@+id/iv_arrow"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="14dp"
+                android:src="@drawable/flash_arrow_grey_anim"
+                />
+
+            <!--<com.ymnet.onekeyclean.cleanmore.customview.MainScrollUpAdvertisementView
+                android:id="@+id/suv_more_function"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"/>-->
+        </RelativeLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_anim"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        >
 
         <ImageView
             android:id="@+id/imageView_cylindrical"
