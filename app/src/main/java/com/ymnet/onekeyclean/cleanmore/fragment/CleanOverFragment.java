@@ -21,14 +21,13 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ymnet.retrofit2service.RetrofitService;
-import com.ymnet.retrofit2service.bean.NewsInformation;
 import com.example.commonlibrary.utils.ConvertParamsUtils;
 import com.example.commonlibrary.utils.NetworkUtils;
 import com.nineoldandroids.view.ViewHelper;
 import com.ymnet.killbackground.customlistener.MyViewPropertyAnimatorListener;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
+import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
 import com.ymnet.onekeyclean.cleanmore.junk.adapter.RecommendAdapter;
 import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
@@ -43,6 +42,8 @@ import com.ymnet.onekeyclean.cleanmore.wechat.device.DeviceInfo;
 import com.ymnet.onekeyclean.cleanmore.wechat.listener.RecyclerViewClickListener;
 import com.ymnet.onekeyclean.cleanmore.widget.BottomScrollView;
 import com.ymnet.onekeyclean.cleanmore.widget.LinearLayoutItemDecoration;
+import com.ymnet.retrofit2service.RetrofitService;
+import com.ymnet.retrofit2service.bean.NewsInformation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +77,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
     private View mNewsHead;
     private View fl_idle;
     private int width;
+    private BottomScrollView mSv;
 
     public static CleanOverFragment newInstance(Long size) {
         CleanOverFragment fragment = new CleanOverFragment();
@@ -149,10 +151,10 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
         View rootView = getView();
         if (rootView == null)
             return;
-        BottomScrollView sv = (BottomScrollView) rootView.findViewById(R.id.sv_scanfinish);
-        sv.setSmoothScrollingEnabled(true);
+        mSv = (BottomScrollView) rootView.findViewById(R.id.sv_scanfinish);
+        mSv.setSmoothScrollingEnabled(true);
         //滑动到底的监听
-        sv.setOnScrollToBottomListener(new BottomScrollView.OnScrollToBottomListener() {
+        mSv.setOnScrollToBottomListener(new BottomScrollView.OnScrollToBottomListener() {
             @Override
             public void onScrollBottomListener(boolean isBottom) {
                 if (isBottom) {
@@ -182,7 +184,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
                 Log.d("CleanOverFragment", "fl_idle.getMeasuredWidth():" + fl_idle.getMeasuredWidth());
                 fl_idle.setTranslationX(width / 2 - fl_idle.getMeasuredWidth() / 2);
 
-                fl_idle.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                fl_idle.getViewTreeObserver().removeGlobalOnLayoutListener(this);
             }
         });
 
@@ -339,6 +341,8 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
                 intent.putExtra("html", news_url);
                 intent.putExtra("flag", 10);
                 intent.putExtra(OnekeyField.CLEAN_NEWS, "垃圾清理新闻");
+//                saveScrollState = true;
+                ((SilverActivity) getActivity()).newInstance().setState(true);
 
                 startActivity(intent);
 
@@ -418,7 +422,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
                     int count = newsInformation.getCount();
                     adapter.setTotalCount(count);
                     List<NewsInformation.DataBean> data = newsInformation.getData();
-                    Log.d(TAG, "onResponse: data:" + data);
+                    Log.d(TAG, "onResponse: data:" + data.toString());
 
                     moreData.addAll(data);
                     adapter.notifyDataSetChanged();
@@ -433,4 +437,19 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        boolean state = ((SilverActivity) getActivity()).getState();
+        if (state) {
+//            mEmptySv.scrollTo(0, 0);
+            mSv.scrollTo(0, 0);
+        }
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+//        saveScrollState = false;
+        ((SilverActivity) getActivity()).newInstance().setState(true);
+    }
 }

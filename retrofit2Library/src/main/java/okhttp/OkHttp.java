@@ -64,7 +64,7 @@ public enum  OkHttp {
                 Log.i("LogTAG","request.body() == null");
             }
             //打印url信息
-            Log.i("LogTAG",request.url() + (request.body() != null ? "?" + _parseParams(request.body(), requestBuffer) : ""));
+            Log.e("LogTAG",request.url() + (request.body() != null ? "?" + _parseParams(request.body(), requestBuffer) : ""));
             final Response response = chain.proceed(request);
             return response;
         }

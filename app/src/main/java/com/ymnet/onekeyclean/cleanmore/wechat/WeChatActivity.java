@@ -146,6 +146,7 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        saveScrollState =false;
     }
 
     @Override

@@ -1,10 +1,9 @@
 package error_handler;
 
-import android.util.Log;
-
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+
 import retrofit2.Call;
 import retrofit2.CallAdapter;
 import retrofit2.Response;
@@ -24,17 +23,14 @@ public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory{
     private final RxJavaCallAdapterFactory original;
     private RxErrorHandlingCallAdapterFactory() {
         original = RxJavaCallAdapterFactory.create();
-        Log.i("tag---",original.toString());
     }
 
     public static CallAdapter.Factory create() {
-        Log.i("tag","aaa");
         return new RxErrorHandlingCallAdapterFactory();
     }
 
     @Override
     public CallAdapter<?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
-        Log.i("tag---",returnType.toString());
         return new RxCallAdapterWrapper(retrofit, original.get(returnType, annotations, retrofit));
     }
 
@@ -45,7 +41,6 @@ public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory{
         public RxCallAdapterWrapper(Retrofit retrofit, CallAdapter<?> wrapped) {
             this.retrofit = retrofit;
             this.wrapped = wrapped;
-            Log.i("tag---",wrapped.toString());
         }
 
         @Override

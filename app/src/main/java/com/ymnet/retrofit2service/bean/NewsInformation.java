@@ -189,5 +189,34 @@ public class NewsInformation implements Serializable{
         public void setThumbnail_pic_s3(String thumbnail_pic_s3) {
             this.thumbnail_pic_s3 = thumbnail_pic_s3;
         }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "id=" + id +
+                    ", title='" + title + '\'' +
+                    ", author_name='" + author_name + '\'' +
+                    ", pics='" + pics + '\'' +
+                    ", news_url='" + news_url + '\'' +
+                    ", type='" + type + '\'' +
+                    ", show_type=" + show_type +
+                    ", publish_time='" + publish_time + '\'' +
+                    ", source='" + source + '\'' +
+                    ", thumbnail_pic_s1='" + thumbnail_pic_s1 + '\'' +
+                    ", thumbnail_pic_s2='" + thumbnail_pic_s2 + '\'' +
+                    ", thumbnail_pic_s3='" + thumbnail_pic_s3 + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "NewsInformation{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", page=" + page +
+                ", count=" + count +
+                ", data=" + data +
+                '}';
     }
 }

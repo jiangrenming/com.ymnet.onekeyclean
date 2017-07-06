@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
+              android:layout_width="wrap_content"
               android:layout_height="match_parent"
               android:orientation="horizontal">
 
@@ -14,17 +14,18 @@
             android:id="@+id/author_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingRight="15dp"
             android:text="东方凤凰网"
-            android:textColor="@color/black"
-            android:textSize="12sp"/>
+            android:textColor="#999999"
+            android:textSize="12sp"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/publish_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="15dp"
             android:text="05-4 07:50"
-            android:textColor="@color/black"
+            android:textColor="#999999"
             android:textSize="12sp"/>
     </LinearLayout>
 

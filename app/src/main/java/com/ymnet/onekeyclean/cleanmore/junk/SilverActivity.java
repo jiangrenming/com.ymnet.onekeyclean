@@ -1,6 +1,7 @@
 package com.ymnet.onekeyclean.cleanmore.junk;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.TransitionDrawable;
@@ -69,6 +70,16 @@ public class SilverActivity extends ImmersiveActivity implements View.OnClickLis
     private TransitionDrawable currentDrawable;
     private int transitionAnimationDuration = 1000;
     private int from                        = -1;//1为来自管理,2为微信
+    private boolean state;
+    private  boolean saveScrollState =false;
+    private SilverActivity newInstance;
+
+    public SilverActivity newInstance() {
+        if (newInstance == null) {
+            newInstance = new SilverActivity();
+        }
+        return newInstance;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +105,19 @@ public class SilverActivity extends ImmersiveActivity implements View.OnClickLis
         initScan();
         from = getIntent().getIntExtra("from", -1);
 
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        state = true;
+    }
+
+    public boolean getState() {
+        return state;
+    }
+    public void setState(boolean b) {
+        state = b;
     }
 
     @Override

@@ -15,9 +15,9 @@ import java.util.Set;
 
 public class ConvertParamsUtils {
 
-    private static  Map<String ,String> params ;
+    public static  Map<String ,String> params ;
 
-    private static ConvertParamsUtils convertParams;
+    public static ConvertParamsUtils convertParams;
 
     public static ConvertParamsUtils getInstatnce(){
         if (convertParams == null){
