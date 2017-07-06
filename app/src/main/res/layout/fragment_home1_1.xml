@@ -6,12 +6,6 @@
     android:orientation="vertical"
     tools:context="com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.HomeFragment">
 
-    <!--<ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:overScrollMode="never"
-        android:scrollbars="none">-->
-
         <com.ymnet.onekeyclean.cleanmore.widget.StickyLayout
             android:id="@+id/sticky_layout"
             android:layout_width="match_parent"
@@ -79,10 +73,6 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <!--@drawable/timg2-->
-                <!--android:layout_height="164dp"-->
-
             </LinearLayout>
         </com.ymnet.onekeyclean.cleanmore.widget.StickyLayout>
-    <!--</ScrollView>-->
 </LinearLayout>
