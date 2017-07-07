@@ -1,4 +1,4 @@
-package com.ymnet.onekeyclean.cleanmore;
+package com.ymnet.onekeyclean.cleanmore.home;
 
 
 import android.net.Uri;
@@ -8,13 +8,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.commonlibrary.utils.ConvertParamsUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.ImmersiveActivity;
 import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.Fragment2;
 import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.Fragment3;
 import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.Fragment4;
@@ -24,29 +25,25 @@ import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
 import com.ymnet.onekeyclean.cleanmore.web.JumpUtil;
 import com.ymnet.retrofit2service.RetrofitService;
-import com.ymnet.retrofit2service.bean.NewsInformation;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.ymnet.retrofit2service.api.GithubApi.url;
-
 
 public class HomeActivity extends ImmersiveActivity implements Fragment2.OnFragmentInteractionListener, Fragment3.OnFragmentInteractionListener, Fragment4.OnFragmentInteractionListener {
 
     private static final String TAG = "HomeActivity";
-    private static HomeActivity mInstance;
-    private ViewPager mViewPager;
-    private TabLayout              mTabLayout;
-    private MyFragmentPagerAdapter myFragmentPagerAdapter;
-    public  FragmentManager        mFM;
-    public static boolean isVisible;
-    private ImageView mAdvertisement;
+    private static HomeActivity           mInstance;
+    private        ViewPager              mViewPager;
+    private        TabLayout              mTabLayout;
+    private        MyFragmentPagerAdapter myFragmentPagerAdapter;
+    public         FragmentManager        mFM;
+    public static  boolean                isVisible;
+    private        ImageView              mAdvertisement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,40 +120,55 @@ public class HomeActivity extends ImmersiveActivity implements Fragment2.OnFragm
 
     private void initAdvertisement() {
         mAdvertisement = (ImageView) findViewById(R.id.iv_clean_advertisement);
-//        requestData();
+        requestData();
 
     }
 
     private void requestData() {
-        Map<String, String> infosPamarms = ConvertParamsUtils.getInstatnce().getParamsOne("","");
+        Map<String, String> infosPamarms = ConvertParamsUtils.getInstatnce().getParamsOne("", "");
 
-        RetrofitService.getInstance().githubApi.createInfomationsTwo(infosPamarms).enqueue(new Callback<NewsInformation>() {
+        RetrofitService.getInstance().githubApi.createHomeAD(infosPamarms).enqueue(new Callback<HomeToolBarAD>() {
             @Override
-            public void onResponse(Call<NewsInformation> call, Response<NewsInformation> response) {
+            public void onResponse(Call<HomeToolBarAD> call, Response<HomeToolBarAD> response) {
                 if (response.raw().body() != null) {
-                    NewsInformation newsInformation = response.body();
-                    int count = newsInformation.getCount();
-//                    adapter.setTotalCount(count);
-                    List<NewsInformation.DataBean> data = newsInformation.getData();
-                    Log.d(TAG, "onResponse: data:" + data.toString());
-
-//                    moreData.addAll(data);
-//                    adapter.notifyDataSetChanged();
-                    //如果获取的数据需要展示
-                    mAdvertisement.setVisibility(View.VISIBLE);
-                    //else
-                    mAdvertisement.setVisibility(View.GONE);
-                    mAdvertisement.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            JumpUtil.getInstance().unJumpAddress(C.get(), url, 10);
+                    HomeToolBarAD body = response.body();
+                    String open_ad = null;
+                    final String url;
+                    String icon = null;
+                    try {
+                        open_ad = body.getData().getOpen_ad();
+                        url = body.getData().getUrl();
+                        icon = body.getData().getIcon();
+                        String key = body.getData().getKey();
+                        //如果获取的数据需要展示
+                        if (open_ad.equals("on")) {
+                            if (key.equals("bianxianmao")) {
+                                mAdvertisement.setImageResource(R.drawable.bianxianmao);
+                            } else {
+                                Glide.with(HomeActivity.this).load(icon).into(mAdvertisement);
+                            }
+                            mAdvertisement.setVisibility(View.VISIBLE);
+                        } else {
+                            mAdvertisement.setVisibility(View.GONE);
                         }
-                    });
+                        mAdvertisement.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                JumpUtil.getInstance().unJumpAddress(C.get(), url, 10);
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        MobclickAgent.reportError(C.get(), e.fillInStackTrace());
+                        mAdvertisement.setVisibility(View.GONE);
+                    }
+
                 }
             }
 
             @Override
-            public void onFailure(Call<NewsInformation> call, Throwable t) {
+            public void onFailure(Call<HomeToolBarAD> call, Throwable t) {
+                mAdvertisement.setVisibility(View.GONE);
             }
         });
     }

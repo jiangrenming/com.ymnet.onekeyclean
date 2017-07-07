@@ -160,7 +160,7 @@
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:theme="@style/Activity_Translate_Theme"/>
+            />
         <activity
             android:name=".cleanmore.junk.SilverActivity"
             android:launchMode="singleInstance"
@@ -185,7 +185,7 @@
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:theme="@style/Activity_Translate_Theme">
+            >
         </activity>
         <activity
             android:name=".cleanmore.qq.QQDetailActivity"
@@ -304,7 +304,7 @@
         </receiver>
 
         <activity
-            android:name=".cleanmore.HomeActivity"
+            android:name=".cleanmore.home.HomeActivity"
             android:launchMode="singleInstance">
         </activity>
         <!-- 供外部开启任务管理器的activity -->
@@ -324,8 +324,9 @@
             </intent-filter>
         </activity>
         -->
-        <activity android:name=".cleanmore.uninstall.activity.UninstallActivity"
-                  android:launchMode="singleInstance">
+        <activity
+            android:name=".cleanmore.uninstall.activity.UninstallActivity"
+            android:launchMode="singleInstance">
         </activity>
 
         <receiver android:name=".cleanmore.uninstall.model.AppInstallReceiver">
@@ -343,17 +344,29 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".cleanmore.fragment.activity.FileManagerActivity">
+        <activity
+            android:name=".cleanmore.fragment.activity.FileManagerActivity"
+            android:launchMode="singleInstance">
         </activity>
-        <activity android:name=".cleanmore.fragment.activity.PicManagerActivity">
+        <activity
+            android:name=".cleanmore.fragment.activity.PicManagerActivity"
+            android:launchMode="singleInstance">
         </activity>
-        <activity android:name=".cleanmore.fragment.activity.MusicManagerActivity">
+        <activity
+            android:name=".cleanmore.fragment.activity.MusicManagerActivity"
+            android:launchMode="singleInstance">
         </activity>
-        <activity android:name=".cleanmore.fragment.activity.VideoManagerActivity">
+        <activity
+            android:name=".cleanmore.fragment.activity.VideoManagerActivity"
+            android:launchMode="singleInstance">
         </activity>
-        <activity android:name=".cleanmore.fragment.activity.ApkManagerActivity">
+        <activity
+            android:name=".cleanmore.fragment.activity.ApkManagerActivity"
+            android:launchMode="singleInstance">
         </activity>
-        <activity android:name=".cleanmore.fragment.activity.PackageManagerActivity">
+        <activity
+            android:name=".cleanmore.fragment.activity.PackageManagerActivity"
+            android:launchMode="singleInstance">
         </activity>
     </application>
 

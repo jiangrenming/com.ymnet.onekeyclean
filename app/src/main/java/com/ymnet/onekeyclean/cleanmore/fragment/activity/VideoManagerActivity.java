@@ -278,6 +278,7 @@ public class VideoManagerActivity extends ImmersiveActivity implements View.OnCl
                     noData.setVisibility(View.VISIBLE);
                 }
                 deleteMap.clear();
+                changeTitle(C.get());
                 adapter.setDate(mInfos, deleteMap);
             }
 

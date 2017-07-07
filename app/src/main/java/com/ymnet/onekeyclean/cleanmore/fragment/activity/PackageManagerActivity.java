@@ -279,6 +279,7 @@ public class PackageManagerActivity extends ImmersiveActivity implements View.On
                     noData.setVisibility(View.VISIBLE);
                 }
                 deleteMap.clear();
+                changeTitle(C.get());
                 adapter.setDate(mInfos, deleteMap);
             }
 

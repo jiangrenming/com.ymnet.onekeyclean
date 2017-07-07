@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="#fff"
     android:orientation="vertical"
-    tools:context="com.ymnet.onekeyclean.cleanmore.HomeActivity">
+    tools:context="com.ymnet.onekeyclean.cleanmore.home.HomeActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -34,6 +34,8 @@
             android:textSize="19dp"/>
 
         <ImageView
+            android:visibility="gone"
+            android:scaleType="fitCenter"
             android:id="@+id/iv_clean_advertisement"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -43,7 +45,7 @@
             android:background="@drawable/clean_setting_bg"
             android:paddingLeft="@dimen/dp11"
             android:paddingRight="@dimen/dp11"
-            android:src="@drawable/setting_icon"/>
+            android:src="@drawable/bianxianmao"/>
     </RelativeLayout>
 
     <android.support.v4.view.ViewPager

@@ -311,6 +311,7 @@ public class PicManagerActivity extends ImmersiveActivity implements View.OnClic
                     noData.setVisibility(View.VISIBLE);
                 }
                 deleteMap.clear();
+                changeTitle(C.get());
                 adapter.setDate(mInfos, deleteMap);
             }
 

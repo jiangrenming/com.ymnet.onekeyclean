@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
     private ProgressWheel mProgressWheel;
     private TextView      tv_memory_size_desc;
     private View          mView_head;
-    private View          mFlHomeBottom;
+//    private View          mFlHomeBottom;
 
     class MyHandler extends Handler {
 
@@ -142,7 +142,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
 
         mStickyHead = view.findViewById(R.id.sticky_header);
         mHeadContent = view.findViewById(R.id.ll_head_content);
-        mFlHomeBottom = view.findViewById(R.id.fl_home_arrow);
+//        mFlHomeBottom = view.findViewById(R.id.fl_home_arrow);
 
         mStickLayout = (StickyLayout) view.findViewById(R.id.sticky_layout);
         mStickLayout.setOnGiveUpTouchEventListener(this);
@@ -213,12 +213,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
 
             @Override
             public void isMoving() {
+                /*//监控主页面是否在顶部的状态
                 int status = mStickLayout.getStatus();
                 if (status == 1) {
                     mFlHomeBottom.setVisibility(View.VISIBLE);
                 } else {
                     mFlHomeBottom.setVisibility(View.GONE);
-                }
+                }*/
             }
         });
 

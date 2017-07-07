@@ -15,7 +15,7 @@ import android.widget.RemoteViews;
 
 import com.example.commonlibrary.utils.PhoneModel;
 import com.ymnet.onekeyclean.R;
-import com.ymnet.onekeyclean.cleanmore.HomeActivity;
+import com.ymnet.onekeyclean.cleanmore.home.HomeActivity;
 import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
 import com.ymnet.onekeyclean.cleanmore.uninstall.activity.UninstallActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;

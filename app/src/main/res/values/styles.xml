@@ -10,7 +10,7 @@
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowContentOverlay">@null</item>
         <!--<item name="android:fitsSystemWindows">true</item>沉浸式-->
-        <item name="android:windowAnimationStyle">@style/translate_activity_in_out</item>
+        <!--<item name="android:windowAnimationStyle">@style/translate_activity_in_out</item>
         <item name="android:activityOpenEnterAnimation">@style/translate_activity_in_out</item>
         <item name="android:activityOpenExitAnimation">@style/translate_activity_in_out</item>
         <item name="android:activityCloseEnterAnimation">@style/translate_activity_in_out</item>
@@ -22,7 +22,7 @@
         <item name="android:taskToFrontEnterAnimation">@style/translate_activity_in_out</item>
         <item name="android:taskToFrontExitAnimation">@style/translate_activity_in_out</item>
         <item name="android:taskToBackEnterAnimation">@style/translate_activity_in_out</item>
-        <item name="android:taskToBackExitAnimation">@style/translate_activity_in_out</item>
+        <item name="android:taskToBackExitAnimation">@style/translate_activity_in_out</item>-->
     </style>
 
     <style name="wechat_text_defalut_style">
@@ -158,7 +158,7 @@
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowContentOverlay">@null</item>
         <!--<item name="android:fitsSystemWindows">true</item>沉浸式-->
-        <item name="android:windowAnimationStyle">@style/translate_activity_in_out</item>
+        <!--<item name="android:windowAnimationStyle">@style/translate_activity_in_out</item>
         <item name="android:activityOpenEnterAnimation">@style/translate_activity_in_out</item>
         <item name="android:activityOpenExitAnimation">@style/translate_activity_in_out</item>
         <item name="android:activityCloseEnterAnimation">@style/translate_activity_in_out</item>
@@ -170,7 +170,7 @@
         <item name="android:taskToFrontEnterAnimation">@style/translate_activity_in_out</item>
         <item name="android:taskToFrontExitAnimation">@style/translate_activity_in_out</item>
         <item name="android:taskToBackEnterAnimation">@style/translate_activity_in_out</item>
-        <item name="android:taskToBackExitAnimation">@style/translate_activity_in_out</item>
+        <item name="android:taskToBackExitAnimation">@style/translate_activity_in_out</item>-->
     </style>
 
     <style name="translate_activity_in_out">
@@ -250,7 +250,7 @@
         <item name="android:button">@null</item>
         <item name="android:drawablePadding">0dp</item>
         <item name="android:drawableRight">@drawable/checkbox_bg</item>
-        <item name="android:paddingRight">20dp</item>
+        <item name="android:padding">20dp</item>
     </style>
 
     <style name="File_Item_Image">

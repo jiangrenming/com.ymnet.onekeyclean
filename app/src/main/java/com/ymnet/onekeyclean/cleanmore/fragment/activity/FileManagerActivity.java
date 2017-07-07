@@ -307,6 +307,7 @@ public class FileManagerActivity extends ImmersiveActivity implements View.OnCli
                     noData.setVisibility(View.VISIBLE);
                 }
                 deleteMap.clear();
+                changeTitle(C.get());
                 adapter.setDate(mInfos, deleteMap);
             }
 

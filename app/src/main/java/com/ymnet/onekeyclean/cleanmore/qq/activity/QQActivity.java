@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.commonlibrary.utils.NetworkUtils;
 import com.example.commonlibrary.utils.ScreenUtil;
 import com.nineoldandroids.view.ViewHelper;
@@ -34,6 +35,7 @@ import com.ymnet.onekeyclean.cleanmore.animation.TweenAnimationUtils;
 import com.ymnet.onekeyclean.cleanmore.constants.QQConstants;
 import com.ymnet.onekeyclean.cleanmore.customview.DividerItemDecoration;
 import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
+import com.ymnet.onekeyclean.cleanmore.home.HomeToolBarAD;
 import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
 import com.ymnet.onekeyclean.cleanmore.qq.QQDetailActivity;
 import com.ymnet.onekeyclean.cleanmore.qq.QQScanHelp;
@@ -49,6 +51,7 @@ import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
 import com.ymnet.onekeyclean.cleanmore.utils.ToastUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
+import com.ymnet.onekeyclean.cleanmore.web.JumpUtil;
 import com.ymnet.onekeyclean.cleanmore.web.WebHtmlActivity;
 import com.ymnet.onekeyclean.cleanmore.wechat.WeChatActivity;
 import com.ymnet.onekeyclean.cleanmore.wechat.adapter.WeChatRecommendAdapter;
@@ -113,6 +116,7 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
     private boolean saveScrollState=false;
     private BottomScrollView mSv;
     private BottomScrollView mEmptySv;
+    private ImageView mAdvertisement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -698,6 +702,61 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
                 }
             });
         }
+
+        initAdvertisement();
+    }
+    private void initAdvertisement() {
+        mAdvertisement = (ImageView) findViewById(R.id.iv_clean_advertisement);
+        requestData();
+    }
+
+    private void requestData() {
+        Map<String, String> infosPamarms = com.example.commonlibrary.utils.ConvertParamsUtils.getInstatnce().getParamsOne("", "");
+
+        RetrofitService.getInstance().githubApi.createHomeAD(infosPamarms).enqueue(new Callback<HomeToolBarAD>() {
+            @Override
+            public void onResponse(Call<HomeToolBarAD> call, Response<HomeToolBarAD> response) {
+                if (response.raw().body() != null) {
+                    HomeToolBarAD body = response.body();
+                    String open_ad = null;
+                    final String url;
+                    String icon = null;
+                    try {
+                        open_ad = body.getData().getOpen_ad();
+                        url = body.getData().getUrl();
+                        icon = body.getData().getIcon();
+                        String key = body.getData().getKey();
+                        //如果获取的数据需要展示
+                        if (open_ad.equals("on")) {
+                            if (key.equals("bianxianmao")) {
+                                mAdvertisement.setImageResource(R.drawable.bianxianmao);
+                            } else {
+                                Glide.with(C.get()).load(icon).into(mAdvertisement);
+                            }
+                            mAdvertisement.setVisibility(View.VISIBLE);
+                        } else {
+                            mAdvertisement.setVisibility(View.GONE);
+                        }
+                        mAdvertisement.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                JumpUtil.getInstance().unJumpAddress(C.get(), url, 10);
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        MobclickAgent.reportError(C.get(), e.fillInStackTrace());
+                        mAdvertisement.setVisibility(View.GONE);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HomeToolBarAD> call, Throwable t) {
+                mAdvertisement.setVisibility(View.GONE);
+            }
+        });
     }
 
     int count = 0;

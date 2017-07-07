@@ -2,6 +2,7 @@ package com.ymnet.retrofit2service.api;
 
 
 import com.ymnet.killbackground.model.bean.CleanEntrance;
+import com.ymnet.onekeyclean.cleanmore.home.HomeToolBarAD;
 import com.ymnet.retrofit2service.bean.InformationResult;
 import com.ymnet.retrofit2service.bean.NewsInformation;
 import com.ymnet.retrofit2service.bean.WeChatNewsInformation;
@@ -71,4 +72,8 @@ public interface GithubApi {
     @FormUrlEncoded
     @POST("api/app/getClearRecommend")
     Call<CleanEntrance> createClearRecommend(@FieldMap Map<String, String> value);
+
+    @FormUrlEncoded
+    @POST("api/app/getClearFloatAd")
+    Call<HomeToolBarAD> createHomeAD(@FieldMap Map<String, String> value);
 }

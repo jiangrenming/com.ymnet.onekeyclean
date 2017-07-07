@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.home.HomeActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.wechat.activity.SystemBarTintManager;
 import com.ymnet.onekeyclean.cleanmore.wechat.view.BaseFragmentActivity;

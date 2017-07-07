@@ -3,6 +3,7 @@ package com.ymnet.onekeyclean.cleanmore.uninstall.activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
@@ -28,6 +29,8 @@ public class UninstallActivity extends ImmersiveActivity {
 
     private static final String uninstallFragmentTag = "uninstall";
     private List<AppInfo> mAppInfo = new ArrayList<>();
+    private ImageView mAdvertisement;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +59,9 @@ public class UninstallActivity extends ImmersiveActivity {
                 finish();
             }
         });
+
+        /*mAdvertisement = (ImageView) findViewById(R.id.iv_clean_advertisement);
+        mAdvertisement.setVisibility(View.GONE);*/
     }
 
     private void initFragment() {

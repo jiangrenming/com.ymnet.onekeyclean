@@ -39,7 +39,7 @@ import com.ymnet.killbackground.presenter.CleanPresenterImpl;
 import com.ymnet.killbackground.utils.Run;
 import com.ymnet.killbackground.view.customwidget.Wheel;
 import com.ymnet.onekeyclean.R;
-import com.ymnet.onekeyclean.cleanmore.HomeActivity;
+import com.ymnet.onekeyclean.cleanmore.home.HomeActivity;
 import com.ymnet.onekeyclean.cleanmore.customview.MainScrollUpAdvertisementView;
 import com.ymnet.onekeyclean.cleanmore.notification.NotifyService;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
