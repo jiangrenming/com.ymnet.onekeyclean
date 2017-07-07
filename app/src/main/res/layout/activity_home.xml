@@ -10,34 +10,47 @@
     android:orientation="vertical"
     tools:context="com.ymnet.onekeyclean.cleanmore.HomeActivity">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp48"
-            android:background="@color/main_blue_new1">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp48"
+        android:background="@color/main_blue_new1"
+        android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/junk_title_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="@dimen/dp15"
-                android:drawablePadding="0.0dip"
-                android:gravity="center"
-                android:shadowColor="#39000000"
-                android:shadowDx="0.0"
-                android:shadowDy="6.0"
-                android:shadowRadius="6.0"
-                android:singleLine="true"
-                android:text="一键清理"
-                android:textColor="@color/white"
-                android:textSize="19dp"/>
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/junk_title_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/dp15"
+            android:drawablePadding="0.0dip"
+            android:gravity="center"
+            android:shadowColor="#39000000"
+            android:shadowDx="0.0"
+            android:shadowDy="6.0"
+            android:shadowRadius="6.0"
+            android:singleLine="true"
+            android:text="一键清理"
+            android:textColor="@color/white"
+            android:textSize="19dp"/>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/iv_clean_advertisement"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/clean_setting_bg"
+            android:paddingLeft="@dimen/dp11"
+            android:paddingRight="@dimen/dp11"
+            android:src="@drawable/setting_icon"/>
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
     <!--  &lt;!&ndash;app:tabBackground="@drawable/selected"&ndash;&gt;
       <android.support.design.widget.TabLayout

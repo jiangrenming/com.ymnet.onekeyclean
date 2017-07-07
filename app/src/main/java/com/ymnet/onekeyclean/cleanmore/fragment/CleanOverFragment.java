@@ -310,8 +310,6 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
             foot = LayoutInflater.from(C.get()).inflate(R.layout.recycler_view_layout_progress, rv, false);
             mNewsHead.setVisibility(View.VISIBLE);
         } else {
-//            foot = LayoutInflater.from(C.get()).inflate(R.layout.footer_no_data, rv, false);
-//            foot.findViewById(R.id.footer_more).setOnClickListener(this);
             RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DisplayUtil.dip2px(C.get(), 6));
             foot = new View(getActivity());
             foot.setLayoutParams(lp);
@@ -341,8 +339,8 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
                 intent.putExtra("html", news_url);
                 intent.putExtra("flag", 10);
                 intent.putExtra(OnekeyField.CLEAN_NEWS, "垃圾清理新闻");
-//                saveScrollState = true;
-                ((SilverActivity) getActivity()).newInstance().setState(true);
+
+                ((SilverActivity) getActivity()).newInstance().setState(false);
 
                 startActivity(intent);
 
@@ -438,6 +436,12 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         boolean state = ((SilverActivity) getActivity()).getState();
@@ -449,7 +453,6 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onStop() {
         super.onStop();
-//        saveScrollState = false;
         ((SilverActivity) getActivity()).newInstance().setState(true);
     }
 }

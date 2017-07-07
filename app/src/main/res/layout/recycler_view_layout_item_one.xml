@@ -30,7 +30,7 @@
                 android:padding="5dp"
                 android:text="少时诵诗书所所所付"
                 android:textColor="#333333"
-                android:textSize="17sp"/>
+                android:textSize="16sp"/>
 
             <RelativeLayout
                 android:paddingTop="5dp"

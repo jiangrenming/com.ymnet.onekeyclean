@@ -23,15 +23,24 @@
         android:textSize="17dp" />
 
      
-     <!-- <ImageView
-            android:id="@+id/iv_clean_setting"
+      <ImageView
+            android:id="@+id/iv_clean_advertisement"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/clean_setting_bg"
             android:paddingLeft="11dip"
             android:paddingRight="11dip"
-            android:src="@drawable/setting_icon" />-->
-
+            android:src="@drawable/setting_icon" />
+    <!--<ImageView
+        android:id="@+id/iv_clean_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/clean_setting_bg"
+        android:paddingLeft="11dip"
+        android:paddingRight="11dip"
+        android:src="@drawable/setting_icon" />-->
 </RelativeLayout>

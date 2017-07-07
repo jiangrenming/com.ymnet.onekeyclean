@@ -96,7 +96,8 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
             NewsInformation.DataBean moreData = data.get(position);
 
             if (moreData != null) {
-                viewHolder.author_name.setText(moreData.getAuthor_name());
+//                viewHolder.author_name.setText(moreData.getAuthor_name());
+                viewHolder.author_name.setText(moreData.getSource());
                 viewHolder.publish_time.setText(moreData.getPublish_time());
                 viewHolder.new_title.setText(moreData.getTitle());
                 Glide.with(C.get()).load(moreData.getThumbnail_pic_s1()).asBitmap().into(viewHolder.img1);
@@ -109,7 +110,8 @@ public class RecommendAdapter extends RecyclerViewPlus.HeaderFooterItemAdapter i
             }
         } else if (holder instanceof OneImagViewHolder) {
             OneImagViewHolder oneImagHolder = (OneImagViewHolder) holder;
-            oneImagHolder.author_name.setText(data.get(position).getAuthor_name());
+//            oneImagHolder.author_name.setText(data.get(position).getAuthor_name());
+            oneImagHolder.author_name.setText(data.get(position).getSource());
             oneImagHolder.publish_time.setText(data.get(position).getPublish_time());
             oneImagHolder.content.setText(data.get(position).getTitle());
             Glide.with(C.get()).load(data.get(position).getThumbnail_pic_s1()).asBitmap().into(oneImagHolder.img);

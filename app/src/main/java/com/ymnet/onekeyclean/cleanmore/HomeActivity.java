@@ -8,7 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
+import com.example.commonlibrary.utils.ConvertParamsUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.Fragment2;
@@ -16,20 +20,33 @@ import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.Fragment3;
 import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.Fragment4;
 import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.HomeFragment;
 import com.ymnet.onekeyclean.cleanmore.junk.ScanHelp;
+import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
+import com.ymnet.onekeyclean.cleanmore.web.JumpUtil;
+import com.ymnet.retrofit2service.RetrofitService;
+import com.ymnet.retrofit2service.bean.NewsInformation;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.ymnet.retrofit2service.api.GithubApi.url;
 
 
 public class HomeActivity extends ImmersiveActivity implements Fragment2.OnFragmentInteractionListener, Fragment3.OnFragmentInteractionListener, Fragment4.OnFragmentInteractionListener {
 
+    private static final String TAG = "HomeActivity";
     private static HomeActivity mInstance;
     private ViewPager mViewPager;
     private TabLayout              mTabLayout;
     private MyFragmentPagerAdapter myFragmentPagerAdapter;
     public  FragmentManager        mFM;
     public static boolean isVisible;
+    private ImageView mAdvertisement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +94,8 @@ public class HomeActivity extends ImmersiveActivity implements Fragment2.OnFragm
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         myFragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(myFragmentPagerAdapter);
+
+        initAdvertisement();
        /* //使用适配器将ViewPager与Fragment绑定在一起
 
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -100,6 +119,46 @@ public class HomeActivity extends ImmersiveActivity implements Fragment2.OnFragm
         three.setIcon(R.mipmap.robot);
         four.setIcon(R.mipmap.robot);*/
 
+    }
+
+    private void initAdvertisement() {
+        mAdvertisement = (ImageView) findViewById(R.id.iv_clean_advertisement);
+//        requestData();
+
+    }
+
+    private void requestData() {
+        Map<String, String> infosPamarms = ConvertParamsUtils.getInstatnce().getParamsOne("","");
+
+        RetrofitService.getInstance().githubApi.createInfomationsTwo(infosPamarms).enqueue(new Callback<NewsInformation>() {
+            @Override
+            public void onResponse(Call<NewsInformation> call, Response<NewsInformation> response) {
+                if (response.raw().body() != null) {
+                    NewsInformation newsInformation = response.body();
+                    int count = newsInformation.getCount();
+//                    adapter.setTotalCount(count);
+                    List<NewsInformation.DataBean> data = newsInformation.getData();
+                    Log.d(TAG, "onResponse: data:" + data.toString());
+
+//                    moreData.addAll(data);
+//                    adapter.notifyDataSetChanged();
+                    //如果获取的数据需要展示
+                    mAdvertisement.setVisibility(View.VISIBLE);
+                    //else
+                    mAdvertisement.setVisibility(View.GONE);
+                    mAdvertisement.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            JumpUtil.getInstance().unJumpAddress(C.get(), url, 10);
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NewsInformation> call, Throwable t) {
+            }
+        });
     }
 
     @Override

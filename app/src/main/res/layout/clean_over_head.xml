@@ -5,7 +5,9 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <include layout="@layout/clean_over_item_body"/>
+    <include
+        layout="@layout/clean_over_item_body"
+        android:visibility="gone"/>
 
     <RelativeLayout
         android:id="@+id/rl_qq"
@@ -14,7 +16,8 @@
         android:layout_marginTop="6dp"
         android:background="@drawable/dialog_btn_background_selector"
         android:paddingLeft="12dp"
-        android:paddingRight="12dp">
+        android:paddingRight="12dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/qq_icon"
@@ -61,11 +64,11 @@
 
     <TextView
         android:id="@+id/tv_news_head"
-        android:drawableLeft="@drawable/magazine"
-        android:drawablePadding="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/activity_background_color"
+        android:drawableLeft="@drawable/magazine"
+        android:drawablePadding="5dp"
         android:padding="8dp"
         android:text="每时新闻"
         android:textColor="#9c9c9c"

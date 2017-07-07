@@ -18,7 +18,7 @@
         android:paddingLeft="5dp"
         android:text="少时诵诗书"
         android:textColor="#333333"
-        android:textSize="17sp"/>
+        android:textSize="16sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
