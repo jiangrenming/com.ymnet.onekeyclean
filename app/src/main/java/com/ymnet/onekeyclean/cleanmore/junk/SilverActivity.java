@@ -11,9 +11,11 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.ImmersiveActivity;
@@ -26,6 +28,7 @@ import com.ymnet.onekeyclean.cleanmore.fragment.CleanOverFragment;
 import com.ymnet.onekeyclean.cleanmore.fragment.ScanningFragment;
 import com.ymnet.onekeyclean.cleanmore.fragment.fragmentcontroller.SingleDisplayFragmentController;
 import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.CleanFragmentInfo;
+import com.ymnet.onekeyclean.cleanmore.home.HomeToolBarAD;
 import com.ymnet.onekeyclean.cleanmore.junk.clearstrategy.ClearManager;
 import com.ymnet.onekeyclean.cleanmore.junk.mode.CleaningFragment;
 import com.ymnet.onekeyclean.cleanmore.junk.mode.InstalledAppAndRAM;
@@ -38,12 +41,19 @@ import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.CleanSetSharedPreferences;
 import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
+import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
+import com.ymnet.onekeyclean.cleanmore.web.JumpUtil;
+import com.ymnet.retrofit2service.RetrofitService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class SilverActivity extends ImmersiveActivity implements View.OnClickListener, ScanHelp.IScanResult, ScanFinishFragment.OnScanFinishFragmentInteractionListener, CleaningFragment.OnCleanFragmentEndListener {
@@ -73,6 +83,7 @@ public class SilverActivity extends ImmersiveActivity implements View.OnClickLis
     private boolean state;
     private  boolean saveScrollState =false;
     private SilverActivity newInstance;
+    private ImageView mAdvertisement;
 
     public SilverActivity newInstance() {
         if (newInstance == null) {
@@ -225,6 +236,66 @@ public class SilverActivity extends ImmersiveActivity implements View.OnClickLis
         junk_title_txt.setOnClickListener(this);
         btn_stop.setOnClickListener(this);
         btn_stop.setTag("stop");
+
+        initAdvertisement();
+    }
+    private void initAdvertisement() {
+        mAdvertisement = (ImageView) findViewById(R.id.iv_clean_advertisement);
+        requestData();
+    }
+
+    private void requestData() {
+        Map<String, String> infosPamarms = com.example.commonlibrary.utils.ConvertParamsUtils.getInstatnce().getParamsOne("", "");
+
+        RetrofitService.getInstance().githubApi.createHomeAD(infosPamarms).enqueue(new Callback<HomeToolBarAD>() {
+            @Override
+            public void onResponse(Call<HomeToolBarAD> call, Response<HomeToolBarAD> response) {
+                if (response.raw().body() != null) {
+                    HomeToolBarAD body = response.body();
+                    String open_ad = null;
+                    final String url;
+                    String icon = null;
+                    try {
+                        open_ad = body.getData().getOpen_ad();
+                        url = body.getData().getUrl();
+                        icon = body.getData().getIcon();
+                        String key = body.getData().getKey();
+                        //如果获取的数据需要展示
+                        if (open_ad.equals("on")) {
+                            if (key.equals("bianxianmao")) {
+                                mAdvertisement.setImageResource(R.drawable.bianxianmao);
+                            } else {
+                                Glide.with(C.get()).load(icon).into(mAdvertisement);
+                            }
+                            mAdvertisement.setVisibility(View.VISIBLE);
+                        } else {
+                            mAdvertisement.setVisibility(View.GONE);
+                        }
+                        mAdvertisement.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                Map<String, String> m = new HashMap<>();
+                                m.put(OnekeyField.ONEKEYCLEAN, "垃圾清理ToolBar");
+                                MobclickAgent.onEvent(C.get(), StatisticMob.STATISTIC_FLOATAD_ID, m);
+
+                                JumpUtil.getInstance().unJumpAddress(C.get(), url, 10);
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        MobclickAgent.reportError(C.get(), e.fillInStackTrace());
+                        mAdvertisement.setVisibility(View.GONE);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HomeToolBarAD> call, Throwable t) {
+                mAdvertisement.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void revertBtn() {

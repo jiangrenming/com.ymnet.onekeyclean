@@ -23,6 +23,7 @@ import com.ymnet.onekeyclean.cleanmore.fragment.mainfragment.HomeFragment;
 import com.ymnet.onekeyclean.cleanmore.junk.ScanHelp;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
+import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.web.JumpUtil;
 import com.ymnet.retrofit2service.RetrofitService;
 
@@ -154,7 +155,13 @@ public class HomeActivity extends ImmersiveActivity implements Fragment2.OnFragm
                         mAdvertisement.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+
+                                Map<String, String> m = new HashMap<>();
+                                m.put(OnekeyField.ONEKEYCLEAN, "主页面ToolBar");
+                                MobclickAgent.onEvent(C.get(), StatisticMob.STATISTIC_FLOATAD_ID, m);
+
                                 JumpUtil.getInstance().unJumpAddress(C.get(), url, 10);
+
                             }
                         });
                     } catch (Exception e) {

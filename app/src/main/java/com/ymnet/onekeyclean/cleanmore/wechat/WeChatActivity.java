@@ -44,6 +44,7 @@ import com.ymnet.onekeyclean.cleanmore.utils.CleanSetSharedPreferences;
 import com.ymnet.onekeyclean.cleanmore.utils.DisplayUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.FormatUtils;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
+import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
 import com.ymnet.onekeyclean.cleanmore.utils.ToastUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
 import com.ymnet.onekeyclean.cleanmore.web.JumpUtil;
@@ -250,6 +251,11 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
                         mAdvertisement.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+
+                                Map<String, String> m = new HashMap<>();
+                                m.put(OnekeyField.ONEKEYCLEAN, "微信清理ToolBar");
+                                MobclickAgent.onEvent(C.get(), StatisticMob.STATISTIC_FLOATAD_ID, m);
+
                                 JumpUtil.getInstance().unJumpAddress(C.get(), url, 10);
                             }
                         });

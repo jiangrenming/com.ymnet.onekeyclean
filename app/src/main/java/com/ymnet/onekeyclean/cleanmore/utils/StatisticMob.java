@@ -10,4 +10,5 @@ public class StatisticMob {
     public static final String STATISTIC_ID = "clean";
     public static final String STATISTIC_NEWS_ID = "news";
     public static final String STATISTIC_HOME_ID = "home";
+    public static final String STATISTIC_FLOATAD_ID = "float_ad";
 }
