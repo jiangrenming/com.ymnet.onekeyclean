@@ -65,7 +65,7 @@ public class NewsInformation implements Serializable{
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
          * id : 2482999
          * title : 男子因感情纠纷持刀劫持前妻 民警赴现场解救人质

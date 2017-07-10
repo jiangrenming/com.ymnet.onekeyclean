@@ -45,7 +45,7 @@ public class WeChatNewsInformation implements Serializable {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
          * result : [{"id":"18554","title":"揭地下卵子交易：美女一颗5万 90万定制男宝宝","author_name":"","pics":"[\"http://i.jun4.com/d/file/2017-06-12/b7f77995c534806f9867bbcc1c665964.jpg\"]","news_url":"http://4g.yigouu.com/04/shehui/20170612/10152.html","type":"all","show_type":"3","publish_time":"06-13 10:51","source":"","thumbnail_pic_s1":"http://i.jun4.com/d/file/2017-06-12/b7f77995c534806f9867bbcc1c665964.jpg"},{"id":"18555","title":"2女1男为逃票翻墙进动物园 落地时周围站了7只虎","author_name":"","pics":"[\"http://i.jun4.com/d/file/2017-06-12/88f39a59090b7e9d4985e5a6d4deb15b.jpg\"]","news_url":"http://4g.yigouu.com/04/shehui/20170612/10154.html","type":"all","show_type":"3","publish_time":"06-13 10:51","source":"","thumbnail_pic_s1":"http://i.jun4.com/d/file/2017-06-12/88f39a59090b7e9d4985e5a6d4deb15b.jpg"},{"id":"18556","title":"带娃上班不慎落在车内 女婴死亡母亲被判杀人","author_name":"","pics":"[\"http://i.jun4.com/d/file/2017-06-12/673d77465ee63b7d77310ebdcfd4b591.jpg\"]","news_url":"http://4g.yigouu.com/04/shehui/20170612/10144.html","type":"all","show_type":"3","publish_time":"06-13 10:51","source":"","thumbnail_pic_s1":"http://i.jun4.com/d/file/2017-06-12/673d77465ee63b7d77310ebdcfd4b591.jpg"},{"id":"18557","title":"49岁护工厌倦疗养院工作 7年杀死8位老年人","author_name":"","pics":"[\"http://i.jun4.com/d/file/2017-06-12/25e919743cee55c3e200f2072416bf58.jpg\"]","news_url":"http://4g.yigouu.com/04/shehui/20170612/10145.html","type":"all","show_type":"3","publish_time":"06-13 10:51","source":"","thumbnail_pic_s1":"http://i.jun4.com/d/file/2017-06-12/25e919743cee55c3e200f2072416bf58.jpg"},{"id":"18558","title":"29岁女儿为2块拿刀刺伤69岁父亲 肇事者已被控制","author_name":"","pics":"[\"http://i.jun4.com/d/file/2017-06-12/375fbcea7812ecaabf4860a45d33158a.jpg\"]","news_url":"http://4g.yigouu.com/04/shehui/20170612/10147.html","type":"all","show_type":"3","publish_time":"06-13 10:51","source":"","thumbnail_pic_s1":"http://i.jun4.com/d/file/2017-06-12/375fbcea7812ecaabf4860a45d33158a.jpg"},{"id":"18559","title":"被吻过的地方全过敏 杭州美女怀疑男友口水有毒","author_name":"","pics":"[\"http://i.jun4.com/d/file/2017-06-12/adaf81580622851619b65ddd81c0b05e.jpg\"]","news_url":"http://4g.yigouu.com/04/shehui/20170612/10148.html","type":"all","show_type":"3","publish_time":"06-13 10:51","source":"","thumbnail_pic_s1":"http://i.jun4.com/d/file/2017-06-12/adaf81580622851619b65ddd81c0b05e.jpg"},{"id":"18560","title":"被二次碾压女子身份曝光 父母至今未看监控视频","author_name":"","pics":"[\"http://i.jun4.com/d/file/2017-06-12/9ea280a63fc070c8966b94d15143e9ae.jpg\"]","news_url":"http://4g.yigouu.com/04/shehui/20170612/10150.html","type":"all","show_type":"3","publish_time":"06-13 10:51","source":"","thumbnail_pic_s1":"http://i.jun4.com/d/file/2017-06-12/9ea280a63fc070c8966b94d15143e9ae.jpg"}]
          * page : 33
@@ -90,7 +90,7 @@ public class WeChatNewsInformation implements Serializable {
             this.result = result;
         }
 
-        public static class ResultBean {
+        public static class ResultBean implements Serializable{
             /**
              * id : 18554
              * title : 揭地下卵子交易：美女一颗5万 90万定制男宝宝
