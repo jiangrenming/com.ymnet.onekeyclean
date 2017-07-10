@@ -18,7 +18,7 @@
             android:text="东方凤凰网"
             android:textColor="#999999"
             android:textSize="12sp"
-            />
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/publish_time"

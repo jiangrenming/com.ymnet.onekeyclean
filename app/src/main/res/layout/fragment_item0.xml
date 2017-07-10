@@ -27,14 +27,14 @@
                 <LinearLayout
                     android:id="@+id/ll_number"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp196"
+                    android:layout_height="@dimen/dp178"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <com.ymnet.onekeyclean.cleanmore.customview.ProgressWheel
                         android:id="@+id/pw_memory_size"
-                        android:layout_width="@dimen/dp150"
-                        android:layout_height="@dimen/dp150"
+                        android:layout_width="@dimen/dp130"
+                        android:layout_height="@dimen/dp130"
                         android:layout_margin="@dimen/dp20"
                         app:barColor="#fff"
                         app:barLength="@dimen/dp5"
@@ -77,7 +77,7 @@
                     android:id="@+id/tv_junk_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp18"
+                    android:layout_marginBottom="@dimen/dp16"
                     android:text="@string/tv_junk_desc"
                     android:textColor="#fff"
                     android:textSize="@dimen/dp16"/>
@@ -86,10 +86,10 @@
                     android:id="@+id/pb_ram_prompt"
                     android:layout_width="@dimen/dp120"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp25"
+                    android:layout_marginBottom="@dimen/dp21"
                     android:background="@drawable/home_btn_bg_selector"
                     android:gravity="center"
-                    android:paddingBottom="@dimen/dp10"
+                    android:paddingBottom="@dimen/dp9"
                     android:paddingLeft="@dimen/dp25"
                     android:paddingRight="@dimen/dp25"
                     android:paddingTop="@dimen/dp10"

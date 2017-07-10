@@ -80,6 +80,7 @@ public class HomeActivity extends ImmersiveActivity implements Fragment2.OnFragm
     protected void onResume() {
         super.onResume();
         isVisible = true;
+        MobclickAgent.onResume(this);
     }
 
     @Override

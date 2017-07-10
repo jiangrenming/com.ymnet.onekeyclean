@@ -34,9 +34,9 @@
 
             <ImageView
                 android:id="@+id/item_bitmap_1"
-                android:layout_width="100dp"
-                android:layout_height="66dp"
-                android:scaleType="fitXY"
+                android:layout_width="109dp"
+                android:layout_height="74dp"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/icon_launcher"/>
         </LinearLayout>
 
@@ -49,9 +49,9 @@
 
             <ImageView
                 android:id="@+id/item_bitmap_2"
-                android:layout_width="100dp"
-                android:layout_height="66dp"
-                android:scaleType="fitXY"
+                android:layout_width="109dp"
+                android:layout_height="74dp"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/icon_launcher"/>
         </LinearLayout>
 
@@ -64,9 +64,9 @@
 
             <ImageView
                 android:id="@+id/item_bitmap_3"
-                android:layout_width="100dp"
-                android:layout_height="66dp"
-                android:scaleType="fitXY"
+                android:layout_width="109dp"
+                android:layout_height="74dp"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/icon_launcher"/>
         </LinearLayout>
     </LinearLayout>
