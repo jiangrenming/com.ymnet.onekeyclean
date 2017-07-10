@@ -98,7 +98,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
     }
 
     private int[]    mMainFunctionIcon = {
-            R.drawable.onckey_home_main,
+            R.drawable.onekey_home_main,
             R.drawable.wechat_home_main,
             R.drawable.filemanager_home_main,
             R.drawable.qq_home_main};
