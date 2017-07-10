@@ -14,7 +14,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.ImmersiveActivity;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileBrowserUtil;
-import com.ymnet.onekeyclean.cleanmore.filebrowser.FileCategoryHelper;
+import com.ymnet.onekeyclean.cleanmore.filebrowser.FileCategoryHelper.FileCategory;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileControl;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileSortHelper;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.bean.FileInfo;
@@ -47,7 +47,7 @@ public class FileManagerActivity extends ImmersiveActivity implements View.OnCli
     private   RecyclerView           recyclerView;
     private   FileItemAdapter        adapter;
     private   ArrayList<FileInfo>    mInfos;
-    private ImageView mBack;
+    private   ImageView              mBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +66,7 @@ public class FileManagerActivity extends ImmersiveActivity implements View.OnCli
         initData();
         initListener();
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -281,15 +282,71 @@ public class FileManagerActivity extends ImmersiveActivity implements View.OnCli
                 Map.Entry<Integer, FileInfo> next;
                 while (iterator.hasNext() && mInfos != null) {
                     next = iterator.next();
-                    if (next != null) {
+                    /*if (next != null) {
                         boolean b = FileBrowserUtil.deleteOtherFile(context, next.getValue().fileId,
-                                next.getValue().filePath, FileCategoryHelper.FileCategory.Doc);
+                                next.getValue().filePath, FileCategory.Doc);
                         if (b) {
                             if (next.getValue() != null) {
                                 mInfos.remove(next.getValue());
                                 if (FileControl.getInstance(context).getAllDoc(FileSortHelper.SortMethod.size) != null) {
                                     FileControl.getInstance(context).getAllDoc(FileSortHelper.SortMethod.size)
                                             .remove(next.getValue());
+                                }
+                            }
+                        }
+                    }*/
+                    if (next != null) {
+                        FileCategory type = next.getValue().fc;
+                        if (type.equals(FileCategory.Doc)) {
+                            boolean b = FileBrowserUtil.deleteOtherFile(context, next.getValue().fileId,
+                                    next.getValue().filePath, FileCategory.Doc);
+                            if (b) {
+                                if (next.getValue() != null) {
+                                    mInfos.remove(next.getValue());
+                                    if (FileControl.getInstance(context).getAllDoc(FileSortHelper.SortMethod.size) != null) {
+                                        FileControl.getInstance(context).getAllDoc(FileSortHelper.SortMethod.size)
+                                                .remove(next.getValue());
+                                    }
+                                }
+                            }
+                        } else if (type.equals(FileCategory.Music)) {
+                            boolean b = FileBrowserUtil.deleteOtherFile(context, next.getValue().fileId,
+                                    next.getValue().filePath, FileCategory.Music);
+                            if (b) {
+                                if (next.getValue() != null) {
+                                    mInfos.remove(next.getValue());
+                                }
+                            }
+                        } else if (type.equals(FileCategory.Zip)) {
+                            boolean b = FileBrowserUtil.deleteOtherFile(context, next.getValue().fileId,
+                                    next.getValue().filePath, FileCategory.Zip);
+                            if (b) {
+                                if (next.getValue() != null) {
+                                    mInfos.remove(next.getValue());
+                                }
+                            }
+                        } else if (type.equals(FileCategory.Picture)) {
+                            boolean b = FileBrowserUtil.deleteOtherFile(context, next.getValue().fileId,
+                                    next.getValue().filePath, FileCategory.Picture);
+                            if (b) {
+                                if (next.getValue() != null) {
+                                    mInfos.remove(next.getValue());
+                                }
+                            }
+                        } else if (type.equals(FileCategory.Video)) {
+                            boolean b = FileBrowserUtil.deleteVideo(context, next.getValue().fileId,
+                                    next.getValue().filePath, FileCategory.Video);
+                            if (b) {
+                                if (next.getValue() != null) {
+                                    mInfos.remove(next.getValue());
+                                }
+                            }
+                        } else if (type.equals(FileCategory.Apk)) {
+                            boolean b = FileBrowserUtil.deleteOtherFile(context, next.getValue().fileId,
+                                    next.getValue().filePath, FileCategory.Apk);
+                            if (b) {
+                                if (next.getValue() != null) {
+                                    mInfos.remove(next.getValue());
                                 }
                             }
                         }

@@ -260,7 +260,7 @@ public class ApkManagerActivity extends ImmersiveActivity implements View.OnClic
                     next = iterator.next();
                     if (next != null) {
                         boolean b = FileBrowserUtil.deleteOtherFile(context, next.getValue().fileId,
-                                next.getValue().filePath, FileCategoryHelper.FileCategory.Music);
+                                next.getValue().filePath, FileCategoryHelper.FileCategory.Apk);
                         if (b) {
                             if (next.getValue() != null) {
                                 mInfos.remove(next.getValue());
