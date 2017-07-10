@@ -24,8 +24,7 @@ public class JumpUtil {
     private static JumpUtil util;
     private String SEND_KEYWORDS_TO_SEARCH_ENGINE_URL  = "https://yz.m.sm.cn/s?from=";
     private String SEND_KEYWORDS_TO_SEARCH_ENGINE_WORD = "&q=";
-    private List<ResolveInfo> webs;
-    private List<ResolveInfo> markets;
+    private List<ResolveInfo> webs = new ArrayList<>();
     public static String   searchEngineChannel = "wm716414";
     private       int      number              = 0;
     private       String[] webOnline           = {"com.xp.browser"," com.browser_llqhz","sogou.mobile.explorer","com.UCMobile","com.tencent.mtt","com.qihoo.browser","com.browser2345","com.baidu.browser.apps"};
@@ -36,7 +35,6 @@ public class JumpUtil {
         }
         return util;
     }
-
     /**
      * 获取本地推广游览器,应用商店
      */
@@ -46,16 +44,14 @@ public class JumpUtil {
             @Override
             public void run() {
                 //获取浏览器
-                webs = new ArrayList<>();
                 List<ResolveInfo> activitys;
                 PackageManager pm = context.getPackageManager(); // 获得PackageManager对象
                 final Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.addCategory(Intent.CATEGORY_DEFAULT);
-                intent.addCategory(Intent.CATEGORY_BROWSABLE);
                 Uri uri = Uri.parse("http://");
-                intent.setDataAndType(uri, null);
-                activitys = pm.queryIntentActivities(intent, PackageManager.GET_INTENT_FILTERS);
+                intent.setData(uri);
+                activitys = pm.queryIntentActivities(intent, 0);
                 String channel;
+                webs.clear();
                 for (ResolveInfo info : activitys) {
                     String pkgName = info.activityInfo.packageName;
                     String title = info.loadLabel(pm).toString();
@@ -63,7 +59,7 @@ public class JumpUtil {
                     channel = mapInstall.get("channelId");
                     if (!TextUtils.isEmpty(channel)) {
                         for (int i = 0; i < webOnline.length; i++) {
-                            if(pkgName.equals(webOnline[i])){
+                            if (pkgName.equals(webOnline[i])) {
                                 Log.i(TAG, "getWebAddresss Web pkgName:" + pkgName + " title:" + title);
                                 webs.add(info);
                                 break;
@@ -71,27 +67,12 @@ public class JumpUtil {
                         }
                     }
                 }
-                if (webs.size() == 0 && activitys.size() > 0) webs.add(activitys.get(0));
-
-                //获取应用商店
-//                markets = new ArrayList<ResolveInfo>();
-//                Intent marketIntent = new Intent(Intent.ACTION_MAIN);
-//                marketIntent.addCategory(Intent.CATEGORY_APP_MARKET);
-//                List<ResolveInfo> infos = pm.queryIntentActivities(marketIntent, 0);
-//                for (ResolveInfo info : infos) {
-//                    String pkgName = info.activityInfo.packageName;
-//                    String title = info.loadLabel(pm).toString();
-//                    HashMap<String, String> mapInstall = StatisticalSdkHerlper.getFileContent(context, pkgName);
-//                    channel = mapInstall.get("channelId");
-//                    if (!TextUtils.isEmpty(channel)) {
-//                        Log.i(TAG, "getWebAddresss Market pkgName:" + pkgName + " title:" + title);
-//                        markets.add(info);
-//                    }
-//                }
-//                if (markets.size() == 0 && activitys.size() > 0) markets.add(activitys.get(0));
+                if(webs == null || webs.size() == 0)webs.add(activitys.get(0));
             }
         }).start();
+
     }
+
 
     /**
      * 启动游览器进入百度联想词搜索页

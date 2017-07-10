@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@color/activity_background_color"
         android:padding="8dp"
-        android:text="每时新闻"
+        android:text="@string/hot_news"
         android:textColor="#9c9c9c"
         android:textSize="14sp"/>
 </LinearLayout>

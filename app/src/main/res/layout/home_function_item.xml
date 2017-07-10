@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
               android:background="#ffe8ecef"
               android:gravity="center"
               android:orientation="vertical">
@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/ll_item_home_function"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/bg_gv_selector"
         android:gravity="center"
         android:orientation="vertical"
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="QQ清理"
-            android:textColor="#848484"
+            android:textColor="#333"
             android:textSize="@dimen/dp14"/>
     </LinearLayout>
 </LinearLayout>

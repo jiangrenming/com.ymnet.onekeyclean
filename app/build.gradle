@@ -5,6 +5,8 @@ android {
     buildToolsVersion "24.0.1"
     defaultConfig {
 
+        multiDexEnabled true
+
         ndk {
             moduleName "libappinfo,libgnustl_shared" //设置库(so)文件名称
             abiFilters "armeabi"
@@ -31,10 +33,16 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-
+            buildConfigField "boolean", "LOG_DEBUG", "false"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
     }
+    /*productFlavors {
+        "sc-baipai" {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "sc-baipai"]
+        }
+    }*/
 }
 
 repositories {
@@ -85,6 +93,7 @@ dependencies {
     compile 'com.parse.bolts:bolts-android:1.2.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'in.srain.cube:ultra-ptr:1.0.11'
-    compile 'com.android.support:design:22.2.0'
+    compile 'com.android.support:design:24.0.0'
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support:multidex:1.0.1'
 }

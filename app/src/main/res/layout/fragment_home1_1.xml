@@ -40,17 +40,6 @@
                 android:fillViewport="true"
                 android:orientation="vertical">
 
-                <!--<com.ymnet.onekeyclean.cleanmore.customview.CustomGridView
-                    android:id="@+id/gv_mainfunction"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:horizontalSpacing="0.0dip"
-                    android:listSelector="@null"
-                    android:numColumns="2"
-                    android:scrollbars="none"
-                    android:stretchMode="columnWidth"
-                    android:verticalSpacing="0.0dip"/>-->
-
                 <com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus
                     android:id="@+id/rvp_morefunction"
                     android:layout_width="match_parent"
@@ -58,7 +47,7 @@
                     android:overScrollMode="never"
                     />
 
-                <LinearLayout
+                <!--<LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -70,12 +59,11 @@
                         android:layout_gravity="center"
                         android:scaleType="centerCrop"
                         android:src="@drawable/bottom_adorn"/>
-                </LinearLayout>
+                </LinearLayout>-->
             </LinearLayout>
 
         </LinearLayout>
     </com.ymnet.onekeyclean.cleanmore.widget.StickyLayout>
-
    <!-- <FrameLayout
         android:id="@+id/fl_home_arrow"
         android:layout_width="@dimen/dp40"

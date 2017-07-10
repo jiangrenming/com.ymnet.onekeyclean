@@ -1,12 +1,14 @@
 package com.ymnet.onekeyclean.cleanmore.home;
 
+import java.io.Serializable;
+
 /**
  * Created by MajinBuu on 2017/7/7 0007.
  *
  * @overView ${todo}.
  */
 
-public class HomeToolBarAD {
+public class HomeToolBarAD implements Serializable{
     /**
      * code : 200
      * msg : 请求成功
@@ -41,7 +43,7 @@ public class HomeToolBarAD {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
          * icon : http://download.youmeng.com/zm_static/img/float_ad/red.gif
          * url : http://m.bianxianmao.com?appKey=1eeb543e6f6b4c61bc7479c86914136f&appType=app&appEntrance=2&business=money&i=

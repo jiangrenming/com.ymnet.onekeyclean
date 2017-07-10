@@ -161,6 +161,9 @@
 -dontwarn com.squareup.okhttp3.**
 -keep class com.squareup.okhttp3.** { *;}
 -dontwarn okio.**
+#后加==
+-keep class okhttp3.** { *;}
+#后加==
 
 ## nineoldandroids-2.4.0.jar
 -keep public class com.nineoldandroids.** {*;}
@@ -260,6 +263,15 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+#后加==
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+#后加==
 
 #友盟自动更新
 -keep public class com.umeng.fb.ui.ThreadView {
@@ -346,7 +358,6 @@ public void xxxxxx(**);
 -keep interface android.support.design.** { *; }
 -keep public class android.support.design.R$* { *; }
 #-------------------------------------------------------------------------
-
 # picasso
 -keep class com.squareup.picasso.** {*; }
 -dontwarn com.squareup.picasso.**
@@ -429,12 +440,19 @@ public void xxxxxx(**);
 #---------------------------------反射相关的类和方法-----------------------
 #在这下面写反射相关的类和方法，没有就不用写！
 
+-keep class com.android.library.** { *; }
+-keep interface com.android.library.** { *; }
+-dontwarn com.android.library.**
+-keep class * implements android.os.IInterface {*;}
+-keep class android.content.pm.** { *; }
+-keep interface android.content.pm.** { *; }
 
-
+-keepattributes EnclosingMethod
 
 #---------------------------------与js互相调用的类------------------------
 #在这下面写与js互相调用的类，没有就去掉这句话！
-
+-libraryjars ../app/src/main/jni/share_lib/armeabi/libgnustl_shared.so
+-keep class com.ymnet.onekeyclean.cleanmore.utils.SecurityAppInfo
 #---------------------------------自定义View的类------------------------
 #在这下面写自定义View的类的类，没有就去掉这句话！
 
@@ -450,7 +468,7 @@ public void xxxxxx(**);
 -keep class com.isnc.facesdk.view.**{*;}
 -keep class com.isnc.facesdk.viewmodel.**{*;}
 -keep class com.matrixcv.androidapi.face.**{*;}
-
+-keepattributes *Annotation*
 #retrofit2.x
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
@@ -479,7 +497,7 @@ public void xxxxxx(**);
 -keep class org.litepal.* { *; }
 -keep enum org.litepal.*
 -keep interface org.litepal.* { *; }
--keep public class  extends org.litepal.* { *; }
+#-keep public class  extends org.litepal. { *; }
 -keepattributes Annotation
 -keepclassmembers class * extends org.litepal.crud.DataSupport{*;}
 

@@ -187,10 +187,10 @@
     <string name="qq_go_clean">查看管理</string>
 
     <!--<string name="toast_bean_best">已清理至最佳状态</string>-->
-    <string name="toast_bean_best">手机跑得飞快\n立即进入深度清理</string>
+    <string name="toast_bean_best">手机跑得飞快\n更多垃圾，马上处理</string>
     <!--<string name="toast_clean_result"><![CDATA[释放 <font color=\"#f64747\">%1$s</font>内存 性能提升<font color=\"#f64747\">%2$d%%</font>]]></string>-->
     <!--<string name="toast_clean_result">释放%1$s内存\n性能提升%2$d%%</string>-->
-    <string name="toast_clean_result">手机已提速%1$d%%\n立即进入深度清理</string>
+    <string name="toast_clean_result">手机已提速%1$d%%\n更多垃圾，马上处理</string>
     <string name="leadinto_home">释放更多空间 深度清理</string>
     <string name="more_news">更多热点资讯\n立即查看</string>
     <string name="used_memory">内存使用%1$d%%</string>
@@ -223,5 +223,8 @@
     <string name="zip_clean_dec">清理多余的压缩包</string>
     <string name="phone_memory_size">手机存储空间</string>
     <string name="tv_memory_size_desc">已用：%1$s\n总共：%2$s</string>
+    <string name="hot_news">热点新闻</string>
+    <string name="uninstall_withdata">卸载(%s)</string>
+    <string name="uninstall_nodata">卸载</string>
 
 </resources>

@@ -27,7 +27,7 @@
             android:background="@drawable/wechat_export_bg"
             android:clickable="true"
             android:gravity="center"
-            android:text="@string/file_delete_withdata"
+            android:text="@string/uninstall_withdata"
             android:textColor="@color/white"
             android:textSize="16sp"/>
     </LinearLayout>

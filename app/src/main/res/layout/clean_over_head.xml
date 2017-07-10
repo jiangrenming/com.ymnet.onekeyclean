@@ -70,7 +70,7 @@
         android:drawableLeft="@drawable/magazine"
         android:drawablePadding="5dp"
         android:padding="8dp"
-        android:text="每时新闻"
+        android:text="@string/hot_news"
         android:textColor="#9c9c9c"
         android:textSize="14sp"/>
     <!--文件管理-->

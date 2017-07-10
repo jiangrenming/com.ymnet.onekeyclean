@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Process;
 import android.os.StrictMode;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.ymnet.onekeyclean.cleanmore.constants.Constants;
@@ -43,7 +44,7 @@ public class MarketApplication extends BaseApplication {
 
     private ConcurrentHashMap<Integer, Activity> mRunningActivities;
     private WifiConnectionStatus                 mWifiConnectionStatus;
-//    private List<Activity> mList = new LinkedList<>();
+    //    private List<Activity> mList = new LinkedList<>();
 
     public static MarketApplication getInstance() {
         return application;
@@ -129,6 +130,7 @@ public class MarketApplication extends BaseApplication {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+        MultiDex.install(this);
         versionname = BuildConfig.VERSION_NAME;
         packegename = BuildConfig.APPLICATION_ID;
         versioncode = BuildConfig.VERSION_CODE;

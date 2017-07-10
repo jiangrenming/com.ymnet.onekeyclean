@@ -82,7 +82,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
     private ProgressWheel mProgressWheel;
     private TextView      tv_memory_size_desc;
     private View          mView_head;
-//    private View          mFlHomeBottom;
+    private View mView_foot;
+    //    private View          mFlHomeBottom;
 
     class MyHandler extends Handler {
 
@@ -163,6 +164,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
                 return mView_head;
             }
         });
+        mAdapter.addFooterView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper(){
+            @Override
+            protected View onCreateView(ViewGroup parent) {
+                return mView_foot;
+            }
+        });
         final LinearLayoutManager layout = new LinearLayoutManager(C.get());
         mRecyclerView.setLayoutManager(layout);
         initHeadView();
@@ -239,6 +246,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
 
     private void initHeadView() {
         mView_head = getActivity().getLayoutInflater().inflate(R.layout.home_head, mRecyclerView, false);
+        mView_foot = getActivity().getLayoutInflater().inflate(R.layout.home_foot, mRecyclerView, false);
         //gridview
         CustomGridView gridView = (CustomGridView) mView_head.findViewById(R.id.gv_mainfunction);
         mHomeMainFunctionList = new ArrayList<>();

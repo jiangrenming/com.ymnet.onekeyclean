@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
                 android:paddingLeft="20dp">
 
     <ImageView
@@ -16,10 +16,11 @@
 
     <TextView
         android:id="@+id/tv_app_name"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginBottom="12dp"
+        android:singleLine="true"
         android:layout_toRightOf="@+id/iv_icon"
         android:text="应用名称"
         android:textColor="#000"
@@ -30,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="0dp"
         android:layout_toLeftOf="@+id/iv_uninstall"
         android:text="应用大小"
         android:textColor="#9c9c9c"

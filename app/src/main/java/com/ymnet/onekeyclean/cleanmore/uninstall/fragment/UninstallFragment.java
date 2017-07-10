@@ -238,7 +238,7 @@ public class UninstallFragment extends BaseFragment implements View.OnClickListe
 
     private void changeSelectedState() {
         //        mOneKeyUninstalled.setEnabled(mSelectedApp.size() != 0);
-        mOneKeyUninstalled.setText(String.format(getResources().getString(R.string.file_delete_withdata), mSelectedApp.size() + "款"));
+        mOneKeyUninstalled.setText(String.format(getResources().getString(R.string.uninstall_withdata), mSelectedApp.size() + "款"));
     }
 
     private void initView(View view) {
@@ -257,7 +257,7 @@ public class UninstallFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void initData() {
-        mOneKeyUninstalled.setText(R.string.file_delete_nodata);
+        mOneKeyUninstalled.setText(R.string.uninstall_nodata);
     }
 
     public int mPosition;

@@ -40,7 +40,6 @@ import com.ymnet.killbackground.utils.Run;
 import com.ymnet.killbackground.view.customwidget.Wheel;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.home.HomeActivity;
-import com.ymnet.onekeyclean.cleanmore.customview.MainScrollUpAdvertisementView;
 import com.ymnet.onekeyclean.cleanmore.notification.NotifyService;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
@@ -66,7 +65,7 @@ public class CleanActivity extends Activity implements CleanView {
     private String               showToast;
     private boolean              valueChange;
     private ImageView            mDetermine;
-    private TextView               mMoreFunction;
+    private TextView             mMoreFunction;
     private RelativeLayout       mRelativeLayout;
     private CleanPresenter       mCleanPresenter;
     private int                  mCount;
@@ -75,9 +74,7 @@ public class CleanActivity extends Activity implements CleanView {
     private boolean isFirst      = true;
     private long    mTotalMemory = 0;
     private int temp;
-    private Random  mR       = new Random();
-    private MainScrollUpAdvertisementView mSuv_more_function;
-    private ArrayList<String> mDataList = new ArrayList<>();
+    private Random mR = new Random();
 
     private Handler mHandler = new Handler(C.get().getMainLooper()) {
         @Override
@@ -89,7 +86,7 @@ public class CleanActivity extends Activity implements CleanView {
                     if (mCount >= 0 && valueChange) {
                         if (temp < mCount) {
                             mMemoryInfo.setText("" + (mUsedMemory - ++temp) + "%");
-                            mHandler.sendEmptyMessageDelayed(0, 800/mCount);
+                            mHandler.sendEmptyMessageDelayed(0, 800 / mCount);
                         }
                         Log.d(TAG, "handleMessage: " + (mUsedMemory + "  " + mCount));
                     } else {
@@ -114,8 +111,8 @@ public class CleanActivity extends Activity implements CleanView {
             }
         }
     };
-    private View mRl_more_function;
-    private ImageView mArrow;
+    private View              mRl_more_function;
+    private ImageView         mArrow;
     private AnimationDrawable mAnimationDrawable;
 
     @Override
@@ -149,6 +146,7 @@ public class CleanActivity extends Activity implements CleanView {
         Intent service = new Intent(this, NotifyService.class);
         startService(service);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -204,6 +202,7 @@ public class CleanActivity extends Activity implements CleanView {
             mAnimation.start();
         }
     }
+
     /**
      * 展开动画
      */
@@ -223,7 +222,7 @@ public class CleanActivity extends Activity implements CleanView {
                 } else {
                     mArrow.setVisibility(View.VISIBLE);
                 }
-                gifAnim(mArrow);
+//                gifAnim(mArrow);
                 ViewCompat.animate(mRl_more_function).scaleX(1).setDuration(500).start();
 
                 mMoreFunction.setText(showToast);
@@ -242,7 +241,7 @@ public class CleanActivity extends Activity implements CleanView {
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-//                        mSuv_more_function.stop();
+                        //                        mSuv_more_function.stop();
                         finish();
                     }
                 }, 4000);
@@ -267,9 +266,9 @@ public class CleanActivity extends Activity implements CleanView {
     @Override
     protected void onStop() {
         super.onStop();
-        if (mAnimationDrawable != null) {
+        /*if (mAnimationDrawable != null) {
             mAnimationDrawable.stop();
-        }
+        }*/
     }
 
     private void initView() {
@@ -290,8 +289,10 @@ public class CleanActivity extends Activity implements CleanView {
         mRl_more_function.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CleanActivity.this, HomeActivity.class));
-//                ToastUtil.showShort(CleanActivity.this, "更多功能开发中...");
+                Intent intent = new Intent(CleanActivity.this, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                //ToastUtil.showShort(CleanActivity.this, "更多功能开发中...");
             }
         });
         /*mSuv_more_function = (MainScrollUpAdvertisementView) findViewById(R.id.suv_more_function);
@@ -566,7 +567,7 @@ public class CleanActivity extends Activity implements CleanView {
                             }
                             //toast展示为用户清理的内存
                             String sAgeFormat = CleanActivity.this.getResources().getString(R.string.toast_clean_result);
-//                            String content = String.format(sAgeFormat, formatFileSize(CleanActivity.this, cleanMem), mCount);
+                            //                            String content = String.format(sAgeFormat, formatFileSize(CleanActivity.this, cleanMem), mCount);
                             String content = String.format(sAgeFormat, mCount);
                             showToast(content);
                         }

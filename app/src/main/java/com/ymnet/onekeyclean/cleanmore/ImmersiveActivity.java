@@ -111,7 +111,9 @@ public class ImmersiveActivity extends BaseFragmentActivity {
 
     public void openHome(boolean open) {
         this.mOpen = open;
-        startActivity(new Intent(C.get(), HomeActivity.class));
+        Intent intent = new Intent(C.get(), HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
         finish();
     }
 
