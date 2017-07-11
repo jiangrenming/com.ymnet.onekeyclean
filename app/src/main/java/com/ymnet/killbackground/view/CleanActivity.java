@@ -290,7 +290,7 @@ public class CleanActivity extends Activity implements CleanView {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CleanActivity.this, HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 //ToastUtil.showShort(CleanActivity.this, "更多功能开发中...");
             }

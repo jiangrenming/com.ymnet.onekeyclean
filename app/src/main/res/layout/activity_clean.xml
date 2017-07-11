@@ -1,21 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-    >
-
-    <!--<Button
-        android:id="@+id/btn_more_function"
-        android:layout_width="240dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/bg_selector"
-        android:gravity="center"
-        android:paddingLeft="18dp"
-        android:text="@string/onkeycleandefaultcontent"
-        android:textColor="#DD2A52D2"
-        android:textSize="14sp"
-        android:visibility="invisible"/>-->
+                android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/rl_more_function"
