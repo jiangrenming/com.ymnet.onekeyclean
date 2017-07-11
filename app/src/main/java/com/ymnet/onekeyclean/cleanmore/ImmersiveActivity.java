@@ -88,17 +88,29 @@ public class ImmersiveActivity extends BaseFragmentActivity {
     protected SystemBarTintManager getTintManager() {
         return tintManager;
     }
-//    private List<Activity> mList = new LinkedList<>();
+
+    //    private List<Activity> mList = new LinkedList<>();
     private static List<Activity> mList = new ArrayList<>();
+
     public void addActivity(Activity activity) {
         mList.add(activity);
+    }
+
+    public void deleteHomeActivity() {
+        HomeActivity instance = HomeActivity.getInstance();
+        Log.d("ImmersiveActivity", mList.toString()+"---"+instance.toString());
+        if (mList.contains(instance)) {
+            mList.remove(instance);
+            instance.finish();
+            Log.d("ImmersiveActivity", mList.toString()+"---"+instance.toString());
+        }
     }
 
     public void exit() {
         Log.d("ImmersiveActivity", mList.toString());
         try {
             for (Activity activity : mList) {
-                if (activity != null) {
+                if (activity != null && activity != HomeActivity.getInstance()) {
                     activity.finish();
                 }
             }
@@ -111,10 +123,10 @@ public class ImmersiveActivity extends BaseFragmentActivity {
 
     public void openHome(boolean open) {
         this.mOpen = open;
-        Intent intent = new Intent(C.get(), HomeActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
         finish();
+        Intent intent = new Intent(C.get(), HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK/*|Intent.FLAG_ACTIVITY_CLEAR_TASK*/);
+        startActivity(intent);
     }
 
     @Override

@@ -686,7 +686,8 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
         left_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                QQActivity.this.finish();
+//                QQActivity.this.finish();
+                openHome(true);
             }
         });
         ViewTreeObserver observer = ll_title.getViewTreeObserver();

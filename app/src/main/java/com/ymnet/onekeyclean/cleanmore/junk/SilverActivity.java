@@ -311,7 +311,8 @@ public class SilverActivity extends ImmersiveActivity implements View.OnClickLis
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.junk_title_txt) {
-            this.finish();
+//            this.finish();
+            openHome(true);
         } else if (i == R.id.btn_stop) {
             if (v.getTag() == null) {
                 return;

@@ -51,12 +51,13 @@ public class UninstallActivity extends ImmersiveActivity {
     }
 
     private void initToolbar() {
-        TextView title = (TextView) findViewById(R.id.junk_title_txt);
+        final TextView title = (TextView) findViewById(R.id.junk_title_txt);
         title.setText("软件管理");
         title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+//                finish();
+                openHome(true);
             }
         });
 
@@ -97,7 +98,7 @@ public class UninstallActivity extends ImmersiveActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+//        super.onBackPressed();
         openHome(true);
     }
 

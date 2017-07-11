@@ -51,6 +51,8 @@ public class HomeActivity extends ImmersiveActivity implements Fragment2.OnFragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        addActivity(getInstance());
+
         String stringExtra = getIntent().getStringExtra(OnekeyField.ONEKEYCLEAN);
         String statistics_key = getIntent().getStringExtra(OnekeyField.STATISTICS_KEY);
         if (stringExtra != null) {

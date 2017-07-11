@@ -74,9 +74,9 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
     private List<NewsInformation.DataBean> moreData = new ArrayList<>();
     private RecommendAdapter adapter;
     private View             foot;
-    private View mNewsHead;
-    private View fl_idle;
-    private int width;
+    private View             mNewsHead;
+    private View             fl_idle;
+    private int              width;
     private BottomScrollView mSv;
 
     public static CleanOverFragment newInstance(Long size) {
@@ -227,7 +227,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
      * 星星闪烁动画
      */
     private void startAnimation() {
-        ViewCompat.animate(fl_idle).translationX(0).setDuration(500).setListener(new MyViewPropertyAnimatorListener(){
+        ViewCompat.animate(fl_idle).translationX(0).setDuration(500).setListener(new MyViewPropertyAnimatorListener() {
             @Override
             public void onAnimationEnd(View view) {
                 super.onAnimationEnd(view);
@@ -352,11 +352,51 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
             }
 
             @Override
-            public void selectButton(Map<Integer, Boolean> weChatInfos,int position) {
+            public void selectButton(Map<Integer, Boolean> weChatInfos, int position) {
 
             }
         });
+        /*rv.setItemAnimator(new RecyclerView.ItemAnimator() {
+            @Override
+            public boolean animateDisappearance(@NonNull RecyclerView.ViewHolder viewHolder, @NonNull ItemHolderInfo preLayoutInfo, @Nullable ItemHolderInfo postLayoutInfo) {
+                return false;
+            }
 
+            @Override
+            public boolean animateAppearance(@NonNull RecyclerView.ViewHolder viewHolder, @Nullable ItemHolderInfo preLayoutInfo, @NonNull ItemHolderInfo postLayoutInfo) {
+                return false;
+            }
+
+            @Override
+            public boolean animatePersistence(@NonNull RecyclerView.ViewHolder viewHolder, @NonNull ItemHolderInfo preLayoutInfo, @NonNull ItemHolderInfo postLayoutInfo) {
+                return false;
+            }
+
+            @Override
+            public boolean animateChange(@NonNull RecyclerView.ViewHolder oldHolder, @NonNull RecyclerView.ViewHolder newHolder, @NonNull ItemHolderInfo preLayoutInfo, @NonNull ItemHolderInfo postLayoutInfo) {
+                return false;
+            }
+
+            @Override
+            public void runPendingAnimations() {
+
+            }
+
+            @Override
+            public void endAnimation(RecyclerView.ViewHolder item) {
+
+            }
+
+            @Override
+            public void endAnimations() {
+
+            }
+
+            @Override
+            public boolean isRunning() {
+                return false;
+            }
+        });*/
         rv.setAdapter(adapter);
     }
 
@@ -429,7 +469,7 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
 
             @Override
             public void onFailure(Call<NewsInformation> call, Throwable t) {
-//                ToastUtil.showToastForShort("网络异常,请检查网络...");
+                //                ToastUtil.showToastForShort("网络异常,请检查网络...");
             }
         });
 
@@ -446,10 +486,11 @@ public class CleanOverFragment extends BaseFragment implements View.OnClickListe
         super.onResume();
         boolean state = ((SilverActivity) getActivity()).getState();
         if (state) {
-//            mEmptySv.scrollTo(0, 0);
+            //            mEmptySv.scrollTo(0, 0);
             mSv.scrollTo(0, 0);
         }
     }
+
     @Override
     public void onStop() {
         super.onStop();

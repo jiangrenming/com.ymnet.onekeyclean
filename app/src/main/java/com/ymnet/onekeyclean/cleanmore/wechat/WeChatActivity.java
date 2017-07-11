@@ -118,12 +118,14 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
     private BottomScrollView mEmptySv;
     private boolean saveScrollState =false;
     private ImageView mAdvertisement;
+    private String mHomeIsExist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_we_chat);
 
+        mHomeIsExist = getIntent().getStringExtra("HomeIsExist");
         addActivity(this);
 
         String stringExtra = getIntent().getStringExtra(OnekeyField.ONEKEYCLEAN);
@@ -162,6 +164,10 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
             mEmptySv.scrollTo(0, 0);
             mSv.scrollTo(0, 0);
         }
+        /*if (mHomeIsExist !=null) {
+            Log.d("ImmersiveActivity", mHomeIsExist);
+            deleteHomeActivity();
+        }*/
 
     }
 
@@ -197,7 +203,8 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
         left_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WeChatActivity.this.finish();
+//                WeChatActivity.this.finish();
+                openHome(true);
             }
         });
         ViewTreeObserver observer = ll_title.getViewTreeObserver();
@@ -1010,6 +1017,8 @@ public class WeChatActivity extends ImmersiveActivity implements WeChatMvpView, 
         if (mWaveLoadingView != null) {
             mWaveLoadingView.cancelAnimation();
         }
+
+
     }
 
     @Override

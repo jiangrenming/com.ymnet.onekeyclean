@@ -293,7 +293,7 @@
             tools:replace="android:value"/>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="sc-baipai"
+            android:value="ym-zjph"
             tools:replace="android:value"/>
         <!-- sc-general -->
         <!-- sc-baipai -->
