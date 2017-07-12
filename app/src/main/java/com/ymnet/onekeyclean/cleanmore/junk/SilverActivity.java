@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.TransitionDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.ImmersiveActivity;
 import com.ymnet.onekeyclean.cleanmore.animation.TweenAnimationUtils;
+import com.ymnet.onekeyclean.cleanmore.utils.CacheCleanUtil;
 import com.ymnet.onekeyclean.cleanmore.constants.ByteConstants;
 import com.ymnet.onekeyclean.cleanmore.constants.ScanState;
 import com.ymnet.onekeyclean.cleanmore.constants.TimeConstants;
@@ -46,11 +48,19 @@ import com.ymnet.onekeyclean.cleanmore.utils.Util;
 import com.ymnet.onekeyclean.cleanmore.web.JumpUtil;
 import com.ymnet.retrofit2service.RetrofitService;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import pl.droidsonroids.gif.GifDrawable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -265,7 +275,8 @@ public class SilverActivity extends ImmersiveActivity implements View.OnClickLis
                             if (key.equals("bianxianmao")) {
                                 mAdvertisement.setImageResource(R.drawable.bianxianmao);
                             } else {
-                                Glide.with(C.get()).load(icon).into(mAdvertisement);
+                                String str = icon.toLowerCase();
+                                showPic(str,icon);
                             }
                             mAdvertisement.setVisibility(View.VISIBLE);
                         } else {
@@ -297,7 +308,45 @@ public class SilverActivity extends ImmersiveActivity implements View.OnClickLis
             }
         });
     }
-
+    public void showPic(String str, final String icon) {
+        if ((str.endsWith("png") || str.endsWith("jpeg") || str.endsWith("bmp"))){
+            Glide.with(C.get()).load(str).into(mAdvertisement);
+        }else if(str.endsWith("gif")){
+            new AsyncTask<Void, Void, GifDrawable>() {
+                @Override
+                protected GifDrawable doInBackground(Void... params) {
+                    ByteBuffer buffer = null;
+                    try {
+                        URLConnection urlConnection = new URL(icon).openConnection();
+                        urlConnection.connect();
+                        final int contentLength = urlConnection.getContentLength();
+                        if (contentLength < 0) {
+                            throw new IOException("Content-Length not present");
+                        }
+                        buffer = ByteBuffer.allocateDirect(contentLength);
+                        InputStream inputStream = urlConnection.getInputStream();
+                        ReadableByteChannel channel = Channels.newChannel(inputStream);
+                        while (buffer.remaining() > 0)
+                            channel.read(buffer);
+                        channel.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    GifDrawable gifDrawable = null;
+                    try {
+                        gifDrawable = new GifDrawable(buffer);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return gifDrawable;
+                }
+                protected void onPostExecute(GifDrawable gifDrawable) {
+                    super.onPostExecute(gifDrawable);
+                    mAdvertisement.setImageDrawable(gifDrawable);
+                }
+            }.execute();
+        }
+    }
     private void revertBtn() {
         if (btn_stop != null) {
             btn_stop.setText(getString(R.string.bt_stop));
@@ -601,7 +650,7 @@ public class SilverActivity extends ImmersiveActivity implements View.OnClickLis
      * @return
      */
     private boolean checkHasCleanCache() {
-        long lastTime = com.ymnet.onekeyclean.cleanmore.cacheclean.Util.getLaseCleanDate(this, System.currentTimeMillis());
+        long lastTime = CacheCleanUtil.getLaseCleanDate(this, System.currentTimeMillis());
         boolean hasCache = CleanSetSharedPreferences.getLastSet(this, CleanSetSharedPreferences.CLEAN_RESULT_CACHE, false);
         boolean hasUpdate = DataCenterObserver.get(C.get()).isRefreshCleanActivity();
         /**

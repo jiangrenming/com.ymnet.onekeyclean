@@ -1,4 +1,4 @@
-package com.ymnet.onekeyclean.cleanmore.common;
+package com.ymnet.onekeyclean.cleanmore.utils;
 
 import java.io.InputStream;
 import java.io.OutputStream;

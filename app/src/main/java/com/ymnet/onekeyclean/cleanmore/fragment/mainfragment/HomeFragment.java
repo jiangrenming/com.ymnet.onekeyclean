@@ -38,6 +38,7 @@ import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
 import com.ymnet.onekeyclean.cleanmore.qq.activity.QQActivity;
 import com.ymnet.onekeyclean.cleanmore.uninstall.activity.UninstallActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
+import com.ymnet.onekeyclean.cleanmore.utils.CacheCleanUtil;
 import com.ymnet.onekeyclean.cleanmore.utils.CleanSetSharedPreferences;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
 import com.ymnet.onekeyclean.cleanmore.utils.StatisticMob;
@@ -52,6 +53,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 public class HomeFragment extends Fragment implements View.OnClickListener, StickyLayout.OnGiveUpTouchEventListener {
 
@@ -82,8 +84,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
     private ProgressWheel mProgressWheel;
     private TextView      tv_memory_size_desc;
     private View          mView_head;
-    private View mView_foot;
-    //    private View          mFlHomeBottom;
+    private View          mView_foot;
+    private View          mView;
 
     class MyHandler extends Handler {
 
@@ -96,13 +98,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
             super.handleMessage(msg);
 
         }
+
     }
 
-    private int[]    mMainFunctionIcon = {
+    private int[] mMainFunctionIcon = {
             R.drawable.onekey_home_main,
             R.drawable.wechat_home_main,
             R.drawable.filemanager_home_main,
             R.drawable.qq_home_main};
+
     private String[] mMainFunctionName = {"手机加速", "微信清理", "软件管理", "QQ清理"};
 
     public HomeFragment() {
@@ -118,10 +122,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-        initView(view);
+        mView = inflater.inflate(R.layout.fragment_home, container, false);
+        initView(mView);
         initData();
-        return view;
+        return mView;
     }
 
     private void initData() {
@@ -143,7 +147,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
 
         mStickyHead = view.findViewById(R.id.sticky_header);
         mHeadContent = view.findViewById(R.id.ll_head_content);
-//        mFlHomeBottom = view.findViewById(R.id.fl_home_arrow);
+        //        mFlHomeBottom = view.findViewById(R.id.fl_home_arrow);
 
         mStickLayout = (StickyLayout) view.findViewById(R.id.sticky_layout);
         mStickLayout.setOnGiveUpTouchEventListener(this);
@@ -164,7 +168,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
                 return mView_head;
             }
         });
-        mAdapter.addFooterView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper(){
+        mAdapter.addFooterView(new RecyclerViewPlus.HeaderFooterItemAdapter.ViewHolderWrapper() {
             @Override
             protected View onCreateView(ViewGroup parent) {
                 return mView_foot;
@@ -229,7 +233,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
                 }*/
             }
         });
-
 
     }
 
@@ -314,7 +317,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
 
     //垃圾清理已清理过的状态判断
     private boolean checkHasCleanCache() {
-        long lastTime = com.ymnet.onekeyclean.cleanmore.cacheclean.Util.getLaseCleanDate(C.get(), System.currentTimeMillis());
+        long lastTime = CacheCleanUtil.getLaseCleanDate(C.get(), System.currentTimeMillis());
         boolean hasCache = CleanSetSharedPreferences.getLastSet(C.get(), CleanSetSharedPreferences.CLEAN_RESULT_CACHE, false);
         boolean hasUpdate = DataCenterObserver.get(C.get()).isRefreshCleanActivity();
         /**

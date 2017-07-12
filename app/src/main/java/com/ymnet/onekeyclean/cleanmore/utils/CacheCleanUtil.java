@@ -1,4 +1,4 @@
-package com.ymnet.onekeyclean.cleanmore.cacheclean;
+package com.ymnet.onekeyclean.cleanmore.utils;
 
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -10,8 +10,6 @@ import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.ymnet.onekeyclean.R;
-import com.ymnet.onekeyclean.cleanmore.common.ApplicationUtils;
-import com.ymnet.onekeyclean.cleanmore.common.StreamUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Util {
+public class CacheCleanUtil {
 
     /**
      * <获取文件夹或者文件大小>

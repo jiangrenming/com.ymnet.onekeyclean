@@ -191,7 +191,7 @@ public class CleanActivity extends Activity implements CleanView {
                 public void onAnimationEnd(final Animation animation) {
 
                     startStaticApp(getApplicationContext());
-                    DownLoadFactory.getInstance().getInsideInterface().updateApp();
+                    DownLoadFactory.getInstance().getInsideInterface().umUpdateApp(C.get());
                 }
 
                 @Override
@@ -525,7 +525,7 @@ public class CleanActivity extends Activity implements CleanView {
         }, time);
 
         startStaticApp(getApplicationContext());
-        DownLoadFactory.getInstance().getInsideInterface().updateApp();
+        DownLoadFactory.getInstance().getInsideInterface().umUpdateApp(C.get());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)

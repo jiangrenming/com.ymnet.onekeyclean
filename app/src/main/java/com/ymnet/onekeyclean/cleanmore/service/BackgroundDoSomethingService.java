@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.ymnet.onekeyclean.R;
+import com.ymnet.onekeyclean.cleanmore.utils.CacheCleanUtil;
 import com.ymnet.onekeyclean.cleanmore.datacenter.DataCenterObserver;
 import com.ymnet.onekeyclean.cleanmore.junk.SilverActivity;
 import com.ymnet.onekeyclean.cleanmore.junk.mode.InstalledAppAndRAM;
@@ -127,7 +128,7 @@ public class BackgroundDoSomethingService extends IntentService {
             }
 
             CleanSetSharedPreferences.setCleanLastTimeSize(this, selectSize);
-            com.ymnet.onekeyclean.cleanmore.cacheclean.Util.setClearDate(this);
+            CacheCleanUtil.setClearDate(this);
             for (JunkGroup group : data) {
                 if (getString(R.string.header_ram).equals(group.getName()) && group.getSelect() == 1) {
                     InstalledAppAndRAM.lastCleanTime = System.currentTimeMillis();
@@ -218,7 +219,7 @@ public class BackgroundDoSomethingService extends IntentService {
             for (JunkChildCacheOfChild childOfChild : childOfChilds) {
                 String path = childOfChild.path;
                 if (childOfChild.getSelect() != 0 && !TextUtils.isEmpty(path)) {
-//                    Util.deleteNotContainFolder(new File(path));
+//                    CacheCleanUtil.deleteNotContainFolder(new File(path));
                     Log.i(TAG, "Cache: "+path);
                     FileTreeUtils.deleteContents(new File(path));
                 }
@@ -258,7 +259,7 @@ public class BackgroundDoSomethingService extends IntentService {
             return;
         }
         for (String path : residual.paths) {
-//            Util.delete(new File(path));
+//            CacheCleanUtil.delete(new File(path));
             FileTreeUtils.deleteAll(new File(path));
         }
     }

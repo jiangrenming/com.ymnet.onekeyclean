@@ -315,7 +315,7 @@ public class ScanFinishFragment extends BaseFragment {
        /* if (headView != null && C.get() != null) {
             FrameLayout fl_num_layout = (FrameLayout) headView.findViewById(R.id.fl_num_layout);
             RelativeLayout ll_number = (RelativeLayout) headView.findViewById(R.id.ll_number);
-            Util.beforehandMeasuredViewHeight(fl_num_layout);
+            CacheCleanUtil.beforehandMeasuredViewHeight(fl_num_layout);
             TweenAnimationUtils.startAnimation(C.get(), ll_number, R.anim.headscale, new AnimationListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animation animation) {

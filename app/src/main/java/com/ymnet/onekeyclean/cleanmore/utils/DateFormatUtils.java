@@ -1,4 +1,4 @@
-package com.ymnet.onekeyclean.cleanmore.common;
+package com.ymnet.onekeyclean.cleanmore.utils;
 
 import android.text.TextUtils;
 

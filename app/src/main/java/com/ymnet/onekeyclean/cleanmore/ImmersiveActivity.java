@@ -89,7 +89,6 @@ public class ImmersiveActivity extends BaseFragmentActivity {
         return tintManager;
     }
 
-    //    private List<Activity> mList = new LinkedList<>();
     private static List<Activity> mList = new ArrayList<>();
 
     public void addActivity(Activity activity) {
@@ -124,6 +123,7 @@ public class ImmersiveActivity extends BaseFragmentActivity {
     public void openHome(boolean open) {
         this.mOpen = open;
         finish();
+
         Intent intent = new Intent(C.get(), HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK/*|Intent.FLAG_ACTIVITY_CLEAR_TASK*/);
         startActivity(intent);

@@ -1,4 +1,4 @@
-package com.ymnet.onekeyclean.cleanmore.common;
+package com.ymnet.onekeyclean.cleanmore.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -32,7 +32,6 @@ import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.MarketApplication;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.constants.Constants;
-import com.ymnet.onekeyclean.cleanmore.utils.C;
 
 import java.io.BufferedReader;
 import java.io.File;

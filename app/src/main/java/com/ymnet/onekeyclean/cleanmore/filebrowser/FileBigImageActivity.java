@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ymnet.onekeyclean.R;
-import com.ymnet.onekeyclean.cleanmore.common.ApplicationUtils;
+import com.ymnet.onekeyclean.cleanmore.utils.ApplicationUtils;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.bean.FileInfo;
 import com.ymnet.onekeyclean.cleanmore.junk.adapter.BigImageAdapter;
 import com.ymnet.onekeyclean.cleanmore.junk.adapter.BigImageAdapter.ShowHideListerer;

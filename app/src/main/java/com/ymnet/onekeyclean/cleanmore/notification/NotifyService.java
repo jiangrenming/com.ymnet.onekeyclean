@@ -161,7 +161,7 @@ public class NotifyService extends Service implements Serializable {
 
         //主页面
         Intent intentHome = new Intent(C.get(), HomeActivity.class);
-        intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK/*|Intent.FLAG_ACTIVITY_CLEAR_TASK*/);
         intentHome.putExtra(OnekeyField.ONEKEYCLEAN, "主页面");
         intentHome.putExtra(OnekeyField.STATISTICS_KEY, StatisticMob.STATISTIC_ID);
         PendingIntent piHome = PendingIntent.getActivity(C.get(), REQUEST_CODE03, intentHome, PendingIntent.FLAG_UPDATE_CURRENT);

@@ -359,7 +359,6 @@ public class StickyLayout extends LinearLayout {
 
     private void setAlphaDegree(int height) {
         float value = (float) (height) / mOriginalHeaderHeight;
-        Log.d(TAG, "value:" + value);
         ivPelletFloatingLayer.setAlpha(value);
     }
 

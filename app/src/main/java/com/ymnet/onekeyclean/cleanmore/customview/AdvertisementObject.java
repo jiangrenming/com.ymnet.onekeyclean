@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 获取的首页广告条数据
  * 
- * @author 顾林海
+ * @author MajinBuu
  * 
  */
 public class AdvertisementObject implements Serializable {

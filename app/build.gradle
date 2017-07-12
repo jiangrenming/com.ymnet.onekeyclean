@@ -96,4 +96,6 @@ dependencies {
     compile 'com.android.support:design:24.0.0'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:multidex:1.0.1'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.6'
+
 }

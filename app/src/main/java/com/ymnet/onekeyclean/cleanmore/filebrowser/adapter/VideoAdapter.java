@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ymnet.onekeyclean.R;
-import com.ymnet.onekeyclean.cleanmore.common.ApplicationUtils;
+import com.ymnet.onekeyclean.cleanmore.utils.ApplicationUtils;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileBrowserUtil;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.bean.FileInfo;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.lazyload.ImageLoader;

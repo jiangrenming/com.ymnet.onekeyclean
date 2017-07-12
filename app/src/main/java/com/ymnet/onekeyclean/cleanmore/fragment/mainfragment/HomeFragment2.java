@@ -648,7 +648,7 @@ public class HomeFragment2 extends Fragment implements View.OnClickListener, Sca
      *//*
 
     private boolean checkHasCleanCache() {
-        long lastTime = com.ymnet.onekeyclean.cleanmore.cacheclean.Util.getLaseCleanDate(C.get(), System.currentTimeMillis());
+        long lastTime = com.ymnet.onekeyclean.cleanmore.utils.CacheCleanUtil.getLaseCleanDate(C.get(), System.currentTimeMillis());
         boolean hasCache = CleanSetSharedPreferences.getLastSet(C.get(), CleanSetSharedPreferences.CLEAN_RESULT_CACHE, false);
         boolean hasUpdate = DataCenterObserver.get(C.get()).isRefreshCleanActivity();
         */
