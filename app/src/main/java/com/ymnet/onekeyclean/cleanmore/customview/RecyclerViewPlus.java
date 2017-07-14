@@ -10,6 +10,8 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ymnet.onekeyclean.cleanmore.utils.C;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,10 +28,10 @@ public class RecyclerViewPlus extends RecyclerView {
     private View emptyView;
 
     private LayoutManager mLayoutManager;
-    private Context mContext;
-    public RecyclerViewPlus(Context context) {
-        super(context);
-        this.mContext = context;
+//    private Context mContext;
+    public RecyclerViewPlus() {
+        super(C.get());
+//        this.mContext = context;
         init();
     }
 

@@ -18,7 +18,7 @@ public class BaseApplication extends Application {
 
     public static String versionname;
     public static String packegename;
-    public static int versioncode;
+    public static int    versioncode;
 
     public static BaseApplication sApplication;
 
@@ -26,6 +26,9 @@ public class BaseApplication extends Application {
 
 
     public static BaseApplication getInstance() {
+        if (sApplication == null) {
+            sApplication = new BaseApplication();
+        }
         return sApplication;
     }
 
@@ -46,7 +49,7 @@ public class BaseApplication extends Application {
                         sChannel = appInfo.metaData.getString("UMENG_CHANNEL");
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
-                        MobclickAgent.reportError(C.get(),e.fillInStackTrace());
+                        MobclickAgent.reportError(C.get(), e.fillInStackTrace());
                     }
                 }
             }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="85dp"
-    android:background="@color/white">
+                android:layout_width="match_parent"
+                android:layout_height="85dp"
+                android:background="@color/white">
 
     <ImageView
         android:id="@+id/im_file_type"
@@ -11,7 +11,7 @@
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="20dp"
-        android:src="@drawable/nullfile_icon" />
+        android:src="@drawable/nullfile_icon"/>
 
     <TextView
         android:id="@+id/tv_filename"
@@ -23,7 +23,7 @@
         android:paddingTop="3dp"
         android:text="@string/wechat"
         android:textColor="@color/special_item_first"
-        android:textSize="15dp" />
+        android:textSize="15dp"/>
 
     <LinearLayout
         android:id="@+id/ll_size"
@@ -37,14 +37,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/dialog_clean_size"
-            android:textSize="12dp" />
+            android:textSize="12dp"/>
 
         <TextView
             android:id="@+id/tv_filesize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/fenlei_02"
-            android:textSize="12dp" />
+            android:textSize="12dp"/>
 
     </LinearLayout>
 
@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/dialog_clean_path"
-            android:textSize="12dp" />
+            android:textSize="12dp"/>
 
         <TextView
             android:id="@+id/tv_path"
@@ -67,6 +67,6 @@
             android:layout_height="wrap_content"
 
             android:textColor="@color/qr_result_vcard_title"
-            android:textSize="12dp" />
+            android:textSize="12dp"/>
     </LinearLayout>
 </RelativeLayout>

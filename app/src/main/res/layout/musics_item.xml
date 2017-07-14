@@ -4,7 +4,6 @@
     android:layout_height="80dp"
     android:background="@drawable/list_item_click"
     android:descendantFocusability="blocksDescendants">
-    c
 
     <CheckBox
         android:id="@+id/music_checked"

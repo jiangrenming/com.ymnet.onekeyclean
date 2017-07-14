@@ -17,6 +17,7 @@ import com.ymnet.onekeyclean.cleanmore.datacenter.MediaTypeForCamera;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileCategoryHelper.FileCategory;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.FileSortHelper.SortMethod;
 import com.ymnet.onekeyclean.cleanmore.filebrowser.bean.FileInfo;
+import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.Util;
 import com.ymnet.onekeyclean.cleanmore.wechat.MTask;
 
@@ -92,11 +93,11 @@ public class FileControl extends MarketObservable {
 
     public static FileControl getInstance(Context context) {
         if (instance == null) {
-            synchronized (FileControl.class) {
-                if (instance == null) {
-                    instance = new FileControl(context);
-                }
-            }
+            /*synchronized (FileControl.class) {
+                if (instance == null) {*/
+                    instance = new FileControl(C.get());
+              /*  }
+            }*/
         }
         return instance;
     }

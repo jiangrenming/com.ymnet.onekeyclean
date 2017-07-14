@@ -37,12 +37,12 @@ import static android.content.ContentValues.TAG;
  */
 public class QQScanHelp {
 
-    private static QQScanHelp         instance;
-    private        QQContent          content;
-    private        long               exitTime;
-    private        int                count;
-    private        DataUpdateListener listener;
-    private        boolean            scanFinish;
+    private static QQScanHelp instance = null;
+    private QQContent          content;
+    private long               exitTime;
+    private int                count;
+    private DataUpdateListener listener;
+    private boolean            scanFinish;
 
     private QQScanHelp() {
         scanFinish = false;
@@ -64,11 +64,11 @@ public class QQScanHelp {
 
     public static QQScanHelp getInstance() {
         if (instance == null) {
-            /*synchronized (QQScanHelp.class) {
-                if (instance == null) */{
+            synchronized (QQScanHelp.class) {
+                if (instance == null) {
                     instance = new QQScanHelp();
                 }
-         /* }*/
+            }
         }
         return instance;
     }

@@ -306,6 +306,11 @@
             android:name=".cleanmore.home.HomeActivity"
             android:launchMode="singleInstance">
         </activity>
+        <provider
+            android:name=".cleanmore.accountauthenticator.MyAccountProvider"
+            android:authorities="com.ymnet.onekeyclean.cleanmore.accountauthenticator.MyAccountProvider"
+            android:exported="false"
+            android:syncable="true"/>
         <!-- 供外部开启任务管理器的activity -->
         <!--
         <activity

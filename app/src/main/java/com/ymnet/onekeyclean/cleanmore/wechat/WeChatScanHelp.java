@@ -37,11 +37,11 @@ import static android.content.ContentValues.TAG;
  */
 public class WeChatScanHelp {
 
-    private static WeChatScanHelp instance;
-    private        WeChatContent  content;
-    private        long           exitTime;
-    private        boolean        scanFinish;
-    private        boolean        mInstalled;
+    private static WeChatScanHelp instance = null;
+    private WeChatContent content;
+    private long          exitTime;
+    private boolean       scanFinish;
+    private boolean       mInstalled;
 
     private WeChatScanHelp() {
         scanFinish = false;
@@ -63,11 +63,11 @@ public class WeChatScanHelp {
 
     public static WeChatScanHelp getInstance() {
         if (instance == null) {
-            /*synchronized (WeChatScanHelp.class) {
-                if (instance == null) {*/
+            synchronized (WeChatScanHelp.class) {
+                if (instance == null) {
                     instance = new WeChatScanHelp();
-                /*}*/
-            /*}*/
+                }
+            }
         }
         return instance;
     }
@@ -316,7 +316,7 @@ public class WeChatScanHelp {
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
-            MobclickAgent.reportError(C.get(),e.fillInStackTrace());
+            MobclickAgent.reportError(C.get(), e.fillInStackTrace());
         }
     }
 
@@ -566,9 +566,9 @@ public class WeChatScanHelp {
 
     //是否安装该应用
     public boolean isInstalled() {
-        List<ApplicationInfo> installedApplications =  C.get().getPackageManager().getInstalledApplications(0);
+        List<ApplicationInfo> installedApplications = C.get().getPackageManager().getInstalledApplications(0);
         for (int i = 0; i < installedApplications.size(); i++) {
-            System.out.println("已安装应用进程名:"+installedApplications.get(i).processName);
+            System.out.println("已安装应用进程名:" + installedApplications.get(i).processName);
             if (installedApplications.get(i).processName.equals("com.tencent.mm")) {
                 return true;
             }

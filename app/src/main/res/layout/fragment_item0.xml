@@ -1,104 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_home_head"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    android:background="@color/main_blue_new1"
+    android:gravity="center"
+    android:orientation="vertical">
+    <!--android:background="@color/main_blue_new1"-->
 
     <LinearLayout
-        android:id="@+id/rl_home_head"
+        android:id="@+id/ll_head_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:background="@color/main_blue_new1"
-        android:gravity="center"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
-        <!--android:background="@color/main_blue_new1"-->
+
+        <LinearLayout
+            android:id="@+id/ll_number"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp178"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.ymnet.onekeyclean.cleanmore.customview.ProgressWheel
+                android:id="@+id/pw_memory_size"
+                android:layout_width="@dimen/dp130"
+                android:layout_height="@dimen/dp130"
+                android:layout_margin="@dimen/dp20"
+                app:barColor="#fff"
+                app:barLength="@dimen/dp5"
+                app:barWidth="@dimen/dp8"
+                app:circleColor="#3097fe"
+                app:contourColor="#3097fe"
+                app:contourSize="@dimen/dp5"
+                app:delayMillis="600"
+                app:rimColor="#45A3FE"
+                app:rimWidth="@dimen/dp8"
+                app:spinSpeed="10px"
+                app:textColor="#fff"
+                app:textSize="@dimen/dp20"/>
 
             <LinearLayout
-                android:id="@+id/ll_head_content"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/ll_number"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp178"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <com.ymnet.onekeyclean.cleanmore.customview.ProgressWheel
-                        android:id="@+id/pw_memory_size"
-                        android:layout_width="@dimen/dp130"
-                        android:layout_height="@dimen/dp130"
-                        android:layout_margin="@dimen/dp20"
-                        app:barColor="#fff"
-                        app:barLength="@dimen/dp5"
-                        app:barWidth="@dimen/dp8"
-                        app:circleColor="#3097fe"
-                        app:contourColor="#3097fe"
-                        app:contourSize="@dimen/dp5"
-                        app:delayMillis="600"
-                        app:rimColor="#45A3FE"
-                        app:rimWidth="@dimen/dp8"
-                        app:spinSpeed="10px"
-                        app:textColor="#fff"
-                        app:textSize="@dimen/dp20"/>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/dp25"
-                            android:text="@string/phone_memory_size"
-                            android:textColor="#fff"
-                            android:textSize="@dimen/dp16"/>
-
-                        <TextView
-                            android:id="@+id/tv_memory_size_desc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tv_memory_size_desc"
-                            android:textColor="#fff"
-                            android:textSize="@dimen/dp18"/>
-                    </LinearLayout>
-
-                </LinearLayout>
-
                 <TextView
-                    android:id="@+id/tv_junk_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp16"
-                    android:text="@string/tv_junk_desc"
+                    android:layout_marginBottom="@dimen/dp25"
+                    android:text="@string/phone_memory_size"
                     android:textColor="#fff"
                     android:textSize="@dimen/dp16"/>
 
-                <Button
-                    android:id="@+id/pb_ram_prompt"
-                    android:layout_width="@dimen/dp120"
+                <TextView
+                    android:id="@+id/tv_memory_size_desc"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp21"
-                    android:background="@drawable/home_btn_bg_selector"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/dp9"
-                    android:paddingLeft="@dimen/dp25"
-                    android:paddingRight="@dimen/dp25"
-                    android:paddingTop="@dimen/dp10"
-                    android:text="@string/tv_junk_clean"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/dp16"
-                    />
+                    android:text="@string/tv_memory_size_desc"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/dp18"/>
             </LinearLayout>
 
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_junk_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp16"
+            android:text="@string/tv_junk_desc"
+            android:textColor="#fff"
+            android:textSize="@dimen/dp16"/>
+
+        <Button
+            android:id="@+id/pb_ram_prompt"
+            android:layout_width="@dimen/dp120"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp21"
+            android:background="@drawable/home_btn_bg_selector"
+            android:gravity="center"
+            android:paddingBottom="@dimen/dp9"
+            android:paddingLeft="@dimen/dp25"
+            android:paddingRight="@dimen/dp25"
+            android:paddingTop="@dimen/dp10"
+            android:text="@string/tv_junk_clean"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dp16"
+            />
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
