@@ -76,6 +76,7 @@ public class ImmersiveActivity extends BaseFragmentActivity {
     private void initWindow() {
         if (isAfterKitkat()) {
 //          getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
             tintManager = new SystemBarTintManager(this);
             tintManager.setStatusBarTintColor(getResources().getColor(R.color.main_blue_new));
             tintManager.setStatusBarTintEnabled(true);
