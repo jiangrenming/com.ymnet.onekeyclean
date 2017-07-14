@@ -186,6 +186,7 @@
     <string name="filesize">12.00M</string>
     <string name="qq_go_clean">查看管理</string>
 
+
     <!--<string name="toast_bean_best">已清理至最佳状态</string>-->
     <string name="toast_bean_best">手机跑得飞快\n更多垃圾，马上处理</string>
     <!--<string name="toast_clean_result"><![CDATA[释放 <font color=\"#f64747\">%1$s</font>内存 性能提升<font color=\"#f64747\">%2$d%%</font>]]></string>-->

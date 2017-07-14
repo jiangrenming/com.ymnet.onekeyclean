@@ -3,11 +3,8 @@ package com.ymnet.onekeyclean.cleanmore.fragment.filemanager.base;
 import com.ymnet.onekeyclean.R;
 
 /**
- * Created by MajinBuu on 2017/6/2 0002.
- *
- * @overView 主页功能
+ * Created by Administrator on 2017/6/21.
  */
-
 public class FileManagerInfo {
 
     public static final int PIC_COUNT = 3;

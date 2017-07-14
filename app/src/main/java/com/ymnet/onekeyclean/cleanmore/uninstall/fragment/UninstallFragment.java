@@ -10,8 +10,10 @@ import android.content.pm.PackageStats;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+
 import android.os.Handler;
 import android.os.Message;
+
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,12 +24,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+
 import com.example.commonlibrary.utils.ToastUtil;
+
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.customview.RecyclerViewPlus;
 import com.ymnet.onekeyclean.cleanmore.fragment.BaseFragment;
+
 import com.ymnet.onekeyclean.cleanmore.fragment.filemanager.adapter.FileItemAdapter;
+
 import com.ymnet.onekeyclean.cleanmore.uninstall.activity.UninstallActivity;
 import com.ymnet.onekeyclean.cleanmore.uninstall.adapter.InstalledAppAdapter;
 import com.ymnet.onekeyclean.cleanmore.uninstall.model.AppInfo;
@@ -51,6 +57,7 @@ import java.util.Map;
 
 public class UninstallFragment extends BaseFragment implements View.OnClickListener {
 
+
     private static List<AppInfo> mAppInfoList  = new ArrayList<>();
     private static List<AppInfo> mAppInfoList2 = new ArrayList<>();
     private        Map<Integer, AppInfo> mSelectedApp;
@@ -70,6 +77,7 @@ public class UninstallFragment extends BaseFragment implements View.OnClickListe
         }
     };
     private TextView mOneKeyUninstalled;
+
 
     public static UninstallFragment newInstance() {
         UninstallFragment fragment = new UninstallFragment();
@@ -118,9 +126,11 @@ public class UninstallFragment extends BaseFragment implements View.OnClickListe
                         //忽略名单应用不添加进集合
                         if (!mIgnoreList.contains(packageInfo.pkgName)) {
                             packageInfo.size = cacheSize;
+
                             mAppInfoList2.add(packageInfo);
                         }
                         //                        mAdapter.notifyItemRangeChanged(position, 1);
+
                     }
 
                 }
@@ -138,6 +148,7 @@ public class UninstallFragment extends BaseFragment implements View.OnClickListe
         List<AppInfo> appInfo = ((UninstallActivity) getActivity()).getAppInfo();
         mAppInfoList = appInfo;
         addCache();
+
     }
 
     @Override
@@ -178,6 +189,7 @@ public class UninstallFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onAttachFragment(Fragment childFragment) {
         super.onAttachFragment(childFragment);
+
 
     }
 
@@ -228,6 +240,7 @@ public class UninstallFragment extends BaseFragment implements View.OnClickListe
             }
 
         });
+
         mAdapter.setOnCheckChangedListener(new FileItemAdapter.OnCheckChangedListener() {
             @Override
             public void checkChanged() {
@@ -252,9 +265,11 @@ public class UninstallFragment extends BaseFragment implements View.OnClickListe
         mRecyclerView.addItemDecoration(new LinearLayoutItemDecoration(C.get(), LinearLayoutItemDecoration.HORIZONTAL_LIST));
         mRecyclerView.setAdapter(mAdapter);
 
+
         mAdapter.notifyDataSetChanged();
 
     }
+
 
     private void initData() {
         mOneKeyUninstalled.setText(R.string.uninstall_nodata);
@@ -267,6 +282,7 @@ public class UninstallFragment extends BaseFragment implements View.OnClickListe
         //卸载应用
         uninstallApp(mAppInfoList.get(position).pkgName);
         //        mPosition = position;
+
     }
 
     private void uninstallApp(String pkgName) {

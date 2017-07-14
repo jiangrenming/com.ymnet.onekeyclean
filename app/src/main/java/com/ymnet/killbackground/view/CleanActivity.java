@@ -15,6 +15,8 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewCompat;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -27,22 +29,32 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.commonlibrary.utils.ConvertParamsUtils;
 import com.example.commonlibrary.utils.DensityUtil;
 import com.example.commonlibrary.utils.ScreenUtil;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.umeng.analytics.MobclickAgent;
 import com.ymnet.killbackground.QihooSystemUtil;
 import com.ymnet.killbackground.Utilities;
 import com.ymnet.killbackground.customlistener.MyViewPropertyAnimatorListener;
 import com.ymnet.killbackground.download.PushManager;
+import com.ymnet.killbackground.model.bean.CleanEntrance;
 import com.ymnet.killbackground.presenter.CleanPresenter;
 import com.ymnet.killbackground.presenter.CleanPresenterImpl;
 import com.ymnet.killbackground.utils.Run;
+import com.ymnet.killbackground.view.customwidget.CustomDialog;
 import com.ymnet.killbackground.view.customwidget.Wheel;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.home.HomeActivity;
 import com.ymnet.onekeyclean.cleanmore.notification.NotifyService;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.utils.OnekeyField;
+import com.ymnet.onekeyclean.cleanmore.utils.SharedPreferencesUtil;
+import com.ymnet.onekeyclean.cleanmore.web.WebHtmlActivity;
+import com.ymnet.retrofit2service.RetrofitService;
 import com.ymnet.update.DownLoadFactory;
 
 import java.util.ArrayList;
@@ -51,11 +63,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import retrofit2.Call;
+import retrofit2.Response;
+
+import static android.R.attr.order;
+import static android.text.format.Formatter.formatFileSize;
+import static com.example.commonlibrary.utils.SystemMemory.getAvailMemorySize;
+import static com.example.commonlibrary.utils.SystemMemory.getTotalMemorySize;
+
+
 import static com.example.commonlibrary.utils.SystemMemory.getAvailMemorySize;
 import static com.example.commonlibrary.utils.SystemMemory.getTotalMemorySize;
 
 public class CleanActivity extends Activity implements CleanView {
     private static final String TAG = "CleanActivity";
+
     private ImageView            mRotateImage;
     private ObjectAnimator       mOa1;
     private TextView             mMemoryInfo;
@@ -77,6 +99,7 @@ public class CleanActivity extends Activity implements CleanView {
     private Random mR = new Random();
 
     private Handler mHandler = new Handler(C.get().getMainLooper()) {
+
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -111,6 +134,7 @@ public class CleanActivity extends Activity implements CleanView {
             }
         }
     };
+
     private View              mRl_more_function;
     private ImageView         mArrow;
     private AnimationDrawable mAnimationDrawable;
@@ -351,6 +375,7 @@ public class CleanActivity extends Activity implements CleanView {
         advertisementObject = new AdvertisementObject();
         advertisementObject.info = "高姿CC霜全渠道新品首发，领券199减50，点击查看";
         mDataList.add(advertisementObject);*/
+
     }
 
     /**
@@ -566,10 +591,12 @@ public class CleanActivity extends Activity implements CleanView {
                                 playAnimation(cleanAppLists.get(i), 120 * i, false);
                             }
                             //toast展示为用户清理的内存
+
                             String sAgeFormat = CleanActivity.this.getResources().getString(R.string.toast_clean_result);
                             //                            String content = String.format(sAgeFormat, formatFileSize(CleanActivity.this, cleanMem), mCount);
                             String content = String.format(sAgeFormat, mCount);
                             showToast(content);
+
                         }
 
                         mHandler.sendEmptyMessageDelayed(0, 300);

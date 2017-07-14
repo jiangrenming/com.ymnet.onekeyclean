@@ -1,5 +1,6 @@
 package com.ymnet.onekeyclean.cleanmore.qq.activity;
 
+
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
@@ -632,7 +633,7 @@ public class QQActivity extends ImmersiveActivity implements QQMVPView, View.OnC
 
     private AnimatorSet initAnimSet() {
         FragmentActivity context = this;
-        AnimatorSet animSet = new android.animation.AnimatorSet();
+        android.animation.AnimatorSet animSet = new android.animation.AnimatorSet();
         Animator anim = AnimatorInflater.loadAnimator(context, R.animator.anim_clean_complete);
         Animator anim2 = AnimatorInflater.loadAnimator(context, R.animator.anim_clean_complete_center);// 透明度+缩放动画
         Animator anim3 = AnimatorInflater.loadAnimator(context, R.animator.anim_clean_complete_alpha);

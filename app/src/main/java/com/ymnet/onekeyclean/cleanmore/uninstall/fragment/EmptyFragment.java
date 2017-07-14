@@ -103,6 +103,7 @@ public class EmptyFragment extends BaseFragment {
                         // 获取该应用安装包的Intent，用于启动该应用
                         // info.appIntent = pm.getLaunchIntentForPackage(installedPackages.get(i).packageName);
                         AppInfo info = new AppInfo();
+
                         info.appName = installedPackages.get(i).applicationInfo.loadLabel(mPackageManager).toString();
                         info.versionName = installedPackages.get(i).versionName;
                         info.pkgName = installedPackages.get(i).packageName;
@@ -127,6 +128,7 @@ public class EmptyFragment extends BaseFragment {
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+
                         mUninstallCallback.getMessage(mAppInfoList);
                         FragmentManager fm = getFragmentManager();
                         if (fm != null) {
