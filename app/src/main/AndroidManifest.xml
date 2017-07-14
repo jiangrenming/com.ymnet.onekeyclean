@@ -226,7 +226,6 @@
             android:name=".cleanmore.web.WebHtmlActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"/>
-
         <receiver
             android:name="com.ymnet.killbackground.deviceAdminReceiver"
             android:label="@string/device_admin_label"
@@ -248,11 +247,6 @@
         </service>
         -->
         <service android:name=".cleanmore.service.BackgroundDoSomethingService"/>
-        <service
-            android:name=".cleanmore.notification.AssistantServiceHelper"
-            android:enabled="true"
-            android:exported="true">
-        </service>
 
         <activity android:name=".cleanmore.notification.HomeTabActivity">
         </activity>
@@ -297,6 +291,11 @@
             tools:replace="android:value"/>
         <!-- sc-general -->
         <!-- sc-baipai -->
+        <!--ym-xx	     诱梦线下           线下装机专用包-->
+        <!--ym-xs	     诱梦线上           桌面文件夹专用包-->
+        <!--ym-zmph	     诱梦桌面推送       桌面推送专用包-->
+        <!--ym-zjph	     诱梦组件推送       统计组件推送专用包-->
+        <!--sc-ymxsfree  诱梦线上免费渠道   外部线上免费应用市场专用包-->
         <receiver
             android:name=".cleanmore.notification.StatisticReceiver"
             android:enabled="true"

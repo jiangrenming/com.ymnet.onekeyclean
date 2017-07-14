@@ -63,11 +63,11 @@ public class WeChatScanHelp {
 
     public static WeChatScanHelp getInstance() {
         if (instance == null) {
-            synchronized (WeChatScanHelp.class) {
-                if (instance == null) {
+            /*synchronized (WeChatScanHelp.class) {
+                if (instance == null) {*/
                     instance = new WeChatScanHelp();
-                }
-            }
+                /*}*/
+            /*}*/
         }
         return instance;
     }

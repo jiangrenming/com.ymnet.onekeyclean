@@ -10,13 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import com.ymnet.onekeyclean.MarketApplication;
 import com.ymnet.onekeyclean.R;
 import com.ymnet.onekeyclean.cleanmore.home.HomeActivity;
 import com.ymnet.onekeyclean.cleanmore.utils.C;
 import com.ymnet.onekeyclean.cleanmore.wechat.activity.SystemBarTintManager;
 import com.ymnet.onekeyclean.cleanmore.wechat.view.BaseFragmentActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -89,9 +89,12 @@ public class ImmersiveActivity extends BaseFragmentActivity {
         return tintManager;
     }
 
-    private static List<Activity> mList = new ArrayList<>();
+    private List<Activity> mList ;
 
     public void addActivity(Activity activity) {
+        if (mList == null) {
+            mList = MarketApplication.getInstance().getActivityList();
+        }
         mList.add(activity);
     }
 

@@ -338,7 +338,7 @@ public class CleanActivity extends Activity implements CleanView {
 
     private void initData() {
         mTotalMemory = getTotalMemorySize(CleanActivity.this);
-        DownLoadFactory.getInstance().init(this, null, PushManager.getInstance());
+        DownLoadFactory.getInstance().init(C.get(), null, PushManager.getInstance());
         PushManager.getInstance().init(getApplicationContext());//dont't remove
 
 

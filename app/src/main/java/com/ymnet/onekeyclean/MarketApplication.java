@@ -13,6 +13,7 @@ import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 
+import com.squareup.leakcanary.LeakCanary;
 import com.ymnet.onekeyclean.cleanmore.constants.Constants;
 import com.ymnet.onekeyclean.cleanmore.datacenter.WifiConnectionStatus;
 import com.ymnet.onekeyclean.cleanmore.notification.HomeTabActivity;
@@ -24,6 +25,8 @@ import com.ymnet.onekeyclean.cleanmore.wechat.modules.ApplicationModule;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -35,18 +38,19 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MarketApplication extends BaseApplication {
     private static final String TAG = MarketApplication.class.getSimpleName();
-
-    private ApplicationComponent applicationComponent;
-
-    private static MarketApplication application;
-
-    private Map<String, String> mUnionAppMaps;
-
-    private ConcurrentHashMap<Integer, Activity> mRunningActivities;
-    private WifiConnectionStatus                 mWifiConnectionStatus;
+    private        ApplicationComponent                 applicationComponent;
+    private static MarketApplication                    application;
+    private        Map<String, String>                  mUnionAppMaps;
+    private        ConcurrentHashMap<Integer, Activity> mRunningActivities;
+    private        WifiConnectionStatus                 mWifiConnectionStatus;
+    private List<Activity> mList = new ArrayList<>();
 
     public static MarketApplication getInstance() {
         return application;
+    }
+
+    public List<Activity> getActivityList() {
+        return mList;
     }
 
     @Override
@@ -66,6 +70,12 @@ public class MarketApplication extends BaseApplication {
         }
 
         super.onCreate();
+
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            return;
+        }
+        LeakCanary.install(this);
 
         // ClipboardUIManager is a static singleton that leaks an activity context.
         // Fix: trigger a call to ClipboardUIManager.getInstance() in Application.onCreate(), so
@@ -107,6 +117,7 @@ public class MarketApplication extends BaseApplication {
         Intent intent = new Intent(this, HomeTabActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+
     }
 
     private boolean mMainProcess;

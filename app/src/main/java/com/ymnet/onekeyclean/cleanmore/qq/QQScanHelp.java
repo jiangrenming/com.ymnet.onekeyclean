@@ -37,10 +37,12 @@ import static android.content.ContentValues.TAG;
  */
 public class QQScanHelp {
 
-    private static QQScanHelp instance;
-    private        QQContent  content;
-    private        long       exitTime;
-    private        boolean    scanFinish;
+    private static QQScanHelp         instance;
+    private        QQContent          content;
+    private        long               exitTime;
+    private        int                count;
+    private        DataUpdateListener listener;
+    private        boolean            scanFinish;
 
     private QQScanHelp() {
         scanFinish = false;
@@ -62,11 +64,11 @@ public class QQScanHelp {
 
     public static QQScanHelp getInstance() {
         if (instance == null) {
-            synchronized (QQScanHelp.class) {
-                if (instance == null) {
+            /*synchronized (QQScanHelp.class) {
+                if (instance == null) */{
                     instance = new QQScanHelp();
                 }
-            }
+         /* }*/
         }
         return instance;
     }
@@ -76,6 +78,7 @@ public class QQScanHelp {
     public QQContent getDatas() {
         return content;
     }
+
 
     private String getString(int id) {
         return C.get().getString(id);
@@ -120,7 +123,6 @@ public class QQScanHelp {
         return content;
     }
 
-
     /**
      * 把一个list集合中的数据 转换到other中的map集合中
      *
@@ -134,7 +136,7 @@ public class QQScanHelp {
     private void convertToOtherType2(List<WareFileInfo> temp, QQFileType other) {
         convert2(temp, other);
     }
-int count;
+
     //接收文件日期添加该方法
     private void convert(List<WareFileInfo> temp, QQFileType pics) {
         if (temp == null || temp.size() == 0)
@@ -246,14 +248,14 @@ int count;
                     count++;
                     ListDataMode mode = ((QQReceiveMode) receive).get(QQConstants.QQ_TIME_STATUE_ONE_BEFORE);
                     if (mode == null) {
-                        Log.d(TAG, "convert1: "+count);
+                        Log.d(TAG, "convert1: " + count);
                         mode = new ListDataMode();
                         mode.setName(QQConstants.QQ_TIME_STATUE_ONE_BEFORE);
                         mode.setExpand(false);
                         mode.add(info);
                         ((QQReceiveMode) receive).add(mode);
                     } else {
-                        Log.d(TAG, "convert2: "+count);
+                        Log.d(TAG, "convert2: " + count);
                         mode.add(info);
                     }
                 }
@@ -261,6 +263,7 @@ int count;
             }
         }
     }
+
 
     private void sort(List<WareFileInfo> temp) {
         if (temp == null || temp.size() == 0)
@@ -277,12 +280,9 @@ int count;
         });
     }
 
-
     public long getQQTrustSize() {
         return content == null ? 0 : content.getSize();
     }
-
-    private DataUpdateListener listener;
 
     public DataUpdateListener getListener() {
         return listener;
@@ -630,7 +630,7 @@ int count;
                     if (f.isFile()) {
                         long tempSize = f.length();
                         if (tempSize > 0 && checkName(file.getName(), suffixs)) {
-                            res.add(new WareFileInfo(file.getAbsolutePath(), file.lastModified(),f.getName(), tempSize));
+                            res.add(new WareFileInfo(file.getAbsolutePath(), file.lastModified(), f.getName(), tempSize));
                             source.setScanOldSize(source.getScanOldSize() + tempSize);
                             source.setCurrentSize(source.getScanOldSize());
                             content.sizeImmersive(tempSize);
@@ -672,9 +672,9 @@ int count;
     }
 
     public boolean isInstalled() {
-        List<ApplicationInfo> installedApplications =  C.get().getPackageManager().getInstalledApplications(0);
+        List<ApplicationInfo> installedApplications = C.get().getPackageManager().getInstalledApplications(0);
         for (int i = 0; i < installedApplications.size(); i++) {
-            System.out.println("已安装应用进程名:"+installedApplications.get(i).processName);
+            System.out.println("已安装应用进程名:" + installedApplications.get(i).processName);
             if (installedApplications.get(i).processName.equals("com.tencent.mobileqq")) {
                 return true;
             }

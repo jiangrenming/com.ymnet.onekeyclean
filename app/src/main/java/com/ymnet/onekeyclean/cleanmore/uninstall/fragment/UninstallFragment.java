@@ -53,7 +53,7 @@ public class UninstallFragment extends BaseFragment implements View.OnClickListe
 
     private static List<AppInfo> mAppInfoList  = new ArrayList<>();
     private static List<AppInfo> mAppInfoList2 = new ArrayList<>();
-    private static Map<Integer, AppInfo> mSelectedApp;
+    private        Map<Integer, AppInfo> mSelectedApp;
     private static InstalledAppAdapter   mAdapter;
     private        boolean               isExecutedUninstall;
     private        RecyclerViewPlus      mRecyclerView;
@@ -296,7 +296,10 @@ public class UninstallFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mAdapter=null;
         getActivity().unregisterReceiver(mReceiver);
         getActivity().finish();
     }
+
+
 }
