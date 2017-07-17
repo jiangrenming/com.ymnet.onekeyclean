@@ -478,5 +478,5 @@
     <dimen name="dp477">954.0px</dimen>
     <dimen name="dp478">956.0px</dimen>
     <dimen name="dp479">958.0px</dimen>
-    <dimen name="dp480">1280px</dimen>
+    <dimen name="dp480">960.0px</dimen>
 </resources>

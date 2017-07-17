@@ -504,5 +504,5 @@
     <dimen name="dp477">477.0dp</dimen>
     <dimen name="dp478">478.0dp</dimen>
     <dimen name="dp479">479.0dp</dimen>
-    <dimen name="dp480">1920dp</dimen>
+    <dimen name="dp480">480.0dp</dimen>
 </resources>
