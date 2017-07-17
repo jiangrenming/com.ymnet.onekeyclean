@@ -39,7 +39,7 @@ public class StickyLayout extends LinearLayout {
     //    public static final int STATUS_EXPANDED  = 1;
     //    public static final int STATUS_COLLAPSED = 2;
     public interface IpmlScrollChangListener {
-        boolean isReadyForPull();
+        boolean isReady2Pull();
 
         void isMoving();
     }
@@ -183,7 +183,7 @@ public class StickyLayout extends LinearLayout {
                 break;
         }
 
-        if (!scroll.isReadyForPull()) {
+        if (!scroll.isReady2Pull()) {
             return false;
         }
 

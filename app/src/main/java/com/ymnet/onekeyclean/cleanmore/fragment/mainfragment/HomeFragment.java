@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -86,6 +87,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
     private View          mView_head;
     private View          mView_foot;
     private View          mView;
+    private boolean mIsTop;
 
     class MyHandler extends Handler {
 
@@ -214,12 +216,30 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Stic
                 mStickyHead.getViewTreeObserver().removeGlobalOnLayoutListener(this);
             }
         });
-
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (!mRecyclerView.canScrollVertically(-1)) {
+                    //                            onScrolledToTop();
+                    mIsTop = true;
+                } else if (!mRecyclerView.canScrollVertically(1)) {
+                    //                            onScrolledToBottom();
+                    mIsTop = false;
+                } else if (dy < 0) {
+                    //                            onScrolledUp();
+                    mIsTop = false;
+                } else if (dy > 0) {
+                    //                            onScrolledDown();
+                    mIsTop = false;
+                }
+            }
+        });
         mStickLayout.setScroll(new StickyLayout.IpmlScrollChangListener() {
             @Override
-            public boolean isReadyForPull() {
-
-                return isOnTop(mRecyclerView);
+            public boolean isReady2Pull() {
+//                return isOnTop(mRecyclerView);
+                return mIsTop;
             }
 
             @Override

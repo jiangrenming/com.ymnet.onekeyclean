@@ -272,6 +272,7 @@ public class HomeActivity extends ImmersiveActivity implements Fragment2.OnFragm
         public CharSequence getPageTitle(int position) {
             return mTitles[position];
         }
+
     }
 
     @Override

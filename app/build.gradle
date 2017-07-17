@@ -20,8 +20,6 @@ android {
         versionName "1.40"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-
-
     sourceSets {
         main {
             aidl.srcDirs = ['src/main/java']
@@ -29,19 +27,39 @@ android {
             jniLibs.srcDirs = ['src/main/libs']
         }
     }
-
     buildTypes {
         release {
             minifyEnabled true
+            shrinkResources true
             buildConfigField "boolean", "LOG_DEBUG", "false"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
     }
-    /*productFlavors {
-        "sc-baipai" {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "sc-baipai"]
+//    ym-xx	     诱梦线下           线下装机专用包
+//    ym-xs	     诱梦线上           桌面文件夹专用包
+//    ym-zmph	     诱梦桌面推送       桌面推送专用包
+//    ym-zjph	     诱梦组件推送       统计组件推送专用包
+//    sc-ymxsfree  诱梦线上免费渠道   外部线上免费应用市场专用包
+    productFlavors {
+        ym_xx {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "ym-xx"]
         }
+        ym_xs {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "ym-xs"]
+        }
+        ym_zmph {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "ym-zmph"]
+        }
+        ym_zjph {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "ym-zjph"]
+        }
+        sc_ymxsfree {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "sc-ymxsfree"]
+        }
+    }
+    /*productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
     }*/
 }
 
@@ -73,6 +91,7 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
+
     //    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -82,7 +101,6 @@ dependencies {
     compile name: 'app_process', ext: 'aar'
     compile name: 'appupdate', ext: 'aar'
     compile name: 'statisticalsdk-releaseInLauncher', ext: 'aar'
-
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
@@ -97,7 +115,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:multidex:1.0.1'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.6'
-
     //leakcanary
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'

@@ -285,9 +285,13 @@
             android:name="UMENG_APPKEY"
             android:value="58b7914f717c19164e002161"
             tools:replace="android:value"/>
-        <meta-data
+        <!--<meta-data
             android:name="UMENG_CHANNEL"
             android:value="sc-ymxsfree"
+            tools:replace="android:value"/>-->
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}"
             tools:replace="android:value"/>
         <!-- sc-general -->
         <!-- sc-baipai -->
